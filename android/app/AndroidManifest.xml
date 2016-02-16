@@ -122,7 +122,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name="com.pushdemoproject.MyReceiver"
+            android:name="com.pushdemo.MyReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>
@@ -139,7 +139,7 @@
 
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="25b693b31d2c2ad5f072ef0c" />
+        <meta-data android:name="JPUSH_APPKEY" android:value="d4ee2375846bc30fa51334f5" />
 
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
