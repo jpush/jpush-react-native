@@ -10,7 +10,7 @@ var {
 
 var WebActivity = React.createClass({
   onPressBack() {
-        this.props.navigator.pop( {name: 'webActivity'} );
+        this.props.navigator.pop();
     },
 
     render: function() {

@@ -63,7 +63,7 @@ var PushActivity = React.createClass({
           
     },
     componentWillUnmount() {
-
+      DeviceEventEmitter.removeAllListeners();
     },
     render() {
         return (

@@ -19,6 +19,8 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.lang.Override;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactRootView mReactRootView;
@@ -44,6 +46,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     @Override
     protected void onPause() {
         super.onPause();
+        JPushInterface.onPause(this);
         isForeground = false;
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onPause();
@@ -53,10 +56,17 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     @Override
     protected void onResume() {
         super.onResume();
+        JPushInterface.onResume(this);
         isForeground = true;
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onResume(this, this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
     }
 
     @Override
