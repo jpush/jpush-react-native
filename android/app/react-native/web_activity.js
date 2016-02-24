@@ -4,7 +4,7 @@ var React = require('react-native');
 var PushActivity = require('./push_activity');
 var {
   View,
-  TouchableNativeFeedback,
+  TouchableHighlight,
   Text
 } = React;
 
@@ -17,14 +17,14 @@ var WebActivity = React.createClass({
     var layout =
         <View style = { styles.parent } >
 
-          <TouchableNativeFeedback
+          <TouchableHighlight
               onPress = { this.onPressBack }>
               <View style = { styles.btnStyle }>
                 <Text style = { styles.textStyle }>
                   Back to PushActivity
                 </Text>
               </View>
-            </TouchableNativeFeedback>
+            </TouchableHighlight>
 
           <Text style = { styles.buttonText }>
             This is WebActivity

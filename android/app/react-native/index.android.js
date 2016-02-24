@@ -6,13 +6,13 @@ module.exports = React.PushHelper;
 module.exports = React.JSHelper;
 var ToastAndroid = require('ToastAndroid');
 var PushActivity = require('./push_activity.js');
+var SetActivity = require('./set_activity');
 var WebActivity = require('./web_activity');
 var {
   Text,
   TextInput,
   View,
   Navigator,
-  TouchableNativeFeedback,
   BackAndroid,
   NativeModules
 } = React;
@@ -27,6 +27,9 @@ renderScene(router, navigator) {
     switch(router.name) {
       case "pushActivity":
         Component = PushActivity;
+        break;
+      case "setActivity":
+        Component = SetActivity;
         break;
       case "webActivity":
         Component = WebActivity;

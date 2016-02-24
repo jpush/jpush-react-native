@@ -2,7 +2,7 @@
     android:id="@+id/layout_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@mipmap/tiledstripes" >
+    android:background="@drawable/tiledstripes" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="10dip"
-            android:background="@mipmap/corners_bg"
+            android:background="@drawable/corners_bg"
             android:orientation="vertical"
             android:paddingBottom="10dip"
             android:paddingTop="10dip" >

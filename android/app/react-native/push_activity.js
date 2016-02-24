@@ -6,7 +6,6 @@ var {
   Text,
   View,
   TextInput,
-  TouchableNativeFeedback,
   TouchableHighlight,
   PropTypes,
   requireNativeComponent,
@@ -20,9 +19,6 @@ var PushHelper = NativeModules.PushHelper;
 var JSHelper = NativeModules.JSHelper;
 var PushActivity = React.createClass({
     
-    jumpBtnClick: function () {
-    this.props.navigator.push({ name: 'webActivity' });
-},
     getInitialState: function() {
       return {
         bg: '#ffffff',
@@ -34,14 +30,29 @@ var PushActivity = React.createClass({
         pushMsg: 'PushMessage'
      };
     },
+    jumpSetActivity() {
+      this.props.navigator.push({ name:'setActivity' });
+    },
     onInitPress() {
-      PushHelper.init();
+      PushHelper.init( (success) => {
+        ToastAndroid.show(success, ToastAndroid.SHORT);
+      }, (error) => {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
     },
     onStopPress() {
-      PushHelper.stopPush();
+      PushHelper.stopPush((success) => {
+        ToastAndroid.show(success, ToastAndroid.SHORT);
+      }, (error) => {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
     },
     onResumePress() {
-      PushHelper.resumePush();
+      PushHelper.resumePush((success) => {
+        ToastAndroid.show(success, ToastAndroid.SHORT);
+      }, (error) => {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
     },
     componentWillMount() {
       JSHelper.initModule(
@@ -88,6 +99,15 @@ var PushActivity = React.createClass({
               underlayColor = '#0866d9'
               activeOpacity = { 0.5 }
               style = { styles.btnStyle }
+              onPress = { this.jumpSetActivity }>
+              <Text style = { styles.btnTextStyle }>
+                设置
+              </Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor = '#0866d9'
+              activeOpacity = { 0.5 }
+              style = { styles.btnStyle }
               onPress = { this.onInitPress }>
                 <Text style = { styles.btnTextStyle }>
                   INITPUSH
@@ -114,14 +134,6 @@ var PushActivity = React.createClass({
             <Text style = { styles.textStyle }>
               { this.state.pushMsg }
             </Text>
-            <TouchableNativeFeedback
-            onPress={this.jumpBtnClick}>
-            <View style={styles.buttonStyle}>
-              <Text style={styles.buttonText}>
-                Jump to another Activity
-              </Text>
-            </View>
-          </TouchableNativeFeedback>
             </ScrollView>
 
           )
