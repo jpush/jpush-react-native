@@ -12,7 +12,7 @@ public class ReactInstanceHelper {
         private static ReactInstanceManager sInstance = ReactInstanceManager.builder()
                 .setApplication((Application) PushDemoApplication.getContext())
                 .setBundleAssetName("index.android.bundle")
-                .setJSMainModuleName("android/app/react-native/index.android")
+                .setJSMainModuleName("react-native-android/index.android")
                 .addPackage(new MainReactPackage())
                 .addPackage(new CustomReactPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
