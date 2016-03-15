@@ -1,6 +1,8 @@
-# jpush-react-plugin
+# JPush React Native Plugin
 
-####JPush demo的React Native Android版本
+Android only yet. 
+
+iOS support is coming soon.
 
 ###用法
 - 下载并解压这个项目的zip
@@ -8,8 +10,6 @@
 - 修改android文件夹下的build.gradle将dependencies下的classpath修改为你当前Android Studio所用的版本
 - 修改app文件夹下的build.gradle，将compile "com.facebook.react:react-native:0.19.0"修改为当前最新的版本
 - 运行app
-
-####This is a jpush demo for React Native Android edition
 
 ###Usage
 
