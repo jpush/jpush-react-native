@@ -9,8 +9,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class RCTBridge;
+
+static NSString *appKey = @"AppKey copied from JPush Portal application";
+static NSString *channel = @"Publish channel";
+static BOOL isProduction = FALSE;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
-
 @end

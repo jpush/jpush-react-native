@@ -8,15 +8,42 @@
  */
 
 #import "AppDelegate.h"
-
+#import "JPUSHService.h"
 #import "RCTRootView.h"
+#import "JPushHelper.h"
+#import "RCTEventDispatcher.h"
+#import "RCTBridge.h"
 
+#import "RCTPushNotificationManager.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+//  if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+//    //可以添加自定义categories
+//    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+//                                                      UIUserNotificationTypeSound |
+//                                                      UIUserNotificationTypeAlert)
+//                                          categories:nil];
+//  } else {
+//    //categories 必须为nil
+//    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+//                                                      UIRemoteNotificationTypeSound |
+//                                                      UIRemoteNotificationTypeAlert)
+//                                          categories:nil];
+//  }
+//  
+//  [JPUSHService setupWithOption:launchOptions appKey:appKey
+//                        channel:channel apsForProduction:isProduction];
+  [self performSelector:@selector(registerNotificationOptions:) withObject:launchOptions afterDelay:4];
+  
   NSURL *jsCodeLocation;
 
+  
+//    [RCTPushNotificationManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  
+  
   /**
    * Loading JavaScript code - uncomment the one you want.
    *
@@ -31,7 +58,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.50.115:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
@@ -45,13 +72,45 @@
                                                       moduleName:@"PushDemo"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  NSLog(@"huangmin   666");
   return YES;
+}
+
+
+- (void)registerNotificationOptions:(NSDictionary *)launchOptions {
+//  [[JPushHelper shareInstance].bridge.eventDispatcher sendAppEventWithName:@"didRegisterToken" body:@"huangmin123"];
+  if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    //可以添加自定义categories
+    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                      UIUserNotificationTypeSound |
+                                                      UIUserNotificationTypeAlert)
+                                          categories:nil];
+  } else {
+    //categories 必须为nil
+    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                      UIRemoteNotificationTypeSound |
+                                                      UIRemoteNotificationTypeAlert)
+                                          categories:nil];
+  }
+  
+  [JPUSHService setupWithOption:launchOptions appKey:appKey
+                        channel:channel apsForProduction:isProduction];
+}
+
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+
+  [JPUSHService registerDeviceToken:deviceToken];
+  NSString *eventName = deviceToken.description;
+  JPushHelper *helper = [[JPushHelper alloc] init];
+  [helper didRegistRemoteNotification:@"huan gmin  dsafa"];
 }
 
 @end
