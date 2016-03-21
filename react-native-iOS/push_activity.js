@@ -97,7 +97,6 @@ var PushActivity = React.createClass({
       NativeAppEventEmitter.removeAllListeners();
     },
     render() {
-      console.log("huangmin 5555   ");
 
         return (
             <ScrollView style = { styles.parent }>
