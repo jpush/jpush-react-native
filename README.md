@@ -11,7 +11,7 @@ iOS support is coming soon.
 - 修改app文件夹下的build.gradle，将compile "com.facebook.react:react-native:0.19.0"修改为当前最新的版本
 - 运行app
 
-###Usage
+###Android Usage
 
 - Download this project
 - Assume that you have already initialized a react project(if not, please refer [this](https://facebook.github.io/react-native/docs/getting-started.html#content)), replace the "app"(which in your android folder that you had initialized just now) with this module.
