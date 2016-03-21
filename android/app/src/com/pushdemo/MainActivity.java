@@ -1,6 +1,7 @@
 package com.pushdemo;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +11,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter;
+import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.lang.Override;
@@ -31,7 +34,15 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReactRootView = new ReactRootView(this);
-        mReactInstanceManager = ReactInstanceHelper.getInstance();
+        mReactInstanceManager = ReactInstanceManager.builder()
+                .setApplication((Application) PushDemoApplication.getContext())
+                .setBundleAssetName("index.android.bundle")
+                .setJSMainModuleName("react-native-android/index.android")
+                .addPackage(new MainReactPackage())
+                .addPackage(new CustomReactPackage())
+                .setUseDeveloperSupport(BuildConfig.DEBUG)
+                .setInitialLifecycleState(LifecycleState.RESUMED)
+                .build();
         mReactRootView.startReactApplication(mReactInstanceManager, "PushDemoApp", null);
 
         setContentView(mReactRootView);
