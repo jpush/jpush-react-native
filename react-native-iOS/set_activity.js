@@ -4,11 +4,12 @@ var React = require('react-native');
 var {
 	Text,
 	View,
+	Alert,
 	TextInput,
 	TouchableHighlight,
 	NativeModules
 } = React;
-// var PushHelper = NativeModules.PushHelper;
+var PushHelper = NativeModules.JPushHelper;
 var SetActivity = React.createClass({
 	getInitialState() {
 		return {
@@ -18,12 +19,20 @@ var SetActivity = React.createClass({
 	},
 	setTag() {
 		if (this.state.tag !== undefined) {
-			// PushHelper.setTag(this.state.tag);
+			PushHelper.setTags(this.state.tag, null, (resultCode) => {
+				if (resultCode == 0) {
+					Alert.alert('成功', 'tags 成功',[{text: 'OK'}])
+				}
+			});
 		};
 	},
 	setAlias() {
 		if (this.state.alias !== undefined) {
-			// PushHelper.setAlias(this.state.alias);
+			PushHelper.setTags(null, this.state.alias, (resultCode) => {
+				if (resultCode == 0) {
+					Alert.alert('成功', '设置alias 成功',[{text: 'OK'}])
+				}
+			});
 		};
 	},
 	setBaseStyle() {
@@ -79,31 +88,6 @@ var SetActivity = React.createClass({
 								</Text>
 							</TouchableHighlight>
 						</View>
-					</View>
-					<View style = { styles.title }>
-						<Text style = { styles.titleText }>
-							定制通知栏样式
-						</Text>
-					</View>
-					<View style = { styles.customContainer }>
-						<TouchableHighlight
-							style = { styles.customBtn }
-							onPress = { this.setBaseStyle }
-							underlayColor = '#e4083f'
-							activeOpacity = { 0.5 }>
-							<Text style = { styles.btnText }>
-								定制通知栏样式：Basic
-							</Text>
-						</TouchableHighlight>
-						<TouchableHighlight
-							style = { styles.customBtn }
-							onPress = { this.setCustomStyle }
-							underlayColor = '#e4083f'
-							activeOpacity = { 0.5 }>
-							<Text style = { styles.btnText }>
-								定制通知栏样式：Custom
-							</Text>
-						</TouchableHighlight>
 					</View>
 				</View>
 			);

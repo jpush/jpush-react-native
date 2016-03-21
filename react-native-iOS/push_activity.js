@@ -23,8 +23,8 @@ var PushActivity = React.createClass({
     getInitialState: function() {
       return {
         bg: '#ffffff',
-        appkey: 'AppKey',
-        imei: 'IMEI',
+        appkey: '',
+        connectStatus: '',
         package: 'PackageName',
         deviceId: 'DeviceId',
         version: 'Version',
@@ -40,13 +40,15 @@ var PushActivity = React.createClass({
       // }, (error) => {
       //   // ToastAndroid.show(error, ToastAndroid.SHORT);
       // });
+      console.log('on click init push ');
+      PushHelper.setupPush('dssdf');
+
+      PushHelper.getAppkeyWithcallback((theKey) => {
+      this.setState({appkey: theKey});
+      });
     },
-    onStopPress() {
-      // PushHelper.stopPush((success) => {
-      //   ToastAndroid.show(success, ToastAndroid.SHORT);
-      // }, (error) => {
-      //   ToastAndroid.show(error, ToastAndroid.SHORT);
-      // });
+    onSetuplocalNotificationPress() {
+      this.props.navigator.push({ name:'LocalPushActivity' });
     },
     onResumePress() {
       // PushHelper.resumePush((success) => {
@@ -70,18 +72,25 @@ var PushActivity = React.createClass({
       // DeviceEventEmitter.addListener('receivePushMsg', (data) => {
       //   this.setState({ pushMsg: data });
       // });
-      console.log("huangmin 1234   ");
+      
         var subscription = NativeAppEventEmitter.addListener('didRegisterToken', (token) => {
-        console.log("huangmin 1234   99999");
-        console.log(token);
         this.setState({ pushToken: token });
-        console.log("huangmin 1234   99999");
-      });
-
-
+        });
+        NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
+        this.setState({ connectStatus: '已连接' });
+        });
+        NativeAppEventEmitter.addListener('networkDidClose', (token) => {
+        this.setState({ connectStatus: '连接已断开' });
+        });
+        NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
+        this.setState({ connectStatus: '已注册' });
+        });
+        NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
+        this.setState({ connectStatus: '已登陆' });
+        });
     },
     componentDidMount() {
-          
+
     },
     componentWillUnmount() {
       DeviceEventEmitter.removeAllListeners();
@@ -90,15 +99,14 @@ var PushActivity = React.createClass({
     render() {
       console.log("huangmin 5555   ");
 
-
         return (
             <ScrollView style = { styles.parent }>
             
             <Text style = { styles.textStyle }>
-              { this.state.appkey }
+              Appkey: { this.state.appkey }
             </Text>
             <Text style = { styles.textStyle }>
-              { this.state.imei }
+              链接状态： { this.state.connectStatus }
             </Text>
             <Text style  = { styles.textStyle }>
               { this.state.package }
@@ -131,9 +139,9 @@ var PushActivity = React.createClass({
               underlayColor = '#e4083f'
               activeOpacity = { 0.5 }
               style = { styles.btnStyle }
-              onPress = { this.onStopPress }>
+              onPress = { this.onSetuplocalNotificationPress }>
                 <Text style = { styles.btnTextStyle }>
-                  STOPPUSH
+                  local notification
                 </Text>
             </TouchableHighlight>
             <TouchableHighlight

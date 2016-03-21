@@ -11,7 +11,7 @@
 
 
 @interface JPushHelper : NSObject <RCTBridgeModule>
-@property(strong,nonatomic)NSString *myname;
-//+ (JPushHelper *)shareInstance;
+@property(strong,nonatomic)RCTResponseSenderBlock asyCallback;
+
 - (void)didRegistRemoteNotification:(NSString *)token;
 @end
