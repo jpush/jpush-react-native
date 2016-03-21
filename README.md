@@ -4,7 +4,7 @@ Android only yet.
 
 iOS support is coming soon.
 
-###用法
+###Android用法
 - 下载并解压这个项目的zip
 - 在初始化好的React项目中将app文件夹替换为你刚刚解压的app文件夹（jpush-react-plugin-master/android/app）（如果你还没有初始化，[参考这个](https://facebook.github.io/react-native/docs/getting-started.html#content)）
 - 修改android文件夹下的build.gradle将dependencies下的classpath修改为你当前Android Studio所用的版本
