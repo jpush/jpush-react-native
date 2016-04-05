@@ -15,9 +15,7 @@ var {
   NativeAppEventEmitter
 } = React;
 
-// var ToastAndroid = NativeModules.ToastAndroid;
 var PushHelper = NativeModules.JPushHelper;
-// var JSHelper = NativeModules.JSHelper;
 var PushActivity = React.createClass({
     
     getInitialState: function() {
@@ -35,11 +33,7 @@ var PushActivity = React.createClass({
       this.props.navigator.push({ name:'setActivity' });
     },
     onInitPress() {
-      // PushHelper.init( (success) => {
-      //   // ToastAndroid.show(success, ToastAndroid.SHORT);
-      // }, (error) => {
-      //   // ToastAndroid.show(error, ToastAndroid.SHORT);
-      // });
+
       console.log('on click init push ');
       PushHelper.setupPush('dssdf');
 
@@ -50,28 +44,7 @@ var PushActivity = React.createClass({
     onSetuplocalNotificationPress() {
       this.props.navigator.push({ name:'LocalPushActivity' });
     },
-    onResumePress() {
-      // PushHelper.resumePush((success) => {
-      //   ToastAndroid.show(success, ToastAndroid.SHORT);
-      // }, (error) => {
-      //   ToastAndroid.show(error, ToastAndroid.SHORT);
-      // });
-    },
     componentWillMount() {
-      // JSHelper.initModule(
-      //   (map) => {
-      //     this.setState({
-      //       appkey: map.myAppKey,
-      //       imei: map.myImei,
-      //       package: map.myPackageName,
-      //       deviceId: map.myDeviceId,
-      //       version: map.myVersion
-      //     })
-      //   }
-      // );
-      // DeviceEventEmitter.addListener('receivePushMsg', (data) => {
-      //   this.setState({ pushMsg: data });
-      // });
       
         var subscription = NativeAppEventEmitter.addListener('didRegisterToken', (token) => {
         this.setState({ pushToken: token });
@@ -143,15 +116,7 @@ var PushActivity = React.createClass({
                   local notification
                 </Text>
             </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor = '#f5a402'
-              activeOpacity = { 0.5 }
-              style = { styles.btnStyle }
-              onPress = { this.onResumePress }>
-                <Text style = { styles.btnTextStyle }> 
-                  RESUMEPUSH
-                </Text>
-            </TouchableHighlight>
+
             <Text style = { styles.textStyle }>
               token: { this.state.pushToken }
             </Text>

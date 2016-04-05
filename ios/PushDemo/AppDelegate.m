@@ -19,24 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
-//  if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-//    //可以添加自定义categories
-//    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-//                                                      UIUserNotificationTypeSound |
-//                                                      UIUserNotificationTypeAlert)
-//                                          categories:nil];
-//  } else {
-//    //categories 必须为nil
-//    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-//                                                      UIRemoteNotificationTypeSound |
-//                                                      UIRemoteNotificationTypeAlert)
-//                                          categories:nil];
-//  }
-//  
-//  [JPUSHService setupWithOption:launchOptions appKey:appKey
-//                        channel:channel apsForProduction:isProduction];
-//  [self performSelector:@selector(registerNotificationOptions:) withObject:launchOptions afterDelay:0];
+
   
   NSURL *jsCodeLocation;
 
@@ -58,7 +41,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://192.168.70.115:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://127.0.0.1:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
