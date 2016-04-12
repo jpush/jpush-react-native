@@ -1,8 +1,9 @@
 'use strict';
 
-var React = require('react-native');
+import React from 'react-native';
 
 var {
+  Component,
   Text,
   View,
   TextInput,
@@ -17,43 +18,55 @@ var {
 var ToastAndroid = NativeModules.ToastAndroid;
 var PushHelper = NativeModules.PushHelper;
 var JSHelper = NativeModules.JSHelper;
-var PushActivity = React.createClass({
+export default class PushActivity  extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bg: '#ffffff',
+      appkey: 'AppKey',
+      imei: 'IMEI',
+      package: 'PackageName',
+      deviceId: 'DeviceId',
+      version: 'Version',
+      pushMsg: 'PushMessage'
+    }
+
+    this.jumpSetActivity = this.jumpSetActivity.bind(this);
+    this.onInitPress = this.onInitPress.bind(this);
+    this.onStopPress = this.onStopPress.bind(this);
+    this.onResumePress = this.onResumePress.bind(this);
+  }
     
-    getInitialState: function() {
-      return {
-        bg: '#ffffff',
-        appkey: 'AppKey',
-        imei: 'IMEI',
-        package: 'PackageName',
-        deviceId: 'DeviceId',
-        version: 'Version',
-        pushMsg: 'PushMessage'
-     };
-    },
-    jumpSetActivity() {
-      this.props.navigator.push({ name:'setActivity' });
-    },
-    onInitPress() {
-      PushHelper.init( (success) => {
-        ToastAndroid.show(success, ToastAndroid.SHORT);
-      }, (error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
-      });
-    },
+  jumpSetActivity() {
+    this.props.navigator.push({ name:'setActivity' }); 
+  }
+
+  onInitPress() {
+    PushHelper.init( (success) => {
+      ToastAndroid.show(success, ToastAndroid.SHORT);
+    }, (error) => {
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+    });
+  }
+
     onStopPress() {
       PushHelper.stopPush((success) => {
         ToastAndroid.show(success, ToastAndroid.SHORT);
       }, (error) => {
         ToastAndroid.show(error, ToastAndroid.SHORT);
       });
-    },
+    }
+
     onResumePress() {
       PushHelper.resumePush((success) => {
         ToastAndroid.show(success, ToastAndroid.SHORT);
       }, (error) => {
         ToastAndroid.show(error, ToastAndroid.SHORT);
       });
-    },
+    }
+
     componentWillMount() {
       JSHelper.initModule(
         (map) => {
@@ -69,13 +82,16 @@ var PushActivity = React.createClass({
       DeviceEventEmitter.addListener('receivePushMsg', (data) => {
         this.setState({ pushMsg: data });
       });
-    },
+    }
+
     componentDidMount() {
           
-    },
+    }
+
     componentWillUnmount() {
       DeviceEventEmitter.removeAllListeners();
-    },
+    }
+
     render() {
         return (
             <ScrollView style = { styles.parent }>
@@ -138,7 +154,7 @@ var PushActivity = React.createClass({
 
           )
     }
-});
+}
 
 var styles = React.StyleSheet.create({
   parent: {
@@ -171,7 +187,3 @@ var styles = React.StyleSheet.create({
 
   },
 });
-
-
-
-module.exports = PushActivity

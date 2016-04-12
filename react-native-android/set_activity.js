@@ -1,7 +1,8 @@
 'use strict'
 
-var React = require('react-native');
+import React from 'react-native';
 var {
+	Component,
 	Text,
 	View,
 	TextInput,
@@ -9,29 +10,42 @@ var {
 	NativeModules
 } = React;
 var PushHelper = NativeModules.PushHelper;
-var SetActivity = React.createClass({
-	getInitialState() {
-		return {
+export default class SetActivity extends Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
 			tag: '',
 			alias: '',
-		};
-	},
+		}
+
+		this.setTag = this.setTag.bind(this);
+		this.setAlias = this.setAlias.bind(this);
+		this.setBaseStyle = this.setBaseStyle.bind(this);
+		this.setCustomStyle = this.setCustomStyle.bind(this);
+	}
+
 	setTag() {
 		if (this.state.tag !== undefined) {
 			PushHelper.setTag(this.state.tag);
 		};
-	},
+	}
+
 	setAlias() {
 		if (this.state.alias !== undefined) {
 			PushHelper.setAlias(this.state.alias);
 		};
-	},
+	}
+
 	setBaseStyle() {
 		PushHelper.setStyleBasic();
-	},
+	}
+
 	setCustomStyle() {
 		PushHelper.setStyleCustom();
-	},
+	}
+
 	render() {
 		return (
 				<View style = { styles.container }>
@@ -107,8 +121,8 @@ var SetActivity = React.createClass({
 					</View>
 				</View>
 			);
-	},
-});
+	}
+}
 
 var styles = React.StyleSheet.create({
 	container: {

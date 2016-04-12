@@ -26,7 +26,7 @@ import cn.jpush.android.api.TagAliasCallback;
 public class PushHelperModule extends ReactContextBaseJavaModule {
 
     private static String TAG = "PushHelperModule";
-    private Context mContext = getReactApplicationContext();
+    private Context mContext;
 
     public PushHelperModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -74,6 +74,7 @@ public class PushHelperModule extends ReactContextBaseJavaModule {
     //为用户设置Tag,可以在服务端根据Tag推送消息
     @ReactMethod
     public void setTag(String str) {
+        mContext = getCurrentActivity();
         final String tag = str.trim();
         Log.i(TAG, "tag: " + tag);
         if (!TextUtils.isEmpty(tag)) {
@@ -119,6 +120,7 @@ public class PushHelperModule extends ReactContextBaseJavaModule {
     //为用户设置别名,可以在服务端根据别名推送
     @ReactMethod
     public void setAlias(String str) {
+        mContext = getCurrentActivity();
         String alias = str.trim();
         Log.i(TAG, "alias: " + alias);
         if (!TextUtils.isEmpty(alias)) {
@@ -153,6 +155,7 @@ public class PushHelperModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void setStyleBasic(){
+        mContext = getCurrentActivity();
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(mContext);
         builder.statusBarDrawable = IdHelper.getDrawable(mContext, "ic_launcher");
         builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //设置为点击后自动消失
@@ -167,7 +170,7 @@ public class PushHelperModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void setStyleCustom(){
-        
+        mContext = getCurrentActivity();
         CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(mContext
                 ,IdHelper.getLayout(mContext, "customer_notification_layout"),
                 IdHelper.getViewID(mContext, "icon"), IdHelper.getViewID(mContext, "title"),
