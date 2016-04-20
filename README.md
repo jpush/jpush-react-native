@@ -12,6 +12,10 @@
 -- 下载并解压这个项目的zip
 - 在初始化好的React项目中将app文件夹替换为你刚刚解压的app文件夹（jpush-react-plugin-master/android/app）（如果你还没有初始化，[参考这个](https://facebook.github.io/react-native/docs/getting-started.html#content)）
 - 将iOS工程目录下的 JPushReactBridge文件夹添加到自己工程中
+- 在JPushHelper.h 文件中 替换appkey为你自己key,如下
+```
+static NSString *appKey = @"替换自己的appkey";
+```
 - 根据这篇教程[JPush 集成文档](http://docs.jpush.io/client/ios_sdk/#ios-sdk_1) 添加jpush所需的类库和配置信息
 - JPushHelper 类中定义了react调用原生JPush方法的接口
 - 在AppDelegate 的didRegisterForRemoteNotificationsWithDeviceToken 方法中添加 [JPUSHService registerDeviceToken:deviceToken]; 如下所示
