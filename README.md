@@ -68,6 +68,21 @@ react-native@0.23.0 requires a peer of react@^0.14.5 but none was installed.
 
 即可。
 
+如果更新后执行react-native run-android不能正确运行，而是出现类似：
+```
+ Could not find com.facebook.react:react-native:0.23.0.
+```
+
+错误，或者在Android Studio中直接运行app时报错：
+```
+Android Studio failed to resolve com.facebook.react:react-native:0.23.0
+```
+
+那么可以按照下列命令修复，**注意，在执行命令之后，某些文件可能会产生冲突，请确保你的本地文件记录可以恢复**（在Android Studio中可以查看历史记录来恢复文件）
+> react-native upgrade
+
+执行上面的命令可能会提示你是否覆盖文件。在解决冲突之后重新运行App即可。
+
 ###Android Usage
 
 - Download this project
