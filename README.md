@@ -37,6 +37,7 @@ PushHelper.setupPush(''); //可以输入任意字符串，该字符串没有意�
 - 注册推送后就可以成功收到推送了，这里只提供简单的使用说明，如果需要了解更多功能请参考[极光文档](http://docs.jpush.io/client/ios_api/)的接口说明，如果你没有调用原生借口的经验可以参考这篇文章 [调用原生模块](http://reactnative.cn/docs/0.24/native-modules-ios.html#content)
 ###更新React Native
 
+**进入当前项目的目录**
 - 在命令行中使用：
 
 > react-native --version
@@ -78,7 +79,10 @@ react-native@0.23.0 requires a peer of react@^0.14.5 but none was installed.
 Android Studio failed to resolve com.facebook.react:react-native:0.23.0
 ```
 
-那么可以按照下列命令修复，**注意，在执行命令之后，某些文件可能会产生冲突，请确保你的本地文件记录可以恢复**（在Android Studio中可以查看历史记录来恢复文件）
+那么可以按照下列命令修复，首先在命令行中执行：
+> npm i
+
+执行完毕且不报错后，执行下面的命令，**注意，在执行命令之后，某些文件可能会产生冲突，请确保你的本地文件记录可以恢复**（在Android Studio中可以查看历史记录来恢复文件）
 > react-native upgrade
 
 执行上面的命令可能会提示你是否覆盖文件。在解决冲突之后重新运行App即可。
