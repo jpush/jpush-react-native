@@ -11,10 +11,6 @@
 
 @class RCTBridge;
 
-static NSString *appKey = @"9df4a9fe21c5737234418d8f";
-static NSString *channel = @"";
-static BOOL isProduction = false;
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;

@@ -29,8 +29,8 @@
 		6200F1921C97F961002BE3FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6200F1911C97F961002BE3FC /* Foundation.framework */; };
 		6200F1941C97F968002BE3FC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6200F1931C97F968002BE3FC /* Security.framework */; };
 		6200F1961C97F97A002BE3FC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6200F1951C97F97A002BE3FC /* libz.tbd */; };
-		624956351C99A04000F628EE /* JPushHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 624956341C99A04000F628EE /* JPushHelper.m */; };
-		6296C96F1C96F52300FA965C /* jpush-ios-2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6296C96D1C96F52300FA965C /* jpush-ios-2.1.0.a */; };
+		621D2C811CC7585500D931AE /* jpush-ios-2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 621D2C7D1CC7585500D931AE /* jpush-ios-2.1.0.a */; };
+		621D2C821CC7585500D931AE /* JPushHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 621D2C7F1CC7585500D931AE /* JPushHelper.m */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
 
@@ -142,10 +142,10 @@
 		6200F1911C97F961002BE3FC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6200F1931C97F968002BE3FC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6200F1951C97F97A002BE3FC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		624956331C99A04000F628EE /* JPushHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPushHelper.h; sourceTree = "<group>"; };
-		624956341C99A04000F628EE /* JPushHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPushHelper.m; sourceTree = "<group>"; };
-		6296C96D1C96F52300FA965C /* jpush-ios-2.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.0.a"; sourceTree = "<group>"; };
-		6296C96E1C96F52300FA965C /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		621D2C7D1CC7585500D931AE /* jpush-ios-2.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.0.a"; sourceTree = "<group>"; };
+		621D2C7E1CC7585500D931AE /* JPushHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPushHelper.h; sourceTree = "<group>"; };
+		621D2C7F1CC7585500D931AE /* JPushHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPushHelper.m; sourceTree = "<group>"; };
+		621D2C801CC7585500D931AE /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,11 +174,11 @@
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
+				621D2C811CC7585500D931AE /* jpush-ios-2.1.0.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
-				6296C96F1C96F52300FA965C /* jpush-ios-2.1.0.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 			);
@@ -264,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				6200F1971C97F9BC002BE3FC /* Framework */,
-				6296C96C1C96F4EF00FA965C /* JPushReactBridge */,
+				621D2C7C1CC7585500D931AE /* JPushReactBridge */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -299,15 +299,15 @@
 			name = Framework;
 			sourceTree = "<group>";
 		};
-		6296C96C1C96F4EF00FA965C /* JPushReactBridge */ = {
+		621D2C7C1CC7585500D931AE /* JPushReactBridge */ = {
 			isa = PBXGroup;
 			children = (
-				624956331C99A04000F628EE /* JPushHelper.h */,
-				624956341C99A04000F628EE /* JPushHelper.m */,
-				6296C96D1C96F52300FA965C /* jpush-ios-2.1.0.a */,
-				6296C96E1C96F52300FA965C /* JPUSHService.h */,
+				621D2C7D1CC7585500D931AE /* jpush-ios-2.1.0.a */,
+				621D2C7E1CC7585500D931AE /* JPushHelper.h */,
+				621D2C7F1CC7585500D931AE /* JPushHelper.m */,
+				621D2C801CC7585500D931AE /* JPUSHService.h */,
 			);
-			name = JPushReactBridge;
+			path = JPushReactBridge;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -604,7 +604,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				624956351C99A04000F628EE /* JPushHelper.m in Sources */,
+				621D2C821CC7585500D931AE /* JPushHelper.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -687,6 +687,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/JPushReactBridge",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = huminios.jpushTest;
@@ -710,6 +711,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/JPushReactBridge",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = huminios.jpushTest;
