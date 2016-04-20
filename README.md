@@ -32,6 +32,19 @@ iOS support is coming soon.
 
 就可以更新到0.23.0版本
 
+如果升级后出现类似于
+```
+react-native@0.23.0 requires a peer of react@^0.14.5 but none was installed.
+```
+
+执行:
+> npm install --save react
+
+或者：
+> npm install --save react@0.14.5
+
+即可。
+
 ###Android Usage
 
 - Download this project
