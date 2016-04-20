@@ -6,7 +6,36 @@
 - 在初始化好的React项目中将app文件夹替换为你刚刚解压的app文件夹（jpush-react-plugin-master/android/app）（如果你还没有初始化，[参考这个](https://facebook.github.io/react-native/docs/getting-started.html#content)）
 - 修改android文件夹下的build.gradle将dependencies下的classpath修改为你当前Android Studio所用的版本
 - 修改app文件夹下的build.gradle，将compile "com.facebook.react:react-native:0.19.0"修改为你当前的版本
+- 在AndroidManifest中更改PackageName和build.gradle中的applicationId为你自己的包名
+- 在AndroidManifest中更改appKey
 - 运行app
+
+####JS调用sdk的接口说明
+- PushHelperModule是Native定义的用来在JS中调用jpush-sdk.jar的接口的NativeModule。以@ReactMethod标签声明的方法可以在JS中通过NativeModule调用：
+```
+PushHelper.init( (success) => {
+      ToastAndroid.show(success, ToastAndroid.SHORT);
+    }, (error) => {
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+    });
+```
+
+这样实际上调用了PushHelperModule中的init()方法：
+```
+    @ReactMethod
+    public void init(Callback successCallback, Callback errorCallback) {
+        try {
+            JPushInterface.init(PushDemoApplication.getContext());
+            successCallback.invoke("init Success!");
+            Log.i("PushSDK", "init Success !");
+        } catch (Exception e) {
+            errorCallback.invoke(e.getMessage());
+        }
+
+    }
+```
+
+其他的方法类似，JPush的Android API说明可以参考[极光文档](http://docs.jpush.io/client/android_api/)。
 
 ###iOS用法
 -- 下载并解压这个项目的zip
