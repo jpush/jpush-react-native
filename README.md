@@ -37,5 +37,5 @@ iOS support is coming soon.
 - Download this project
 - Assume that you have already initialized a react project(if not, please refer [this](https://facebook.github.io/react-native/docs/getting-started.html#content)), replace the "app"(which in your android folder that you had initialized just now) with this module.
 - Open build.gradle in android folder, replace the classpath with your current edition.
-- Open build.gradle in app folder, replace the compile "com.facebook.react:react-native:0.19.0" with the newest edition.
+- Open build.gradle in app folder, replace the compile "com.facebook.react:react-native:0.19.0" with your current edition.
 - run this application.
