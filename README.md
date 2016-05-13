@@ -65,6 +65,7 @@ var PushHelper = require('react-native').NativeModules.JPushHelper;
 PushHelper.setupPush(''); //可以输入任意字符串，该字符串没有意义，该产生的目的是js 无法找到没有参数的方法
 ```
 - 注册推送后就可以成功收到推送了，这里只提供简单的使用说明，如果需要了解更多功能请参考[极光文档](http://docs.jpush.io/client/ios_api/)的接口说明，如果你没有调用原生借口的经验可以参考这篇文章 [调用原生模块](http://reactnative.cn/docs/0.24/native-modules-ios.html#content)
+
 ###更新React Native
 
 **进入当前项目的目录**
