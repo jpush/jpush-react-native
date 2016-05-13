@@ -1,5 +1,6 @@
 # JPush React Native Plugin
 
+**现在这个库提供的是demo，插件的形式可以[参考这个](https://github.com/KenChoi1992/react-native-jpush-plugin)，最近可能npm的项目名字还会有变动， 后续会更改，不过会持续维护，欢迎开发者贡献代码**
 
 ###Android用法
 - 下载并解压这个项目的zip
