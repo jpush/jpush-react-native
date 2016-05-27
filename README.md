@@ -1,72 +1,147 @@
 # JPush React Native Plugin
 
-**现在这个库提供的是demo，插件的形式可以[参考这个](https://github.com/KenChoi1992/react-native-jpush-plugin)，最近可能npm的项目名字还会有变动， 后续会更改，不过会持续维护，欢迎开发者贡献代码**
+# react-native-jpush-plugin
 
-###Android用法
-- 下载并解压这个项目的zip
-- 在初始化好的React项目中将app文件夹替换为你刚刚解压的app文件夹（jpush-react-plugin-master/android/app）（如果你还没有初始化，[参考这个](https://facebook.github.io/react-native/docs/getting-started.html#content)）
-- 修改android文件夹下的build.gradle将dependencies下的classpath修改为你当前Android Studio所用的版本
-- 修改app文件夹下的build.gradle，将compile "com.facebook.react:react-native:0.19.0"修改为你当前的版本
-- 在AndroidManifest中更改PackageName和build.gradle中的applicationId为你自己的包名
-- 在AndroidManifest中更改appKey
-- 运行app
+###Android Usage
 
-####JS调用sdk的接口说明
-- PushHelperModule是Native定义的用来在JS中调用jpush-sdk.jar的接口的NativeModule。以@ReactMethod标签声明的方法可以在JS中通过NativeModule调用：
+- 使用命令行在你的React Native Project目录中安装：
+
 ```
-PushHelper.init( (success) => {
-      ToastAndroid.show(success, ToastAndroid.SHORT);
-    }, (error) => {
-      ToastAndroid.show(error, ToastAndroid.SHORT);
+npm install jpush-react-native --save
+
+rnpm link jpush-react-native
+```
+
+- 使用Android Studio import你的React Native应用（选择你的React Native应用所在目录下的android文件夹即可）
+
+- 修改android项目下的setting.gradle配置：
+
+> setting.gradle
+
+```
+include ':app', ':jpush-react-native'
+project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
+
+```
+
+- 修改app下的build.gradle配置：
+
+> your react native project/android/app/build.gradle
+
+```
+dependencies {
+    compile fileTree(dir: "libs", include: ["*.jar"])
+    compile project(':jpush-react-native')
+    compile "com.facebook.react:react-native:+"  // From node_modules
+}
+```
+
+- 现在重新sync一下项目，应该能看到jpush-react-native作为一个android Library项目导进来了
+
+![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin1.png)
+
+- 打开jpush-react-native的build.gradle文件，修改相关配置：
+
+> jpush-react-native/android/build.gradle
+
+![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin2.png)
+
+将此处的yourAppKey替换成你在官网上申请的应用的AppKey
+
+- 打开app下的MainActivity，在ReactInstanceManager的build方法中加入JPushPackage：
+
+> app/MainActivity.java
+
+![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin3.png)
+
+- 在JS中import JPushModule，然后即调用相关方法：
+```
+import JPushModule from 'jpush-react-native';
+
+...
+
+componentDidMount() {
+    JPushModule.addReceiveCustomMsgListener((message) => {
+      this.setState({pushMsg: message});
+    });
+    JPushModule.addReceiveNotificationListener((message) => {
+      console.log("receive notification: " + message);
+    })
+  }
+
+  componentWillUnmount() {
+    JPushModule.removeReceiveCustomMsgListener();
+    JPushModule.removeReceiveNotificationListener();
+  }
+```
+
+关于JPushModule的具体方法可以参考jpush-react-native文件夹下的index.js文件，此处将方法罗列如下：
+
+- initPush()
+- getInfo(map)
+```
+JPushModule.getInfo((map) => {
+      this.setState({
+            appkey: map.myAppKey,
+            imei: map.myImei,
+            package: map.myPackageName,
+            deviceId: map.myDeviceId,
+            version: map.myVersion
+      });
     });
 ```
+- stopPush()
+- resumePush()
+- setTag(tag)
+- setAlias(alias)
+- setStyleBasic()
+- setStyleCustom()
+- addReceiveCustomMsgListener(callback)
+- removeReceiveCustomMsgListener()
+- addReceiveNotificationListener()
+- removeReceiveNotificationListener()
 
-这样实际上调用了PushHelperModule中的init()方法：
-```
-    @ReactMethod
-    public void init(Callback successCallback, Callback errorCallback) {
-        try {
-            JPushInterface.init(PushDemoApplication.getContext());
-            successCallback.invoke("init Success!");
-            Log.i("PushSDK", "init Success !");
-        } catch (Exception e) {
-            errorCallback.invoke(e.getMessage());
-        }
 
-    }
+####iOS Usage
+- 打开iOS工程，在rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
+- 在iOS工程target的Build Phases->Link Binary with Libraries中加入libz.tbd、CoreTelephony.framework、Security.framework
+- 在AppDelegate.h 文件中 填写如下代码，这里的的appkey、channel、和isProduction填写自己的
 ```
-
-其他的方法类似，JPush的Android API说明可以参考[极光文档](http://docs.jpush.io/client/android_api/)。
-
-###iOS用法
--- 下载并解压这个项目的zip
-- 在初始化好的React项目中将app文件夹替换为你刚刚解压的app文件夹（jpush-react-plugin-master/android/app）（如果你还没有初始化，[参考这个](https://facebook.github.io/react-native/docs/getting-started.html#content)）
-- 将iOS工程目录下的 JPushReactBridge文件夹添加到自己工程中
-- 在JPushHelper.h 文件中 替换appkey为你自己key,如下
+static NSString *appKey = @"";     //填写appkey
+static NSString *channel = @"";    //填写channel   一般为nil
+static BOOL isProduction = false;  //填写isProdurion  平时测试时为false ，生产时填写true
 ```
-static NSString *appKey = @"替换自己的appkey";
+- 在AppDelegate.m 的didFinishLaunchingWithOptions 方法里面添加如下代码
 ```
-- 根据这篇教程[JPush 集成文档](http://docs.jpush.io/client/ios_sdk/#ios-sdk_1) 添加jpush所需的类库和配置信息
-- JPushHelper 类中定义了react调用原生JPush方法的接口
-- 在AppDelegate 的didRegisterForRemoteNotificationsWithDeviceToken 方法中添加 [JPUSHService registerDeviceToken:deviceToken]; 如下所示
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    //可以添加自定义categories
+    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                      UIUserNotificationTypeSound |
+                                                      UIUserNotificationTypeAlert)
+                                          categories:nil];
+  } else {
+    //iOS 8以前 categories 必须为nil
+    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                      UIRemoteNotificationTypeSound |
+                                                      UIRemoteNotificationTypeAlert)
+                                          categories:nil];
+  }
+  
+  [JPUSHService setupWithOption:launchOptions appKey:appKey
+                        channel:channel apsForProduction:isProduction];
+}
+```
+- 在AppDelegate.m 的didRegisterForRemoteNotificationsWithDeviceToken 方法中添加 [JPUSHService registerDeviceToken:deviceToken]; 如下所示
 ```
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [JPUSHService registerDeviceToken:deviceToken];
 }
 ```
-- 在js 代码中添加如下代码
-```
-var PushHelper = require('react-native').NativeModules.JPushHelper;
-```
-- 这样就可以通过PushHelper 这个变量来访问原生类方法了
-- 在js 中通过PushHelper 来注册推送，代码如下
-```
-PushHelper.setupPush(''); //可以输入任意字符串，该字符串没有意义，该产生的目的是js 无法找到没有参数的方法
-```
-- 注册推送后就可以成功收到推送了，这里只提供简单的使用说明，如果需要了解更多功能请参考[极光文档](http://docs.jpush.io/client/ios_api/)的接口说明，如果你没有调用原生借口的经验可以参考这篇文章 [调用原生模块](http://reactnative.cn/docs/0.24/native-modules-ios.html#content)
 
-###更新React Native
+###关于更新React Native
 
 **进入当前项目的目录**
 - 在命令行中使用：
@@ -118,10 +193,6 @@ Android Studio failed to resolve com.facebook.react:react-native:0.23.0
 
 执行上面的命令可能会提示你是否覆盖文件。在解决冲突之后重新运行App即可。
 
-###Android Usage
-
-- Download this project
-- Assume that you have already initialized a react project(if not, please refer [this](https://facebook.github.io/react-native/docs/getting-started.html#content)), replace the "app"(which in your android folder that you had initialized just now) with this module.
-- Open build.gradle in android folder, replace the classpath with your current edition.
-- Open build.gradle in app folder, replace the compile "com.facebook.react:react-native:0.19.0" with your current edition.
-- run this application.
+---
+贡献者列表
+- [bang88](https://github.com/bang88)
