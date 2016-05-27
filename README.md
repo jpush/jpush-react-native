@@ -1,7 +1,5 @@
 # JPush React Native Plugin
 
-# react-native-jpush-plugin
-
 ###Android Usage
 
 - 使用命令行在你的React Native Project目录中安装：
