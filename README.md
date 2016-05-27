@@ -90,14 +90,17 @@ JPushModule.getInfo((map) => {
 ```
 - stopPush()
 - resumePush()
-- setTag(tag)
-- setAlias(alias)
+- setTag(array, callback, callback)
+- getRegistrationID(callback)
+- setAlias(alias, callback, callback)
 - setStyleBasic()
 - setStyleCustom()
 - addReceiveCustomMsgListener(callback)
-- removeReceiveCustomMsgListener()
-- addReceiveNotificationListener()
-- removeReceiveNotificationListener()
+- removeReceiveCustomMsgListener(event)
+- addReceiveNotificationListener(callback)
+- removeReceiveNotificationListener(event)
+
+**关于接口的使用请参考demo，下载zip后解压，使用Android Studio打开，修改AppKey，以及gradle相关配置（主要是平台版本号），然后在终端中使用命令react-native run-android运行，JS用法可以参考PushDemo/react-native-android文件夹下的文件**
 
 
 ####iOS Usage
