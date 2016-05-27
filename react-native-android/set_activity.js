@@ -1,16 +1,18 @@
 'use strict'
 
-import React from 'react-native';
-var {
-	Component,
+import React from 'react';
+import ReactNative from 'react-native';
+const {
 	Text,
 	View,
 	TextInput,
 	TouchableHighlight,
-	NativeModules
-} = React;
-var PushHelper = NativeModules.PushHelper;
-export default class SetActivity extends Component {
+	NativeModules,
+	StyleSheet
+} = ReactNative;
+import JPushModule from 'jpush-react-native';
+
+export default class SetActivity extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -28,22 +30,33 @@ export default class SetActivity extends Component {
 
 	setTag() {
 		if (this.state.tag !== undefined) {
-			PushHelper.setTag(this.state.tag);
-		};
+			/*
+			* 请注意这个接口要传一个数组过去，这里只是个简单的示范
+			*/
+			JPushModule.setTags(["VIP", "NOTVIP"], () => {
+				console.log("Set tag succeed");
+			}, () => {
+				console.log("Set tag failed");
+			});
+		}
 	}
 
 	setAlias() {
 		if (this.state.alias !== undefined) {
-			PushHelper.setAlias(this.state.alias);
-		};
+			JPushModule.setAlias(this.state.alias, () => {
+				console.log("Set alias succeed");
+			}, () => {
+				console.log("Set alias failed");
+			});
+		}
 	}
 
 	setBaseStyle() {
-		PushHelper.setStyleBasic();
+		JPushModule.setStyleBasic();
 	}
 
 	setCustomStyle() {
-		PushHelper.setStyleCustom();
+		JPushModule.setStyleCustom();
 	}
 
 	render() {
@@ -124,7 +137,7 @@ export default class SetActivity extends Component {
 	}
 }
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
@@ -194,5 +207,3 @@ var styles = React.StyleSheet.create({
   		padding: 10
   	}
 });
-
-module.exports = SetActivity

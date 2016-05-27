@@ -1,45 +1,26 @@
-'use strict';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ */
 
-import React from 'react-native';
+import React from 'react';
+import ReactNative from 'react-native';
 import PushActivity from './push_activity';
 import SetActivity from './set_activity';
-var {
+
+const {
+  AppRegistry,
   BackAndroid,
-  Component,
-  Text,
-  TextInput,
-  View,
   Navigator,
-} = React;
+
+} = ReactNative;
+import JPushModule from 'jpush-react-native';
 
 var navigator;
-class PushDemoApp extends Component {
+class PushDemoApp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.renderScene = this.renderScene.bind(this);
-  }
-
-  configureScene(route) {
-    return Navigator.SceneConfigs.FadeAndroid;
-  }
-
-  renderScene(router, navigator) {
-    var Component = null;
-    this.navigator = navigator;
-    switch(router.name) {
-      case "pushActivity":
-        Component = PushActivity;
-        break;
-      case "setActivity":
-        Component = SetActivity;
-        break;
-      case "webActivity":
-        Component = WebActivity;
-        break;
-    }
-
-    return <Component navigator = { navigator } />
   }
 
   componentDidMount() {
@@ -57,8 +38,29 @@ class PushDemoApp extends Component {
     BackAndroid.removeEventListener('hardwareBackPress');
   }
 
-    render() {
-      return (
+  configureScene(route) {
+    return Navigator.SceneConfigs.FadeAndroid;
+  }
+
+  renderScene(router, navigator) {
+    var Component = null;
+    this.navigator = navigator;
+    switch(router.name) {
+      case "pushActivity":
+        Component = PushActivity;
+        break;
+      case "setActivity":
+        Component = SetActivity;
+        break;
+    }
+
+    return <Component navigator = { navigator } />
+  }
+
+  
+
+  render() {
+    return (
           <Navigator
               initialRoute = { {name: 'pushActivity' }}
               configureScene = { this.configureScene }
@@ -67,4 +69,4 @@ class PushDemoApp extends Component {
     }
 }
 
-React.AppRegistry.registerComponent('PushDemoApp', () => PushDemoApp);
+AppRegistry.registerComponent('PushDemoApp', () => PushDemoApp);

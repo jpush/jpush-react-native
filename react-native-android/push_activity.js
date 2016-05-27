@@ -1,9 +1,9 @@
 'use strict';
 
-import React from 'react-native';
+import React from 'react';
+import ReactNative from 'react-native';
 
-var {
-  Component,
+const {
   Text,
   View,
   TextInput,
@@ -12,13 +12,14 @@ var {
   requireNativeComponent,
   NativeModules,
   ScrollView,
+  StyleSheet,
   DeviceEventEmitter
-} = React;
+} = ReactNative;
 
-var ToastAndroid = NativeModules.ToastAndroid;
-var PushHelper = NativeModules.PushHelper;
-var JSHelper = NativeModules.JSHelper;
-export default class PushActivity  extends Component {
+import JPushModule from 'jpush-react-native';
+const receiveCustomMsgEvent = "receivePushMsg";
+const receiveNotificationEvent = "receiveNotification";
+export default class PushActivity  extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,13 +31,15 @@ export default class PushActivity  extends Component {
       package: 'PackageName',
       deviceId: 'DeviceId',
       version: 'Version',
-      pushMsg: 'PushMessage'
+      pushMsg: 'PushMessage',
+      registrationId: 'registrationId'
     }
 
     this.jumpSetActivity = this.jumpSetActivity.bind(this);
     this.onInitPress = this.onInitPress.bind(this);
     this.onStopPress = this.onStopPress.bind(this);
     this.onResumePress = this.onResumePress.bind(this);
+    this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this);
   }
     
   jumpSetActivity() {
@@ -44,53 +47,51 @@ export default class PushActivity  extends Component {
   }
 
   onInitPress() {
-    PushHelper.init( (success) => {
-      ToastAndroid.show(success, ToastAndroid.SHORT);
-    }, (error) => {
-      ToastAndroid.show(error, ToastAndroid.SHORT);
+      JPushModule.initPush();
+  }
+
+  onStopPress() {
+    JPushModule.stopPush();
+    console.log("Stop push press");
+  }
+
+  onResumePress() {
+    JPushModule.resumePush();
+    console.log("Resume push press");
+  }
+
+  onGetRegistrationIdPress() {
+    JPushModule.getRegistrationID((registrationId) => {
+      this.setState({registrationId: registrationId});
     });
   }
 
-    onStopPress() {
-      PushHelper.stopPush((success) => {
-        ToastAndroid.show(success, ToastAndroid.SHORT);
-      }, (error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
-      });
-    }
-
-    onResumePress() {
-      PushHelper.resumePush((success) => {
-        ToastAndroid.show(success, ToastAndroid.SHORT);
-      }, (error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
-      });
-    }
-
-    componentWillMount() {
-      JSHelper.initModule(
-        (map) => {
-          this.setState({
+  componentWillMount() {
+    JPushModule.getInfo((map) => {
+      this.setState({
             appkey: map.myAppKey,
             imei: map.myImei,
             package: map.myPackageName,
             deviceId: map.myDeviceId,
             version: map.myVersion
-          })
-        }
-      );
-      DeviceEventEmitter.addListener('receivePushMsg', (data) => {
-        this.setState({ pushMsg: data });
       });
-    }
+    });
+
+  }
 
     componentDidMount() {
-          
-    }
+    JPushModule.addReceiveCustomMsgListener((message) => {
+      this.setState({pushMsg: message});
+    });
+    JPushModule.addReceiveNotificationListener((message) => {
+      console.log("receive notification: " + message);
+    })
+  }
 
-    componentWillUnmount() {
-      DeviceEventEmitter.removeAllListeners();
-    }
+  componentWillUnmount() {
+    JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
+    JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
+  }
 
     render() {
         return (
@@ -147,8 +148,20 @@ export default class PushActivity  extends Component {
                   RESUMEPUSH
                 </Text>
             </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor = '#f5a402'
+              activeOpacity = { 0.5 }
+              style = { styles.btnStyle }
+              onPress = { this.onGetRegistrationIdPress }>
+                <Text style = { styles.btnTextStyle }> 
+                  GET REGISTRATIONID
+                </Text>
+            </TouchableHighlight>
             <Text style = { styles.textStyle }>
               { this.state.pushMsg }
+            </Text>
+            <Text style = {styles.textStyle} >
+              { this.state.registrationId }
             </Text>
             </ScrollView>
 
@@ -156,7 +169,7 @@ export default class PushActivity  extends Component {
     }
 }
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   parent: {
     padding: 15,
     backgroundColor: '#f0f1f3'
