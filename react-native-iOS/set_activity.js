@@ -9,7 +9,8 @@ var {
 	TouchableHighlight,
 	NativeModules
 } = React;
-var PushHelper = NativeModules.JPushHelper;
+import JPushModule from 'jpush-react-native';
+
 var SetActivity = React.createClass({
 	getInitialState() {
 		return {
@@ -19,7 +20,7 @@ var SetActivity = React.createClass({
 	},
 	setTag() {
 		if (this.state.tag !== undefined) {
-			PushHelper.setTags(this.state.tag, null, (resultCode) => {
+			JPushModule.setTags([this.state.tag], null, (resultCode) => {
 				if (resultCode == 0) {
 					Alert.alert('成功', 'tags 成功',[{text: 'OK'}])
 				}
@@ -35,12 +36,7 @@ var SetActivity = React.createClass({
 			});
 		};
 	},
-	setBaseStyle() {
-		// PushHelper.setStyleBasic();
-	},
-	setCustomStyle() {
-		// PushHelper.setStyleCustom();
-	},
+
 	render() {
 		return (
 				<View style = { styles.container }>

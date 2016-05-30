@@ -15,8 +15,8 @@ var {
   DeviceEventEmitter,
   NativeAppEventEmitter
 } = React;
+import JPushModule from 'jpush-react-native';
 
-var PushHelper = NativeModules.JPushHelper;
 var LocalPushActivity = React.createClass({
 	getDefaultProps: function () {
     return {
@@ -41,7 +41,8 @@ var LocalPushActivity = React.createClass({
   },
 
   	addLocationNotification() {
-  		PushHelper.setLocalNotification(this.state.date, this.state.textContain, 5, 'dfsa', 'dfaas', null, null);
+  		JPushModule.setLocalNotification(this.state.date, this.state.textContain, 5, 'dfsa', 'dfaas', null, null);
+
   	},
 
     render() {

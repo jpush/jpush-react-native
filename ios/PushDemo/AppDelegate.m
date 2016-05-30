@@ -8,9 +8,8 @@
  */
 
 #import "AppDelegate.h"
-#import "JPUSHService.h"
+#import <RCTJPushModule.h>
 #import "RCTRootView.h"
-#import "JPushHelper.h"
 #import "RCTEventDispatcher.h"
 #import "RCTBridge.h"
 
@@ -41,7 +40,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://127.0.0.1:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.70.115:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
@@ -52,6 +51,8 @@
   
 //   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
+  [self registerNotificationOptions:launchOptions];
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"PushDemo"
                                                initialProperties:nil
@@ -62,7 +63,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  NSLog(@"huangmin   666");
+  
   return YES;
 }
 
@@ -93,8 +94,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
   [JPUSHService registerDeviceToken:deviceToken];
   NSString *eventName = deviceToken.description;
-  JPushHelper *helper = [[JPushHelper alloc] init];
-  [helper didRegistRemoteNotification: eventName];
+
   NSLog(@"[JPUSHService registrationID]   %@",[JPUSHService registrationID]);
 }
 

@@ -14,19 +14,17 @@ var {
   DeviceEventEmitter,
   NativeAppEventEmitter
 } = React;
+import JPushModule from 'jpush-react-native';
 
-var PushHelper = NativeModules.JPushHelper;
 var PushActivity = React.createClass({
     
     getInitialState: function() {
       return {
         bg: '#ffffff',
-        appkey: '',
+        regid: '',
         connectStatus: '',
         package: 'PackageName',
         deviceId: 'DeviceId',
-        version: 'Version',
-        pushToken: 'PushToken'
      };
     },
     jumpSetActivity() {
@@ -35,10 +33,10 @@ var PushActivity = React.createClass({
     onInitPress() {
 
       console.log('on click init push ');
-      PushHelper.setupPush('dssdf');
-
-      PushHelper.getAppkeyWithcallback((theKey) => {
-      this.setState({appkey: theKey});
+      // PushHelper.setupPush('dssdf');
+      JPushModule.getRegistrationID((registrationid) => {
+        console.log(registrationid);
+        this.setState({regid: registrationid});
       });
     },
     onSetuplocalNotificationPress() {
@@ -46,9 +44,6 @@ var PushActivity = React.createClass({
     },
     componentWillMount() {
       
-        var subscription = NativeAppEventEmitter.addListener('didRegisterToken', (token) => {
-        this.setState({ pushToken: token });
-        });
         NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
         this.setState({ connectStatus: '已连接' });
         });
@@ -75,7 +70,7 @@ var PushActivity = React.createClass({
             <ScrollView style = { styles.parent }>
             
             <Text style = { styles.textStyle }>
-              Appkey: { this.state.appkey }
+              RegistrationID: { this.state.regid }
             </Text>
             <Text style = { styles.textStyle }>
               链接状态： { this.state.connectStatus }
@@ -86,9 +81,6 @@ var PushActivity = React.createClass({
             <Text style = { styles.textStyle }>
               { this.state.deviceId }
             </Text> 
-            <Text style = { styles.textStyle }>
-              { this.state.version }
-            </Text>
             <TouchableHighlight
               underlayColor = '#0866d9'
               activeOpacity = { 0.5 }
@@ -116,10 +108,6 @@ var PushActivity = React.createClass({
                   local notification
                 </Text>
             </TouchableHighlight>
-
-            <Text style = { styles.textStyle }>
-              token: { this.state.pushToken }
-            </Text>
             </ScrollView>
 
           )
