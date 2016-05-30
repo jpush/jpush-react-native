@@ -20,19 +20,23 @@ var SetActivity = React.createClass({
 	},
 	setTag() {
 		if (this.state.tag !== undefined) {
-			JPushModule.setTags([this.state.tag], null, (resultCode) => {
-				if (resultCode == 0) {
-					Alert.alert('成功', 'tags 成功',[{text: 'OK'}])
-				}
+			JPushModule.setTags([this.state.tag], () => {
+				// Alert.alert('成功', 'tags 成功',[{text: 'OK'}])；
+				console.log('success set tag');
+			}, () => {
+				// Alert.alert('失败','设置alias 失败',[{text:'fail'}]);
+				console.log('fail set tag');
 			});
 		};
 	},
 	setAlias() {
 		if (this.state.alias !== undefined) {
-			PushHelper.setTags(null, this.state.alias, (resultCode) => {
-				if (resultCode == 0) {
-					Alert.alert('成功', '设置alias 成功',[{text: 'OK'}])
-				}
+			JPushModule.setAlias(this.state.alias, () => {
+				// Alert.alert('成功', '设置alias 成功',[{text: 'OK'}]);
+				console.log('success set alias');
+			},() => {
+				// Alert.alert('失败','设置alias 失败',[{text:'fail'}]);
+				console.log('fail set alias');
 			});
 		};
 	},

@@ -711,7 +711,7 @@
 					"$(PROJECT_DIR)/JPushReactBridge",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = huminios.jpushTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.huminios.jpushTest;
 				PRODUCT_NAME = PushDemo;
 			};
 			name = Debug;
@@ -737,7 +737,7 @@
 					"$(PROJECT_DIR)/JPushReactBridge",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = huminios.jpushTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.huminios.jpushTest;
 				PRODUCT_NAME = PushDemo;
 			};
 			name = Release;
