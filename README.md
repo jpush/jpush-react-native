@@ -143,6 +143,43 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [JPUSHService registerDeviceToken:deviceToken];
 }
 ```
+- 为了在收到推送点击进入应用能够获取该条推送内容需要在 AppDelegate.m didReceiveRemoteNotification 方法里面添加 [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo] 方法，注意：这里需要在两个方法里面加一个是iOS7以前的一个是iOS7即以后的，如果AppDelegate.m 没有这个两个方法则直接复制这两个方法；如下所示
+```
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  // 取得 APNs 标准信息内容
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+}
+//iOS 7 Remote Notification
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:  (NSDictionary *)userInfo fetchCompletionHandler:(void (^)   (UIBackgroundFetchResult))completionHandler {
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+}
+```
+然后在 js 代码里面通过如下回调获取通知
+```
+var { NativeAppEventEmitter } = require('react-native');
+
+var subscription = NativeAppEventEmitter.addListener(
+  'ReceiveNotification',
+  (notification) => console.log(notification)
+);
+...
+// 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
+subscription.remove();
+```
+- JPush 提供应用内消息，JPush REST API 可以指定推送通知为应用内消息。我们可以通过如下代码获取这个应用内消息
+```
+var { NativeAppEventEmitter } = require('react-native');
+
+var subscription = NativeAppEventEmitter.addListener(
+  'networkDidReceiveMessage',
+  (message) => console.log(message)
+);
+...
+// 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
+subscription.remove();
+```
 
 ###关于更新React Native
 
