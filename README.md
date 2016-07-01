@@ -168,7 +168,7 @@ var subscription = NativeAppEventEmitter.addListener(
 // 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
 subscription.remove();
 ```
-- JPush 提供应用内消息，JPush REST API 可以指定推送通知为应用内消息。我们可以通过如下代码获取这个应用内消息
+- JPush 提供应用内消息，用户可以发送应用内消息给应用，如果手机应用在前台就会收到这个消息，否则存为离线消息。我们可以通过如下代码获取这个应用内消息
 ```
 var { NativeAppEventEmitter } = require('react-native');
 
