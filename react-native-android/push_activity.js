@@ -13,7 +13,7 @@ const {
   NativeModules,
   ScrollView,
   StyleSheet,
-  DeviceEventEmitter
+  DeviceEventEmitter,
 } = ReactNative;
 
 import JPushModule from 'jpush-react-native';
@@ -85,6 +85,9 @@ export default class PushActivity  extends React.Component {
     });
     JPushModule.addReceiveNotificationListener((message) => {
       console.log("receive notification: " + message);
+    });
+    JPushModule.addReceiveOpenNotificationListener((map) => {
+      console.log("Opening notification!");
     })
   }
 
