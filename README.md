@@ -100,6 +100,13 @@ JPushModule.getInfo((map) => {
 - addReceiveNotificationListener(callback)
 - removeReceiveNotificationListener(event)
 - addOpenNotificationListener(callback)
+```
+JPushModule.addReceiveOpenNotificationListener((map) => {
+      console.log("Opening notification!");
+      //自定义点击通知后打开某个 Activity，比如跳转到 pushActivity
+      this.props.navigator.jumpTo({name: "pushActivity"});
+    });
+```
 - removeOpenNotificationListener(event)
 
 **关于接口的使用请参考demo，下载zip后解压，使用Android Studio打开，修改AppKey，以及gradle相关配置（主要是平台版本号），然后在终端中使用命令react-native run-android运行，JS用法可以参考PushDemo/react-native-android文件夹下的文件**
