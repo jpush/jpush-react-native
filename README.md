@@ -1,5 +1,7 @@
 # JPush React Native Plugin
 
+> 本插件是极光官方开发与维护。另有一个插件 [react-native-jpush](https://github.com/reactnativecn/react-native-jpush) 由 [React Native 中文网]开发维护。
+
 ###Android Usage
 
 - 使用命令行在你的React Native Project目录中安装：
