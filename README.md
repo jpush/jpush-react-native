@@ -101,6 +101,14 @@ JPushModule.getInfo((map) => {
 - addReceiveCustomMsgListener(callback)
 - removeReceiveCustomMsgListener(event)
 - addReceiveNotificationListener(callback)
+```
+JPushModule.addReceiveNotificationListener((map) => {
+      console.log("alertContent: " + map.alertContent);
+      console.log("extras: " + map.extras);
+      // var extra = JSON.parse(map.extras);
+      // console.log(extra.key + ": " + extra.value);
+});
+```
 - removeReceiveNotificationListener(event)
 - addOpenNotificationListener(callback)
 ```
