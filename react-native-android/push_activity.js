@@ -32,8 +32,8 @@ export default class PushActivity  extends React.Component {
       deviceId: 'DeviceId',
       version: 'Version',
       pushMsg: 'PushMessage',
-      registrationId: 'registrationId'
-    }
+      registrationId: 'registrationId',
+    };
 
     this.jumpSetActivity = this.jumpSetActivity.bind(this);
     this.onInitPress = this.onInitPress.bind(this);
@@ -79,15 +79,19 @@ export default class PushActivity  extends React.Component {
 
   }
 
-    componentDidMount() {
+  componentDidMount() {
     JPushModule.addReceiveCustomMsgListener((message) => {
       this.setState({pushMsg: message});
     });
-    JPushModule.addReceiveNotificationListener((message) => {
-      console.log("receive notification: " + message);
+    JPushModule.addReceiveNotificationListener((map) => {
+      console.log("alertContent: " + map.alertContent);
+      console.log("extras: " + map.extras);
+      // var extra = JSON.parse(map.extras);
+      // console.log(extra.key + ": " + extra.value);
     });
     JPushModule.addReceiveOpenNotificationListener((map) => {
       console.log("Opening notification!");
+      this.props.navigator.push({name: "pushActivity"});
     })
   }
 

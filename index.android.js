@@ -5,8 +5,8 @@
 
 import React from 'react';
 import ReactNative from 'react-native';
-import PushActivity from './push_activity';
-import SetActivity from './set_activity';
+import PushActivity from './react-native-android/push_activity';
+import SetActivity from './react-native-android/set_activity';
 
 const {
   AppRegistry,
