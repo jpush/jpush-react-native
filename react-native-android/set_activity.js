@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactNative from 'react-native';
 const {
+	BackAndroid,
 	Text,
 	View,
 	TextInput,
@@ -26,6 +27,17 @@ export default class SetActivity extends React.Component {
 		this.setAlias = this.setAlias.bind(this);
 		this.setBaseStyle = this.setBaseStyle.bind(this);
 		this.setCustomStyle = this.setCustomStyle.bind(this);
+	}
+
+	componentDidMount() {
+		BackAndroid.addEventListener('hardwareBackPress', () => {
+			const navigator = this.props.navigator;
+			if (navigator.getCurrentRoutes().length > 1) {
+				navigator.pop();
+				return true;
+			}
+			return false;
+		});
 	}
 
 	setTag() {

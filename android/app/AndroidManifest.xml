@@ -2,14 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pushdemo">
 
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="22"
+        tools:STRICT="com.facebook.react"/>
+
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-
-    <uses-sdk tools:STRICT="com.facebook.react" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
-
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
