@@ -15,9 +15,9 @@ rnpm link jpush-react-native
 
 - 使用Android Studio import你的React Native应用（选择你的React Native应用所在目录下的android文件夹即可）
 
-- 修改android项目下的setting.gradle配置：
+- 修改android项目下的settings.gradle配置：
 
-> setting.gradle
+> settings.gradle
 
 ```
 include ':app', ':jpush-react-native'
@@ -30,6 +30,13 @@ project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '..
 > your react native project/android/app/build.gradle
 
 ```
+android {
+    defaultConfig {
+        applicationId "yourApplicationId"
+        ...
+    }
+}
+...
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile project(':jpush-react-native')
