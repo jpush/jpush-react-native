@@ -91,9 +91,9 @@
 
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+[JPUSHService registerDeviceToken:deviceToken];
 
-  [JPUSHService registerDeviceToken:deviceToken];
-  NSString *eventName = deviceToken.description;
+    NSString *eventName = deviceToken.description;
 
   NSLog(@"[JPUSHService registrationID]   %@",[JPUSHService registrationID]);
 }
