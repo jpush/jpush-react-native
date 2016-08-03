@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "jpush-react-native": "^0.1.1",
+    "jpush-react-native": "^1.0.1",
     "react-native": "^0.19.0"
   }
 }

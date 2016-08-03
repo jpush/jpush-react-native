@@ -111,8 +111,8 @@
     <orderEntry type="library" exported="" name="drawee-0.11.0" level="project" />
     <orderEntry type="library" exported="" name="jsr305-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.2.3" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-urlconnection-3.2.0" level="project" />
     <orderEntry type="library" exported="" name="bolts-tasks-1.4.0" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-urlconnection-3.2.0" level="project" />
     <orderEntry type="library" exported="" name="okhttp-ws-3.2.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="android-jsc-r174650" level="project" />
