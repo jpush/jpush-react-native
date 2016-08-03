@@ -3,15 +3,25 @@
 > 本插件由极光官方开发，以及持续、及时更新。
 > 另有一个插件 [react-native-jpush](https://github.com/reactnativecn/react-native-jpush) 由 [React Native 中文网](http://reactnative.cn/)开发维护。
 
-###Android Usage
-
-- 使用命令行在你的React Native Project目录中安装：
-
+##自动配置（以下命令均在你的 React Native Project 目录下运行）
 ```
 npm install jpush-react-native --save
 
 rnpm link jpush-react-native
+
+npm run configureJPush <yourAppKey>
+
+举个例子:
+npm run configureJPush d4ee2375846bc30fa51334f5
 ```
+
+## 手动配置
+```
+npm install jpush-react-native --save
+rnpm link jpush-react-native
+```
+
+###Android
 
 - 使用Android Studio import你的React Native应用（选择你的React Native应用所在目录下的android文件夹即可）
 
@@ -54,7 +64,9 @@ dependencies {
 
 ![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin2.png)
 
-将此处的yourAppKey替换成你在官网上申请的应用的AppKey
+将此处的yourAppKey替换成你在官网上申请的应用的AppKey。到此为止，配置完成。
+
+### 使用
 
 - 打开app下的MainActivity，在ReactInstanceManager的build方法中加入JPushPackage：
 
