@@ -145,6 +145,13 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
 ####iOS Usage
 - 打开iOS工程，在rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
 - 在iOS工程target的Build Phases->Link Binary with Libraries中加入libz.tbd、CoreTelephony.framework、Security.framework
+- 在AppDelegate.h 文件最上面导入如下头文件
+```
+#import "JPUSHService.h"
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+```
 - 在AppDelegate.h 文件中 填写如下代码，这里的的appkey、channel、和isProduction填写自己的
 ```
 static NSString *appKey = @"";     //填写appkey
