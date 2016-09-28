@@ -199,6 +199,20 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
 }
+
+// iOS 10 需要添加如下代码
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler: (void (^)())completionHandler {
+  // Required
+  NSDictionary * userInfo = response.notification.request.content.userInfo;
+  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    [JPUSHService handleRemoteNotification:userInfo];
+  }
+  else {
+    // 本地通知
+  }
+  completionHandler();  // 系统要求执行这个方法
+}
 ```
 然后在 js 代码里面通过如下回调获取通知
 ```
