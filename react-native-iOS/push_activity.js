@@ -1,8 +1,22 @@
 'use strict';
 
-var React = require('react-native');
+// var React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
+// var {
+//   Text,
+//   View,
+//   TextInput,
+//   TouchableHighlight,
+//   PropTypes,
+//   requireNativeComponent,
+//   NativeModules,
+//   ScrollView,
+//   DeviceEventEmitter,
+//   NativeAppEventEmitter
+// } = React;
 
-var {
+const {
   Text,
   View,
   TextInput,
@@ -12,8 +26,10 @@ var {
   NativeModules,
   ScrollView,
   DeviceEventEmitter,
-  NativeAppEventEmitter
-} = React;
+  NativeAppEventEmitter,
+  StyleSheet
+} = ReactNative;
+
 import JPushModule from 'jpush-react-native';
 
 var PushActivity = React.createClass({
@@ -114,7 +130,7 @@ var PushActivity = React.createClass({
     }
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   parent: {
     padding: 15,
     backgroundColor: '#f0f1f3'

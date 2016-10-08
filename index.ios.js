@@ -1,19 +1,32 @@
 'use strict';
 
-var React = require('react-native');
+// var React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
 // var ToastAndroid = require('ToastAndroid');
 var PushActivity = require('./react-native-ios/push_activity.js');
 var SetActivity = require('./react-native-ios/set_activity');
 var LocalPushActivity = require('./react-native-ios/localPush_activity');
 // var WebActivity = require('./react-native-iOS/web_activity');
+// var {
+//   Text,
+//   TextInput,
+//   View,
+//   Navigator,
+//   BackAndroid,
+//   NativeModules
+// } = React;
+
 var {
   Text,
   TextInput,
   View,
   Navigator,
   BackAndroid,
-  NativeModules
-} = React;
+  NativeModules,
+  StyleSheet,
+  AppRegistry
+} = ReactNative;
 
 var PushDemo = React.createClass({
 
@@ -49,7 +62,7 @@ var PushDemo = React.createClass({
 });
 
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
 
     // For the container View
     parent: {
@@ -85,4 +98,4 @@ var styles = React.StyleSheet.create({
   }
 });
 
-React.AppRegistry.registerComponent('PushDemo', () => PushDemo);
+AppRegistry.registerComponent('PushDemo', () => PushDemo);

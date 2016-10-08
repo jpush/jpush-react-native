@@ -9,13 +9,8 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString *appKey = @"a1703c14b186a68a66ef86c1";
-static NSString *channel = @"";
-static BOOL isProduction = false;
-
-@class RCTBridge;
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
+
 @end

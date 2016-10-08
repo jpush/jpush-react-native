@@ -1,8 +1,10 @@
 'use strict'
 
-var React = require('react-native');
+// var React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
 var PushActivity = require('./push_activity');
-var {
+const {
   Text,
   View,
   TextInput,
@@ -13,8 +15,9 @@ var {
   ScrollView,
   DatePickerIOS,
   DeviceEventEmitter,
-  NativeAppEventEmitter
-} = React;
+  NativeAppEventEmitter,
+  StyleSheet
+} = ReactNative;
 import JPushModule from 'jpush-react-native';
 
 var LocalPushActivity = React.createClass({
@@ -96,7 +99,7 @@ var LocalPushActivity = React.createClass({
 
 })
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
 	parent: {
 	padding: 15,
 	backgroundColor: '#f0f1f3'

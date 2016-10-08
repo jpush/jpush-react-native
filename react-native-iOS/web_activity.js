@@ -1,12 +1,19 @@
 'use strict'
 
-var React = require('react-native');
+// var React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
 var PushActivity = require('./push_activity');
-var {
+// var {
+//   View,
+//   TouchableHighlight,
+//   Text
+// } = React;
+const {
   View,
   TouchableHighlight,
   Text
-} = React;
+} = ReactNative;
 
 var WebActivity = React.createClass({
   onPressBack() {

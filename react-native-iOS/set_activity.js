@@ -1,14 +1,27 @@
 'use strict'
 
-var React = require('react-native');
-var {
-	Text,
-	View,
-	Alert,
-	TextInput,
-	TouchableHighlight,
-	NativeModules
-} = React;
+// var React = require('react-native');
+// var {
+// 	Text,
+// 	View,
+// 	Alert,
+// 	TextInput,
+// 	TouchableHighlight,
+// 	NativeModules
+// } = React;
+// var React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
+const {
+    Text,
+    View,
+    Alert,
+    TextInput,
+    TouchableHighlight,
+    NativeModules,
+    StyleSheet
+} = ReactNative;
+
 import JPushModule from 'jpush-react-native';
 
 var SetActivity = React.createClass({
@@ -94,7 +107,7 @@ var SetActivity = React.createClass({
 	},
 });
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
