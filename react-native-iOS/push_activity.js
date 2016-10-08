@@ -1,20 +1,7 @@
 'use strict';
 
-// var React = require('react-native');
 import React from 'react';
 import ReactNative from 'react-native';
-// var {
-//   Text,
-//   View,
-//   TextInput,
-//   TouchableHighlight,
-//   PropTypes,
-//   requireNativeComponent,
-//   NativeModules,
-//   ScrollView,
-//   DeviceEventEmitter,
-//   NativeAppEventEmitter
-// } = React;
 
 const {
   Text,

@@ -1,8 +1,8 @@
 'use strict'
 
-// var React = require('react-native');
 import React from 'react';
 import ReactNative from 'react-native';
+
 var PushActivity = require('./push_activity');
 const {
   Text,
