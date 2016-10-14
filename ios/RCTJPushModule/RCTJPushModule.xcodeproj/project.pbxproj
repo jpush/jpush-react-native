@@ -31,7 +31,6 @@
 		628098181CEDC453000D3A81 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		628098191CEDC453000D3A81 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
 		629CA5141D93DBE800A1BA16 /* jpush-ios-2.1.9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.9.a"; sourceTree = "<group>"; };
-		629CA5161D93DBF800A1BA16 /* PushTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushTest.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +64,6 @@
 		6280980C1CEDC407000D3A81 /* RCTJPushModule */ = {
 			isa = PBXGroup;
 			children = (
-				629CA5161D93DBF800A1BA16 /* PushTest.entitlements */,
 				629CA5141D93DBE800A1BA16 /* jpush-ios-2.1.9.a */,
 				628098171CEDC453000D3A81 /* JPUSHService.h */,
 				628098181CEDC453000D3A81 /* RCTJPushModule.h */,
