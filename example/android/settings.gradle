@@ -1,0 +1,4 @@
+rootProject.name = 'PushDemo'
+
+include ':app', ':jpush-react-native'
+project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')

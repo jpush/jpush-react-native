@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.jpush.android.ui.FullScreenView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actionbarLayoutId"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rlRichpushTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="40.0dp"
+        android:background="#29313a">
+
+        <ImageButton
+            android:id="@+id/imgRichpushBtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/richpush_btn_selector" />
+
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgRichpushBtnBack"
+            android:clickable="false"
+            android:src="@drawable/ic_richpush_actionbar_divider" />
+
+        <TextView
+            android:id="@+id/tvRichpushTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@id/imgView"
+            android:clickable="false"
+            android:text=" "
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fullWebView"
+        android:background="#000000" />
+
+</cn.jpush.android.ui.FullScreenView>

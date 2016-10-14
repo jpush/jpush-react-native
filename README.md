@@ -1,7 +1,6 @@
 # JPush React Native Plugin
 
-> 本插件由极光官方开发，以及持续、及时更新。
-> 另有一个插件 [react-native-jpush](https://github.com/reactnativecn/react-native-jpush) 由 [React Native 中文网](http://reactnative.cn/)开发维护。
+
 
 ##自动配置（以下命令均在你的 React Native Project 目录下运行）
 ```
@@ -145,13 +144,6 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
 ####iOS Usage
 - 打开iOS工程，在rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
 - 在iOS工程target的Build Phases->Link Binary with Libraries中加入libz.tbd、CoreTelephony.framework、Security.framework
-- 在AppDelegate.h 文件最上面导入如下头文件
-```
-#import "JPUSHService.h"
-#ifdef NSFoundationVersionNumber_iOS_9_x_Max
-#import <UserNotifications/UserNotifications.h>
-#endif
-```
 - 在AppDelegate.h 文件中 填写如下代码，这里的的appkey、channel、和isProduction填写自己的
 ```
 static NSString *appKey = @"";     //填写appkey
@@ -198,20 +190,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:  (NSDictionary *)userInfo fetchCompletionHandler:(void (^)   (UIBackgroundFetchResult))completionHandler {
   
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
-}
-
-// iOS 10 需要添加如下代码
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler: (void (^)())completionHandler {
-  // Required
-  NSDictionary * userInfo = response.notification.request.content.userInfo;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
-  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    [JPUSHService handleRemoteNotification:userInfo];
-  }
-  else {
-    // 本地通知
-  }
-  completionHandler();  // 系统要求执行这个方法
 }
 ```
 然后在 js 代码里面通过如下回调获取通知

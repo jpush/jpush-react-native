@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="
+    @drawable/jpush_*,
+    @drawable/ic_richpush_*,
+    @drawable/richpush_*,
+    @layout/jpush*,
+    @layout/customer*,
+    @values/jpush* "/>
