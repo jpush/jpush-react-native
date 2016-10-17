@@ -4,9 +4,9 @@
 import React from 'react';
 import ReactNative from 'react-native';
 
-var PushActivity = require('./react-native-ios/push_activity.js');
-var SetActivity = require('./react-native-ios/set_activity');
-var LocalPushActivity = require('./react-native-ios/localPush_activity');
+var PushActivity = require('./react-native-iOS/push_activity.js');
+var SetActivity = require('./react-native-iOS/set_activity');
+var LocalPushActivity = require('./react-native-iOS/localPush_activity');
 
 var {
   Text,
