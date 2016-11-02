@@ -7,7 +7,8 @@ npm install jpush-react-native --save
 
 rnpm link jpush-react-native
 
-//module name 指的是你 Android 项目中的模块名字(不填写的话默认值为 app，会影响到查找 AndroidManifest 问题，则需要手动修改，参考下面的 //AndroidManifest 配置相关说明)
+//module name 指的是你 Android 项目中的模块名字(不填写的话默认值为 app，会影响到查找 AndroidManifest 问题，
+//如果没找到 AndroidManifest，则需要手动修改，参考下面的 AndroidManifest 配置相关说明)
 npm run configureJPush <yourAppKey> <yourModuleName>
 
 举个例子:
