@@ -22,9 +22,9 @@ rnpm link jpush-react-native
 
 ###Android
 
-- 使用Android Studio import你的React Native应用（选择你的React Native应用所在目录下的android文件夹即可）
+- 使用 Android Studio import 你的 React Native 应用（选择你的 React Native 应用所在目录下的 android 文件夹即可）
 
-- 修改android项目下的settings.gradle配置：
+- 修改 android 项目下的 settings.gradle 配置：
 
 > settings.gradle
 
@@ -214,32 +214,12 @@ dependencies {
 ### 使用
 
 ##### RN 0.29.0 以下版本
-- 打开app下的MainActivity，在ReactInstanceManager的build方法中加入JPushPackage：
+- 打开 app 下的 MainActivity，在 ReactInstanceManager 的 build 方法中加入 JPushPackage：
 
 > app/MainActivity.java
 
 ![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin3.png)
 
-- 在JS中import JPushModule，然后即调用相关方法：
-```
-import JPushModule from 'jpush-react-native';
-
-...
-
-componentDidMount() {
-    JPushModule.addReceiveCustomMsgListener((message) => {
-      this.setState({pushMsg: message});
-    });
-    JPushModule.addReceiveNotificationListener((message) => {
-      console.log("receive notification: " + message);
-    })
-  }
-
-  componentWillUnmount() {
-    JPushModule.removeReceiveCustomMsgListener();
-    JPushModule.removeReceiveNotificationListener();
-  }
-```
 
 ##### RN 0.29.0 以上版本
 - 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/src/com/pushdemo/MainApplication.java):
@@ -268,7 +248,29 @@ componentDidMount() {
     };
 ```
 
-关于JPushModule的具体方法可以参考jpush-react-native文件夹下的index.js文件，此处将方法罗列如下：
+- 在 JS 中 import JPushModule，然后即调用相关方法，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/react-native-android/push_activity.js)：
+```
+import JPushModule from 'jpush-react-native';
+
+...
+
+componentDidMount() {
+    JPushModule.addReceiveCustomMsgListener((message) => {
+      this.setState({pushMsg: message});
+    });
+    JPushModule.addReceiveNotificationListener((message) => {
+      console.log("receive notification: " + message);
+    })
+  }
+
+  componentWillUnmount() {
+    JPushModule.removeReceiveCustomMsgListener();
+    JPushModule.removeReceiveNotificationListener();
+  }
+```
+
+
+关于 JPushModule 中的提供调用方法可以参考 jpush-react-native 文件夹下的 index.js 文件，此处将方法罗列如下：
 
 - initPush()
 - getInfo(map)
@@ -312,13 +314,13 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
 ```
 - removeOpenNotificationListener(event)
 
-**关于接口的使用请参考demo，下载zip后解压，使用Android Studio打开，修改AppKey，以及gradle相关配置（主要是平台版本号），然后在终端中使用命令react-native run-android运行，JS用法可以参考PushDemo/react-native-android文件夹下的文件**
+**关于接口的使用请[参考 demo](https://github.com/jpush/jpush-react-native/tree/master/example/react-native-android)，下载 zip 后解压，使用 Android Studio 打开，修改 AndroidManifest， AppKey 以及 gradle 相关配置（主要是平台版本号），然后在终端中使用命令 react-native run-android 运行，JS 用法可以参考 PushDemo/react-native-android 文件夹下的文件**
 
 
 ####iOS Usage
-- 打开iOS工程，在rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
-- 在iOS工程target的Build Phases->Link Binary with Libraries中加入libz.tbd、CoreTelephony.framework、Security.framework
-- 在AppDelegate.h 文件中 填写如下代码，这里的的appkey、channel、和isProduction填写自己的
+- 打开 iOS 工程，在 rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
+- 在 iOS 工程 target 的 Build Phases->Link Binary with Libraries 中加入 libz.tbd、CoreTelephony.framework、Security.framework
+- 在 AppDelegate.h 文件中 填写如下代码，这里的的 appkey、channel、和 isProduction 填写自己的
 ```
 static NSString *appKey = @"";     //填写appkey
 static NSString *channel = @"";    //填写channel   一般为nil
@@ -391,7 +393,7 @@ var subscription = NativeAppEventEmitter.addListener(
 subscription.remove();
 ```
 
-###关于更新React Native
+###关于更新 React Native
 
 **进入当前项目的目录**
 - 在命令行中使用：
@@ -404,7 +406,7 @@ subscription.remove();
 
 > npm info react-native
 
-就可以查看React Native的历史和最新版本
+就可以查看 React Native 的历史和最新版本
 
 - React Native可以直接更新到某个版本：
 
@@ -425,12 +427,12 @@ react-native@0.23.0 requires a peer of react@^0.14.5 but none was installed.
 
 即可。
 
-如果更新后执行react-native run-android不能正确运行，而是出现类似：
+如果更新后执行 react-native run-android 不能正确运行，而是出现类似：
 ```
  Could not find com.facebook.react:react-native:0.23.0.
 ```
 
-错误，或者在Android Studio中直接运行app时报错：
+错误，或者在 Android Studio 中直接运行 app 时报错：
 ```
 Android Studio failed to resolve com.facebook.react:react-native:0.23.0
 ```
@@ -438,10 +440,10 @@ Android Studio failed to resolve com.facebook.react:react-native:0.23.0
 那么可以按照下列命令修复，首先在命令行中执行：
 > npm i
 
-执行完毕且不报错后，执行下面的命令，**注意，在执行命令之后，某些文件可能会产生冲突，请确保你的本地文件记录可以恢复**（在Android Studio中可以查看历史记录来恢复文件）
+执行完毕且不报错后，执行下面的命令，**注意，在执行命令之后，某些文件可能会产生冲突，请确保你的本地文件记录可以恢复**（在 Android Studio 中可以查看历史记录来恢复文件）
 > react-native upgrade
 
-执行上面的命令可能会提示你是否覆盖文件。在解决冲突之后重新运行App即可。
+执行上面的命令可能会提示你是否覆盖文件。在解决冲突之后重新运行 App 即可。
 
 ---
 贡献者列表
