@@ -92,9 +92,10 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
+        manifestPlaceholders = [
+                JPUSH_APPKEY: "d4ee2375846bc30fa51334f5",	//在此替换你的APPKey
+                APP_CHANNEL: "developer-default"		//应用渠道号
+        ]
     }
     splits {
         abi {
