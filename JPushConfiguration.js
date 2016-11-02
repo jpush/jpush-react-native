@@ -162,6 +162,14 @@ getAllfiles("./ios",function (f, s) {
   }
 });
 
+getAndroidManifest("./android/" + moduleName, function(f, s) {
+	var isAndroidManifest = f.match(/AndroidManifest\.xml/);
+	if (isAndroidManifest != null) {
+		console.log("find AndroidManifest in " + moduleName);
+		configureAndroidManifest(f);
+	};
+});
+
 getConfigureFiles("./android", function (f, s) {
 	//找到settings.gradle
 	var isSettingGradle = f.match(/settings\.gradle/);
@@ -169,12 +177,6 @@ getConfigureFiles("./android", function (f, s) {
 		console.log("find settings.gradle in android project " + f);
 		configureSetting(f);
 	}
-
-	var isAndroidManifest = f.match(/moduleName/AndroidManifest\.xml/);
-	if (isAndroidManifest != null) {
-		console.log("find AndroidManifest in " + moduleName);
-		configureAndroidManifest(f);
-	};
 
 	//找到project下的build.gradle
 	var isProjectGradle = f.match(/.*\/build\.gradle/);
@@ -232,6 +234,14 @@ function getGradleFile(dir, findOne) {
 
 }
 
+function getAndroidManifest(dir, findOne) {
+	if (typeof findOne !== 'function') {
+		throw new TypeError('The argument "findOne" must be a function');
+	}
+
+	eachFileSync(spath.resolve(dir), findOne);
+}
+
 function getConfigureFiles(dir, findOne) {
 	if (typeof findOne !== 'function') {
 		throw new TypeError('The argument "findOne" must be a function');
@@ -253,8 +263,6 @@ function configureAndroidManifest(path) {
 		if (searchKey != null) {
 			rf = rf.replace(searchKey[0], searchKey[0] + "\n\n\<meta-data android\:name=\"JPUSH_CHANNEL\" android\:value=\"\$\{APP_CHANNEL\}\"\/\>\n\<meta-data android\:name=\"JPUSH_APPKEY\" android\:value=\"\$\{JPUSH_APPKEY\}\"\/\>\n");
 			fs.writeFileSync(path, rf, "utf-8");
-		} else {
-			console.log("Did not find </activity> in AndroidManifest.xml" + path);
 		}
 	};
 }
