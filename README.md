@@ -213,6 +213,7 @@ dependencies {
 
 ### 使用
 
+##### RN 0.29.0 以下版本
 - 打开app下的MainActivity，在ReactInstanceManager的build方法中加入JPushPackage：
 
 > app/MainActivity.java
@@ -238,6 +239,33 @@ componentDidMount() {
     JPushModule.removeReceiveCustomMsgListener();
     JPushModule.removeReceiveNotificationListener();
   }
+```
+
+##### RN 0.29.0 以上版本
+- 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/src/com/pushdemo/MainApplication.java):
+
+> app/MainApplication.java
+
+```
+    private boolean SHUTDOWN_TOAST = false;
+    private boolean SHUTDOWN_LOG = false;
+
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+
+        @Override
+        protected boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage(),
+                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
+            );
+        }
+    };
 ```
 
 关于JPushModule的具体方法可以参考jpush-react-native文件夹下的index.js文件，此处将方法罗列如下：
