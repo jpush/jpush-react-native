@@ -101,7 +101,7 @@ RCT_EXPORT_MODULE();
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
   [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidReceiveMessage"
-                                               body:notification];
+                                               body:[notification userInfo]];
 }
 
 - (void)receiveRemoteNotification:(NSNotification *)notification {
