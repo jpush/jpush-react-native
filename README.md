@@ -1,6 +1,6 @@
 # JPush React Native Plugin
 
-
+**Android 的同学注意，现在自动配置也要修改你的 AndroidManifest 文件，详见下面的手动配置中 AndroidManifest 配置介绍**
 
 ##自动配置（以下命令均在你的 React Native Project 目录下运行）
 ```
@@ -12,8 +12,6 @@ npm run configureJPush <yourAppKey>
 
 举个例子:
 npm run configureJPush d4ee2375846bc30fa51334f5
-
-**Android 的同学注意，现在自动配置也要修改你的 AndroidManifest 文件，详见下面的手动配置中 AndroidManifest 配置介绍**
 ```
 
 ## 手动配置
