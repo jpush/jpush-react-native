@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/richpush_btn_selector" />
+            android:background="@drawable/jpush_richpush_btn_selector" />
 
         <ImageView
             android:id="@+id/imgView"
@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/imgRichpushBtnBack"
             android:clickable="false"
-            android:src="@drawable/ic_richpush_actionbar_divider" />
+            android:src="@drawable/jpush_ic_richpush_actionbar_divider" />
 
         <TextView
             android:id="@+id/tvRichpushTitle"
@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/imgView"
             android:clickable="false"
             android:text=" "
@@ -42,6 +43,13 @@
             android:textColor="#ffffff" />
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/pushPrograssBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:progress="0"
+        android:progressDrawable="@drawable/jpush_richpush_progressbar"
+        style="?android:attr/progressBarStyleHorizontal" />
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

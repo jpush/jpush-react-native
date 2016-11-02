@@ -5,7 +5,7 @@
         android:state_focused="true" 
         android:state_enabled="true" 
         android:state_pressed="false" 
-        android:drawable="@drawable/ic_richpush_actionbar_back" /> 
+        android:drawable="@drawable/jpush_ic_richpush_actionbar_back" />
      <!-- 按下时的背景图片 --> 
     <item 
         android:state_enabled="true" 
@@ -17,5 +17,5 @@
         android:state_checked="true" 
         android:drawable="@android:color/darker_gray" /> 
     <!-- 默认时的背景图片 --> 
-    <item android:drawable="@drawable/ic_richpush_actionbar_back" /> 
+    <item android:drawable="@drawable/jpush_ic_richpush_actionbar_back" />
 </selector> 
