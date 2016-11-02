@@ -156,14 +156,6 @@ getAllfiles("./ios",function (f, s) {
   }
 });
 
-getGradleFile("./node_modules/jpush-react-native", function (f, s) {
-	var isBuildGradle = f.match(/build\.gradle/);
-	if (isBuildGradle != null) {
-		console.log("find gradle file in jpush plugin " + f);
-		configureAppkey(f);
-	} 
-});
-
 getConfigureFiles("./android", function (f, s) {
 	//找到settings.gradle
 	var isSettingGradle = f.match(/settings\.gradle/);
@@ -177,6 +169,7 @@ getConfigureFiles("./android", function (f, s) {
 	if (isProjectGradle != null) {
 		console.log("find build.gradle in android project " + f);
 		configureGradle(f);
+		configureAppkey(f);
 	}
 });
 // getAllfiles("./",function(f,s){
