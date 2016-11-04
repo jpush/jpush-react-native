@@ -19,10 +19,6 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        manifestPlaceholders = [
-                JPUSH_APPKEY: "yourAppKey",	//在此修改JPush的AppKey
-                APP_CHANNEL: "developer-default"		//应用渠道号
-        ]
     }
     lintOptions {
         abortOnError false
