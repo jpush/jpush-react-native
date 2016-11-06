@@ -25,26 +25,26 @@ function projectConfiguration(path){
 
 	var rf = fs.readFileSync(path,"utf-8");
 	rf = rf.replace(/				OTHER_LDFLAGS = \(/g, "				OTHER_LDFLAGS = \(\n\
-						-framework,\n\
-						\"Adsupport\",\n\
-						-framework,\n\
+						\"-framework\",\n\
+						Adsupport,\n\
+						\"-framework\",\n\
 						Security,\n\
-						-framework,\n\
-						\"UIKit\",\n\
-						-framework,\n\
-						\"Foundation\",\n\
-						-framework,\n\
-						\"CoreGraphics\",\n\
-						-framework,\n\
-						\"SystemConfiguration\",\n\
-						-framework,\n\
-						\"CoreTelephony\",\n\
-						-framework,\n\
-						\"CoreFoundation\",\n\
-						-framework,\n\
-						\"CFNetwork\",\n\
-						-l\"z\",\n\
-                        -l\"resolv\",");
+						\"-framework\",\n\
+						UIKit,\n\
+						\"-framework\",\n\
+						Foundation,\n\
+						\"-framework\",\n\
+						CoreGraphics,\n\
+						\"-framework\",\n\
+						SystemConfiguration,\n\
+						\"-framework\",\n\
+						CoreTelephony,\n\
+						\"-framework\",\n\
+						CoreFoundation,\n\
+						\"-framework\",\n\
+						CFNetwork,\n\
+                        \"-lresolv\",\n\
+						\"-lz\",");
 	fs.writeFileSync(path, rf, "utf-8");	
 }
 
