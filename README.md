@@ -135,7 +135,7 @@ dependencies {
     };
 ```
 
-- 在 JS 中 import JPushModule，然后即调用相关方法，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/react-native-android/push_activity.js)：
+- 在 JS 中 import JPushModule，然后即可调用相关方法，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/react-native-android/push_activity.js)：
 ```
 import JPushModule from 'jpush-react-native';
 
