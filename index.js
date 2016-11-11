@@ -45,21 +45,21 @@ export default class JPush {
 	}
 
 	/**
-	 * Android 
+	 * Android
 	*/
 	static stopPush() {
 		JPushModule.stopPush();
 	}
 
 	/**
-	 * Android 
+	 * Android
 	*/
 	static resumePush() {
 		JPushModule.resumePush();
 	}
 
 	/**
-	 * Android 
+	 * Android
 	*/
 	static getInfo(cb) {
 		JPushModule.getInfo((map) => {
@@ -134,9 +134,9 @@ export default class JPush {
  				cb(map);
  			});
  	}
- 
+
  	/**
-	 * Android 
+	 * Android
 	*/
  	static removeReceiveNotificationListener(cb) {
  		if (!listeners[cb]) {
@@ -180,7 +180,7 @@ export default class JPush {
 	 * iOS
 	*/
 	static setupPush() {
-		JPushModule.setupPush;
+		JPushModule.setupPush();
 	}
 
  	/**
@@ -211,15 +211,15 @@ export default class JPush {
 
      //  add listener
         // NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
-        // 
+        //
         // });
         // NativeAppEventEmitter.addListener('networkDidClose', (token) => {
-        // 
+        //
         // });
         // NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
-        // 
+        //
         // });
         // NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
-        // 
+        //
         // });
 }
