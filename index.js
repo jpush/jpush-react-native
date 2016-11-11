@@ -61,6 +61,13 @@ export default class JPush {
 	/**
 	 * Android
 	*/
+	static clearAllNotifications() {
+		JPushModule.clearAllNotifications();
+	}
+
+	/**
+	 * Android
+	*/
 	static getInfo(cb) {
 		JPushModule.getInfo((map) => {
 			cb(map);
