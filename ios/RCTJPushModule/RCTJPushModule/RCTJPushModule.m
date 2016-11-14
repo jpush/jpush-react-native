@@ -27,7 +27,7 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   self = [super init];
-  
+
   NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
   [defaultCenter addObserver:self
                     selector:@selector(networkDidSetup:)
@@ -56,28 +56,22 @@ RCT_EXPORT_MODULE();
   return self;
 }
 
-//RCT_EXPORT_METHOD(setupPush:(NSString *)name) {
-//  if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-//    //可以添加自定义categories
-//    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-//                                                      UIUserNotificationTypeSound |
-//                                                      UIUserNotificationTypeAlert)
-//                                          categories:nil];
-//  } else {
-//    //categories 必须为nil
-//    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-//                                                      UIRemoteNotificationTypeSound |
-//                                                      UIRemoteNotificationTypeAlert)
-//                                          categories:nil];
-//  }
-//
-//  [JPUSHService setupWithOption:nil appKey:appKey
-//                        channel:channel apsForProduction:isProduction];
-//}
-
-//RCT_EXPORT_METHOD(getAppkeyWithcallback:(RCTResponseSenderBlock)callback) {
-////  callback(@[appKey]);
-//}
+// request push notification permissions only
+RCT_EXPORT_METHOD(setupPush) {
+  if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    //可以添加自定义categories
+    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                      UIUserNotificationTypeSound |
+                                                      UIUserNotificationTypeAlert)
+                  categories:nil];
+    } else {
+      //categories 必须为nil
+      [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                        UIRemoteNotificationTypeSound |
+                                                        UIRemoteNotificationTypeAlert)
+                    categories:nil];
+    }
+}
 
 - (void)networkDidSetup:(NSNotification *)notification {
   [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidSetup"
@@ -152,7 +146,7 @@ RCT_EXPORT_METHOD(setupWithOption:(NSDictionary *)launchingOption
                   appKey:(NSString *)appKey
                   channel:(NSString *)channel
                   apsForProduction:(BOOL)isProduction) {
-  
+
 }
 
 
@@ -190,15 +184,15 @@ RCT_EXPORT_METHOD(handleRemoteNotification:(NSDictionary *)remoteInfo) {
  */
 RCT_EXPORT_METHOD( setTags:(NSArray *)tags
                   callback:(RCTResponseSenderBlock)callback) {
-  
+
   NSSet *tagSet;
-  
+
   if (tags != NULL) {
     tagSet = [NSSet setWithArray:tags];
   }
-  
+
   self.asyCallback = callback;
-  
+
   [JPUSHService setTags:tagSet alias:nil fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
     callback(@[@(iResCode)]);
   }];
@@ -209,11 +203,11 @@ RCT_EXPORT_METHOD( setTags:(NSArray *)tags
  */
 RCT_EXPORT_METHOD( setAlias:(NSString *)alias
                   callback:(RCTResponseSenderBlock)callback) {
-  
+
   NSString *aliasString;
-  
+
   self.asyCallback = callback;
-  
+
   [JPUSHService setTags:nil alias:alias fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
     callback(@[@(iResCode)]);
   }];
@@ -319,7 +313,7 @@ RCT_EXPORT_METHOD( setLocalNotification:(NSDate *)fireDate
                   identifierKey:(NSString *)notificationKey
                   userInfo:(NSDictionary *)userInfo
                   soundName:(NSString *)soundName) {
-  
+
   [JPUSHService setLocalNotification:fireDate
                            alertBody:alertBody
                                badge:badge
