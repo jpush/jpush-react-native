@@ -217,6 +217,13 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
     - UIKit.framework
     - UserNotifications.framework
     - libresolv.tbd
+- 在 AppDelegate.h 文件中 导入头文件
+```
+#import <RCTJPushModule.h>
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+```
 - 在 AppDelegate.h 文件中 填写如下代码，这里的的 appkey、channel、和 isProduction 填写自己的
 ```
 static NSString *appKey = @"";     //填写appkey
