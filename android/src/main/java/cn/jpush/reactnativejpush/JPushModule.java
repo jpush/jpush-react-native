@@ -265,7 +265,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 } else {
                     String packageName = context.getApplicationContext().getPackageName();
                     Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-                    launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     launchIntent.putExtras(bundle);
                     context.startActivity(launchIntent);
                 }
