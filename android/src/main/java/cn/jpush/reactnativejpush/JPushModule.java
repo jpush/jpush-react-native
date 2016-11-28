@@ -160,7 +160,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                                 case 0:
                                     Logger.i(TAG, "Set alias success");
                                     Logger.toast(getReactApplicationContext(), "Set alias success");
-                                    callback.invoke("Set alias success. alias: " + alias);
+                                    callback.invoke(0);
                                     break;
                                 case 6002:
                                     Logger.i(TAG, "Set alias timeout");
