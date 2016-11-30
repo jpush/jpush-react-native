@@ -234,14 +234,19 @@ static BOOL isProduction = false;  //填写isProdurion  平时测试时为false 
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-    //可以添加自定义categories
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+ #ifdef NSFoundationVersionNumber_iOS_9_x_Max
+    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+     entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+     [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+ 
+#endif
+} else if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
     [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
                                                       UIUserNotificationTypeSound |
                                                       UIUserNotificationTypeAlert)
                                           categories:nil];
   } else {
-    //iOS 8以前 categories 必须为nil
     [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                       UIRemoteNotificationTypeSound |
                                                       UIRemoteNotificationTypeAlert)
