@@ -182,6 +182,10 @@ JPushModule.getInfo((map) => {
 - addReceiveCustomMsgListener(callback)
 - removeReceiveCustomMsgListener(event)
 - addReceiveNotificationListener(callback)
+
+**特别说明，如果想要在点击通知的时候，跳转到指定的界面，并将该界面以外的 Activity 关掉等等之类的操作，可能需要修改一下要跳转的 Activity 的启动类型或者修改跳转标志。具体修改 JPushModule.java 中 onReceive 方法中收到通知的代码（有注释）**
+
+- addReceiveNotificationListener(callback)
 ```
 JPushModule.addReceiveNotificationListener((map) => {
       console.log("alertContent: " + map.alertContent);
