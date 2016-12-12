@@ -182,6 +182,10 @@ JPushModule.getInfo((map) => {
 - addReceiveCustomMsgListener(callback)
 - removeReceiveCustomMsgListener(event)
 - addReceiveNotificationListener(callback)
+
+**特别说明，如果想要在点击通知的时候，跳转到指定的界面，并将该界面以外的 Activity 关掉等等之类的操作，可能需要修改一下要跳转的 Activity 的启动类型或者修改跳转标志。具体修改 JPushModule.java 中 onReceive 方法中收到通知的代码（有注释）**
+
+- addReceiveNotificationListener(callback)
 ```
 JPushModule.addReceiveNotificationListener((map) => {
       console.log("alertContent: " + map.alertContent);
@@ -217,6 +221,13 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
     - UIKit.framework
     - UserNotifications.framework
     - libresolv.tbd
+- 在 AppDelegate.h 文件中 导入头文件
+```
+#import <RCTJPushModule.h>
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+```
 - 在 AppDelegate.h 文件中 填写如下代码，这里的的 appkey、channel、和 isProduction 填写自己的
 ```
 static NSString *appKey = @"";     //填写appkey
@@ -227,14 +238,19 @@ static BOOL isProduction = false;  //填写isProdurion  平时测试时为false 
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-    //可以添加自定义categories
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+ #ifdef NSFoundationVersionNumber_iOS_9_x_Max
+    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+     entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+     [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+ 
+#endif
+} else if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
     [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
                                                       UIUserNotificationTypeSound |
                                                       UIUserNotificationTypeAlert)
                                           categories:nil];
   } else {
-    //iOS 8以前 categories 必须为nil
     [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                       UIRemoteNotificationTypeSound |
                                                       UIRemoteNotificationTypeAlert)

@@ -113,14 +113,14 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 }
                 tagSet.add(strArray.getString(i));
             }
-            final ProgressDialog dialog = new ProgressDialog(mContext);
-            dialog.setMessage("Loading");
-            dialog.show();
+            // final ProgressDialog dialog = new ProgressDialog(mContext);
+            // dialog.setMessage("Loading");
+            // dialog.show();
             JPushInterface.setAliasAndTags(getReactApplicationContext(), null,
                     tagSet, new TagAliasCallback() {
                         @Override
                         public void gotResult(int status, String desc, Set<String> set) {
-                            dialog.dismiss();
+                            // dialog.dismiss();
                             switch (status) {
                                 case 0:
                                     Logger.i(TAG, "Set tag success. tag: " + strArray.toString());
@@ -160,7 +160,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                                 case 0:
                                     Logger.i(TAG, "Set alias success");
                                     Logger.toast(getReactApplicationContext(), "Set alias success");
-                                    callback.invoke("Set alias success. alias: " + alias);
+                                    callback.invoke(0);
                                     break;
                                 case 6002:
                                     Logger.i(TAG, "Set alias timeout");
