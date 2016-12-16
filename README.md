@@ -174,7 +174,7 @@ JPushModule.getInfo((map) => {
 ```
 - stopPush()
 - resumePush()
-- setTag(array, callback, callback)
+- setTags(array, callback, callback)
 - getRegistrationID(callback)
 - setAlias(alias, callback, callback)
 - setStyleBasic()
