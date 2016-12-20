@@ -123,7 +123,7 @@ RCT_EXPORT_METHOD(setupPush) {
 
 - (void)openLocationNotification:(NSNotification *)notification {
   id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"ReceiveNotification" body:obj];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotification" body:obj];
 }
 
 - (void)networkDidSetup:(NSNotification *)notification {
