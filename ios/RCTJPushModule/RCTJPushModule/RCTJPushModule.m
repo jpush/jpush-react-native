@@ -10,6 +10,13 @@
 #import "RCTEventDispatcher.h"
 #import "RCTRootView.h"
 #import "RCTBridge.h"
+#import "RCTJPushActionQueue.h"
+
+@interface RCTJPushModule () {
+  BOOL _isJPushDidLogin;
+}
+
+@end
 
 @implementation RCTJPushModule
 
@@ -27,7 +34,8 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   self = [super init];
-
+  _isJPushDidLogin = NO;
+  
   NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
   [defaultCenter addObserver:self
                     selector:@selector(networkDidSetup:)
@@ -53,7 +61,42 @@ RCT_EXPORT_MODULE();
                     selector:@selector(receiveRemoteNotification:)
                         name:kJPFDidReceiveRemoteNotification
                       object:nil];
+  
+  [defaultCenter addObserver:self
+                    selector:@selector(reactJSDidload)
+                        name:RCTJavaScriptDidLoadNotification
+                      object:nil];
+  
+  [defaultCenter addObserver:self
+                    selector:@selector(openRemoteNotification:)
+                        name:kJPFOpenNotification
+                      object:nil];
+  
+  [defaultCenter addObserver:self
+                    selector:@selector(openLocationNotification:)
+                        name:kJPFOpenNotification
+                      object:nil];
   return self;
+}
+
+- (void)reactJSDidload {
+  [RCTJPushActionQueue sharedInstance].isReactDidLoad = YES;
+  [[RCTJPushActionQueue sharedInstance] scheduleNotificationQueue];
+  
+  if ([RCTJPushActionQueue sharedInstance].openedRemoteNotification != nil) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:[RCTJPushActionQueue sharedInstance].openedRemoteNotification];
+  }
+  
+  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
+  }
+  
+}
+
+- (void)setBridge:(RCTBridge *)bridge {
+  _bridge = bridge;
+  [RCTJPushActionQueue sharedInstance].openedRemoteNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+  [RCTJPushActionQueue sharedInstance].openedLocalNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
 }
 
 // request push notification permissions only
@@ -73,6 +116,16 @@ RCT_EXPORT_METHOD(setupPush) {
     }
 }
 
+- (void)openRemoteNotification:(NSNotification *)notification {
+  id obj = [notification object];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotification" body:obj];
+}
+
+- (void)openLocationNotification:(NSNotification *)notification {
+  id obj = [notification object];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"ReceiveNotification" body:obj];
+}
+
 - (void)networkDidSetup:(NSNotification *)notification {
   [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidSetup"
                                                body:nil];
@@ -89,6 +142,8 @@ RCT_EXPORT_METHOD(setupPush) {
 }
 
 - (void)networkDidLogin:(NSNotification *)notification {
+  _isJPushDidLogin = YES;
+  [[RCTJPushActionQueue sharedInstance] scheduleGetRidCallbacks];
   [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidLogin"
                                                body:nil];
 }
@@ -99,8 +154,14 @@ RCT_EXPORT_METHOD(setupPush) {
 }
 
 - (void)receiveRemoteNotification:(NSNotification *)notification {
-  id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"ReceiveNotification" body:obj];
+
+  if ([RCTJPushActionQueue sharedInstance].isReactDidLoad == YES) {
+    id obj = [notification object];
+    [self.bridge.eventDispatcher sendAppEventWithName:@"ReceiveNotification" body:obj];
+  } else {
+    [[RCTJPushActionQueue sharedInstance] postNotification:notification];
+  }
+  
 }
 
 
@@ -429,8 +490,12 @@ RCT_EXPORT_METHOD(getRegistrationID:(RCTResponseSenderBlock)callback) {// -> str
   NSLog(@"simulator can not get registrationid");
   callback(@[@""]);
 #elif TARGET_OS_IPHONE//真机
-  NSLog(@"%@",[JPUSHService registrationID]);
-  callback(@[[JPUSHService registrationID]]);
+  if (_isJPushDidLogin) {
+    callback(@[[JPUSHService registrationID]]);
+  } else {
+    [[RCTJPushActionQueue sharedInstance] postGetRidCallback:callback];
+  }
+  
 #endif
 
 }

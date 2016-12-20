@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2015 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 2.2.0
+#define JPUSH_VERSION_NUMBER 3.0.0
 
 #import <Foundation/Foundation.h>
 
@@ -30,6 +30,13 @@ extern NSString *const kJPFNetworkFailedRegisterNotification; //注册失败
 extern NSString *const kJPFNetworkDidLoginNotification;     // 登录成功
 extern NSString *const kJPFNetworkDidReceiveMessageNotification;         // 收到消息(非APNS)
 extern NSString *const kJPFServiceErrorNotification;  // 错误提示
+
+typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
+    JPAuthorizationOptionNone    = 0,   // the application may not present any UI upon a notification being received
+    JPAuthorizationOptionBadge   = (1 << 0),    // the application may badge its icon upon a notification being received
+    JPAuthorizationOptionSound   = (1 << 1),    // the application may play a sound upon a notification being received
+    JPAuthorizationOptionAlert   = (1 << 2),    // the application may display an alert upon a notification being received
+};
 
 /*!
  * 通知注册实体类
@@ -186,7 +193,7 @@ extern NSString *const kJPFServiceErrorNotification;  // 错误提示
 
 /*!
  * 下面的接口是可选的
- * 设置标签和(或)别名（若参数为nil，则忽略；若是空对象，则清空；详情请参考文档：http://docs.jiguang.cn/client/ios_api/#api-ios）
+ * 设置标签和(或)别名（若参数为nil，则忽略；若是空对象，则清空；详情请参考文档：https://docs.jiguang.cn/jpush/client/iOS/ios_api/）
  * setTags:alias:fetchCompletionHandle:是新的设置标签别名的方法，不再需要显示声明回调函数，只需要在block里面处理设置结果即可.
  * WARN: 使用block时需要注意循环引用问题
  */
@@ -243,7 +250,7 @@ callbackSelector:(SEL)cbSelector
 + (void)stopLogPageView:(NSString *)pageName;
 
 /*!
- * @abstract 直接上报在页面的停留时工
+ * @abstract 直接上报在页面的停留时间
  *
  * @param pageName 页面
  * @param seconds 停留的秒数
@@ -364,7 +371,6 @@ callbackSelector:(SEL)cbSelector
  * @abstract 删除本地推送定义
  *
  * @param notificationKey 本地推送标示符
- * @param myUILocalNotification 本地推送对象
  * @discussion 此方法被[removeNotification:]方法取代
  */
 + (void)deleteLocalNotificationWithIdentifierKey:(NSString *)notificationKey __attribute__((deprecated("JPush 2.1.9 版本已过期")));

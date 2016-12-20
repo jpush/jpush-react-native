@@ -692,6 +692,7 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-lresolv",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.huminios.jpushTest;
 				PRODUCT_NAME = PushDemo;
@@ -737,6 +738,7 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-lresolv",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.huminios.jpushTest;
 				PRODUCT_NAME = PushDemo;
