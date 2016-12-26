@@ -175,7 +175,7 @@ export default class JPush {
     }
 
  	/**
-	 * iOS
+	 * iOS,  Android	
 	*/
  	static getRegistrationID(cb) {
  		JPushModule.getRegistrationID((id) => {
