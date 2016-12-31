@@ -40,10 +40,15 @@ export default class PushActivity  extends React.Component {
     this.onStopPress = this.onStopPress.bind(this);
     this.onResumePress = this.onResumePress.bind(this);
     this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this);
+    this.jumpSecondActivity = this.jumpSecondActivity.bind(this);
   }
     
   jumpSetActivity() {
     this.props.navigator.push({ name:'setActivity' }); 
+  }
+
+  jumpSecondActivity() {
+    this.props.navigator.push({ name: "second" });
   }
 
   onInitPress() {
@@ -91,6 +96,7 @@ export default class PushActivity  extends React.Component {
     });
     JPushModule.addReceiveOpenNotificationListener((map) => {
       console.log("Opening notification!");
+      console.log("map.extra: " + map.key);
       this.props.navigator.push({name: "pushActivity"});
     })
   }
@@ -98,6 +104,8 @@ export default class PushActivity  extends React.Component {
   componentWillUnmount() {
     JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
     JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
+    console.log("Will clear all notifications");
+    JPushModule.clearAllNotifications();
   }
 
     render() {
@@ -162,6 +170,15 @@ export default class PushActivity  extends React.Component {
               onPress = { this.onGetRegistrationIdPress }>
                 <Text style = { styles.btnTextStyle }> 
                   GET REGISTRATIONID
+                </Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor = '#f5a402'
+              activeOpacity = { 0.5 }
+              style = { styles.btnStyle }
+              onPress = { this.jumpSecondActivity }>
+                <Text style = { styles.btnTextStyle }> 
+                  Go to SecondActivity
                 </Text>
             </TouchableHighlight>
             <Text style = { styles.textStyle }>

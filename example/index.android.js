@@ -7,6 +7,7 @@ import React from 'react';
 import ReactNative from 'react-native';
 import PushActivity from './react-native-android/push_activity';
 import SetActivity from './react-native-android/set_activity';
+import SecondActivity from './react-native-android/second';
 
 const {
   AppRegistry,
@@ -51,6 +52,9 @@ class PushDemoApp extends React.Component {
         break;
       case "setActivity":
         Component = SetActivity;
+        break;
+      case "second":
+        Component = SecondActivity;
         break;
     }
 

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -250,25 +251,33 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 map.putString("extras", extras);
                 mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("receiveNotification", map);
+
+             // 这里点击通知跳转到指定的界面可以定制化一下
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
-                Logger.d(TAG, "用户点击打开了通知");
-                WritableMap map = Arguments.fromBundle(bundle);
-                mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("openNotification", map);
-                Intent intent = new Intent();
-                if (mModule != null && mModule.mContext != null) {
-                    intent.setClass(context, mModule.mContext.getClass());
-                    Logger.d(TAG, "context.getClass: " + mModule.mContext.getClass());
-                    intent.putExtras(bundle);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                } else {
-                    String packageName = context.getApplicationContext().getPackageName();
-                    Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-                    launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                    launchIntent.putExtras(bundle);
-                    context.startActivity(launchIntent);
+                try {
+                    Logger.d(TAG, "用户点击打开了通知");
+                    WritableMap map = Arguments.fromBundle(bundle);
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("openNotification", map);
+                    Intent intent = new Intent();
+                    if (mModule != null && mModule.mContext != null) {
+                        intent.setClass(context, mModule.mContext.getClass());
+                        Logger.d(TAG, "context.getClass: " + mModule.mContext.getClass());
+                        intent.putExtras(bundle);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    } else {
+                        String packageName = context.getApplicationContext().getPackageName();
+                        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+                        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        launchIntent.putExtras(bundle);
+                        context.startActivity(launchIntent);
+                    }
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    Logger.e("Throwable", e.printStackTrace(););
                 }
+
             }
         }
 
