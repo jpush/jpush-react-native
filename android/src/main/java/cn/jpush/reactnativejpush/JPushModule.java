@@ -275,7 +275,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    Logger.e("Throwable", e.printStackTrace(););
                 }
 
             }
