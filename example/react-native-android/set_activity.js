@@ -44,7 +44,7 @@ export default class SetActivity extends React.Component {
 		if (this.state.tag !== undefined) {
 			/*
 			* 请注意这个接口要传一个数组过去，这里只是个简单的示范
-			*/
+			*/		
 			JPushModule.setTags(["VIP", "NOTVIP"], () => {
 				console.log("Set tag succeed");
 			}, () => {

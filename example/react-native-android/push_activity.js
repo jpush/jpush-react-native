@@ -97,7 +97,6 @@ export default class PushActivity  extends React.Component {
     JPushModule.addReceiveOpenNotificationListener((map) => {
       console.log("Opening notification!");
       console.log("map.extra: " + map.key);
-      this.props.navigator.push({name: "pushActivity"});
     })
   }
 
