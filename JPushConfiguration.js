@@ -165,7 +165,7 @@ function insertJpushCode(path){
     var search = rf.match(/\n.*jpushNotificationCenter\:\(UNUserNotificationCenter \*\)center[ ]*didReceiveNotificationResponse\:\(UNNotificationResponse\ \*\)response.*\{\n/);
     if (search == null) {
         console.log("没有匹配到 函数 didReceiveRemoteNotification");
-        rf = rf.replace(/\@end/,"\- \(void\)jpushNotificationCenter\:\(UNUserNotificationCenter\ \*\)center\ didReceiveNotificationResponse\:\(UNNotificationResponse\ \*\)response\ withCompletionHandler\:\(void\ \(\^\)\(\)\)completionHandler\ \{\nNSDictionary\ \*\ userInfo\ \=\ response\.notification\.request\.content\.userInfo\;\nif\(\[response\.notification\.request\.trigger\ isKindOfClass\:\[UNPushNotificationTrigger\ class\]\]\)\ \{\n\[JPUSHService\ handleRemoteNotification\:userInfo\]\;\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFDidReceiveRemoteNotification\ object:userInfo\]\;\n\}\ncompletionHandler\(\)\;\n\}\n\@end");
+        rf = rf.replace(/\@end/,"\- \(void\)jpushNotificationCenter\:\(UNUserNotificationCenter\ \*\)center\ didReceiveNotificationResponse\:\(UNNotificationResponse\ \*\)response\ withCompletionHandler\:\(void\ \(\^\)\(\)\)completionHandler\ \{\nNSDictionary\ \*\ userInfo\ \=\ response\.notification\.request\.content\.userInfo\;\nif\(\[response\.notification\.request\.trigger\ isKindOfClass\:\[UNPushNotificationTrigger\ class\]\]\)\ \{\n\[JPUSHService\ handleRemoteNotification\:userInfo\]\;\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFOpenNotification\ object:userInfo\]\;\n\}\ncompletionHandler\(\)\;\n\}\n\@end");
         // console.log(rf);
         fs.writeFileSync(path, rf, "utf-8");
     }
