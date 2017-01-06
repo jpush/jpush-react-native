@@ -315,7 +315,7 @@ var subscription = NativeAppEventEmitter.addListener(
 // 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
 subscription.remove();
 ```
-在 1.2.9 开始提供 OpenNotification 事件。当应用没有启动，通过点击通知唤起应用，需要获得该条推送需要在 js 代码加入如下监听代码
+在 1.2.9 开始提供 OpenNotification 事件。获取点击通知事件，需要获得该条推送需要在 js 代码加入如下监听代码：（注意这个事件只有在 iOS 10之后才有）
 ```
 var subscription = NativeAppEventEmitter.addListener(
   'OpenNotification',
