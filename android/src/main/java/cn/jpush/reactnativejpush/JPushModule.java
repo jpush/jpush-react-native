@@ -1,13 +1,13 @@
 package cn.jpush.reactnativejpush;
 
+import android.app.ActivityManager;
 import android.app.Notification;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -19,6 +19,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
@@ -252,26 +253,33 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("receiveNotification", map);
 
-             // 这里点击通知跳转到指定的界面可以定制化一下
+                // 这里点击通知跳转到指定的界面可以定制化一下
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
                 try {
                     Logger.d(TAG, "用户点击打开了通知");
-                    WritableMap map = Arguments.fromBundle(bundle);
+                    // 通知内容
+                    String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
+                    // extra 字段的 json 字符串
+                    String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                    WritableMap map = Arguments.createMap();
+                    map.putString("alertContent", alertContent);
+                    map.putString("extras", extras);
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("openNotification", map);
-                    Intent intent = new Intent();
-                    if (mModule != null && mModule.mContext != null) {
+                    // judge if application is running in background, opening initial Activity.
+                    // You can change here to open appointed Activity. All you need to do is create
+                    // the appointed Activity, and use JS render the appointed Activity.
+                    // Please reference examples' SecondActivity for detail,
+                    // and JS files are in folder: example/react-native-android
+                    if (isApplicationRunningBackground(context)) {
+                        Intent intent = new Intent();
                         intent.setClass(context, mModule.mContext.getClass());
                         Logger.d(TAG, "context.getClass: " + mModule.mContext.getClass());
                         intent.putExtras(bundle);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
-                    } else {
-                        String packageName = context.getApplicationContext().getPackageName();
-                        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-                        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                        launchIntent.putExtras(bundle);
-                        context.startActivity(launchIntent);
+                        // application running in foreground, do nothing
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
@@ -280,5 +288,17 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
         }
 
+    }
+
+    private static boolean isApplicationRunningBackground(final Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
