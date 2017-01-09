@@ -12,7 +12,7 @@
 
 #define kJPFDidReceiveRemoteNotification  @"kJPFDidReceiveRemoteNotification"
 
-#define kJPFOpenNotification @"kJPFOpenNotification" //应用没有启动，通过点击 Notification 启动应用
+#define kJPFOpenNotification @"kJPFOpenNotification" // 通过点击通知 Notification 启动应用
 
 @interface RCTJPushModule : NSObject <RCTBridgeModule>
 @property(strong,nonatomic)RCTResponseSenderBlock asyCallback;

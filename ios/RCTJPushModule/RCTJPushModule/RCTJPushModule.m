@@ -68,14 +68,10 @@ RCT_EXPORT_MODULE();
                       object:nil];
   
   [defaultCenter addObserver:self
-                    selector:@selector(openRemoteNotification:)
+                    selector:@selector(openNotification:)
                         name:kJPFOpenNotification
                       object:nil];
   
-  [defaultCenter addObserver:self
-                    selector:@selector(openLocationNotification:)
-                        name:kJPFOpenNotification
-                      object:nil];
   return self;
 }
 
@@ -116,12 +112,7 @@ RCT_EXPORT_METHOD(setupPush) {
     }
 }
 
-- (void)openRemoteNotification:(NSNotification *)notification {
-  id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotification" body:obj];
-}
-
-- (void)openLocationNotification:(NSNotification *)notification {
+- (void)openNotification:(NSNotification *)notification {
   id obj = [notification object];
   [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotification" body:obj];
 }
