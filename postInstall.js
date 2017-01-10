@@ -46,6 +46,11 @@ getPackageJson("./../..", function (f, s) {
     }
     var rf = fs.readFileSync(f, "utf-8");
     var searchKey = rf.match(/\n.*\"scripts\"\: \{\n/);
+
+    if (/configureJPush/.test(rf)) {
+      return;
+    }
+
     if (searchKey != null) {
       rf = rf.replace(searchKey[0], searchKey[0] + "    \"configureJPush\"\: \"node node_modules\/jpush-react-native\/JPushConfiguration\.js\"\,\n");
       fs.writeFileSync(f, rf, "utf-8");
@@ -61,14 +66,14 @@ function getPackageJson(dir, findOne) {
   eachFileSync(spath.resolve(dir), findOne);
 }
 
-function isFile(path){  
-    return exists(path) && fs.statSync(path).isFile();  
+function isFile(path){
+    return exists(path) && fs.statSync(path).isFile();
 }
 
-function exists(path){  
-     return fs.existsSync(path) || path.existsSync(path);  
+function exists(path){
+     return fs.existsSync(path) || path.existsSync(path);
 }
 
-function isDir(path){  
-    return exists(path) && fs.statSync(path).isDirectory();  
-} 
+function isDir(path){
+    return exists(path) && fs.statSync(path).isDirectory();
+}
