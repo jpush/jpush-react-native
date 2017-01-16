@@ -100,13 +100,13 @@ dependencies {
 
 ### Usage
 
-- [Android Usage](https://github.com/jpush/jpush-react-native/tree/master/example/documents/Android Usage)
+- [Android Usage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
 - [iOS Usage]()
 
 ### API
 
-- [Common]()
-- [Android API]()
+- [Common](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Common.md)
+- [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
 
 
 ####iOS Usage
