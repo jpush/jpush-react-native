@@ -98,114 +98,15 @@ dependencies {
 ![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin1.png)
 
 
-### 使用
+### Usage
 
-##### RN 0.29.0 以下版本
-- 打开 app 下的 MainActivity，在 ReactInstanceManager 的 build 方法中加入 JPushPackage：
+- [Android Usage](https://github.com/jpush/jpush-react-native/tree/master/example/documents/Android Usage)
+- [iOS Usage]()
 
-> app/MainActivity.java
+### API
 
-![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin3.png)
-
-
-##### RN 0.29.0 以上版本
-- 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/src/com/pushdemo/MainApplication.java):
-
-> app/MainApplication.java
-
-```
-    private boolean SHUTDOWN_TOAST = false;
-    private boolean SHUTDOWN_LOG = false;
-
-    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-
-        @Override
-        protected boolean getUseDeveloperSupport() {
-            return BuildConfig.DEBUG;
-        }
-
-
-        @Override
-        protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
-            );
-        }
-    };
-```
-
-- 在 JS 中 import JPushModule，然后即可调用相关方法，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/react-native-android/push_activity.js)：
-```
-import JPushModule from 'jpush-react-native';
-
-...
-
-componentDidMount() {
-    JPushModule.addReceiveCustomMsgListener((message) => {
-      this.setState({pushMsg: message});
-    });
-    JPushModule.addReceiveNotificationListener((message) => {
-      console.log("receive notification: " + message);
-    })
-  }
-
-  componentWillUnmount() {
-    JPushModule.removeReceiveCustomMsgListener();
-    JPushModule.removeReceiveNotificationListener();
-  }
-```
-
-
-关于 JPushModule 中的提供调用方法可以参考 jpush-react-native 文件夹下的 index.js 文件，此处将方法罗列如下：
-
-- initPush()
-- getInfo(map)
-```
-JPushModule.getInfo((map) => {
-      this.setState({
-            appkey: map.myAppKey,
-            imei: map.myImei,
-            package: map.myPackageName,
-            deviceId: map.myDeviceId,
-            version: map.myVersion
-      });
-    });
-```
-- stopPush()
-- resumePush()
-- setTags(array, callback, callback)
-- getRegistrationID(callback)
-- setAlias(alias, callback, callback)
-- setStyleBasic()
-- setStyleCustom()
-- addReceiveCustomMsgListener(callback)
-- removeReceiveCustomMsgListener(event)
-- addReceiveNotificationListener(callback)
-
-**特别说明，如果想要在点击通知的时候，跳转到指定的界面，并将该界面以外的 Activity 关掉等等之类的操作，可能需要修改一下要跳转的 Activity 的启动类型或者修改跳转标志。具体修改 JPushModule.java 中 onReceive 方法中收到通知的代码（有注释），这里我推荐的做法是在 Native 创建 Activity，然后用 JS 渲染界面，具体可以[参考这篇文章](http://www.jianshu.com/p/7c03db422c6d)**
-
-- addReceiveNotificationListener(callback)
-```
-JPushModule.addReceiveNotificationListener((map) => {
-      console.log("alertContent: " + map.alertContent);
-      console.log("extras: " + map.extras);
-      // var extra = JSON.parse(map.extras);
-      // console.log(extra.key + ": " + extra.value);
-});
-```
-- removeReceiveNotificationListener(event)
-- addOpenNotificationListener(callback)
-```
-JPushModule.addReceiveOpenNotificationListener((map) => {
-      console.log("Opening notification!");
-      //自定义点击通知后打开某个 Activity，比如跳转到 pushActivity
-      this.props.navigator.jumpTo({name: "pushActivity"});
-    });
-```
-- removeOpenNotificationListener(event)
-
-**关于接口的使用请[参考 demo](https://github.com/jpush/jpush-react-native/tree/master/example/react-native-android)，下载 zip 后解压，使用 Android Studio 打开，修改 AndroidManifest， AppKey 以及 gradle 相关配置（主要是平台版本号），然后在终端中使用命令 react-native run-android 运行，JS 用法可以参考 PushDemo/react-native-android 文件夹下的文件**
+- [Common]()
+- [Android API]()
 
 
 ####iOS Usage
