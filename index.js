@@ -1,4 +1,8 @@
-import {NativeModules, Platform, DeviceEventEmitter} from 'react-native';
+import {
+	NativeModules,
+	Platform,
+	DeviceEventEmitter
+} from 'react-native';
 
 const JPushModule = NativeModules.JPushModule;
 
@@ -6,15 +10,16 @@ const listeners = {};
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const openNotificationEvent = "openNotification";
+const getRegistrationIdEvent = "getRegistrationId";
 
 /**
  * Logs message to console with the [JPush] prefix
  * @param  {string} message
  */
 const log = (message) => {
-	console.log(`[JPush] ${message}`);
-}
-// is function
+		console.log(`[JPush] ${message}`);
+	}
+	// is function
 const isFunction = (fn) => typeof fn === 'function';
 /**
  * create a safe fn env
@@ -24,10 +29,10 @@ const isFunction = (fn) => typeof fn === 'function';
  */
 const safeCallback = (fn, success, error) => {
 
-	JPushModule[fn](function (params) {
+	JPushModule[fn](function(params) {
 		log(params);
 		isFunction(success) && success(params)
-	}, function (error) {
+	}, function(error) {
 		log(error)
 		isFunction(error) && error(error)
 	})
@@ -39,35 +44,35 @@ export default class JPush {
 	/**
 	 * Android only
 	 * 初始化JPush 必须先初始化才能执行其他操作
-	*/
+	 */
 	static initPush() {
 		JPushModule.initPush();
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static stopPush() {
 		JPushModule.stopPush();
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static resumePush() {
 		JPushModule.resumePush();
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static clearAllNotifications() {
 		JPushModule.clearAllNotifications();
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static getInfo(cb) {
 		JPushModule.getInfo((map) => {
 			cb(map);
@@ -99,21 +104,21 @@ export default class JPush {
 
 	/**
 	 * Android
-	*/
+	 */
 	static setStyleBasic() {
 		JPushModule.setStyleBasic();
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static setStyleCustom() {
 		JPushModule.setStyleCustom();
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static addReceiveCustomMsgListener(cb) {
 		listeners[cb] = DeviceEventEmitter.addListener(receiveCustomMsgEvent,
 			(message) => {
@@ -123,110 +128,129 @@ export default class JPush {
 
 	/**
 	 * Android
-	*/
+	 */
 	static removeReceiveCustomMsgListener(cb) {
 		if (!listeners[cb]) {
-				return;
-			}
-			listeners[cb].remove();
-			listeners[cb] = null;
+			return;
+		}
+		listeners[cb].remove();
+		listeners[cb] = null;
 	}
 
 	/**
 	 * Android
-	*/
+	 */
 	static addReceiveNotificationListener(cb) {
- 		listeners[cb] = DeviceEventEmitter.addListener(receiveNotificationEvent,
- 			(map) => {
- 				cb(map);
- 			});
- 	}
+		listeners[cb] = DeviceEventEmitter.addListener(receiveNotificationEvent,
+			(map) => {
+				cb(map);
+			});
+	}
 
- 	/**
+	/**
 	 * Android
-	*/
- 	static removeReceiveNotificationListener(cb) {
- 		if (!listeners[cb]) {
- 			return;
- 		}
- 		listeners[cb].remove();
- 		listeners[cb] = null;
- 	}
+	 */
+	static removeReceiveNotificationListener(cb) {
+		if (!listeners[cb]) {
+			return;
+		}
+		listeners[cb].remove();
+		listeners[cb] = null;
+	}
 
- 	/**
-     * Android
-    */
- 	static addReceiveOpenNotificationListener(cb) {
-     	listeners[cb] = DeviceEventEmitter.addListener(openNotificationEvent,
-     		(message) => {
-     			cb(message);
-     		});
-    }
+	/**
+	 * Android
+	 */
+	static addReceiveOpenNotificationListener(cb) {
+		listeners[cb] = DeviceEventEmitter.addListener(openNotificationEvent,
+			(message) => {
+				cb(message);
+			});
+	}
 
-    /**
-    * Android
-    */
-    static removeReceiveOpenNotificationListener(cb) {
-     	if (!listeners[cb]) {
-     		return;
-     	}
-     	listeners[cb].remove();
-     	listeners[cb] = null;
-    }
+	/**
+	 * Android
+	 */
+	static removeReceiveOpenNotificationListener(cb) {
+		if (!listeners[cb]) {
+			return;
+		}
+		listeners[cb].remove();
+		listeners[cb] = null;
+	}
 
- 	/**
+	/**
+	 * Android
+	 * If device registered successfully, the server will return registrationId
+	 */
+	static addGetRegistrationIdListener(cb) {
+		listeners[cb] = DeviceEventEmitter.addListener(getRegistrationIdEvent,
+			(registrationId) => {
+				cb(registrationId);
+			});
+	}
+
+	static removeGetRegistrationIdListener(cb) {
+		if (!listeners[cb]) {
+			return;
+		}
+		listeners[cb].remove();
+		listeners[cb] = null;
+	}
+
+	/**
 	 * iOS,  Android	
-	*/
- 	static getRegistrationID(cb) {
- 		JPushModule.getRegistrationID((id) => {
- 			cb(id);
- 		});
- 	}
+	 */
+	static getRegistrationID(cb) {
+		JPushModule.getRegistrationID((id) => {
+			cb(id);
+		});
+	}
 
- 	/**
+	/**
 	 * iOS
-	*/
+	 */
 	static setupPush() {
 		JPushModule.setupPush();
 	}
 
- 	/**
+	/**
 	 * iOS
-	*/
-     static getAppkeyWithcallback(cb) {
-     	JPushModule.getAppkeyWithcallback((appkey) => {
-     		cb(appkey);
-     	});
-     }
+	 */
+	static getAppkeyWithcallback(cb) {
+		JPushModule.getAppkeyWithcallback((appkey) => {
+			cb(appkey);
+		});
+	}
 
 
- 	/**
+	/**
 	 * iOS
-	*/
-  	static setLocalNotification(date, textContain, badge, alertAction, notificationKey, userInfo, soundName) {
-  		JPushModule.setLocalNotification(date, textContain, badge, alertAction, notificationKey, userInfo, soundName);
-  	}
+	 */
+	static setLocalNotification(date, textContain, badge, alertAction, notificationKey, userInfo, soundName) {
+		JPushModule.setLocalNotification(date, textContain, badge, alertAction, notificationKey, userInfo, soundName);
+	}
 
- 	/**
+	/**
 	 * iOS
-	*/
-     static setBadge(badge, cb){
-     	JPushModule.setBadge(badge, (value) => {
-     		cb(value);
-     	});
-     }
+	 */
+	static setBadge(badge, cb) {
+		JPushModule.setBadge(badge, (value) => {
+			cb(value);
+		});
+	}
 
-     //  add listener
-        // NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
-        //
-        // });
-        // NativeAppEventEmitter.addListener('networkDidClose', (token) => {
-        //
-        // });
-        // NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
-        //
-        // });
-        // NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
-        //
-        // });
+	//  add listener
+	// NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
+	//
+	// });
+	// NativeAppEventEmitter.addListener('networkDidClose', (token) => {
+	//
+	// });
+	// NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
+	//
+	// });
+	// NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
+	//
+	// });
 }
