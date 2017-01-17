@@ -98,17 +98,6 @@ dependencies {
 ![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin1.png)
 
 
-### Usage
-
-- [Android Usage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
-- [iOS Usage]()
-
-### API
-
-- [Common](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Common.md)
-- [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
-
-
 ####iOS Usage
 - 打开 iOS 工程，在 rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
 - 在 iOS 工程 target 的 Build Phases->Link Binary with Libraries 中加入如下库
@@ -216,6 +205,19 @@ var subscription = NativeAppEventEmitter.addListener(
 // 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
 subscription.remove();
 ```
+
+
+### Usage
+
+- [Android Usage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
+- [iOS Usage]()
+
+### API
+
+- [Common](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Common.md)
+- [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
+
+
 在 1.2.9 开始提供 OpenNotification 事件。获取点击通知事件，需要获得该条推送需要在 js 代码加入如下监听代码：（注意这个事件只有在 iOS 10之后才有）
 ```
 var subscription = NativeAppEventEmitter.addListener(
