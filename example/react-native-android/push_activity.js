@@ -19,7 +19,8 @@ const {
 import JPushModule from 'jpush-react-native';
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
-export default class PushActivity  extends React.Component {
+const getRegistrationIdEvent = "getRegistrationId";
+export default class PushActivity extends React.Component {
 
   constructor(props) {
     super(props);
@@ -42,17 +43,21 @@ export default class PushActivity  extends React.Component {
     this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this);
     this.jumpSecondActivity = this.jumpSecondActivity.bind(this);
   }
-    
+
   jumpSetActivity() {
-    this.props.navigator.push({ name:'setActivity' }); 
+    this.props.navigator.push({
+      name: 'setActivity'
+    });
   }
 
   jumpSecondActivity() {
-    this.props.navigator.push({ name: "second" });
+    this.props.navigator.push({
+      name: "second"
+    });
   }
 
   onInitPress() {
-      JPushModule.initPush();
+    JPushModule.initPush();
   }
 
   onStopPress() {
@@ -67,18 +72,20 @@ export default class PushActivity  extends React.Component {
 
   onGetRegistrationIdPress() {
     JPushModule.getRegistrationID((registrationId) => {
-      this.setState({registrationId: registrationId});
+      this.setState({
+        registrationId: registrationId
+      });
     });
   }
 
   componentWillMount() {
     JPushModule.getInfo((map) => {
       this.setState({
-            appkey: map.myAppKey,
-            imei: map.myImei,
-            package: map.myPackageName,
-            deviceId: map.myDeviceId,
-            version: map.myVersion
+        appkey: map.myAppKey,
+        imei: map.myImei,
+        package: map.myPackageName,
+        deviceId: map.myDeviceId,
+        version: map.myVersion
       });
     });
 
@@ -86,7 +93,9 @@ export default class PushActivity  extends React.Component {
 
   componentDidMount() {
     JPushModule.addReceiveCustomMsgListener((message) => {
-      this.setState({pushMsg: message});
+      this.setState({
+        pushMsg: message
+      });
     });
     JPushModule.addReceiveNotificationListener((map) => {
       console.log("alertContent: " + map.alertContent);
@@ -97,19 +106,23 @@ export default class PushActivity  extends React.Component {
     JPushModule.addReceiveOpenNotificationListener((map) => {
       console.log("Opening notification!");
       console.log("map.extra: " + map.key);
-    })
+    });
+    JPushModule.addGetRegistrationIdListener((registrationId) => {
+      console.log("Device register succeed, registrationId " + registrationId);
+    });
   }
 
   componentWillUnmount() {
     JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
     JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
+    JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent);
     console.log("Will clear all notifications");
     JPushModule.clearAllNotifications();
   }
 
-    render() {
-        return (
-            <ScrollView style = { styles.parent }>
+  render() {
+    return (
+      <ScrollView style = { styles.parent }>
             
             <Text style = { styles.textStyle }>
               { this.state.appkey }
@@ -188,8 +201,8 @@ export default class PushActivity  extends React.Component {
             </Text>
             </ScrollView>
 
-          )
-    }
+    )
+  }
 }
 
 var styles = StyleSheet.create({

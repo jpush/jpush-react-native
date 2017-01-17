@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -284,7 +285,12 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
-
+            // If device registered successfully, will receive this broadcast
+            } else if (JPushInterface.ACTION_REGISTRATION_ID.equals(data.getAction())) {
+                String registrationId = data.getExtras().getString(JPushInterface.EXTRA_REGISTRATION_ID);
+                Logger.d(TAG, "注册成功, registrationId: " + registrationId);
+                mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("getRegistrationId", registrationId);
             }
         }
 
