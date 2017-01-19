@@ -92,10 +92,11 @@ export default class PushActivity extends React.Component {
   }
 
   componentDidMount() {
-    JPushModule.addReceiveCustomMsgListener((message) => {
+    JPushModule.addReceiveCustomMsgListener((map) => {
       this.setState({
-        pushMsg: message
+        pushMsg: map.message
       });
+      console.log("extras: " + map.extras);
     });
     JPushModule.addReceiveNotificationListener((map) => {
       console.log("alertContent: " + map.alertContent);

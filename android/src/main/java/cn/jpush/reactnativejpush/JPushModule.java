@@ -239,9 +239,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
             Bundle bundle = data.getExtras();
             if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(data.getAction())) {
                 String message = data.getStringExtra(JPushInterface.EXTRA_MESSAGE);
+                String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                WritableMap map = Arguments.createMap();
+                map.putString("message", message);
+                map.putString("extras", extras);
                 Logger.i(TAG, "收到自定义消息: " + message);
                 mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("receivePushMsg", message);
+                        .emit("receivePushMsg", map);
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(data.getAction())) {
                 // 通知内容
                 String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
@@ -285,7 +289,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
-            // If device registered successfully, will receive this broadcast
+
             } else if (JPushInterface.ACTION_REGISTRATION_ID.equals(data.getAction())) {
                 String registrationId = data.getExtras().getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Logger.d(TAG, "注册成功, registrationId: " + registrationId);
