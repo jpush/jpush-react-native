@@ -3,6 +3,7 @@
 All apis can find in jpush-react-native/index.js.
 
 - setBadge(badge, cb)
+
 设置 badge 值
 ```
 JPushModule.setBadge(5, (badgeNumber) => {
@@ -18,6 +19,7 @@ JPushModule.setBadge(5, (badgeNumber) => {
                         userInfo,   // Dictionary
                         soundName   // String
                         )
+
 设置本地推送
 ```
   JPushModule.setLocalNotification( this.state.date, 
