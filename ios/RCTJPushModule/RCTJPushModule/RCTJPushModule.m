@@ -7,9 +7,9 @@
 //
 #import <UIKit/UIKit.h>
 #import "RCTJPushModule.h"
-#import "RCTEventDispatcher.h"
-#import "RCTRootView.h"
-#import "RCTBridge.h"
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTRootView.h>
+#import <React/RCTBridge.h>
 #import "RCTJPushActionQueue.h"
 
 @interface RCTJPushModule () {
