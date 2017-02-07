@@ -14,7 +14,7 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
-#import “JPUSHService.h"
+#import "JPUSHService.h"
 
 #define kJPFDidReceiveRemoteNotification  @"kJPFDidReceiveRemoteNotification"
 
