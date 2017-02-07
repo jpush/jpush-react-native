@@ -7,8 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("RCTBridgeModule.h")
 #import "RCTBridgeModule.h"
-#import "JPUSHService.h"
+#else
+#import <React/RCTBridgeModule.h>
+#endif
+
+#import “JPUSHService.h"
 
 #define kJPFDidReceiveRemoteNotification  @"kJPFDidReceiveRemoteNotification"
 
