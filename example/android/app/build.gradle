@@ -84,7 +84,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.pushdemo"
@@ -92,13 +92,9 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        ndk { 
-           abiFilters "armeabi-v7a", "x86"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
         }
-        manifestPlaceholders = [
-                JPUSH_APPKEY: "d4ee2375846bc30fa51334f5",	//在此替换你的APPKey
-                APP_CHANNEL: "developer-default"		//应用渠道号
-        ]
     }
     splits {
         abi {
@@ -112,17 +108,6 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-        }
-    }
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            jniLibs.srcDirs = ['libs']
-            java.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
         }
     }
     // applicationVariants are e.g. debug, release
@@ -142,7 +127,6 @@ android {
 
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile project(':jpush-react-native')
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }

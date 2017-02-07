@@ -10,15 +10,9 @@
 #import "RCTJPushModule.h"
 #import "RCTJPushActionQueue.h"
 
-#if __has_include("RCTBridgeModule.h")
-#import "RCTEventDispatcher.h"
-#import "RCTRootView.h"
-#import "RCTBridge.h"
-#else
 #import<React/RCTEventDispatcher.h>
 #import<React/RCTRootView.h>
 #import<React/RCTBridge.h>
-#endif
 
 @interface RCTJPushModule () {
   BOOL _isJPushDidLogin;

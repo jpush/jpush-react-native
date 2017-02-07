@@ -4,12 +4,11 @@
   "private": true,
   "scripts": {
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
-    "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
     "jpush-react-native": "^1.2.6",
     "react": "15.3.2",
-    "react-native": "^0.34.1"
+    "react-native": "^0.41.2"
   }
 }
