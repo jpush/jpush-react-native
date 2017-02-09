@@ -18,11 +18,18 @@ npm run configureJPush <yourAppKey> <yourModuleName>
 npm run configureJPush d4ee2375846bc30fa51334f5 app
 
 ```
-
+在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
+```
+$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
+```
 ## 手动配置
 ```
 npm install jpush-react-native --save
-rnpm link jpush-react-native
+react-native link jpush-react-native
+```
+在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
+```
+$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ```
 
 ###Android
