@@ -198,3 +198,4 @@ Android Studio failed to resolve com.facebook.react:react-native:0.23.0
 ---
 贡献者列表
 - [bang88](https://github.com/bang88)
+- [pampang](https://github.com/pampang)
