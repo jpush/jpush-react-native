@@ -4,16 +4,16 @@ import React from 'react';
 import ReactNative from 'react-native';
 
 const {
-  Text,
-  View,
-  TextInput,
-  TouchableHighlight,
-  PropTypes,
-  requireNativeComponent,
-  NativeModules,
-  ScrollView,
-  StyleSheet,
-  DeviceEventEmitter,
+    Text,
+    View,
+    TextInput,
+    TouchableHighlight,
+    PropTypes,
+    requireNativeComponent,
+    NativeModules,
+    ScrollView,
+    StyleSheet,
+    DeviceEventEmitter,
 } = ReactNative;
 
 import JPushModule from 'jpush-react-native';
@@ -157,83 +157,112 @@ export default class PushActivity extends React.Component {
                 <Text style = { styles.btnTextStyle }>
                   INITPUSH
                 </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor = '#e4083f'
-              activeOpacity = { 0.5 }
-              style = { styles.btnStyle }
-              onPress = { this.onStopPress }>
-                <Text style = { styles.btnTextStyle }>
-                  STOPPUSH
+                <Text style={ styles.textStyle }>
+                    { this.state.imei }
                 </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor = '#f5a402'
-              activeOpacity = { 0.5 }
-              style = { styles.btnStyle }
-              onPress = { this.onResumePress }>
-                <Text style = { styles.btnTextStyle }> 
-                  RESUMEPUSH
+                <Text style={ styles.textStyle }>
+                    { this.state.package }
                 </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor = '#f5a402'
-              activeOpacity = { 0.5 }
-              style = { styles.btnStyle }
-              onPress = { this.onGetRegistrationIdPress }>
-                <Text style = { styles.btnTextStyle }> 
-                  GET REGISTRATIONID
+                <Text style={ styles.textStyle }>
+                    { this.state.deviceId }
                 </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor = '#f5a402'
-              activeOpacity = { 0.5 }
-              style = { styles.btnStyle }
-              onPress = { this.jumpSecondActivity }>
-                <Text style = { styles.btnTextStyle }> 
-                  Go to SecondActivity
+                <Text style={ styles.textStyle }>
+                    { this.state.version }
                 </Text>
-            </TouchableHighlight>
-            <Text style = { styles.textStyle }>
-              { this.state.pushMsg }
-            </Text>
-            <Text style = {styles.textStyle} >
-              { this.state.registrationId }
-            </Text>
+                <TouchableHighlight
+                    underlayColor='#0866d9'
+                    activeOpacity={ 0.5 }
+                    style={ styles.btnStyle }
+                    onPress={ this.jumpSetActivity }>
+                    <Text style={ styles.btnTextStyle }>
+                        设置
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    underlayColor='#0866d9'
+                    activeOpacity={ 0.5 }
+                    style={ styles.btnStyle }
+                    onPress={ this.onInitPress }>
+                    <Text style={ styles.btnTextStyle }>
+                        INITPUSH
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    underlayColor='#e4083f'
+                    activeOpacity={ 0.5 }
+                    style={ styles.btnStyle }
+                    onPress={ this.onStopPress }>
+                    <Text style={ styles.btnTextStyle }>
+                        STOPPUSH
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    underlayColor='#f5a402'
+                    activeOpacity={ 0.5 }
+                    style={ styles.btnStyle }
+                    onPress={ this.onResumePress }>
+                    <Text style={ styles.btnTextStyle }>
+                        RESUMEPUSH
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    underlayColor='#f5a402'
+                    activeOpacity={ 0.5 }
+                    style={ styles.btnStyle }
+                    onPress={ this.onGetRegistrationIdPress }>
+                    <Text style={ styles.btnTextStyle }>
+                        GET REGISTRATIONID
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    underlayColor='#f5a402'
+                    activeOpacity={ 0.5 }
+                    style={ styles.btnStyle }
+                    onPress={ this.jumpSecondActivity }>
+                    <Text style={ styles.btnTextStyle }>
+                        Go to SecondActivity
+                    </Text>
+                </TouchableHighlight>
+                <Text style={ styles.textStyle }>
+                    { this.state.pushMsg }
+                </Text>
+                <Text style={styles.textStyle}>
+                    { this.state.registrationId }
+                </Text>
             </ScrollView>
 
-    )
-  }
+        )
+    }
 }
 
 var styles = StyleSheet.create({
-  parent: {
-    padding: 15,
-    backgroundColor: '#f0f1f3'
-  },
+    parent: {
+        padding: 15,
+        backgroundColor: '#f0f1f3'
+    },
 
-  textStyle: {
-    marginTop: 10,
-    textAlign: 'center',
-    fontSize: 20,
-    color: '#808080'
-  },
+    textStyle: {
+        marginTop: 10,
+        textAlign: 'center',
+        fontSize: 20,
+        color: '#808080'
+    },
 
-  btnStyle: {
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: '#3e83d7',
-    borderRadius: 8,
-    backgroundColor: '#3e83d7'
-  },
-  btnTextStyle: {
-    textAlign: 'center',
-    fontSize: 25,
-    color: '#ffffff'
-  },
-  inputStyle: {
-    borderColor: '#48bbec',
-    borderWidth: 1,
+    btnStyle: {
+        marginTop: 10,
+        borderWidth: 1,
+        borderColor: '#3e83d7',
+        borderRadius: 8,
+        backgroundColor: '#3e83d7'
+    },
+    btnTextStyle: {
+        textAlign: 'center',
+        fontSize: 25,
+        color: '#ffffff'
+    },
+    inputStyle: {
+        borderColor: '#48bbec',
+        borderWidth: 1,
 
-  },
+    },
 });
