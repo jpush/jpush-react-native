@@ -23,6 +23,6 @@
 	"homepage": "https://github.com/jpush/jpush-react-native#readme",
   	"peerDependencies": {
     	"react-native": "> 0.40.0",
-    	"jcore-react-native": "> 1.0.0"
+    	"jcore-react-native": ">= 1.0.0"
   	}
 }
