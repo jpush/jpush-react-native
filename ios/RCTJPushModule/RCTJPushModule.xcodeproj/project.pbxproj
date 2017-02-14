@@ -230,10 +230,7 @@
 					"$(PROJECT_DIR)/RCTJPushModule",
 					"$(SRCROOT)/../../../jcore-react-native/ios",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-ljcore-ios",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -248,10 +245,7 @@
 					"$(PROJECT_DIR)/RCTJPushModule",
 					"$(SRCROOT)/../../../jcore-react-native/ios",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-ljcore-ios",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
