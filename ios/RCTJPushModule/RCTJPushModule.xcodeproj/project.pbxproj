@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		624386D71E096B8800F69E07 /* RCTJPushActionQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
-		6281BE201E23BA4600594B25 /* jcore-ios-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6281BE1D1E23BA4600594B25 /* jcore-ios-1.1.0.a */; };
-		6281BE211E23BA4600594B25 /* jpush-ios-3.0.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6281BE1E1E23BA4600594B25 /* jpush-ios-3.0.1.a */; };
+		62C31E331E52FCE700AC54A4 /* jpush-ios-3.0.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62C31E321E52FCE700AC54A4 /* jpush-ios-3.0.2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,9 +30,8 @@
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6281BE1D1E23BA4600594B25 /* jcore-ios-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jcore-ios-1.1.0.a"; sourceTree = "<group>"; };
-		6281BE1E1E23BA4600594B25 /* jpush-ios-3.0.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.1.a"; sourceTree = "<group>"; };
 		6281BE1F1E23BA4600594B25 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		62C31E321E52FCE700AC54A4 /* jpush-ios-3.0.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.2.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,8 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6281BE201E23BA4600594B25 /* jcore-ios-1.1.0.a in Frameworks */,
-				6281BE211E23BA4600594B25 /* jpush-ios-3.0.1.a in Frameworks */,
+				62C31E331E52FCE700AC54A4 /* jpush-ios-3.0.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,8 +65,7 @@
 		6280980C1CEDC407000D3A81 /* RCTJPushModule */ = {
 			isa = PBXGroup;
 			children = (
-				6281BE1D1E23BA4600594B25 /* jcore-ios-1.1.0.a */,
-				6281BE1E1E23BA4600594B25 /* jpush-ios-3.0.1.a */,
+				62C31E321E52FCE700AC54A4 /* jpush-ios-3.0.2.a */,
 				6281BE1F1E23BA4600594B25 /* JPUSHService.h */,
 				624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */,
 				624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */,
@@ -232,8 +228,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RCTJPushModule",
+					"$(SRCROOT)/../../../jcore-react-native/ios",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-ljcore-ios",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -246,8 +246,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RCTJPushModule",
+					"$(SRCROOT)/../../../jcore-react-native/ios",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-ljcore-ios",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
