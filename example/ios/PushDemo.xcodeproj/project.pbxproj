@@ -24,6 +24,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		90142A7E6D004F3FA7FD8452 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AADC7AA6F1F4F45B9F2123E /* libRCTJPushModule.a */; };
+		D2C9C9C76AD140A3A1D6AF9B /* libRCTJCoreModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4A27388E86B468EA6622157 /* libRCTJCoreModel.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,8 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		0BA2C85D670A4AE2BF31BA56 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; name = "RCTJPushModule.xcodeproj"; path = "../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		8AADC7AA6F1F4F45B9F2123E /* libRCTJPushModule.a */ = {isa = PBXFileReference; name = "libRCTJPushModule.a"; path = "libRCTJPushModule.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		EB38C9F7396D4021BA0E48D5 /* RCTJCoreModel.xcodeproj */ = {isa = PBXFileReference; name = "RCTJCoreModel.xcodeproj"; path = "../node_modules/testdep/ios/RCTJCoreModel/RCTJCoreModel.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		A4A27388E86B468EA6622157 /* libRCTJCoreModel.a */ = {isa = PBXFileReference; name = "libRCTJCoreModel.a"; path = "libRCTJCoreModel.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +266,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				90142A7E6D004F3FA7FD8452 /* libRCTJPushModule.a in Frameworks */,
+				D2C9C9C76AD140A3A1D6AF9B /* libRCTJCoreModel.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +412,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				0BA2C85D670A4AE2BF31BA56 /* RCTJPushModule.xcodeproj */,
+				EB38C9F7396D4021BA0E48D5 /* RCTJCoreModel.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";

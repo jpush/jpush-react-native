@@ -9,6 +9,7 @@
   "dependencies": {
     "jpush-react-native": "^1.3.6",
     "react": "15.3.2",
-    "react-native": "^0.41.2"
+    "react-native": "^0.41.2",
+    "testdep": "1.1.2"
   }
 }
