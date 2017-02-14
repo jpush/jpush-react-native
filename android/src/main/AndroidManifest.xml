@@ -60,22 +60,6 @@
             android:exported="false" >
         </service>
 
-        <!-- Required SDK 核心功能-->
-        <!-- option since 2.0.5 可配置PushService的android:process参数 将JPush服务配置为一个独立进程 -->
-        <!-- 如：android:process=":remote" -->
-        <service
-            android:name="cn.jpush.android.service.PushService"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-
-            </intent-filter>
-        </service>
-
         <!-- Required SDK 核心功能 since 1.8.0 -->
         <service
             android:name="cn.jpush.android.service.DaemonService"
@@ -86,30 +70,6 @@
                 <category android:name="${applicationId}"/>
             </intent-filter>
         </service>
-
-        <!-- Required SDK核心功能-->
-        <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!--Required 显示通知栏 -->
-                <category android:name="${applicationId}" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <!-- Optional -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
         <!-- User defined. 用户自定义的广播接收器-->
         <receiver
@@ -125,6 +85,14 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".HeadlessService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.reactnativejpush.HeadlessService"/>
+                <category android:name="${applicationId}"/>
+            </intent-filter>
+        </service>
 
     </application>
 </manifest>

@@ -1,16 +1,21 @@
 import {
+	AppRegistry,
 	NativeModules,
 	Platform,
 	DeviceEventEmitter
 } from 'react-native';
 
-const JPushModule = NativeModules.JPushModule;
+import headlessJsTask from './headlessTask';
 
+const JPushModule = NativeModules.JPushModule;
+const HEADLESS_TASK = "headlessJsTask";
 const listeners = {};
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const openNotificationEvent = "openNotification";
 const getRegistrationIdEvent = "getRegistrationId";
+
+AppRegistry.registerHeadlessTask(HEADLESS_TASK, () => headlessJsTask);
 
 /**
  * Logs message to console with the [JPush] prefix
@@ -181,7 +186,7 @@ export default class JPush {
 
 	/**
 	 * Android
-	 * If device registered successfully, the server will return registrationId
+	 * If device register succeed, the server will return registrationId
 	 */
 	static addGetRegistrationIdListener(cb) {
 		listeners[cb] = DeviceEventEmitter.addListener(getRegistrationIdEvent,

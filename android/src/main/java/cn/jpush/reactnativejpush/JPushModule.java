@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -252,6 +253,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 // extra 字段的 json 字符串
                 String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
                 Logger.i(TAG, "收到推送下来的通知: " + alertContent);
+                if (!isApplicationRunning(context)) {
+                    Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
+                    Intent intent = new Intent(context, HeadlessService.class);
+                    intent.putExtra("data", bundle);
+                    context.startService(intent);
+                    HeadlessJsTaskService.acquireWakeLockNow(context);
+                }
                 WritableMap map = Arguments.createMap();
                 map.putString("alertContent", alertContent);
                 map.putString("extras", extras);
@@ -298,6 +306,17 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
         }
 
+    }
+
+    private static boolean isApplicationRunning(final Context context) {
+        ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isApplicationRunningBackground(final Context context) {
