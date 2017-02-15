@@ -231,6 +231,7 @@
 					"$(SRCROOT)/../../../jcore-react-native/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "-ljcore-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -246,6 +247,7 @@
 					"$(SRCROOT)/../../../jcore-react-native/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "-ljcore-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
