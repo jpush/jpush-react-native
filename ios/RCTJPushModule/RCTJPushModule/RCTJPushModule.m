@@ -49,6 +49,9 @@ RCT_EXPORT_MODULE();
   _isJPushDidLogin = NO;
   
   NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+  
+  [defaultCenter removeObserver:self];
+  
   [defaultCenter addObserver:self
                     selector:@selector(networkDidSetup:)
                         name:kJPFNetworkDidSetupNotification
