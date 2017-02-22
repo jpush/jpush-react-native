@@ -4,7 +4,6 @@
 
 ## NOTE:
 - for latest RN, use latest
-- for RN < 0.40.0, use v1.3.6
 - for jpush-react-native > 1.4.4, need install [jcore-react-native](https://github.com/jpush/jcore-react-native)
 - 安装完 jcore 后，需要执行 react-native link
 
