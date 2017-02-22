@@ -5,7 +5,7 @@
 ## NOTE:
 - for latest RN, use latest
 - for RN < 0.40.0, use v1.3.6
-- for jpush-react-native > 1.4.4, need install jcore-react-native
+- for jpush-react-native > 1.4.4, need install [jcore-react-native](https://github.com/jpush/jcore-react-native)
 - 安装完 jcore 后，需要执行 react-native link
 
 
@@ -42,7 +42,7 @@ react-native link
 $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ```
 
-###Android
+### Android
 
 - 使用 Android Studio import 你的 React Native 应用（选择你的 React Native 应用所在目录下的 android 文件夹即可）
 
