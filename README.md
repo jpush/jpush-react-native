@@ -34,7 +34,8 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ## 手动配置
 ```
 npm install jpush-react-native --save
-react-native link jpush-react-native
+npm install jcore-react-native --save
+react-native link
 ```
 在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
 ```
