@@ -1,20 +1,18 @@
 # JPush React Native Plugin
 
 ## 有关于 JPush SDK 的疑问，请务必到我们的[社区提问](https://community.jiguang.cn/)
-**v1.2.3 版本后需要注意 Android 方面的配置（因为把 APPKey 的设置从 nodule_modules 中移出来了），
-执行自动配置后仍然需要手动配置一下你项目模块下的 build.gradle 文件，参见手动配置中的 build.gradle 配置（后续版本可能会改进这一点）**
 
 ## NOTE:
 - for latest RN, use latest
 - for RN < 0.40.0, use v1.3.6
 - for jpush-react-native > 1.4.4, need install jcore-react-native
-
+- 安装完 jcore 后，需要执行 react-native link
 ##自动配置（以下命令均在你的 React Native Project 目录下运行）
 ```
 npm install jpush-react-native --save
 npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后需要同时安装 jcore-react-native
 
-react-native link jpush-react-native
+react-native link
 
 //module name 指的是你 Android 项目中的模块名字(对 iOS 没有影响，不填写的话默认值为 app，会影响到查找 AndroidManifest 问题，
 //如果没找到 AndroidManifest，则需要手动修改，参考下面的 AndroidManifest 配置相关说明)
@@ -24,6 +22,9 @@ npm run configureJPush <yourAppKey> <yourModuleName>
 npm run configureJPush d4ee2375846bc30fa51334f5 app
 
 ```
+**v1.2.3 版本后需要注意 Android 方面的配置（因为把 APPKey 的设置从 nodule_modules 中移出来了），
+执行自动配置后仍然需要手动配置一下你项目模块下的 build.gradle 文件，参见手动配置中的 build.gradle 配置（后续版本可能会改进这一点）**
+
 在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
 ```
 $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
