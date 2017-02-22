@@ -7,7 +7,9 @@
 - for RN < 0.40.0, use v1.3.6
 - for jpush-react-native > 1.4.4, need install jcore-react-native
 - 安装完 jcore 后，需要执行 react-native link
-##自动配置（以下命令均在你的 React Native Project 目录下运行）
+
+
+## 自动配置（以下命令均在你的 React Native Project 目录下运行）
 ```
 npm install jpush-react-native --save
 npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后需要同时安装 jcore-react-native
