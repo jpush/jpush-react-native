@@ -16,38 +16,6 @@ if (moduleName == undefined || moduleName == null) {
 	moduleName = "app";
 };
 
-function projectConfiguration(path){
-	
-	if (isFile(path) == false) {
-		console.log("configuration JPush error!!");
-		return;
-	}
-
-	var rf = fs.readFileSync(path,"utf-8");
-	rf = rf.replace(/				OTHER_LDFLAGS = \(/g, "				OTHER_LDFLAGS = \(\n\
-						\"-framework\",\n\
-						Adsupport,\n\
-						\"-framework\",\n\
-						Security,\n\
-						\"-framework\",\n\
-						UIKit,\n\
-						\"-framework\",\n\
-						Foundation,\n\
-						\"-framework\",\n\
-						CoreGraphics,\n\
-						\"-framework\",\n\
-						SystemConfiguration,\n\
-						\"-framework\",\n\
-						CoreTelephony,\n\
-						\"-framework\",\n\
-						CoreFoundation,\n\
-						\"-framework\",\n\
-						CFNetwork,\n\
-                        \"-lresolv\",\n\
-						\"-lz\",");
-	fs.writeFileSync(path, rf, "utf-8");	
-}
-
 
 function insertJpushCode(path){
 	// 	 这个是插入代码的脚本 install
@@ -195,12 +163,6 @@ getAllfiles("./ios",function (f, s) {
 	insertJpushCode(f);
   }
 
-  // 找到 iOS 工程文件，插入需要链接的库文件
-  var isiOSProjectPbxprojFile = f.match(/[.]*\.pbxproj/);
-  if (isiOSProjectPbxprojFile != null) {
-  	console.log("the file is iOS project file:"+f);
-  	projectConfiguration(f);
-  }
 });
 
 getAndroidManifest("./android/" + moduleName, function(f, s) {
