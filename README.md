@@ -1,3 +1,4 @@
+[![QQ Group](https://img.shields.io/badge/QQ%20Group-553406342-red.svg)]()
 # JPush React Native Plugin
 
 ## 有关于 JPush SDK 的疑问，请务必到我们的[社区提问](https://community.jiguang.cn/)
