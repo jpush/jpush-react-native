@@ -1,6 +1,6 @@
 {
 	"name": "jpush-react-native",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"description": "a jpush plugin for react native application",
 	"main": "index.js",
 	"scripts": {
@@ -21,24 +21,24 @@
 		"url": "https://github.com/jpush/jpush-react-native/issues"
 	},
 	"homepage": "https://github.com/jpush/jpush-react-native#readme",
-  	"peerDependencies": {
-    	"jcore-react-native": ">= 1.0.0"
-  	},
-  	"rnpm": {
-    	"ios": {
-      	"sharedLibraries": [
-        	"libz",
-        	"UserNotifications",
-        	"CoreTelephony",
-        	"Security",
-        	"CFNetwork",
-        	"CoreFoundation",
-        	"SystemConfiguration",
-        	"Foundation",
-        	"UIKit",
-        	"libresolv",
-        	"CoreGraphics"
-      	]
-    	}
-  	}
+	"peerDependencies": {
+		"jcore-react-native": ">= 1.0.0"
+	},
+	"rnpm": {
+		"ios": {
+			"sharedLibraries": [
+				"libz",
+				"UserNotifications",
+				"CoreTelephony",
+				"Security",
+				"CFNetwork",
+				"CoreFoundation",
+				"SystemConfiguration",
+				"Foundation",
+				"UIKit",
+				"libresolv",
+				"CoreGraphics"
+			]
+		}
+	}
 }
