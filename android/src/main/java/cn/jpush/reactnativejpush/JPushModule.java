@@ -1,5 +1,6 @@
 package cn.jpush.reactnativejpush;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
@@ -28,10 +29,12 @@ import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.data.JPushLocalNotification;
 
 public class JPushModule extends ReactContextBaseJavaModule {
 
     private static String TAG = "JPushModule";
+    private static int NOTIFICATION_BUILDER_ID = 0;
     private Context mContext;
     private static ReactApplicationContext mRAC;
     private static JPushModule mModule;
@@ -248,23 +251,37 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("receivePushMsg", map);
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(data.getAction())) {
-                // 通知内容
-                String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
-                // extra 字段的 json 字符串
-                String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                Logger.i(TAG, "收到推送下来的通知: " + alertContent);
-                if (!isApplicationRunning(context)) {
-                    Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
-                    Intent intent = new Intent(context, HeadlessService.class);
-                    intent.putExtra("data", bundle);
-                    context.startService(intent);
-                    HeadlessJsTaskService.acquireWakeLockNow(context);
+                try {
+                    // 通知内容
+                    String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
+                    // extra 字段的 json 字符串
+                    String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                    Logger.i(TAG, "收到推送下来的通知: " + alertContent);
+                    if (!isApplicationRunning(context)) {
+                        Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
+                        Intent intent = new Intent(context, HeadlessService.class);
+                        intent.putExtra("data", bundle);
+                        context.startService(intent);
+                        HeadlessJsTaskService.acquireWakeLockNow(context);
+                    }
+                    WritableMap map = Arguments.createMap();
+                    map.putString("alertContent", alertContent);
+                    map.putString("extras", extras);
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("receiveNotification", map);
+                } catch (Exception e) {
+                    // Start up application failed, will save notifications as local notifications.
+                    Logger.i(TAG, "启动应用失败，保存为本地通知");
+                    JPushLocalNotification notification = new JPushLocalNotification();
+                    notification.setBuilderId(NOTIFICATION_BUILDER_ID);
+                    NOTIFICATION_BUILDER_ID++;
+                    notification.setNotificationId(System.currentTimeMillis());
+                    notification.setContent(bundle.getString(JPushInterface.EXTRA_ALERT));
+                    notification.setTitle(bundle.getString(JPushInterface.EXTRA_TITLE));
+                    notification.setExtras(bundle.getString(JPushInterface.EXTRA_EXTRA));
+                    notification.setBroadcastTime(System.currentTimeMillis() + 1000 * 10);
+                    JPushInterface.addLocalNotification(context, notification);
                 }
-                WritableMap map = Arguments.createMap();
-                map.putString("alertContent", alertContent);
-                map.putString("extras", extras);
-                mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("receiveNotification", map);
 
                 // 这里点击通知跳转到指定的界面可以定制化一下
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
@@ -294,15 +311,35 @@ public class JPushModule extends ReactContextBaseJavaModule {
                         context.startActivity(intent);
                         // application running in foreground, do nothing
                     }
-                } catch (Throwable e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    Logger.i(TAG, "Try to start application");
+                    if (mRAC != null) {
+                        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+                        try {
+                            Class clazz = classLoader.loadClass(mRAC.getPackageName() + ".MainActivity");
+                            Intent intent = new Intent(context, clazz);
+                            intent.putExtras(bundle);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(intent);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            Logger.i(TAG, "Cannot find MainActivity, will discard onClick event.");
+                        }
+
+                    }
                 }
 
             } else if (JPushInterface.ACTION_REGISTRATION_ID.equals(data.getAction())) {
                 String registrationId = data.getExtras().getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Logger.d(TAG, "注册成功, registrationId: " + registrationId);
-                mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("getRegistrationId", registrationId);
+                try {
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("getRegistrationId", registrationId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
 
