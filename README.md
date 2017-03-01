@@ -23,8 +23,7 @@ npm run configureJPush <yourAppKey> <yourModuleName>
 npm run configureJPush d4ee2375846bc30fa51334f5 app
 
 ```
-**v1.2.3 版本后需要注意 Android 方面的配置（因为把 APPKey 的设置从 nodule_modules 中移出来了），
-执行自动配置后仍然需要手动配置一下你项目模块下的 build.gradle 文件，参见手动配置中的 build.gradle 配置（后续版本可能会改进这一点）**
+**执行自动配置后仍然需要手动配置一下你项目模块下的 build.gradle 文件，参见手动配置中的 build.gradle 配置（后续版本可能会改进这一点）**
 
 在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
 ```
