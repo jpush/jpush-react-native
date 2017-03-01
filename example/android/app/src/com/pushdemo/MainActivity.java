@@ -1,5 +1,7 @@
 package com.pushdemo;
 
+import android.os.Bundle;
+
 import com.facebook.react.*;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 
@@ -37,6 +39,12 @@ public class MainActivity extends ReactActivity implements DefaultHardwareBackBt
 //        setContentView(mReactRootView);
 //    }
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        JPushInterface.init(this);
+    }
     @Override
     protected String getMainComponentName() {
         return "PushDemoApp";
