@@ -258,11 +258,23 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
                     Logger.i(TAG, "收到推送下来的通知: " + alertContent);
                     if (!isApplicationRunning(context)) {
-                        Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
-                        Intent intent = new Intent(context, HeadlessService.class);
-                        intent.putExtra("data", bundle);
-                        context.startService(intent);
-                        HeadlessJsTaskService.acquireWakeLockNow(context);
+//                        Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
+//                        Intent intent = new Intent(context, HeadlessService.class);
+//                        intent.putExtra("data", bundle);
+//                        context.startService(intent);
+//                        HeadlessJsTaskService.acquireWakeLockNow(context);
+
+                        // Save as local notification
+                        Logger.i(TAG, "应用尚未切换到前台运行过, 保存为本地通知");
+                        JPushLocalNotification notification = new JPushLocalNotification();
+                        notification.setBuilderId(NOTIFICATION_BUILDER_ID);
+                        NOTIFICATION_BUILDER_ID++;
+                        notification.setNotificationId(System.currentTimeMillis());
+                        notification.setContent(bundle.getString(JPushInterface.EXTRA_ALERT));
+                        notification.setTitle(bundle.getString(JPushInterface.EXTRA_TITLE));
+                        notification.setExtras(bundle.getString(JPushInterface.EXTRA_EXTRA));
+                        notification.setBroadcastTime(System.currentTimeMillis() + 1000 * 10);
+                        JPushInterface.addLocalNotification(context, notification);
                     }
                     WritableMap map = Arguments.createMap();
                     map.putString("alertContent", alertContent);
@@ -270,17 +282,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("receiveNotification", map);
                 } catch (Exception e) {
-                    // Start up application failed, will save notifications as local notifications.
-                    Logger.i(TAG, "启动应用失败，保存为本地通知");
-                    JPushLocalNotification notification = new JPushLocalNotification();
-                    notification.setBuilderId(NOTIFICATION_BUILDER_ID);
-                    NOTIFICATION_BUILDER_ID++;
-                    notification.setNotificationId(System.currentTimeMillis());
-                    notification.setContent(bundle.getString(JPushInterface.EXTRA_ALERT));
-                    notification.setTitle(bundle.getString(JPushInterface.EXTRA_TITLE));
-                    notification.setExtras(bundle.getString(JPushInterface.EXTRA_EXTRA));
-                    notification.setBroadcastTime(System.currentTimeMillis() + 1000 * 10);
-                    JPushInterface.addLocalNotification(context, notification);
+                    e.printStackTrace();
                 }
 
                 // 这里点击通知跳转到指定的界面可以定制化一下
@@ -309,8 +311,8 @@ public class JPushModule extends ReactContextBaseJavaModule {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
-                        // application running in foreground, do nothing
                     }
+                    // application running in foreground, do nothing
                 } catch (Exception e) {
                     e.printStackTrace();
                     Logger.i(TAG, "Try to start application");
