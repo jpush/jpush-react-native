@@ -49,8 +49,9 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 > settings.gradle
 
 ```
-include ':app', ':jpush-react-native'
+include ':app', ':jpush-react-native', ':jcore-react-native'
 project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
+project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
 
 ```
 
@@ -103,6 +104,7 @@ android {
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile project(':jpush-react-native')
+    compile project(':jcore-react-native')
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 ```
