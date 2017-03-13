@@ -263,7 +263,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
 //                        intent.putExtra("data", bundle);
 //                        context.startService(intent);
 //                        HeadlessJsTaskService.acquireWakeLockNow(context);
-
                         // Save as local notification
                         Logger.i(TAG, "应用尚未切换到前台运行过, 保存为本地通知");
                         JPushLocalNotification notification = new JPushLocalNotification();
@@ -311,16 +310,15 @@ public class JPushModule extends ReactContextBaseJavaModule {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
+                        // application running in foreground, do nothing
                     }
-                    // application running in foreground, do nothing
                 } catch (Exception e) {
                     e.printStackTrace();
                     Logger.i(TAG, "Try to start application");
                     if (mRAC != null) {
-                        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                         try {
-                            Class clazz = classLoader.loadClass(mRAC.getPackageName() + ".MainActivity");
-                            Intent intent = new Intent(context, clazz);
+                            Intent intent = new Intent();
+                            intent.setClassName(mRAC.getPackageName(), mRAC.getPackageName() + ".MainActivity");
                             intent.putExtras(bundle);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
