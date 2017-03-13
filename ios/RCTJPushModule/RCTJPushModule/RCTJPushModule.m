@@ -46,7 +46,6 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   self = [super init];
-  _isJPushDidLogin = NO;
   
   NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
   

@@ -226,6 +226,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		6228B0721DA8D09D00862BA3 /* PushDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PushDemo.entitlements; path = PushDemo/PushDemo.entitlements; sourceTree = "<group>"; };
 		62C31F6D1E556D5600AC54A4 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = ../../ios/RCTJPushModule/RCTJPushModule.xcodeproj; sourceTree = "<group>"; };
+		62E24CE61E75092C00490B3F /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -375,6 +376,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		62E24CE51E75092C00490B3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62E24CE61E75092C00490B3F /* UserNotifications.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +427,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PushDemoTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				62E24CE51E75092C00490B3F /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
