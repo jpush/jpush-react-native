@@ -95,13 +95,13 @@ android {
 ...
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile project(':jpush-react-native')
-    compile project(':jcore-react-native')
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':jpush-react-native')  // 添加 jpush 依赖
+    compile project(':jcore-react-native')  // 添加 jcore 依赖
+    compile "com.facebook.react:react-native:+"  // From node_modules
 }
 ```
 
-将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey。到此为止，配置完成。
+将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey，并且在 dependencies 中添加 jpush-react-native 及 jcore-react-native 这两个依赖。到此为止，配置完成。
 
 - 现在重新 sync 一下项目，应该能看到 jpush-react-native 以及 jcore-react-native 作为 android Library 项目导进来了
 
