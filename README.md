@@ -8,7 +8,7 @@
 - for jpush-react-native > 1.4.4, require install [jcore-react-native](https://github.com/jpush/jcore-react-native)
 - 安装完 jcore 后，需要执行 react-native link, **如果 link 失败，需要手动配置一下，[详细过程参考这篇文章](http://bbs.reactnative.cn/topic/3505/%E7%94%A8-jpush-react-native-%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD-android-%E7%AF%87)**
 
-## 自动配置（以下命令均在你的 React Native Project 目录下运行）
+## 自动配置（以下命令均在你的 React Native Project 目录下运行，link 失败后需要手动配置）
 ```
 npm install jpush-react-native --save
 npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后需要同时安装 jcore-react-native
@@ -33,7 +33,7 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ```
 
 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
-## 手动配置
+## 手动配置 
 ### 通用
 ```
 npm install jpush-react-native --save
@@ -69,23 +69,7 @@ project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '..
 
 ```
     <application
-        android:name=".MainApplication"
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-
+        ...
         <!-- Required . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
         <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
@@ -156,6 +140,8 @@ var subscription = NativeAppEventEmitter.addListener(
 // 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
 subscription.remove();
 ```
+
+### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
 
 ---
 贡献者列表
