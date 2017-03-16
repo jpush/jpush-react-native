@@ -120,26 +120,7 @@ dependencies {
 - [Common](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Common.md)
 - [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
 - [iOS API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_API.md)
-在 1.2.9 开始提供 OpenNotification 事件。获取点击通知事件，需要获得该条推送需要在 js 代码加入如下监听代码：（注意这个事件只有在 iOS 10之后才有）
-```
-var subscription = NativeAppEventEmitter.addListener(
-  'OpenNotification',
-  (notification) => console.log(notification)
-);
 
-```
-- JPush 提供应用内消息，用户可以发送应用内消息给应用，如果手机应用在前台就会收到这个消息，否则存为离线消息。我们可以通过如下代码获取这个应用内消息
-```
-var { NativeAppEventEmitter } = require('react-native');
-
-var subscription = NativeAppEventEmitter.addListener(
-  'networkDidReceiveMessage',
-  (message) => console.log(message)
-);
-...
-// 千万不要忘记忘记取消订阅, 通常在componentWillUnmount函数中实现。
-subscription.remove();
-```
 
 ### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
 
