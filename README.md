@@ -63,7 +63,7 @@ project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '..
 
 ```
 
-- 修改 app 下的 AndroidManifest 配置，将 jpush 相关的配置复制到这个文件中，[参考 demo 的 AndroidManifest](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/AndroidManifest.xml)：(增加了 \<meta-data> 部分)
+- 检查一下 app 下的 AndroidManifest 配置，有没有增加 \<meta-data> 部分。[可以参考 demo 的 AndroidManifest](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/AndroidManifest.xml)
 
 > your react native project/android/app/AndroidManifest.xml
 
@@ -103,10 +103,7 @@ dependencies {
 
 将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey。到此为止，配置完成。
 
-- 现在重新 sync 一下项目，应该能看到 jpush-react-native 作为一个 android Library 项目导进来了
-
-![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin1.png)
-
+- 现在重新 sync 一下项目，应该能看到 jpush-react-native 以及 jcore-react-native 作为 android Library 项目导进来了
 
 
 
