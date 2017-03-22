@@ -26,16 +26,10 @@ npm run configureJPush <yourAppKey> <yourModuleName>
 ```
 npm run configureJPush d4ee2375846bc30fa51334f5 app
 ```
-在 iOS 工程中设置 TARGETS-> BUILD Phases -> LinkBinary with Libraries 找到 UserNotifications.framework 把 status 设为 optional
-
-在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
-```
-$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
-```
 
 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
-### 手动配置(自动配置后，部分操作需要手动修改) 
-#### iOS
+### 手动操作部分(自动配置后，部分操作需要手动修改) 
+#### iOS 手动操作部分
 在 iOS 工程中设置 TARGETS-> BUILD Phases -> LinkBinary with Libraries 找到 UserNotifications.framework 把 status 设为 optional
 
 在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下如路径
@@ -44,9 +38,7 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ```
 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
 
-还需要手动添加 Native 代码，具体看 👉 [文档](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md)
-#### Android
-
+#### Android 手动操作部分
 - 修改 app 下的 build.gradle 配置：
 
 > your react native project/android/app/build.gradle
