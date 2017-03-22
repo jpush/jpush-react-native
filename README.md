@@ -14,8 +14,8 @@ npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后�
 react-native link
 ```
 ## 配置
-配置有两种方式，分为自动配置和手动配置。其中自动配置并非为全自动（以后版本或许会改进），还是需要部分手动操作。这里推荐使用自动配置
-### 自动配置（以下命令均在你的 React Native Project 目录下运行，自动配置失败后需要手动配置）
+配置有两个步骤，分为自动配置和手动配置。其中自动配置后，还是需要部分手动操作（以后版本或许会改进）。
+### 自动配置部分（以下命令均在你的 React Native Project 目录下运行，自动配置失败后需要手动配置）
 ```
 npm run configureJPush <yourAppKey> <yourModuleName>
 
@@ -68,7 +68,7 @@ dependencies {
 将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey，检查一下 dependencies 中有没有添加 jpush-react-native 及 jcore-react-native 这两个依赖。
 
 
-- 检查 android 项目下的 settings.gradle 配置有没有包含一下内容：
+- 检查 android 项目下的 settings.gradle 配置有没有包含以下内容：
 
 > settings.gradle
 
