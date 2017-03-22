@@ -6,24 +6,21 @@
 ## NOTE:
 - for latest RN, use latest
 - for jpush-react-native > 1.4.4, require install [jcore-react-native](https://github.com/jpush/jcore-react-native)
-- 安装完 jcore 后，需要执行 react-native link, **如果 link 失败，需要手动配置一下，[详细过程参考这篇文章](http://bbs.reactnative.cn/topic/3505/%E7%94%A8-jpush-react-native-%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD-android-%E7%AF%87)**
+- 安装完 jcore 后，需要执行自动配置脚本，如果出错了，需要手动配置一下，[详细过程参考这篇文章](http://bbs.reactnative.cn/topic/3505/%E7%94%A8-jpush-react-native-%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD-android-%E7%AF%87)**
 
-## 自动配置（以下命令均在你的 React Native Project 目录下运行，link 失败后需要手动配置）
+## 自动配置（以下命令均在你的 React Native Project 目录下运行，自动配置失败后需要手动配置）
 ```
 npm install jpush-react-native --save
 npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后需要同时安装 jcore-react-native
-
-react-native link
+npm run configureJPush <yourAppKey> <yourModuleName>
 
 //module name 指的是你 Android 项目中的模块名字(对 iOS 没有影响，不填写的话默认值为 app，会影响到查找 AndroidManifest 问题，
 //如果没找到 AndroidManifest，则需要手动修改，参考下面的 AndroidManifest 配置相关说明)
-npm run configureJPush <yourAppKey> <yourModuleName>
 
 举个例子:
 npm run configureJPush d4ee2375846bc30fa51334f5 app
 
 ```
-**执行自动配置后仍然需要手动配置一下你项目模块下的 build.gradle 文件，参见手动配置中的 build.gradle 配置（后续版本可能会改进这一点）**
 
 在 iOS 工程中设置 TARGETS-> BUILD Phases -> LinkBinary with Libraries 找到 UserNotifications.framework 把 status 设为 optional
 
