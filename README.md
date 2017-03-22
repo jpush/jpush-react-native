@@ -30,7 +30,7 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ```
 
 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
-## 手动配置 
+## 手动配置(自动配置后，部分操作需要手动修改) 
 ### 通用
 ```
 npm install jpush-react-native --save
@@ -46,33 +46,6 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 ```
 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
 ### Android
-
-- 使用 Android Studio import 你的 React Native 应用（选择你的 React Native 应用所在目录下的 android 文件夹即可）
-
-- 修改 android 项目下的 settings.gradle 配置：
-
-> settings.gradle
-
-```
-include ':app', ':jpush-react-native', ':jcore-react-native'
-project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
-project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
-
-```
-
-- 检查一下 app 下的 AndroidManifest 配置，有没有增加 \<meta-data> 部分。[可以参考 demo 的 AndroidManifest](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/AndroidManifest.xml)
-
-> your react native project/android/app/AndroidManifest.xml
-
-```
-    <application
-        ...
-        <!-- Required . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
-
-    </application>
-```
 
 - 修改 app 下的 build.gradle 配置：
 
@@ -98,15 +71,39 @@ dependencies {
 }
 ```
 
-将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey，并且在 dependencies 中添加 jpush-react-native 及 jcore-react-native 这两个依赖。到此为止，配置完成。
+将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey，并且检查一下 dependencies 中有没有添加 jpush-react-native 及 jcore-react-native 这两个依赖。
+
+
+- 检查 android 项目下的 settings.gradle 配置有没有包含一下内容：
+
+> settings.gradle
+
+```
+include ':app', ':jpush-react-native', ':jcore-react-native'
+project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
+project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+
+```
+
+- 检查一下 app 下的 AndroidManifest 配置，有没有增加 \<meta-data> 部分。[可以参考 demo 的 AndroidManifest](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/AndroidManifest.xml)
+
+> your react native project/android/app/AndroidManifest.xml
+
+```
+    <application
+        ...
+        <!-- Required . Enable it you can get statistics data with channel -->
+        <meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
+        <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
+
+    </application>
+```
 
 - 现在重新 sync 一下项目，应该能看到 jpush-react-native 以及 jcore-react-native 作为 android Library 项目导进来了
 
-
+- [加入 JPushPackage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
 
 ### Usage
-
-- [Android Usage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
 - [iOS Usage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md)
 
 ### API
