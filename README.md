@@ -11,14 +11,15 @@
 ```
 npm install jpush-react-native --save
 npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后需要同时安装 jcore-react-native
-react-native link
+
 ```
 ## 配置
 配置有两个步骤，分为自动配置和手动配置。其中自动配置后，还是需要部分手动操作（以后版本或许会改进）。
 ### 自动配置部分（以下命令均在你的 React Native Project 目录下运行，自动配置失败后需要手动配置）
 ```
 npm run configureJPush <yourAppKey> <yourModuleName>
-
+//执行自动配置脚本后再执行 link 操作
+react-native link
 //module name 指的是你 Android 项目中的模块名字(对 iOS 没有影响，不填写的话默认值为 app，会影响到查找 AndroidManifest 问题，
 //如果没找到 AndroidManifest，则需要手动修改，参考下面的 AndroidManifest 配置相关说明)
 ```
