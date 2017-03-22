@@ -21,6 +21,8 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -229,6 +231,16 @@ public class JPushModule extends ReactContextBaseJavaModule {
         JPushInterface.clearAllNotifications(getReactApplicationContext());
     }
 
+    @ReactMethod
+    public void clearNotificationById(String id) {
+        try {
+            mContext = getCurrentActivity();
+            JPushInterface.clearNotificationById(mContext, Integer.parseInt(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 接收自定义消息,通知,通知点击事件等事件的广播
      * 文档链接:http://docs.jiguang.cn/client/android_api/
@@ -264,6 +276,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
 //                        context.startService(intent);
 //                        HeadlessJsTaskService.acquireWakeLockNow(context);
                         // Save as local notification
+                        // Start up application failed, will save notifications as local notifications.
                         Logger.i(TAG, "应用尚未切换到前台运行过, 保存为本地通知");
                         JPushLocalNotification notification = new JPushLocalNotification();
                         notification.setBuilderId(NOTIFICATION_BUILDER_ID);
