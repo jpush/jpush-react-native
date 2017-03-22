@@ -30,12 +30,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-        <activity android:name=".SecondActivity"/>
-
-        <!-- Required . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
         <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
+
+        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <activity android:name=".SecondActivity"/>
 
     </application>
 

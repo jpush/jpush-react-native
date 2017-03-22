@@ -168,7 +168,6 @@ getAllfiles("./ios", function(f, s) {
 getAndroidManifest("./android/" + moduleName, function(f, s) {
 	var isAndroidManifest = f.match(/AndroidManifest\.xml/);
 	if (isAndroidManifest != null) {
-		console.log("find AndroidManifest in " + moduleName);
 		configureAndroidManifest(f);
 	};
 });
@@ -279,7 +278,7 @@ function configureAppkey(path) {
 	var rf = fs.readFileSync(path, "utf-8");
 	var isAlreadyWrite = rf.match(/.*JPUSH_APPKEY.*/);
 	if (isAlreadyWrite == null) {
-		var insertKey = rf.match(/\n.*ndk.* \{.*\}\n/);
+		var insertKey = rf.match(/\n.*ndk \{\n.*\}\n/);
 		if (insertKey != null) {
 			rf = rf.replace(insertKey[0], insertKey[0] + "manifestPlaceholders = \[\n            JPUSH_APPKEY\: \"" + appKey + "\"\,\n            APP_CHANNEL\: \"developer-default\"\n        \]\n");
 			fs.writeFileSync(path, rf, "utf-8");
