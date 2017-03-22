@@ -6,7 +6,7 @@
 ## NOTE:
 - for latest RN, use latest
 - for jpush-react-native > 1.4.4, require install [jcore-react-native](https://github.com/jpush/jcore-react-native)
-- 安装完 jcore 后，需要执行自动配置脚本，如果出错了，需要手动配置一下，[详细过程参考这篇文章](http://bbs.reactnative.cn/topic/3505/%E7%94%A8-jpush-react-native-%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD-android-%E7%AF%87)**
+- 安装完 jcore 后，需要执行自动配置脚本，如果出错了，需要手动配置一下，[详细过程参考这篇文章](http://bbs.reactnative.cn/topic/3505/%E7%94%A8-jpush-react-native-%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD-android-%E7%AF%87)
 
 ## 自动配置（以下命令均在你的 React Native Project 目录下运行，自动配置失败后需要手动配置）
 ```
@@ -71,7 +71,7 @@ dependencies {
 }
 ```
 
-将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey，并且检查一下 dependencies 中有没有添加 jpush-react-native 及 jcore-react-native 这两个依赖。
+将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey，检查一下 dependencies 中有没有添加 jpush-react-native 及 jcore-react-native 这两个依赖。
 
 
 - 检查 android 项目下的 settings.gradle 配置有没有包含一下内容：
@@ -85,7 +85,7 @@ project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '..
 
 ```
 
-- 检查一下 app 下的 AndroidManifest 配置，有没有增加 \<meta-data> 部分。[可以参考 demo 的 AndroidManifest](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/AndroidManifest.xml)
+- 检查一下 app 下的 AndroidManifest 配置，有没有增加 \<meta-data> 部分。
 
 > your react native project/android/app/AndroidManifest.xml
 
@@ -99,7 +99,7 @@ project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '..
     </application>
 ```
 
-- 现在重新 sync 一下项目，应该能看到 jpush-react-native 以及 jcore-react-native 作为 android Library 项目导进来了
+- 现在重新 sync 一下项目，应该能看到 jpush-react-native 以及 jcore-react-native 作为 android Library 项目导进来了。
 
 - [加入 JPushPackage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
 
