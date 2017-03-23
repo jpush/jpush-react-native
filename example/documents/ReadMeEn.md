@@ -72,8 +72,7 @@ dependencies {
 
 Change yourApplicationId to your actual package name；change yourAppKey to your AppKey apply from our website.
 
-- [Check configuration to see if matchs](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Check.md)
-
+- [Check configuration to see if matchs](https://github.com/jpush/jpush-react-native/blob/master/example/documents/CheckEn.md)
 - [Add JPushPackage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
 
 
