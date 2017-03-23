@@ -15,7 +15,7 @@ npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后�
 ```
 ## 配置
 配置包括两个步骤，自动配置和手动操作。
-### 1.自动配置部分（以下命令均在你的 React Native Project 目录下运行，自动配置失败后需要手动配置）
+### 1.自动配置部分（以下命令均在你的 React Native Project 目录下运行，自动配置后仍需手动配置一部分）
 
 - 执行脚本
 ```
