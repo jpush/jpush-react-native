@@ -1,6 +1,8 @@
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-553406342-red.svg)]()
 # JPush React Native Plugin
-## [English Document](https://github.com/jpush/jpush-react-native/blob/master/example/documents/ReadMeEn.md)
+
+[English Document](https://github.com/jpush/jpush-react-native/blob/master/example/documents/ReadMeEn.md)
+
 ## 有关于 JPush SDK 的疑问，请务必到我们的[社区提问](https://community.jiguang.cn/)
 
 ## NOTE:
