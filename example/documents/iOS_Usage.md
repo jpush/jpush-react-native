@@ -1,5 +1,4 @@
-####iOS Usage
-- 打开 iOS 工程，在 rnpm link 之后，RCTJPushModule.xcodeproj 工程会自动添加到 Libraries 目录里面
+#### 在 Native 中需要添加的代码
 - 在 AppDelegate.h 文件中 导入头文件
 ```
 #import <RCTJPushModule.h>
