@@ -59,6 +59,12 @@ var PushActivity = React.createClass({
         NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
         this.setState({ connectStatus: '已登陆' });
         });
+
+        var subscription = NativeAppEventEmitter.addListener(
+                              'ReceiveNotification',
+                              (notification) => console.log(notification)
+                          );
+
     },
     componentDidMount() {
 
