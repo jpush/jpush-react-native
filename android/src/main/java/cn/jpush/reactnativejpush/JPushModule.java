@@ -22,7 +22,6 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
-
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -270,6 +269,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
                     Logger.i(TAG, "收到推送下来的通知: " + alertContent);
                     if (!isApplicationRunning(context)) {
+                        // HeadlessService 启动有问题，暂时弃用了
 //                        Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
 //                        Intent intent = new Intent(context, HeadlessService.class);
 //                        intent.putExtra("data", bundle);
@@ -277,16 +277,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
 //                        HeadlessJsTaskService.acquireWakeLockNow(context);
                         // Save as local notification
                         // Start up application failed, will save notifications as local notifications.
-                        Logger.i(TAG, "应用尚未切换到前台运行过, 保存为本地通知");
-                        JPushLocalNotification notification = new JPushLocalNotification();
-                        notification.setBuilderId(NOTIFICATION_BUILDER_ID);
-                        NOTIFICATION_BUILDER_ID++;
-                        notification.setNotificationId(System.currentTimeMillis());
-                        notification.setContent(bundle.getString(JPushInterface.EXTRA_ALERT));
-                        notification.setTitle(bundle.getString(JPushInterface.EXTRA_TITLE));
-                        notification.setExtras(bundle.getString(JPushInterface.EXTRA_EXTRA));
-                        notification.setBroadcastTime(System.currentTimeMillis() + 1000 * 10);
-                        JPushInterface.addLocalNotification(context, notification);
                     }
                     WritableMap map = Arguments.createMap();
                     map.putString("alertContent", alertContent);
@@ -328,18 +318,15 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 } catch (Exception e) {
                     e.printStackTrace();
                     Logger.i(TAG, "Try to start application");
-                    if (mRAC != null) {
-                        try {
-                            Intent intent = new Intent();
-                            intent.setClassName(mRAC.getPackageName(), mRAC.getPackageName() + ".MainActivity");
-                            intent.putExtras(bundle);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            context.startActivity(intent);
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                            Logger.i(TAG, "Cannot find MainActivity, will discard onClick event.");
-                        }
-
+                    try {
+                        Intent intent = new Intent();
+                        intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
+                        intent.putExtras(bundle);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        Logger.i(TAG, "Cannot find MainActivity, will discard onClick event.");
                     }
                 }
 
@@ -359,7 +346,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     private static boolean isApplicationRunning(final Context context) {
-        ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
         for (ActivityManager.RunningTaskInfo info : list) {
             if (info.topActivity.getPackageName().equals(context.getPackageName())) {
