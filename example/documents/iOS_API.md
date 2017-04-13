@@ -31,3 +31,27 @@ JPushModule.setBadge(5, (badgeNumber) => {
                                     null);
 ```
 
+## 事件
+监听 `ReceiveNotification` 事件，搜到推送的时候会回调
+```
+var subscription = NativeAppEventEmitter.addListener(
+  'ReceiveNotification',
+  (notification) => console.log(notification)
+);
+```
+
+监听 `OpenNotification` 事件，点击推送的时候会执行这个回调
+```
+var subscription = NativeAppEventEmitter.addListener(
+  'OpenNotification',
+  (notification) => console.log(notification)
+);
+```
+
+监听 `networkDidReceiveMessage` 事件，收到 JPush 应用内消息会执行这个回调
+```
+var subscription = NativeAppEventEmitter.addListener(
+  'networkDidReceiveMessage',
+  (message) => console.log(message)
+);
+```
