@@ -6,8 +6,8 @@ All apis can find in jpush-react-native/index.js.
 
 设置 badge 值
 ```
-JPushModule.setBadge(5, (badgeNumber) => {
-  console.log(badgeNumber)
+JPushModule.setBadge(5, (success) => {
+  console.log(success)
 });
 ```
 
