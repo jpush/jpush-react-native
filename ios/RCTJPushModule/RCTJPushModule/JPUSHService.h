@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.0.2
+#define JPUSH_VERSION_NUMBER 3.0.5
 
 #import <Foundation/Foundation.h>
 
@@ -456,7 +456,7 @@ callbackSelector:(SEL)cbSelector
  *
  * SDK 默认开启的日志级别为: Info. 只显示必要的信息, 不打印调试日志.
  *
- * 调用本接口可打开日志级别为: Debug, 打印调试日志.
+ * 请在SDK启动后调用本接口，调用本接口可打开日志级别为: Debug, 打印调试日志.
  */
 + (void)setDebugMode;
 
