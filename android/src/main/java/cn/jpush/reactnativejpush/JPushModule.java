@@ -220,9 +220,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getRegistrationID(Callback callback) {
-        mContext = getCurrentActivity();
-        String id = JPushInterface.getRegistrationID(mContext);
-        callback.invoke(id);
+        try {
+            mContext = getCurrentActivity();
+            String id = JPushInterface.getRegistrationID(mContext);
+            callback.invoke(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @ReactMethod
