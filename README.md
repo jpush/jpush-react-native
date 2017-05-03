@@ -84,6 +84,11 @@ dependencies {
 - [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
 - [iOS API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_API.md)
 
+### 关于点击通知跳转到指定界面
+demo 增加了 [JPushModuleDemo](./example/android/app/src/com/pushdemo/JPushModuleDemo.java) 类（其中点击通知的地方做了一下跳转），
+可以在应用处于前台，后台或者为启动状态时，点击通知跳转到指定界面（SecondActivity）。
+对应的 JS 文件为 [second.js](./example/react-native-android/second.js)，详情可以参考这两个文件。
+
 
 ### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
 
