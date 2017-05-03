@@ -71,7 +71,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
     public void initPush() {
         mContext = getCurrentActivity();
         JPushInterface.init(getReactApplicationContext());
-        Logger.toast(mContext, "Init push success");
+        // Logger.toast(mContext, "Init push success");
         Logger.i(TAG, "init Success!");
     }
 
@@ -96,7 +96,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         mContext = getCurrentActivity();
         JPushInterface.stopPush(getReactApplicationContext());
         Logger.i(TAG, "Stop push");
-        Logger.toast(mContext, "Stop push success");
+        // Logger.toast(mContext, "Stop push success");
     }
 
     @ReactMethod
@@ -104,7 +104,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         mContext = getCurrentActivity();
         JPushInterface.resumePush(getReactApplicationContext());
         Logger.i(TAG, "Resume push");
-        Logger.toast(mContext, "Resume push success");
+        // Logger.toast(mContext, "Resume push success");
     }
 
     //为用户设置Tag,可以在服务端根据Tag推送消息
@@ -116,7 +116,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             Set<String> tagSet = new LinkedHashSet<>();
             for (int i = 0; i < strArray.size(); i++) {
                 if (!ExampleUtil.isValidTagAndAlias(strArray.getString(i))) {
-                    Logger.toast(mContext, "Invalid tag !");
+                    // Logger.toast(mContext, "Invalid tag !");
                     return;
                 }
                 tagSet.add(strArray.getString(i));
@@ -132,24 +132,22 @@ public class JPushModule extends ReactContextBaseJavaModule {
                             switch (status) {
                                 case 0:
                                     Logger.i(TAG, "Set tag success. tag: " + strArray.toString());
-                                    Logger.toast(getReactApplicationContext(), "Set tag success");
+                                    // Logger.toast(getReactApplicationContext(), "Set tag success");
                                     callback.invoke(0);
                                     break;
                                 case 6002:
                                     Logger.i(TAG, "Set tag timeout");
-                                    Logger.toast(getReactApplicationContext(),
-                                            "Set tag timeout, check your network");
+                                    // Logger.toast(getReactApplicationContext(), "Set tag timeout, check your network");
                                     callback.invoke("Set tag timeout");
                                     break;
                                 default:
-                                    Logger.toast(getReactApplicationContext(),
-                                            "Error code: " + status);
+                                    // Logger.toast(getReactApplicationContext(), "Error code: " + status);
                                     callback.invoke("Set tag failed. Error code: " + status);
                             }
                         }
                     });
         } else {
-            Logger.toast(mContext, "Empty tag ");
+            // Logger.toast(mContext, "Empty tag ");
         }
     }
 
@@ -167,23 +165,22 @@ public class JPushModule extends ReactContextBaseJavaModule {
                             switch (status) {
                                 case 0:
                                     Logger.i(TAG, "Set alias success");
-                                    Logger.toast(getReactApplicationContext(), "Set alias success");
+                                    // Logger.toast(getReactApplicationContext(), "Set alias success");
                                     callback.invoke(0);
                                     break;
                                 case 6002:
                                     Logger.i(TAG, "Set alias timeout");
-                                    Logger.toast(getReactApplicationContext(),
-                                            "set alias timeout, check your network");
+                                    // Logger.toast(getReactApplicationContext(), "set alias timeout, check your network");
                                     callback.invoke("Set alias timeout");
                                     break;
                                 default:
-                                    Logger.toast(getReactApplicationContext(), "Error code: " + status);
+                                    // Logger.toast(getReactApplicationContext(), "Error code: " + status);
                                     callback.invoke("Set alias failed. Error code: " + status);
                             }
                         }
                     });
         } else {
-            Logger.toast(mContext, "Empty alias ");
+            // Logger.toast(mContext, "Empty alias ");
         }
     }
 
@@ -198,7 +195,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //设置为点击后自动消失
         builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为铃声（ Notification.DEFAULT_SOUND）或者震动（ Notification.DEFAULT_VIBRATE）
         JPushInterface.setPushNotificationBuilder(1, builder);
-        Logger.toast(mContext, "Basic Builder - 1");
+        // Logger.toast(mContext, "Basic Builder - 1");
     }
 
 
@@ -215,7 +212,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         builder.layoutIconDrawable = IdHelper.getDrawable(mContext, "ic_launcher");
         builder.developerArg0 = "developerArg2";
         JPushInterface.setPushNotificationBuilder(2, builder);
-        Logger.toast(mContext, "Custom Builder - 2");
+        // Logger.toast(mContext, "Custom Builder - 2");
     }
 
     /**
