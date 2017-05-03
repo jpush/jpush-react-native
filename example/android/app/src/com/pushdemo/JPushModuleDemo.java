@@ -1,4 +1,4 @@
-package cn.jpush.reactnativejpush;
+package com.pushdemo;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -21,7 +20,6 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,17 +28,19 @@ import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.android.data.JPushLocalNotification;
+import cn.jpush.reactnativejpush.ExampleUtil;
+import cn.jpush.reactnativejpush.IdHelper;
+import cn.jpush.reactnativejpush.Logger;
 
-public class JPushModule extends ReactContextBaseJavaModule {
+public class JPushModuleDemo extends ReactContextBaseJavaModule {
 
     private static String TAG = "JPushModule";
     private static int NOTIFICATION_BUILDER_ID = 0;
     private Context mContext;
     private static ReactApplicationContext mRAC;
-    private static JPushModule mModule;
+    private static JPushModuleDemo mModule;
 
-    public JPushModule(ReactApplicationContext reactContext) {
+    public JPushModuleDemo(ReactApplicationContext reactContext) {
         super(reactContext);
         mRAC = reactContext;
     }
@@ -226,13 +226,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void getRegistrationID(Callback callback) {
-        try {
-            mContext = getCurrentActivity();
-            String id = JPushInterface.getRegistrationID(mContext);
-            callback.invoke(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mContext = getCurrentActivity();
+        String id = JPushInterface.getRegistrationID(mContext);
+        callback.invoke(id);
     }
 
     /**
@@ -311,7 +307,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     Logger.d(TAG, "用户点击打开了通知");
                     if (mRAC == null) {
                         Log.e(TAG, "mRAC is null!");
-                        mModule = new JPushModule((ReactApplicationContext) context);
+                        mModule = new JPushModuleDemo((ReactApplicationContext) context);
                         Log.d(TAG, "mRAC is null ? " + (mRAC == null));
                     }
                     // 通知内容
@@ -322,25 +318,19 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     map.putString("alertContent", alertContent);
                     map.putString("extras", extras);
                     map.putString("jumpTo", "second");
-                    // judge if application is running in background, opening initial Activity.
-                    // You can change here to open appointed Activity. All you need to do is create
-                    // the appointed Activity, and use JS render the appointed Activity.
-                    // Please reference examples' SecondActivity for detail,
-                    // and JS files are in folder: example/react-native-android
                     Intent intent = new Intent();
                     intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
-                    // 如果需要跳转到指定的界面，那么需要同时启动 MainActivity 及指定界面：
+                    // 如果需要跳转到指定的界面，那么需要同时启动 MainActivity 及指定界面(SecondActivity)：
                     // If you need to open appointed Activity, you need to start MainActivity and
                     // appointed Activity at the same time.
-//                    Intent detailIntent = new Intent();
-//                    detailIntent.setClassName(context.getPackageName(), context.getPackageName() + ".SecondActivity");
-//                    detailIntent.putExtras(bundle);
-//                    Intent[] intents = {intent, detailIntent};
+                    Intent detailIntent = new Intent();
+                    detailIntent.setClassName(context.getPackageName(), context.getPackageName() + ".SecondActivity");
+                    detailIntent.putExtras(bundle);
+                    Intent[] intents = {intent, detailIntent};
                     // 同时启动 MainActivity 以及 SecondActivity
-//                    context.startActivities(intents);
+                    context.startActivities(intents);
                     if (mRAC != null) {
                         Log.e(TAG, "Passing openNotification event");
                         mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
@@ -391,5 +381,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
         }
         return false;
+    }
+
+    @ReactMethod
+    public void finishActivity() {
+        Activity activity = getCurrentActivity();
+        if (activity != null) {
+            activity.finish();
+        }
     }
 }

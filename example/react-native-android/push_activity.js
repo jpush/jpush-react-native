@@ -107,6 +107,12 @@ export default class PushActivity extends React.Component {
         JPushModule.addReceiveOpenNotificationListener((map) => {
             console.log("Opening notification!");
             console.log("map.extra: " + map.key);
+            console.log("map.jumpTo: " + map.jumpTo);
+            if (map.jumpTo != undefined) {
+                this.props.navigator.push({
+                    name: map.jumpTo
+                });
+            }
         });
         JPushModule.addGetRegistrationIdListener((registrationId) => {
             console.log("Device register succeed, registrationId " + registrationId);
