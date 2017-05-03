@@ -38,13 +38,12 @@ public class MainActivity extends ReactActivity implements DefaultHardwareBackBt
 //
 //        setContentView(mReactRootView);
 //    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JPushInterface.init(this);
     }
+
     @Override
     protected String getMainComponentName() {
         return "PushDemoApp";

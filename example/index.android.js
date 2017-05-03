@@ -25,14 +25,15 @@ class PushDemoApp extends React.Component {
   }
 
   componentDidMount() {
-      var navigator = this.navigator;
-      BackAndroid.addEventListener('hardwareBackPress', function() {
-          if (navigator && navigator.getCurrentRoutes().length > 1) {
-            navigator.pop();
-            return true;
-          }
-          return false;
-      });
+    console.log("index did start!");
+    var navigator = this.navigator;
+    BackAndroid.addEventListener('hardwareBackPress', function() {
+      if (navigator && navigator.getCurrentRoutes().length > 1) {
+        navigator.pop();
+        return true;
+      }
+      return false;
+    });
   }
 
   componentWillUnmount() {
@@ -46,7 +47,7 @@ class PushDemoApp extends React.Component {
   renderScene(router, navigator) {
     var Component = null;
     this.navigator = navigator;
-    switch(router.name) {
+    switch (router.name) {
       case "pushActivity":
         Component = PushActivity;
         break;
@@ -61,16 +62,16 @@ class PushDemoApp extends React.Component {
     return <Component navigator = { navigator } />
   }
 
-  
+
 
   render() {
     return (
-          <Navigator
+      <Navigator
               initialRoute = { {name: 'pushActivity' }}
               configureScene = { this.configureScene }
               renderScene = { this.renderScene } />
-        );
-    }
+    );
+  }
 }
 
 AppRegistry.registerComponent('PushDemoApp', () => PushDemoApp);

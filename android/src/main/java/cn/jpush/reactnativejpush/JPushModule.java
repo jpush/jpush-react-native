@@ -218,6 +218,12 @@ public class JPushModule extends ReactContextBaseJavaModule {
         Logger.toast(mContext, "Custom Builder - 2");
     }
 
+    /**
+     * Get registration id, different from JPushModule.addGetRegistrationIdListener, this
+     * method has no calling limits.
+     *
+     * @param callback callback with registrationId
+     */
     @ReactMethod
     public void getRegistrationID(Callback callback) {
         mContext = getCurrentActivity();
@@ -225,11 +231,19 @@ public class JPushModule extends ReactContextBaseJavaModule {
         callback.invoke(id);
     }
 
+    /**
+     * Clear all notifications, suggest invoke this method while exiting app.
+     */
     @ReactMethod
     public void clearAllNotifications() {
         JPushInterface.clearAllNotifications(getReactApplicationContext());
     }
 
+    /**
+     * Clear specified notification
+     *
+     * @param id the notification id
+     */
     @ReactMethod
     public void clearNotificationById(String id) {
         try {
@@ -291,6 +305,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
                 try {
                     Logger.d(TAG, "用户点击打开了通知");
+                    if (mRAC == null) {
+                        Log.e(TAG, "mRAC is null!");
+                        mModule = new JPushModule((ReactApplicationContext) context);
+                        Log.d(TAG, "mRAC is null ? " + (mRAC == null));
+                    }
                     // 通知内容
                     String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
                     // extra 字段的 json 字符串
@@ -298,38 +317,40 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     WritableMap map = Arguments.createMap();
                     map.putString("alertContent", alertContent);
                     map.putString("extras", extras);
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit("openNotification", map);
+                    map.putString("jumpTo", "second");
                     // judge if application is running in background, opening initial Activity.
                     // You can change here to open appointed Activity. All you need to do is create
                     // the appointed Activity, and use JS render the appointed Activity.
                     // Please reference examples' SecondActivity for detail,
                     // and JS files are in folder: example/react-native-android
-                    if (isApplicationRunningBackground(context)) {
-                        Intent intent = new Intent();
-                        intent.setClass(context, mModule.mContext.getClass());
-                        Logger.d(TAG, "context.getClass: " + mModule.mContext.getClass());
-                        intent.putExtras(bundle);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(intent);
-                        // application running in foreground, do nothing
+                    Intent intent = new Intent();
+                    intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+                    // 如果需要跳转到指定的界面，那么需要同时启动 MainActivity 及指定界面：
+                    // If you need to open appointed Activity, you need to start MainActivity and
+                    // appointed Activity at the same time.
+//                    Intent detailIntent = new Intent();
+//                    detailIntent.setClassName(context.getPackageName(), context.getPackageName() + ".SecondActivity");
+//                    detailIntent.putExtras(bundle);
+//                    Intent[] intents = {intent, detailIntent};
+                    // 同时启动 MainActivity 以及 SecondActivity
+//                    context.startActivities(intents);
+                    if (mRAC != null) {
+                        Log.e(TAG, "Passing openNotification event");
+                        mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit("openNotification", map);
+                    } else {
+                        Log.e(TAG, "mRAC still null!");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Logger.i(TAG, "Try to start application");
-                    try {
-                        Intent intent = new Intent();
-                        intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
-                        intent.putExtras(bundle);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(intent);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        Logger.i(TAG, "Cannot find MainActivity, will discard onClick event.");
-                    }
+                    Logger.i(TAG, "Shouldn't access here");
                 }
-
+                // 应用注册完成后会发送广播，在 JS 中 JPushModule.addGetRegistrationIdListener 接口可以第一时间得到 registrationId
+                // After JPush finished registering, will send this broadcast, use JPushModule.addGetRegistrationIdListener
+                // to get registrationId in the first instance.
             } else if (JPushInterface.ACTION_REGISTRATION_ID.equals(data.getAction())) {
                 String registrationId = data.getExtras().getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Logger.d(TAG, "注册成功, registrationId: " + registrationId);
