@@ -1,9 +1,7 @@
 package cn.jpush.reactnativejpush;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
@@ -32,7 +29,6 @@ import cn.jpush.android.api.TagAliasCallback;
 public class JPushModule extends ReactContextBaseJavaModule {
 
     private static String TAG = "JPushModule";
-    private static int NOTIFICATION_BUILDER_ID = 0;
     private Context mContext;
     private static ReactApplicationContext mRAC;
     private static CountDownLatch mLatch;
@@ -190,12 +186,16 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setStyleBasic() {
         mContext = getCurrentActivity();
-        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(mContext);
-        builder.statusBarDrawable = IdHelper.getDrawable(mContext, "ic_launcher");
-        builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //设置为点击后自动消失
-        builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为铃声（ Notification.DEFAULT_SOUND）或者震动（ Notification.DEFAULT_VIBRATE）
-        JPushInterface.setPushNotificationBuilder(1, builder);
-        Logger.toast(mContext, "Basic Builder - 1");
+        if (mContext != null) {
+            BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(mContext);
+            builder.statusBarDrawable = IdHelper.getDrawable(mContext, "ic_launcher");
+            builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //设置为点击后自动消失
+            builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为铃声（ Notification.DEFAULT_SOUND）或者震动（ Notification.DEFAULT_VIBRATE）
+            JPushInterface.setPushNotificationBuilder(1, builder);
+            Logger.toast(mContext, "Basic Builder - 1");
+        } else {
+            Logger.d(TAG, "Current activity is null, discard event");
+        }
     }
 
 
@@ -282,16 +282,16 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     // extra 字段的 json 字符串
                     String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
                     Logger.i(TAG, "收到推送下来的通知: " + alertContent);
-                    if (!isApplicationRunning(context)) {
-                        // HeadlessService 启动有问题，暂时弃用了
+//                    if (!isApplicationRunning(context)) {
+                    // HeadlessService 启动有问题，暂时弃用了
 //                        Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
 //                        Intent intent = new Intent(context, HeadlessService.class);
 //                        intent.putExtra("data", bundle);
 //                        context.startService(intent);
 //                        HeadlessJsTaskService.acquireWakeLockNow(context);
-                        // Save as local notification
-                        // Start up application failed, will save notifications as local notifications.
-                    }
+                    // Save as local notification
+                    // Start up application failed, will save notifications as local notifications.
+//                    }
                     WritableMap map = Arguments.createMap();
                     map.putString("alertContent", alertContent);
                     map.putString("extras", extras);
@@ -368,28 +368,5 @@ public class JPushModule extends ReactContextBaseJavaModule {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    private static boolean isApplicationRunning(final Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
-        for (ActivityManager.RunningTaskInfo info : list) {
-            if (info.topActivity.getPackageName().equals(context.getPackageName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean isApplicationRunningBackground(final Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-        if (!tasks.isEmpty()) {
-            ComponentName topActivity = tasks.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                return true;
-            }
-        }
-        return false;
     }
 }
