@@ -1,6 +1,5 @@
 package cn.jpush.reactnativejpush;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
@@ -9,9 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -25,12 +22,12 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.android.data.JPushLocalNotification;
 
 public class JPushModule extends ReactContextBaseJavaModule {
 
@@ -38,11 +35,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
     private static int NOTIFICATION_BUILDER_ID = 0;
     private Context mContext;
     private static ReactApplicationContext mRAC;
-    private static JPushModule mModule;
+    private static CountDownLatch mLatch;
 
     public JPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        mRAC = reactContext;
+        mLatch = new CountDownLatch(1);
     }
 
     @Override
@@ -58,13 +55,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @Override
     public void initialize() {
         super.initialize();
-        mModule = this;
+        mLatch.countDown();
+        mRAC = getReactApplicationContext();
     }
 
     @Override
     public void onCatalystInstanceDestroy() {
         super.onCatalystInstanceDestroy();
-        mModule = null;
     }
 
     @ReactMethod
@@ -226,9 +223,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void getRegistrationID(Callback callback) {
-        mContext = getCurrentActivity();
-        String id = JPushInterface.getRegistrationID(mContext);
-        callback.invoke(id);
+        try {
+            mContext = getCurrentActivity();
+            String id = JPushInterface.getRegistrationID(mContext);
+            callback.invoke(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -273,8 +274,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 map.putString("message", message);
                 map.putString("extras", extras);
                 Logger.i(TAG, "收到自定义消息: " + message);
-                mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("receivePushMsg", map);
+                sendEvent("receivePushMsg", map, null);
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(data.getAction())) {
                 try {
                     // 通知内容
@@ -295,8 +295,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     WritableMap map = Arguments.createMap();
                     map.putString("alertContent", alertContent);
                     map.putString("extras", extras);
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit("receiveNotification", map);
+                    sendEvent("receiveNotification", map, null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -305,11 +304,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
                 try {
                     Logger.d(TAG, "用户点击打开了通知");
-                    if (mRAC == null) {
-                        Log.e(TAG, "mRAC is null!");
-                        mModule = new JPushModule((ReactApplicationContext) context);
-                        Log.d(TAG, "mRAC is null ? " + (mRAC == null));
-                    }
                     // 通知内容
                     String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
                     // extra 字段的 json 字符串
@@ -337,13 +331,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
 //                    Intent[] intents = {intent, detailIntent};
                     // 同时启动 MainActivity 以及 SecondActivity
 //                    context.startActivities(intents);
-                    if (mRAC != null) {
-                        Log.e(TAG, "Passing openNotification event");
-                        mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                                .emit("openNotification", map);
-                    } else {
-                        Log.e(TAG, "mRAC still null!");
-                    }
+                    sendEvent("openNotification", map, null);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Logger.i(TAG, "Shouldn't access here");
@@ -355,8 +343,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 String registrationId = data.getExtras().getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Logger.d(TAG, "注册成功, registrationId: " + registrationId);
                 try {
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit("getRegistrationId", registrationId);
+                    sendEvent("getRegistrationId", null, registrationId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -364,6 +351,23 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
         }
 
+    }
+
+    private static void sendEvent(String methodName, WritableMap map, String data) {
+        try {
+            mLatch.await();
+            if (mRAC != null) {
+                if (map != null) {
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(methodName, map);
+                } else {
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(methodName, data);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static boolean isApplicationRunning(final Context context) {
