@@ -100,7 +100,14 @@ public class JPushModule extends ReactContextBaseJavaModule {
         Logger.toast(mContext, "Resume push success");
     }
 
-    //为用户设置Tag,可以在服务端根据Tag推送消息
+    /**
+     * Set tags, this API is covering logic not incremental logic, means call this API will cover tags which
+     * have been set. See document https://docs.jiguang.cn/jpush/client/Android/android_api/#api_3
+     * for detail.
+     *
+     * @param strArray tags array
+     * @param callback callback
+     */
     @ReactMethod
     public void setTags(final ReadableArray strArray, final Callback callback) {
         mContext = getCurrentActivity();
@@ -117,7 +124,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             // final ProgressDialog dialog = new ProgressDialog(mContext);
             // dialog.setMessage("Loading");
             // dialog.show();
-            JPushInterface.setAliasAndTags(getReactApplicationContext(), null,
+            JPushInterface.setTags(getReactApplicationContext(),
                     tagSet, new TagAliasCallback() {
                         @Override
                         public void gotResult(int status, String desc, Set<String> set) {
@@ -142,19 +149,49 @@ public class JPushModule extends ReactContextBaseJavaModule {
                         }
                     });
         } else {
-            Logger.toast(mContext, "Empty tag ");
+            Logger.toast(mContext, "Empty tag, try to cancel tags ");
+            Logger.i(TAG, "Empty tag, will cancel early settings");
+            JPushInterface.setTags(getReactApplicationContext(), new LinkedHashSet<String>(), new TagAliasCallback() {
+                @Override
+                public void gotResult(int status, String desc, Set<String> set) {
+                    switch (status) {
+                        case 0:
+                            Logger.i(TAG, "Cancel tag success. ");
+                            Logger.toast(getReactApplicationContext(), "Cancel tag success");
+                            callback.invoke(0);
+                            break;
+                        case 6002:
+                            Logger.i(TAG, "Set tag timeout");
+                            Logger.toast(getReactApplicationContext(),
+                                    "Set tag timeout, check your network");
+                            callback.invoke("Set tag timeout");
+                            break;
+                        default:
+                            Logger.toast(getReactApplicationContext(),
+                                    "Error code: " + status);
+                            callback.invoke("Set tag failed. Error code: " + status);
+                    }
+                }
+            });
         }
     }
 
-    //为用户设置别名,可以在服务端根据别名推送
+    /**
+     * Set alias. This API is covering logic rather then incremental logic, means call this API will cover alias
+     * that have been set before. See document: https://docs.jiguang.cn/jpush/client/Android/android_api/#api_3
+     * for detail.
+     *
+     * @param str      alias string.
+     * @param callback callback
+     */
     @ReactMethod
     public void setAlias(String str, final Callback callback) {
         mContext = getCurrentActivity();
         final String alias = str.trim();
         Logger.i(TAG, "alias: " + alias);
         if (!TextUtils.isEmpty(alias)) {
-            JPushInterface.setAliasAndTags(getReactApplicationContext(), alias,
-                    null, new TagAliasCallback() {
+            JPushInterface.setAlias(getReactApplicationContext(), alias,
+                    new TagAliasCallback() {
                         @Override
                         public void gotResult(int status, String desc, Set<String> set) {
                             switch (status) {
@@ -177,6 +214,125 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     });
         } else {
             Logger.toast(mContext, "Empty alias ");
+            Logger.i(TAG, "Empty alias, will cancel early alias setting");
+            JPushInterface.setAlias(getReactApplicationContext(), "", new TagAliasCallback() {
+                @Override
+                public void gotResult(int status, String desc, Set<String> set) {
+                    switch (status) {
+                        case 0:
+                            Logger.i(TAG, "Cancel alias success");
+                            Logger.toast(getReactApplicationContext(), "Cancel alias success");
+                            callback.invoke(0);
+                            break;
+                        case 6002:
+                            Logger.i(TAG, "Set alias timeout");
+                            Logger.toast(getReactApplicationContext(),
+                                    "set alias timeout, check your network");
+                            callback.invoke("Set alias timeout");
+                            break;
+                        default:
+                            Logger.toast(getReactApplicationContext(), "Error code: " + status);
+                            callback.invoke("Set alias failed. Error code: " + status);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Set alias and tags. This API is covering logic rather then incremental logic, means call this
+     * API will override early settings. See document for detail:
+     * https://docs.jiguang.cn/jpush/client/Android/android_api/#api_3
+     *
+     * @param alias    alias string
+     * @param tagArray tags
+     * @param callback callback
+     */
+    @ReactMethod
+    public void setAliasAndTags(String alias, ReadableArray tagArray, final Callback callback) {
+        if (tagArray != null) {
+            Logger.i(TAG, "tag: " + tagArray.toString());
+            if (tagArray.size() > 0) {
+                Set<String> tagSet = new LinkedHashSet<>();
+                for (int i = 0; i < tagArray.size(); i++) {
+                    if (!ExampleUtil.isValidTagAndAlias(tagArray.getString(i))) {
+                        Logger.toast(mContext, "Invalid tag !");
+                        return;
+                    }
+                    tagSet.add(tagArray.getString(i));
+                }
+                JPushInterface.setAliasAndTags(getReactApplicationContext(), alias, tagSet, new TagAliasCallback() {
+                    @Override
+                    public void gotResult(int status, String desc, Set<String> set) {
+                        switch (status) {
+                            case 0:
+                                Logger.i(TAG, "Set alias and tags success");
+                                Logger.toast(getReactApplicationContext(), "Set alias and tags success");
+                                callback.invoke(0);
+                                break;
+                            case 6002:
+                                Logger.i(TAG, "Set alias timeout");
+                                Logger.toast(getReactApplicationContext(),
+                                        "set alias timeout, check your network");
+                                callback.invoke("Set alias timeout");
+                                break;
+                            default:
+                                Logger.toast(getReactApplicationContext(), "Error code: " + status);
+                                Logger.i(TAG, "Set alias and tags failed, error code: " + status);
+                                callback.invoke("Set alias and tags failed. Error code: " + status);
+                        }
+                    }
+                });
+            } else {
+                Logger.i(TAG, "Calling setAliasAndTags, tags is empty, will cancel tags settings");
+                JPushInterface.setAliasAndTags(getReactApplicationContext(), alias, new LinkedHashSet<String>(),
+                        new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int status, String s, Set<String> set) {
+                                switch (status) {
+                                    case 0:
+                                        Logger.i(TAG, "Set alias and tags success");
+                                        Logger.toast(getReactApplicationContext(), "Set alias and tags success");
+                                        callback.invoke(0);
+                                        break;
+                                    case 6002:
+                                        Logger.i(TAG, "Set alias timeout");
+                                        Logger.toast(getReactApplicationContext(),
+                                                "set alias timeout, check your network");
+                                        callback.invoke("Set alias timeout");
+                                        break;
+                                    default:
+                                        Logger.toast(getReactApplicationContext(), "Error code: " + status);
+                                        Logger.i(TAG, "Set alias and tags failed, error code: " + status + " error message: " + s);
+                                        callback.invoke("Set alias and tags failed. Error code: " + status);
+                                }
+                            }
+                        });
+            }
+        } else {
+            Logger.i(TAG, "Tag array is null, will not set tag this time.");
+            JPushInterface.setAliasAndTags(getReactApplicationContext(), alias, null, new TagAliasCallback() {
+                @Override
+                public void gotResult(int status, String s, Set<String> set) {
+                    switch (status) {
+                        case 0:
+                            Logger.i(TAG, "Set alias and tags success");
+                            Logger.toast(getReactApplicationContext(), "Set alias and tags success");
+                            callback.invoke(0);
+                            break;
+                        case 6002:
+                            Logger.i(TAG, "Set alias timeout");
+                            Logger.toast(getReactApplicationContext(),
+                                    "set alias timeout, check your network");
+                            callback.invoke("Set alias timeout");
+                            break;
+                        default:
+                            Logger.toast(getReactApplicationContext(), "Error code: " + status);
+                            Logger.i(TAG, "Set alias and tags failed, error code: " + status + " error message: " + s);
+                            callback.invoke("Set alias and tags failed. Error code: " + status);
+                    }
+                }
+            });
         }
     }
 

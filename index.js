@@ -114,6 +114,16 @@ export default class JPush {
 		});
 	}
 
+	static setAliasAndTags(alias, tag, success, fail) {
+		JPushModule.setAliasAndTags(alias, tag, (resultCode) => {
+			if (resultCode === 0) {
+				success();
+			} else {
+				fail();
+			}
+		});
+	}
+
 	/**
 	 * Android
 	 */
