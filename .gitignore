@@ -8,3 +8,5 @@ build-res/
 *.idea/
 *.DS_Store
 *.log
+.qshell
+*.qshell
