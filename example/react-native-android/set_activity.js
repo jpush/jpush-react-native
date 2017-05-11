@@ -43,8 +43,8 @@ export default class SetActivity extends React.Component {
 	setTag() {
 		if (this.state.tag !== undefined) {
 			/*
-			* 请注意这个接口要传一个数组过去，这里只是个简单的示范
-			*/		
+			 * 请注意这个接口要传一个数组过去，这里只是个简单的示范
+			 */
 			JPushModule.setTags(["VIP", "NOTVIP"], () => {
 				console.log("Set tag succeed");
 			}, () => {
@@ -73,7 +73,7 @@ export default class SetActivity extends React.Component {
 
 	render() {
 		return (
-				<View style = { styles.container }>
+			<View style = { styles.container }>
 					<View style = { styles.title }>
 						<Text style = { styles.titleText }>
 							设置Tag和Alias
@@ -145,7 +145,7 @@ export default class SetActivity extends React.Component {
 						</TouchableHighlight>
 					</View>
 				</View>
-			);
+		);
 	}
 }
 
@@ -165,7 +165,7 @@ var styles = StyleSheet.create({
 	cornorBg: {
 		paddingBottom: 20,
 		paddingTop: 20,
-		
+
 	},
 	setterContainer: {
 		flexDirection: 'row',
@@ -185,37 +185,37 @@ var styles = StyleSheet.create({
 	},
 	btnStyle: {
 		width: 80,
-    	marginTop: 10,
-   		borderWidth: 1,
-    	borderColor: '#3e83d7',
-    	borderRadius: 8,
-    	backgroundColor: '#3e83d7',
-    	padding: 10
-  	},
-  	btnText: {
-    	textAlign: 'center',
-    	fontSize: 12,
-  	},
-  	aliasInput: {
-  		flex: 1,
-  		fontSize: 15,
-  		marginLeft: 5,
-  		marginRight: 5,
-  		color: '#000000'
-  	},
-  	customContainer: {
-  		marginTop: 10,
-  		paddingTop: 10,
-  		paddingBottom: 10,
-  	},
-  	customBtn: {
-  		flex: 1,
-  		justifyContent: 'center',
-  		borderWidth: 1,
-  		borderColor: '#6f80dc',
-  		borderRadius: 8,
-  		backgroundColor: '#6f80dc',
-  		marginTop: 10,
-  		padding: 10
-  	}
+		marginTop: 10,
+		borderWidth: 1,
+		borderColor: '#3e83d7',
+		borderRadius: 8,
+		backgroundColor: '#3e83d7',
+		padding: 10
+	},
+	btnText: {
+		textAlign: 'center',
+		fontSize: 12,
+	},
+	aliasInput: {
+		flex: 1,
+		fontSize: 15,
+		marginLeft: 5,
+		marginRight: 5,
+		color: '#000000'
+	},
+	customContainer: {
+		marginTop: 10,
+		paddingTop: 10,
+		paddingBottom: 10,
+	},
+	customBtn: {
+		flex: 1,
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: '#6f80dc',
+		borderRadius: 8,
+		backgroundColor: '#6f80dc',
+		marginTop: 10,
+		padding: 10
+	}
 });
