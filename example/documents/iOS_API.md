@@ -32,7 +32,7 @@ JPushModule.setBadge(5, (success) => {
 ```
 
 ## 事件
-监听 `ReceiveNotification` 事件，搜到推送的时候会回调
+监听 `ReceiveNotification` 事件，收到到推送的时候会回调
 ```
 var subscription = NativeAppEventEmitter.addListener(
   'ReceiveNotification',
