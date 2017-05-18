@@ -1,4 +1,4 @@
-[![tag](https://img.shields.io/badge/tag-1.6.4-blue.svg)](https://github.com/jpush/jpush-react-native/releases)
+[![tag](https://img.shields.io/badge/tag-1.6.5-blue.svg)](https://github.com/jpush/jpush-react-native/releases)
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-553406342-red.svg)]()
 # JPush React Native Plugin
 
