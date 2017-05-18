@@ -19,7 +19,6 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
@@ -30,12 +29,16 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     private static String TAG = "JPushModule";
     private Context mContext;
-    private static ReactApplicationContext mRAC;
-    private static CountDownLatch mLatch;
+    private static String mEvent;
+    private static Bundle mCachedBundle;
+
+    private final static String RECEIVE_NOTIFICATION = "receiveNotification";
+    private final static String RECEIVE_CUSTOM_MESSAGE = "receivePushMsg";
+    private final static String OPEN_NOTIFICATION = "openNotification";
+    private final static String RECEIVE_REGISTRATION_ID = "getRegistrationId";
 
     public JPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        mLatch = new CountDownLatch(1);
     }
 
     @Override
@@ -51,8 +54,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @Override
     public void initialize() {
         super.initialize();
-        mLatch.countDown();
-        mRAC = getReactApplicationContext();
     }
 
     @Override
@@ -98,6 +99,38 @@ public class JPushModule extends ReactContextBaseJavaModule {
         JPushInterface.resumePush(getReactApplicationContext());
         Logger.i(TAG, "Resume push");
         Logger.toast(mContext, "Resume push success");
+    }
+
+    @ReactMethod
+    public void notifyJSDidLoad() {
+        // send cached event
+        if (getReactApplicationContext().hasActiveCatalystInstance()) {
+            if (mEvent != null) {
+                switch (mEvent) {
+                    case RECEIVE_CUSTOM_MESSAGE:
+                        WritableMap map = Arguments.createMap();
+                        map.putString("message", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
+                        map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
+                        getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit(mEvent, map);
+                        break;
+                    case RECEIVE_REGISTRATION_ID:
+                        getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit(mEvent, mCachedBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
+                        break;
+                    case RECEIVE_NOTIFICATION:
+                    case OPEN_NOTIFICATION:
+                        map = Arguments.createMap();
+                        map.putString("alertContent", mCachedBundle.getString(JPushInterface.EXTRA_ALERT));
+                        map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
+                        getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit(mEvent, map);
+                        break;
+                }
+                mEvent = null;
+                mCachedBundle = null;
+            }
+        }
     }
 
     /**
@@ -422,72 +455,33 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
         @Override
         public void onReceive(Context context, Intent data) {
-            Bundle bundle = data.getExtras();
+            mCachedBundle = data.getExtras();
             if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(data.getAction())) {
                 String message = data.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-                String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                WritableMap map = Arguments.createMap();
-                map.putString("message", message);
-                map.putString("extras", extras);
                 Logger.i(TAG, "收到自定义消息: " + message);
-                sendEvent("receivePushMsg", map, null);
+                mEvent = RECEIVE_CUSTOM_MESSAGE;
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(data.getAction())) {
-                try {
-                    // 通知内容
-                    String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
-                    // extra 字段的 json 字符串
-                    String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                    Logger.i(TAG, "收到推送下来的通知: " + alertContent);
-//                    if (!isApplicationRunning(context)) {
-                    // HeadlessService 启动有问题，暂时弃用了
-//                        Log.i(TAG, "应用尚未切换到前台运行过，启动 HeadlessService");
-//                        Intent intent = new Intent(context, HeadlessService.class);
-//                        intent.putExtra("data", bundle);
-//                        context.startService(intent);
-//                        HeadlessJsTaskService.acquireWakeLockNow(context);
-                    // Save as local notification
-                    // Start up application failed, will save notifications as local notifications.
-//                    }
-                    WritableMap map = Arguments.createMap();
-                    map.putString("alertContent", alertContent);
-                    map.putString("extras", extras);
-                    sendEvent("receiveNotification", map, null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                // 这里点击通知跳转到指定的界面可以定制化一下
+                // 通知内容
+                String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
+                // extra 字段的 json 字符串
+                String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
+                Logger.i(TAG, "收到推送下来的通知: " + alertContent);
+                //cache event
+                mEvent = RECEIVE_NOTIFICATION;
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
                 try {
                     Logger.d(TAG, "用户点击打开了通知");
                     // 通知内容
-                    String alertContent = bundle.getString(JPushInterface.EXTRA_ALERT);
+                    String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
                     // extra 字段的 json 字符串
-                    String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                    WritableMap map = Arguments.createMap();
-                    map.putString("alertContent", alertContent);
-                    map.putString("extras", extras);
-                    map.putString("jumpTo", "second");
-                    // judge if application is running in background, opening initial Activity.
-                    // You can change here to open appointed Activity. All you need to do is create
-                    // the appointed Activity, and use JS render the appointed Activity.
-                    // Please reference examples' SecondActivity for detail,
-                    // and JS files are in folder: example/react-native-android
+                    String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
                     Intent intent = new Intent();
                     intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
-                    intent.putExtras(bundle);
+                    intent.putExtras(mCachedBundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
-                    // 如果需要跳转到指定的界面，那么需要同时启动 MainActivity 及指定界面：
-                    // If you need to open appointed Activity, you need to start MainActivity and
-                    // appointed Activity at the same time.
-//                    Intent detailIntent = new Intent();
-//                    detailIntent.setClassName(context.getPackageName(), context.getPackageName() + ".SecondActivity");
-//                    detailIntent.putExtras(bundle);
-//                    Intent[] intents = {intent, detailIntent};
-                    // 同时启动 MainActivity 以及 SecondActivity
-//                    context.startActivities(intents);
-                    sendEvent("openNotification", map, null);
+                    // cache event
+                    mEvent = OPEN_NOTIFICATION;
                 } catch (Exception e) {
                     e.printStackTrace();
                     Logger.i(TAG, "Shouldn't access here");
@@ -496,33 +490,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 // After JPush finished registering, will send this broadcast, use JPushModule.addGetRegistrationIdListener
                 // to get registrationId in the first instance.
             } else if (JPushInterface.ACTION_REGISTRATION_ID.equals(data.getAction())) {
-                String registrationId = data.getExtras().getString(JPushInterface.EXTRA_REGISTRATION_ID);
-                Logger.d(TAG, "注册成功, registrationId: " + registrationId);
-                try {
-                    sendEvent("getRegistrationId", null, registrationId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                mEvent = RECEIVE_REGISTRATION_ID;
             }
         }
 
     }
 
-    private static void sendEvent(String methodName, WritableMap map, String data) {
-        try {
-            mLatch.await();
-            if (mRAC != null) {
-                if (map != null) {
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit(methodName, map);
-                } else {
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit(methodName, data);
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
