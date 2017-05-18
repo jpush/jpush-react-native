@@ -4,16 +4,16 @@ import React from 'react';
 import ReactNative from 'react-native';
 
 const {
-    Text,
-    View,
-    TextInput,
-    TouchableHighlight,
-    PropTypes,
-    requireNativeComponent,
-    NativeModules,
-    ScrollView,
-    StyleSheet,
-    DeviceEventEmitter,
+	Text,
+	View,
+	TextInput,
+	TouchableHighlight,
+	PropTypes,
+	requireNativeComponent,
+	NativeModules,
+	ScrollView,
+	StyleSheet,
+	DeviceEventEmitter,
 } = ReactNative;
 
 import JPushModule from 'jpush-react-native';
@@ -22,114 +22,109 @@ const receiveNotificationEvent = "receiveNotification";
 const getRegistrationIdEvent = "getRegistrationId";
 export default class PushActivity extends React.Component {
 
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            bg: '#ffffff',
-            appkey: 'AppKey',
-            imei: 'IMEI',
-            package: 'PackageName',
-            deviceId: 'DeviceId',
-            version: 'Version',
-            pushMsg: 'PushMessage',
-            registrationId: 'registrationId',
-        };
+		this.state = {
+			bg: '#ffffff',
+			appkey: 'AppKey',
+			imei: 'IMEI',
+			package: 'PackageName',
+			deviceId: 'DeviceId',
+			version: 'Version',
+			pushMsg: 'PushMessage',
+			registrationId: 'registrationId',
+		};
 
-        this.jumpSetActivity = this.jumpSetActivity.bind(this);
-        this.onInitPress = this.onInitPress.bind(this);
-        this.onStopPress = this.onStopPress.bind(this);
-        this.onResumePress = this.onResumePress.bind(this);
-        this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this);
-        this.jumpSecondActivity = this.jumpSecondActivity.bind(this);
-    }
+		this.jumpSetActivity = this.jumpSetActivity.bind(this);
+		this.onInitPress = this.onInitPress.bind(this);
+		this.onStopPress = this.onStopPress.bind(this);
+		this.onResumePress = this.onResumePress.bind(this);
+		this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this);
+		this.jumpSecondActivity = this.jumpSecondActivity.bind(this);
+	}
 
-    jumpSetActivity() {
-        this.props.navigator.push({
-            name: 'setActivity'
-        });
-    }
+	jumpSetActivity() {
+		this.props.navigator.push({
+			name: 'setActivity'
+		});
+	}
 
-    jumpSecondActivity() {
-        this.props.navigator.push({
-            name: "second"
-        });
-    }
+	jumpSecondActivity() {
+		this.props.navigator.push({
+			name: "second"
+		});
+	}
 
-    onInitPress() {
-        JPushModule.initPush();
-    }
+	onInitPress() {
+		JPushModule.initPush();
+	}
 
-    onStopPress() {
-        JPushModule.stopPush();
-        console.log("Stop push press");
-    }
+	onStopPress() {
+		JPushModule.stopPush();
+		console.log("Stop push press");
+	}
 
-    onResumePress() {
-        JPushModule.resumePush();
-        console.log("Resume push press");
-    }
+	onResumePress() {
+		JPushModule.resumePush();
+		console.log("Resume push press");
+	}
 
-    onGetRegistrationIdPress() {
-        JPushModule.getRegistrationID((registrationId) => {
-            this.setState({
-                registrationId: registrationId
-            });
-        });
-    }
+	onGetRegistrationIdPress() {
+		JPushModule.getRegistrationID((registrationId) => {
+			this.setState({
+				registrationId: registrationId
+			});
+		});
+	}
 
-    componentWillMount() {
-        JPushModule.getInfo((map) => {
-            this.setState({
-                appkey: map.myAppKey,
-                imei: map.myImei,
-                package: map.myPackageName,
-                deviceId: map.myDeviceId,
-                version: map.myVersion
-            });
-        });
+	componentWillMount() {
+		JPushModule.getInfo((map) => {
+			this.setState({
+				appkey: map.myAppKey,
+				imei: map.myImei,
+				package: map.myPackageName,
+				deviceId: map.myDeviceId,
+				version: map.myVersion
+			});
+		});
 
-    }
+	}
 
-    componentDidMount() {
-        JPushModule.addReceiveCustomMsgListener((map) => {
-            this.setState({
-                pushMsg: map.message
-            });
-            console.log("extras: " + map.extras);
-        });
-        JPushModule.addReceiveNotificationListener((map) => {
-            console.log("alertContent: " + map.alertContent);
-            console.log("extras: " + map.extras);
-            // var extra = JSON.parse(map.extras);
-            // console.log(extra.key + ": " + extra.value);
-        });
-        JPushModule.addReceiveOpenNotificationListener((map) => {
-            console.log("Opening notification!");
-            console.log("map.extra: " + map.key);
-            console.log("map.jumpTo: " + map.jumpTo);
-            if (map.jumpTo != undefined) {
-                this.props.navigator.push({
-                    name: map.jumpTo
-                });
-            }
-        });
-        JPushModule.addGetRegistrationIdListener((registrationId) => {
-            console.log("Device register succeed, registrationId " + registrationId);
-        });
-    }
+	componentDidMount() {
+		JPushModule.notifyJSDidLoad();
+		JPushModule.addReceiveCustomMsgListener((map) => {
+			this.setState({
+				pushMsg: map.message
+			});
+			console.log("extras: " + map.extras);
+		});
+		JPushModule.addReceiveNotificationListener((map) => {
+			console.log("alertContent: " + map.alertContent);
+			console.log("extras: " + map.extras);
+			// var extra = JSON.parse(map.extras);
+			// console.log(extra.key + ": " + extra.value);
+		});
+		JPushModule.addReceiveOpenNotificationListener((map) => {
+			console.log("Opening notification!");
+			console.log("map.extra: " + map.key);
+		});
+		JPushModule.addGetRegistrationIdListener((registrationId) => {
+			console.log("Device register succeed, registrationId " + registrationId);
+		});
+	}
 
-    componentWillUnmount() {
-        JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
-        JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
-        JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent);
-        console.log("Will clear all notifications");
-        JPushModule.clearAllNotifications();
-    }
+	componentWillUnmount() {
+		JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
+		JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
+		JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent);
+		console.log("Will clear all notifications");
+		JPushModule.clearAllNotifications();
+	}
 
-    render() {
-        return (
-            <ScrollView style={ styles.parent }>
+	render() {
+		return (
+			<ScrollView style={ styles.parent }>
 
                 <Text style={ styles.textStyle }>
                     { this.state.appkey }
@@ -208,38 +203,38 @@ export default class PushActivity extends React.Component {
                 </Text>
             </ScrollView>
 
-        )
-    }
+		)
+	}
 }
 
 var styles = StyleSheet.create({
-    parent: {
-        padding: 15,
-        backgroundColor: '#f0f1f3'
-    },
+	parent: {
+		padding: 15,
+		backgroundColor: '#f0f1f3'
+	},
 
-    textStyle: {
-        marginTop: 10,
-        textAlign: 'center',
-        fontSize: 20,
-        color: '#808080'
-    },
+	textStyle: {
+		marginTop: 10,
+		textAlign: 'center',
+		fontSize: 20,
+		color: '#808080'
+	},
 
-    btnStyle: {
-        marginTop: 10,
-        borderWidth: 1,
-        borderColor: '#3e83d7',
-        borderRadius: 8,
-        backgroundColor: '#3e83d7'
-    },
-    btnTextStyle: {
-        textAlign: 'center',
-        fontSize: 25,
-        color: '#ffffff'
-    },
-    inputStyle: {
-        borderColor: '#48bbec',
-        borderWidth: 1,
+	btnStyle: {
+		marginTop: 10,
+		borderWidth: 1,
+		borderColor: '#3e83d7',
+		borderRadius: 8,
+		backgroundColor: '#3e83d7'
+	},
+	btnTextStyle: {
+		textAlign: 'center',
+		fontSize: 25,
+		color: '#ffffff'
+	},
+	inputStyle: {
+		borderColor: '#48bbec',
+		borderWidth: 1,
 
-    },
+	},
 });

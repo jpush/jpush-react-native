@@ -68,6 +68,10 @@ export default class JPush {
 		JPushModule.resumePush();
 	}
 
+	static notifyJSDidLoad() {
+		JPushModule.notifyJSDidLoad();
+	}
+
 	/**
 	 * Android
 	 */
@@ -106,16 +110,6 @@ export default class JPush {
 
 	static setAlias(alias, success, fail) {
 		JPushModule.setAlias(alias, (resultCode) => {
-			if (resultCode === 0) {
-				success();
-			} else {
-				fail();
-			}
-		});
-	}
-
-	static setAliasAndTags(alias, tag, success, fail) {
-		JPushModule.setAliasAndTags(alias, tag, (resultCode) => {
 			if (resultCode === 0) {
 				success();
 			} else {
