@@ -38,6 +38,9 @@ If you want to custom notification style, you should add xml file in layout fold
 
 - setStyleCustom()
 
+**Please call this method before you call the listeners method below, otherwise you can't receive these event. v1.6.6 add this new API**
+- notifyJSDidLoad()
+
 Add this listener to receive custom message.
 
 - addReceiveCustomMsgListener(callback)
@@ -47,7 +50,7 @@ Add this listener to receive custom message.
 
 - addReceiveNotificationListener(callback)
 
-**特别说明，如果想要在点击通知的时候，跳转到指定的界面，并将该界面以外的 Activity 关掉等等之类的操作，可能需要修改一下要跳转的 Activity 的启动类型或者修改跳转标志。具体修改 JPushModule.java 中 onReceive 方法中收到通知的代码（有注释），这里我推荐的做法是在 Native 创建 Activity，然后用 JS 渲染界面，具体可以[参考这篇文章](http://www.jianshu.com/p/7c03db422c6d)**
+**特别说明，跳转到指定界面现在统一在 JS 处处理**
 
 - addReceiveNotificationListener(callback)
 
