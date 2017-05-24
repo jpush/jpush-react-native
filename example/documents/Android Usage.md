@@ -20,8 +20,10 @@ This document is a guidance for how to use jpush-react-native in Android.
 > app/MainApplication.java
 
 ```
-    private boolean SHUTDOWN_TOAST = false;
-    private boolean SHUTDOWN_LOG = false;
+    // 设置为 true 将不弹出 toast
+    private boolean SHUTDOWN_TOAST = false;
+    // 设置为 true 将不打印 log
+    private boolean SHUTDOWN_LOG = false;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -50,7 +52,8 @@ import JPushModule from 'jpush-react-native';
 
 // example
 componentDidMount() {
-    JPushModule.addReceiveCustomMsgListener((message) => {
+    JPushModule.notifyJSDidLoad();
+    JPushModule.addReceiveCustomMsgListener((message) => {
       this.setState({pushMsg: message});
     });
     JPushModule.addReceiveNotificationListener((message) => {
