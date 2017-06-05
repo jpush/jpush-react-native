@@ -1,8 +1,7 @@
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-553406342-red.svg)]()
 # JPush React Native Plugin
 
-## Question about JPush SDK，please move to [our community](https://community.jiguang.cn/)
- and post/search a topic for help.
+
 ## NOTE:
 - for latest RN, use latest
 - for jpush-react-native > 1.4.4, require install [jcore-react-native](https://github.com/jpush/jcore-react-native)
