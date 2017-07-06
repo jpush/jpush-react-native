@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactNative from 'react-native';
+import JPushModule from 'jpush-react-native';
 
 const {
   AppRegistry,
@@ -12,7 +13,6 @@ const {
   NativeModules,
 } = ReactNative;
 
-var JPushModule = NativeModules.JPushModule;
 
 
 export default class second extends React.Component {
@@ -103,4 +103,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('SecondActivity', () => second);
+AppRegistry.registerComponent("second", () => second);

@@ -40,6 +40,10 @@ export default class SetActivity extends React.Component {
 		});
 	}
 
+	componentWillUnmount() {
+		BackAndroid.removeEventListener('hardwareBackPress');
+	}
+
 	setTag() {
 		if (this.state.tag !== undefined) {
 			/*

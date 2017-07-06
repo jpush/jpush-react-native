@@ -19,6 +19,7 @@ const {
 import JPushModule from 'jpush-react-native';
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
+const openNotificationEvent = "openNotification";
 const getRegistrationIdEvent = "getRegistrationId";
 export default class PushActivity extends React.Component {
 
@@ -51,9 +52,11 @@ export default class PushActivity extends React.Component {
 	}
 
 	jumpSecondActivity() {
-		this.props.navigator.push({
-			name: "second"
-		});
+		console.log("jump to SecondActivity");
+		JPushModule.jumpToPushActivity("SecondActivity");
+		// this.props.navigator.push({
+		// 	name: "second"
+		// });
 	}
 
 	onInitPress() {
@@ -78,7 +81,9 @@ export default class PushActivity extends React.Component {
 		});
 	}
 
-	componentWillMount() {
+	componentWillMount() {}
+
+	componentDidMount() {
 		JPushModule.getInfo((map) => {
 			this.setState({
 				appkey: map.myAppKey,
@@ -88,35 +93,36 @@ export default class PushActivity extends React.Component {
 				version: map.myVersion
 			});
 		});
-
-	}
-
-	componentDidMount() {
-		JPushModule.notifyJSDidLoad();
-		JPushModule.addReceiveCustomMsgListener((map) => {
-			this.setState({
-				pushMsg: map.message
-			});
-			console.log("extras: " + map.extras);
-		});
-		JPushModule.addReceiveNotificationListener((map) => {
-			console.log("alertContent: " + map.alertContent);
-			console.log("extras: " + map.extras);
-			// var extra = JSON.parse(map.extras);
-			// console.log(extra.key + ": " + extra.value);
-		});
-		JPushModule.addReceiveOpenNotificationListener((map) => {
-			console.log("Opening notification!");
-			console.log("map.extra: " + map.key);
-		});
-		JPushModule.addGetRegistrationIdListener((registrationId) => {
-			console.log("Device register succeed, registrationId " + registrationId);
+		JPushModule.notifyJSDidLoad((resultCode) => {
+			if (resultCode === 0) {
+				JPushModule.addReceiveCustomMsgListener((map) => {
+					this.setState({
+						pushMsg: map.message
+					});
+					console.log("extras: " + map.extras);
+				});
+				JPushModule.addReceiveNotificationListener((map) => {
+					console.log("alertContent: " + map.alertContent);
+					console.log("extras: " + map.extras);
+					// var extra = JSON.parse(map.extras);
+					// console.log(extra.key + ": " + extra.value);
+				});
+				JPushModule.addReceiveOpenNotificationListener((map) => {
+					console.log("Opening notification!");
+					console.log("map.extra: " + map.key);
+					JPushModule.jumpToPushActivity("SecondActivity");
+				});
+				JPushModule.addGetRegistrationIdListener((registrationId) => {
+					console.log("Device register succeed, registrationId " + registrationId);
+				});
+			}
 		});
 	}
 
 	componentWillUnmount() {
 		JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
 		JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
+		JPushModule.removeReceiveOpenNotificationListener(openNotificationEvent);
 		JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent);
 		console.log("Will clear all notifications");
 		JPushModule.clearAllNotifications();
