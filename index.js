@@ -1,21 +1,15 @@
 import {
-	AppRegistry,
 	NativeModules,
 	Platform,
 	DeviceEventEmitter
 } from 'react-native';
 
-import headlessJsTask from './headlessTask';
-
 const JPushModule = NativeModules.JPushModule;
-const HEADLESS_TASK = "headlessJsTask";
 const listeners = {};
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const openNotificationEvent = "openNotification";
 const getRegistrationIdEvent = "getRegistrationId";
-
-AppRegistry.registerHeadlessTask(HEADLESS_TASK, () => headlessJsTask);
 
 /**
  * Logs message to console with the [JPush] prefix
@@ -68,8 +62,10 @@ export default class JPush {
 		JPushModule.resumePush();
 	}
 
-	static notifyJSDidLoad() {
-		JPushModule.notifyJSDidLoad();
+	static notifyJSDidLoad(cb) {
+		JPushModule.notifyJSDidLoad((resultCode) => {
+			cb(resultCode);
+		});
 	}
 
 	/**
@@ -130,6 +126,20 @@ export default class JPush {
 	 */
 	static setStyleCustom() {
 		JPushModule.setStyleCustom();
+	}
+
+	/**
+	 * Android
+	 */
+	static jumpToPushActivity(activityName) {
+		JPushModule.jumpToPushActivity(activityName);
+	}
+
+	/**
+	 * Android
+	 */
+	static finishActivity() {
+		JPushModule.finishActivity();
 	}
 
 	/**

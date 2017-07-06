@@ -1,9 +1,8 @@
-[![tag](https://img.shields.io/badge/tag-1.6.6-blue.svg)](https://github.com/jpush/jpush-react-native/releases)
+[![tag](https://img.shields.io/badge/tag-1.6.7-blue.svg)](https://github.com/jpush/jpush-react-native/releases)
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-553406342-red.svg)]()
 # JPush React Native Plugin
 
 [English Document](https://github.com/jpush/jpush-react-native/blob/master/example/documents/ReadMeEn.md)
-
 
 ## NOTE:
 - for latest RN, use latest
@@ -85,7 +84,9 @@ dependencies {
 - [iOS API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_API.md)
 
 ### 关于点击通知跳转到指定界面
-**v1.6.6 增加了新的接口 `notifyJSDidLoad`，务必在监听 listener 事件之前调用这个方法**，点击通知跳转到指定界面将不再需要改动 Native 的代码，而是在收到 `openNotification` 事件时自行跳转。
+- Android
+
+  v1.6.7 新增 API `jumpToPushActivity`，使用参考 [demo](./example/react-native-android/push_activity.js#L113) 
 
 
 ### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)

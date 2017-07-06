@@ -1,6 +1,7 @@
 package com.pushdemo;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.react.*;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
@@ -42,6 +43,7 @@ public class MainActivity extends ReactActivity implements DefaultHardwareBackBt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JPushInterface.init(this);
+        Log.i("MainActivity", "onCreate executed!");
     }
 
     @Override
