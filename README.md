@@ -74,7 +74,7 @@ dependencies {
 
 - [检查添加的配置项](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Check.md)
 
-- [加入 JPushPackage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
+- [加入 JPushPackage，有参数！](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
 
 
 ### API
