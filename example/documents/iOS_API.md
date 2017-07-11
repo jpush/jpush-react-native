@@ -12,13 +12,13 @@ JPushModule.setBadge(5, (success) => {
 ```
 
 - setLocalNotification( date,
-                        textContain,     // date
-                        badge,           // int
-                        alertAction,     // String
-                        notificationKey, // String
-                        userInfo,   // Dictionary
-                        soundName   // String
-                        )
+         textContain,     // date
+         badge,           // int
+         alertAction,     // String
+         notificationKey, // String
+         userInfo,   // Dictionary
+         soundName   // String
+         )
 
 设置本地推送
 ```
@@ -40,7 +40,19 @@ var subscription = NativeAppEventEmitter.addListener(
 );
 ```
 
-监听 `OpenNotification` 事件，点击推送的时候会执行这个回调
+监听 `OpenNotificationToLaunchApp` 事件，点击推送**启动 App **的时候会触发这个事件
+
+```
+var subscription = NativeAppEventEmitter.addListener(
+  'OpenNotificationToLaunchApp',
+  (notification) => console.log(notification)
+);
+```
+
+
+
+监听 `OpenNotification` 事件，点击推送的时候会执行这个回调(注意：iOS10 才开始触发这个事件)
+
 ```
 var subscription = NativeAppEventEmitter.addListener(
   'OpenNotification',
