@@ -86,6 +86,15 @@ RCT_EXPORT_MODULE();
                         name:kJPFOpenNotification
                       object:nil];
   
+  [defaultCenter addObserver:self
+                    selector:@selector(openNotificationToLaunchApp:)
+                        name:kJPFOpenNotificationToLaunchApp
+                      object:nil];
+  
+  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
+  }
+  
   return self;
 }
 
@@ -94,11 +103,11 @@ RCT_EXPORT_MODULE();
   [[RCTJPushActionQueue sharedInstance] scheduleNotificationQueue];
   
   if ([RCTJPushActionQueue sharedInstance].openedRemoteNotification != nil) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:[RCTJPushActionQueue sharedInstance].openedRemoteNotification];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedRemoteNotification];
   }
   
   if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
   }
   
 }
@@ -124,6 +133,11 @@ RCT_EXPORT_METHOD(setupPush) {
                                                         UIRemoteNotificationTypeAlert)
                     categories:nil];
     }
+}
+
+- (void)openNotificationToLaunchApp:(NSNotification *)notification {
+  id obj = [notification object];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotificationToLaunchApp" body:obj];
 }
 
 - (void)openNotification:(NSNotification *)notification {
