@@ -1,6 +1,6 @@
 {
 	"name": "jpush-react-native",
-	"version": "1.6.7",
+	"version": "1.7.1",
 	"description": "a jpush plugin for react native application",
 	"main": "index.js",
 	"scripts": {
@@ -22,7 +22,7 @@
 	},
 	"homepage": "https://github.com/jpush/jpush-react-native#readme",
 	"peerDependencies": {
-		"jcore-react-native": ">= 1.0.0"
+		"jcore-react-native": ">= 1.1.5"
 	},
 	"rnpm": {
 		"ios": {
