@@ -78,7 +78,7 @@ dependencies {
 
 
 ### API
-
+**Android v1.6.6 版本后新增 notifiyJSDidLoad，请务必在接收事件之前调用此方法。**
 - [Common](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Common.md)
 - [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
 - [iOS API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_API.md)
