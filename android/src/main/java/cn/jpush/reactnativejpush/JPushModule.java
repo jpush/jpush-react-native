@@ -508,7 +508,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     } else {
                         intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     }
                     intent.putExtras(mCachedBundle);
                     context.startActivity(intent);
