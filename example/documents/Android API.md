@@ -84,7 +84,7 @@ JPushModule.addReceiveNotificationListener((map) => {
 
 收到打开通知事件
 
-- addOpenNotificationListener(callback)
+- addReceiveOpenNotificationListener(callback)
 ```
 JPushModule.addReceiveOpenNotificationListener((map) => {
       console.log("Opening notification!");
@@ -92,7 +92,7 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
       this.props.navigator.jumpTo({name: "pushActivity"});
     });
 ```
-- removeOpenNotificationListener(event)
+- removeReceiveOpenNotificationListener(event)
 
 Clear all notifications
 
