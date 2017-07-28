@@ -10,9 +10,6 @@ const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const openNotificationEvent = "openNotification";
 const getRegistrationIdEvent = "getRegistrationId";
-const tagOperateEvent = "tagOperate";
-const checkTagOperateEvent = "checkTagOperate";
-const aliasOperateEvent = "aliasOperate";
 const connectionChangeEvent = "connectionChange";
 
 /**
@@ -101,90 +98,79 @@ export default class JPush {
 		});
 	}
 
-	static setTags(tag, success, fail) {
-		JPushModule.setTags(tag, (resultCode) => {
-
-			if (resultCode === 0) {
-				console.log('success');
-				success();
-			} else {
-				console.log('fail');
-				fail();
-			}
+	static setTags(tags, cb) {
+		JPushModule.setTags(tags, (map) => {
+			cb(map);
 		});
 	}
 
 	/**
 	 * Android
 	 */
-	static setTagsWithoutCallback(sequence, tags) {
-		JPushModule.setTagsWithoutCallback(sequence, tags);
-	}
-
-	/**
-	 * Android
-	 */
-	static addTags(sequence, tags) {
-		JPushModule.addTags(sequence, tags);
-	}
-
-	/**
-	 * Android
-	 */
-	static deleteTags(sequence, tags) {
-		JPushModule.deleteTags(sequence, tags);
-	}
-
-	/**
-	 * Android
-	 */
-	static cleanTags(sequence) {
-		JPushModule.cleanTags(sequence);
-	}
-
-	/**
-	 * Android
-	 */
-	static getAllTags(sequence) {
-		JPushModule.getAllTags(sequence);
-	}
-
-	/**
-	 * Android
-	 */
-	static checkTagBindState(sequence, tag) {
-		JPushModule.checkTagBindState(sequence, tag);
-	}
-
-	static setAlias(alias, success, fail) {
-		JPushModule.setAlias(alias, (resultCode) => {
-			if (resultCode === 0) {
-				success();
-			} else {
-				fail();
-			}
+	static addTags(tags, cb) {
+		JPushModule.addTags(tags, (map) => {
+			cb(map);
 		});
 	}
 
 	/**
 	 * Android
 	 */
-	static setAliasWithoutCallback(sequence, alias) {
-		JPushModule.setAliasWithoutCallback(sequence, alias);
+	static deleteTags(tags, cb) {
+		JPushModule.deleteTags(tags, (map) => {
+			cb(map);
+		});
 	}
 
 	/**
 	 * Android
 	 */
-	static deleteAlias(sequence) {
-		JPushModule.deleteAlias(sequence);
+	static cleanTags(cb) {
+		JPushModule.cleanTags((map) => {
+			cb(map);
+		});
 	}
 
 	/**
 	 * Android
 	 */
-	static getAlias(sequence) {
-		JPushModule.getAlias(sequence);
+	static getAllTags(cb) {
+		JPushModule.getAllTags((map) => {
+			cb(map);
+		});
+	}
+
+	/**
+	 * Android
+	 */
+	static checkTagBindState(tag, cb) {
+		JPushModule.checkTagBindState(tag, (map) => {
+			cb(map);
+		});
+	}
+
+	static setAlias(alias, cb) {
+		JPushModule.setAlias(alias, (map) => {
+			cb(map);
+		});
+	}
+
+	/**
+	 * Android
+	 */
+	static deleteAlias(cb) {
+		JPushModule.deleteAlias((map) => {
+			cb(map);
+		});
+	}
+
+	/**
+	 * Android
+	 */
+	static getAlias(cb) {
+		JPushModule.getAlias((map) => {
+			cb(map);
+		});
 	}
 
 	/**
@@ -293,69 +279,6 @@ export default class JPush {
 	 * Android Only
 	 */
 	static removeGetRegistrationIdListener(cb) {
-		if (!listeners[cb]) {
-			return;
-		}
-		listeners[cb].remove();
-		listeners[cb] = null;
-	}
-
-	/**
-	 * Android Only
-	 */
-	static addTagOperateListener(cb) {
-		listeners[cb] = DeviceEventEmitter.addListener(tagOperateEvent,
-			(array) => {
-				cb(array);
-			});
-	}
-
-	/**
-	 * Android Only
-	 */
-	static removeTagOperateListener(cb) {
-		if (!listeners[cb]) {
-			return;
-		}
-		listeners[cb].remove();
-		listeners[cb] = null;
-	}
-
-	/**
-	 * Android Only
-	 */
-	static addCheckTagOperateListener(cb) {
-		listeners[cb] = DeviceEventEmitter.addListener(checkTagOperateEvent,
-			(map) => {
-				cb(map);
-			});
-	}
-
-	/**
-	 * Android Only
-	 */
-	static removeCheckTagOperateListener(cb) {
-		if (!listeners[cb]) {
-			return;
-		}
-		listeners[cb].remove();
-		listeners[cb] = null;
-	}
-
-	/**
-	 * Android Only
-	 */
-	static addAliasOperateListener(cb) {
-		listeners[cb] = DeviceEventEmitter.addListener(aliasOperateEvent,
-			(alias) => {
-				cb(alias);
-			});
-	}
-
-	/**
-	 * Android Only
-	 */
-	static removeAliasOperateListener(cb) {
 		if (!listeners[cb]) {
 			return;
 		}
