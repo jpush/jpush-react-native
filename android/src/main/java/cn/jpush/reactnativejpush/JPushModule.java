@@ -16,9 +16,9 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.uimanager.annotations.ReactProp;
 
 
 import java.util.LinkedHashSet;
@@ -28,7 +28,9 @@ import java.util.Set;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.service.JPushMessageReceiver;
 
 public class JPushModule extends ReactContextBaseJavaModule {
 
@@ -42,6 +44,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
     private final static String RECEIVE_CUSTOM_MESSAGE = "receivePushMsg";
     private final static String OPEN_NOTIFICATION = "openNotification";
     private final static String RECEIVE_REGISTRATION_ID = "getRegistrationId";
+    private final static String TAG_OPERATE = "tagOperate";
+    private final static String CHECK_TAG_OPERATE = "checkTagOperate";
+    private final static String ALIAS_OPERATE = "aliasOperate";
+    private final static String CONNECTION_CHANGE = "connectionChange";
 
     public JPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -112,17 +118,42 @@ public class JPushModule extends ReactContextBaseJavaModule {
         // send cached event
         if (getReactApplicationContext().hasActiveCatalystInstance()) {
             mRAC = getReactApplicationContext();
-            sendEvent();
+            sendEvent(null);
             callback.invoke(0);
         }
     }
 
-    private static void sendEvent() {
+    private static void sendEvent(JPushMessage jPushMessage) {
+        Logger.i(TAG, "Sending event : " + mEvent);
+        if (jPushMessage != null) {
+            switch (mEvent) {
+                case TAG_OPERATE:
+                    WritableArray array = Arguments.createArray();
+                    Set<String> tags = jPushMessage.getTags();
+                    for (String str : tags) {
+                        array.pushString(str);
+                    }
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(mEvent, array);
+                    break;
+                case CHECK_TAG_OPERATE:
+                    WritableMap map = Arguments.createMap();
+                    map.putBoolean("bindState", jPushMessage.getTagCheckStateResult());
+                    map.putString("tag", jPushMessage.getCheckTag());
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(mEvent, map);
+                    break;
+                case ALIAS_OPERATE:
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(mEvent, jPushMessage.getAlias());
+                    break;
+            }
+        }
         if (mEvent != null) {
-            Logger.i(TAG, "Sending event : " + mEvent);
             switch (mEvent) {
                 case RECEIVE_CUSTOM_MESSAGE:
                     WritableMap map = Arguments.createMap();
+                    map.putInt("id", mCachedBundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID));
                     map.putString("message", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
                     map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
@@ -135,15 +166,25 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 case RECEIVE_NOTIFICATION:
                 case OPEN_NOTIFICATION:
                     map = Arguments.createMap();
+                    map.putInt("id", mCachedBundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID));
                     map.putString("alertContent", mCachedBundle.getString(JPushInterface.EXTRA_ALERT));
                     map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, map);
                     break;
+                case CONNECTION_CHANGE:
+                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(mEvent, mCachedBundle.getBoolean(JPushInterface.EXTRA_CONNECTION_CHANGE, false));
+                    break;
             }
             mEvent = null;
             mCachedBundle = null;
         }
+    }
+
+    private static void sendErrorEvent(int code) {
+        mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(mEvent, code);
     }
 
     /**
@@ -159,14 +200,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         mContext = getCurrentActivity();
         Logger.i(TAG, "tag: " + strArray.toString());
         if (strArray.size() > 0) {
-            Set<String> tagSet = new LinkedHashSet<>();
-            for (int i = 0; i < strArray.size(); i++) {
-                if (!ExampleUtil.isValidTagAndAlias(strArray.getString(i))) {
-                    Logger.toast(mContext, "Invalid tag !");
-                    return;
-                }
-                tagSet.add(strArray.getString(i));
-            }
+            Set<String> tagSet = getSet(strArray);
             // final ProgressDialog dialog = new ProgressDialog(mContext);
             // dialog.setMessage("Loading");
             // dialog.show();
@@ -220,6 +254,126 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 }
             });
         }
+    }
+
+    /**
+     * JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * @param sequence User define, mark each invoke as an unique operation
+     * @param tags tags to be set
+     */
+    @ReactMethod
+    public void setTagsWithoutCallback(int sequence, ReadableArray tags) {
+        Logger.i(TAG, "tag: " + tags.toString());
+        Set<String> tagSet = getSet(tags);
+        JPushInterface.setTags(getReactApplicationContext(), sequence, tagSet);
+    }
+
+    /**
+     * JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * @param sequence User define, mark each invoke as an unique operation
+     * @param tags tags to be added
+     */
+    @ReactMethod
+    public void addTags(int sequence, ReadableArray tags) {
+        Logger.i(TAG, "tags to be added: " + tags.toString());
+        Set<String> tagSet = getSet(tags);
+        JPushInterface.addTags(getReactApplicationContext(), sequence, tagSet);
+    }
+
+    /**
+     * JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * @param sequence User define, mark each invoke as an unique operation
+     * @param tags tags to be deleted
+     */
+    @ReactMethod
+    public void deleteTags(int sequence, ReadableArray tags) {
+        Logger.i(TAG, "tags to be deleted: " + tags.toString());
+        Set<String> tagSet = getSet(tags);
+        JPushInterface.deleteTags(getReactApplicationContext(), sequence, tagSet);
+    }
+
+    /**
+     *  JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * Clean all tags
+     * @param sequence User define, mark each invoke as an unique operation
+     */
+    @ReactMethod
+    public void cleanTags(int sequence) {
+        Logger.i(TAG, "Will clean all tags!");
+        JPushInterface.cleanTags(getReactApplicationContext(), sequence);
+    }
+
+    /**
+     *  JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * Get all tags
+     * @param sequence User define, mark each invoke as an unique operation
+     */
+    @ReactMethod
+    public void getAllTags(int sequence) {
+        JPushInterface.getAllTags(getReactApplicationContext(), sequence);
+    }
+
+    private Set<String> getSet(ReadableArray strArray) {
+        Set<String> tagSet = new LinkedHashSet<>();
+        for (int i = 0; i < strArray.size(); i++) {
+            if (!ExampleUtil.isValidTagAndAlias(strArray.getString(i))) {
+                Logger.toast(mContext, "Invalid tag !");
+            }
+            tagSet.add(strArray.getString(i));
+        }
+        return tagSet;
+    }
+
+    /**
+     *  JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * Check tag bind state
+     * @param sequence User define, mark each invoke as an unique operation
+     * @param tag Tag to be checked
+     */
+    @ReactMethod
+    public void checkTagBindState(int sequence, String tag) {
+        Logger.i(TAG, "Checking tag bind state, tag: " + tag);
+        JPushInterface.checkTagBindState(getReactApplicationContext(), sequence, tag);
+    }
+
+    /**
+     *  JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * Set alias
+     * @param sequence User define, mark each invoke as an unique operation
+     * @param alias alias to be set
+     */
+    @ReactMethod
+    public void setAliasWithoutCallback(int sequence, String alias) {
+        JPushInterface.setAlias(getReactApplicationContext(), sequence, alias);
+    }
+
+    /**
+     *  JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * Delete alias
+     * @param sequence User define, mark each invoke as an unique operation
+     */
+    @ReactMethod
+    public void deleteAlias(int sequence) {
+        JPushInterface.deleteAlias(getReactApplicationContext(), sequence);
+    }
+
+    /**
+     *  JPush v3.0.7 Add this API
+     * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
+     * Get alias
+     * @param sequence User define, mark each invoke as an unique operation
+     */
+    @ReactMethod
+    public void getAlias(int sequence) {
+        JPushInterface.getAlias(getReactApplicationContext(), sequence);
     }
 
     /**
@@ -434,6 +588,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void getConnectionState(Callback callback) {
+        callback.invoke(JPushInterface.getConnectionState(getReactApplicationContext()));
+    }
+
     /**
      * Clear all notifications, suggest invoke this method while exiting app.
      */
@@ -475,7 +634,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     Logger.i(TAG, "收到自定义消息: " + message);
                     mEvent = RECEIVE_CUSTOM_MESSAGE;
                     if (mRAC != null) {
-                        sendEvent();
+                        sendEvent(null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -487,9 +646,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     // extra 字段的 json 字符串
                     String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
                     Logger.i(TAG, "收到推送下来的通知: " + alertContent);
+                    Logger.i(TAG, "extras: " + extras);
                     mEvent = RECEIVE_NOTIFICATION;
                     if (mRAC != null) {
-                        sendEvent();
+                        sendEvent(null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -514,7 +674,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     context.startActivity(intent);
                     mEvent = OPEN_NOTIFICATION;
                     if (mRAC != null) {
-                        sendEvent();
+                        sendEvent(null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -527,7 +687,16 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 try {
                     mEvent = RECEIVE_REGISTRATION_ID;
                     if (mRAC != null) {
-                        sendEvent();
+                        sendEvent(null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(data.getAction())) {
+                try {
+                    mEvent = CONNECTION_CHANGE;
+                    if (mRAC != null) {
+                        sendEvent(null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -535,6 +704,51 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
         }
 
+    }
+
+    public static class MyJPushMessageReceiver extends JPushMessageReceiver {
+
+        @Override
+        public void onTagOperatorResult(Context context,JPushMessage jPushMessage) {
+            Logger.i(TAG,"action - onTagOperatorResult, sequence:" + jPushMessage.getSequence()
+                    + ", tags: " + jPushMessage.getTags());
+            Logger.i(TAG,"tags size:"+jPushMessage.getTags().size());
+            mEvent = TAG_OPERATE;
+            if (jPushMessage.getErrorCode() == 0) {
+                sendEvent(jPushMessage);
+            } else {
+                Logger.i(TAG, "onTagOperatorResult error, error code: " + jPushMessage.getErrorCode());
+                sendErrorEvent(jPushMessage.getErrorCode());
+            }
+
+            super.onTagOperatorResult(context, jPushMessage);
+        }
+        @Override
+        public void onCheckTagOperatorResult(Context context,JPushMessage jPushMessage){
+            Logger.i(TAG,"action - onCheckTagOperatorResult, sequence:" + jPushMessage.getSequence()
+                    + ", checktag: " + jPushMessage.getCheckTag());
+            mEvent = CHECK_TAG_OPERATE;
+            if (jPushMessage.getErrorCode() == 0) {
+                sendEvent(jPushMessage);
+            } else {
+                Logger.i(TAG, "onCheckTagOperatorResult error, error code: " + jPushMessage.getErrorCode());
+                sendErrorEvent(jPushMessage.getErrorCode());
+            }
+            super.onCheckTagOperatorResult(context, jPushMessage);
+        }
+        @Override
+        public void onAliasOperatorResult(Context context, JPushMessage jPushMessage) {
+            Logger.i(TAG,"action - onAliasOperatorResult, sequence:" + jPushMessage.getSequence()
+                    + ", alias: " + jPushMessage.getAlias());
+            mEvent = ALIAS_OPERATE;
+            if (jPushMessage.getErrorCode() == 0) {
+                sendEvent(jPushMessage);
+            } else {
+                Logger.i(TAG,"onAliasOperatorResult error, error code: " + jPushMessage.getErrorCode());
+                sendErrorEvent(jPushMessage.getErrorCode());
+            }
+            super.onAliasOperatorResult(context, jPushMessage);
+        }
     }
 
     private static boolean isApplicationRunningBackground(final Context context) {

@@ -13,6 +13,11 @@ const {
 } = ReactNative;
 import JPushModule from 'jpush-react-native';
 
+const tagOperateEvent = "tagOperate";
+const checkTagOperateEvent = "checkTagOperate";
+const aliasOperateEvent = "aliasOperate";
+
+
 export default class SetActivity extends React.Component {
 
 	constructor(props) {
@@ -38,10 +43,39 @@ export default class SetActivity extends React.Component {
 			}
 			return false;
 		});
+		JPushModule.addTagOperateListener((array) => {
+			if (is("Array", array)) {
+				console.log("Tag operate succeed, tags: " + array);
+			} else {
+				console.log("error code: " + array)
+			}
+		});
+		JPushModule.addAliasOperateListener((alias) => {
+			if (is("String", alias)) {
+				console.log("Alias operate succeed, alias: " + alias);
+			} else {
+				console.log("Alias operate failed, error code: " + alias);
+			}
+		});
+		JPushModule.addCheckTagOperateListener((map) => {
+			if (is("Object", map)) {
+				console.log("Check tag bind state succeed, tag: " + map.tag + " bind state: " + map.bindState);
+			} else {
+				console.log("Check tag bind state failed, error code: " + map);
+			}
+		})
 	}
 
 	componentWillUnmount() {
 		BackAndroid.removeEventListener('hardwareBackPress');
+		JPushModule.removeTagOperateListener(tagOperateEvent);
+		JPushModule.removeCheckTagOperateListener(checkTagOperateEvent);
+		JPushModule.removeAliasOperateListener(aliasOperateEvent);
+	}
+
+	is = (type, obj) => {
+		var clas = Object.prototype.toString.call(obj).slice(8, -1);
+		return obj !== undefined && obj !== null && clas === type;
 	}
 
 	setTag() {
@@ -65,6 +99,18 @@ export default class SetActivity extends React.Component {
 				console.log("Set alias failed");
 			});
 		}
+	}
+
+	getAllTags = () => {
+		JPushModule.getAllTags(12345);
+	}
+
+	getAlias = () => {
+		JPushModule.getAlias(123);
+	}
+
+	cleanAllTags = () => {
+		JPushModule.cleanAllTags(111);
 	}
 
 	setBaseStyle() {
@@ -122,6 +168,33 @@ export default class SetActivity extends React.Component {
 								</Text>
 							</TouchableHighlight>
 						</View>
+						<TouchableHighlight
+                    		underlayColor='#0866d9'
+                    		activeOpacity={ 0.5 }
+                    		style={ styles.bigBtn }
+                    		onPress={ this.getAllTags }>
+                    		<Text style={ styles.bigTextStyle }>
+                        		Get Tags
+                    		</Text>
+                		</TouchableHighlight>
+                		<TouchableHighlight
+                    		underlayColor='#0866d9'
+                    		activeOpacity={ 0.5 }
+                    		style={ styles.bigBtn }
+                    		onPress={ this.getAlias }>
+                    		<Text style={ styles.bigTextStyle }>
+                        		Get Alias
+                    		</Text>
+                		</TouchableHighlight>
+                		<TouchableHighlight
+                    		underlayColor='#0866d9'
+                    		activeOpacity={ 0.5 }
+                    		style={ styles.bigBtn }
+                    		onPress={ this.cleanAllTags }>
+                    		<Text style={ styles.bigTextStyle }>
+                        		Clean All Tags
+                    		</Text>
+                		</TouchableHighlight>
 					</View>
 					<View style = { styles.title }>
 						<Text style = { styles.titleText }>
@@ -195,6 +268,18 @@ var styles = StyleSheet.create({
 		borderRadius: 8,
 		backgroundColor: '#3e83d7',
 		padding: 10
+	},
+	bigBtn: {
+		marginTop: 10,
+		borderWidth: 1,
+		borderColor: '#3e83d7',
+		borderRadius: 8,
+		backgroundColor: '#3e83d7'
+	},
+	bigTextStyle: {
+		textAlign: 'center',
+		fontSize: 25,
+		color: '#ffffff'
 	},
 	btnText: {
 		textAlign: 'center',
