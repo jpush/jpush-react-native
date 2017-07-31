@@ -34,9 +34,11 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 ```
 
 ## 事件
+**点击推送启动应用事件**
+
 - addOpenNotificationLaunchAppListener(Function) 
 
-  监听：应用没有启动的状态点击推送打开应用
+    监听：应用没有启动的状态点击推送打开应用
 
   ```javascript
     JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
@@ -50,10 +52,12 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
   ​
 
+**登录事件**
+
 
 - addnetworkDidLoginListener(Function)
 
-  监听：应用连接已登录，setTag 和 setAlias 相关操作需要在这个事件触发后才能起作用
+  监听：极光 SDK 已登录，setTag 和 setAlias 相关操作需要在这个事件触发后才能起作用
 
   ```javascript
   JPushModule.addnetworkDidLoginListener( () => {
@@ -64,3 +68,4 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 - removenetworkDidLoginListener(Function)
 
   取消监听：应用连接已登录，和 `addnetworkDidLoginListener` 成对使用
+
