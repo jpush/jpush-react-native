@@ -53,19 +53,24 @@ export default class JPush {
 	}
 
 	/**
-	 * Android
+	 * Android Only
 	 */
 	static stopPush() {
 		JPushModule.stopPush();
 	}
 
 	/**
-	 * Android
+	 * Android Only
 	 */
 	static resumePush() {
 		JPushModule.resumePush();
 	}
 
+	/**
+	 * Android Only
+	 * 
+	 * @param {Function} cb 
+	 */
 	static notifyJSDidLoad(cb) {
 		JPushModule.notifyJSDidLoad((resultCode) => {
 			cb(resultCode);
@@ -73,21 +78,21 @@ export default class JPush {
 	}
 
 	/**
-	 * Android
+	 * Android Only
 	 */
 	static clearAllNotifications() {
 		JPushModule.clearAllNotifications();
 	}
 
 	/**
-	 * Android
+	 * Android Only
 	 */
 	static clearNotificationById(id) {
 		JPushModule.clearNotificationById(id);
 	}
 
 	/**
-	 * Android
+	 * Android Only
 	 */
 	static getInfo(cb) {
 		JPushModule.getInfo((map) => {
@@ -95,6 +100,12 @@ export default class JPush {
 		});
 	}
 
+	/**
+	 * 获取当前连接状态
+	 * @param {Fucntion} cb = (Boolean) => {}
+	 * 如果连接状态变更为已连接返回 true
+	 * 如果连接状态变更为断开连接连接返回 false
+	 */
 	static getConnectionState(cb) {
 		JPushModule.getConnectionState((state) => {
 			cb(state);
@@ -230,7 +241,7 @@ export default class JPush {
 	}
 
 	/**
-	 * Android
+	 * Android Only
 	 */
 	static setStyleBasic() {
 		JPushModule.setStyleBasic();
@@ -258,7 +269,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 监听自定义消息后事件
+	 * 监听：自定义消息后事件
 	 * @param {Function} cb = (Object) => { } 
 	 */
 	static addReceiveCustomMsgListener(cb) {
@@ -269,7 +280,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 取消监听自定义消息后事件
+	 * 取消监听：自定义消息后事件
 	 * @param {Function} cb = (Object) => { } 
 	 */
 	static removeReceiveCustomMsgListener(cb) {
@@ -282,6 +293,7 @@ export default class JPush {
 
 	/**
 	 * iOS Only
+	 * 监听：应用没有启动的状态点击推送打开应用
 	 * @param {Function} cb = (notification) => {}
 	 */
 	static addOpenNotificationLaunchAppListener(cb) {
@@ -293,6 +305,7 @@ export default class JPush {
 	
 	/**
 	 * iOS Only
+	 * 取消监听：应用没有启动的状态点击推送打开应用
 	 * @param {Function} cb = () => {}
 	 */
 	static removeOpenNotificationLaunchAppEventListener(cb) {
@@ -306,7 +319,7 @@ export default class JPush {
 	/**
 	 * iOS Only
 	 * 
-	 * 监听应用连接已登录
+	 * 监听：应用连接已登录
 	 * @param {Function} cb = () => {}
 	 */
 	static addnetworkDidLoginListener(cb) {
@@ -319,7 +332,7 @@ export default class JPush {
 	/**
 	 * iOS Only
 	 * 
-	 * 取消监听应用连接已登录
+	 * 取消监听：应用连接已登录
 	 * @param {Function} cb = () => {}
 	 */
 	static removenetworkDidLoginListener(cb) {
@@ -331,7 +344,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 监听接收推送事件
+	 * 监听：接收推送事件
 	 * @param {} cb = (Object）=> {}
 	 */
 	static addReceiveNotificationListener(cb) {
@@ -342,7 +355,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 取消监听接收推送事件
+	 * 取消监听：接收推送事件
 	 * @param {Function} cb = (Object）=> {}
 	 */
 	static removeReceiveNotificationListener(cb) {
@@ -354,7 +367,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 监听点击推送事件
+	 * 监听：点击推送事件
 	 * @param {Function} cb  = (Object）=> {}
 	 */
 	static addReceiveOpenNotificationListener(cb) {
@@ -365,7 +378,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 取消监听点击推送事件
+	 * 取消监听：点击推送事件
 	 * @param {Function} cb  = (Object）=> {}
 	 */
 	static removeReceiveOpenNotificationListener(cb) {
@@ -400,7 +413,7 @@ export default class JPush {
 	}
 
 	/**
-	 * 监听连接状态变更
+	 * 监听：连接状态变更
 	 * @param {Function} cb = (Boolean) => { }
 	 * 如果连接状态变更为已连接返回 true
 	 * 如果连接状态变更为断开连接连接返回 false
@@ -412,6 +425,12 @@ export default class JPush {
 			});
 	}
 
+	/**
+	 * 监听：连接状态变更
+	 * @param {Function} cb = (Boolean) => { }
+	 * 如果连接状态变更为已连接返回 true
+	 * 如果连接状态变更为断开连接连接返回 false
+	 */
 	static removeConnectionChangeListener(cb) {
 		if (!listeners[cb]) {
 			return;
@@ -422,7 +441,7 @@ export default class JPush {
 
 	
 	/**
-	 * 
+	 * 获取 RegistrationId 
 	 * @param {Function} cb = (String) => { }
 	 */
 	static getRegistrationID(cb) {
@@ -449,7 +468,6 @@ export default class JPush {
 			cb(appkey);
 		});
 	}
-
 
 	/**
 	 * iOS Only
