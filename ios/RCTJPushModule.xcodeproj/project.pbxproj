@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		623D05811EA4D29100F31FBE /* jpush-ios-3.0.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 623D057F1EA4D29100F31FBE /* jpush-ios-3.0.5.a */; };
 		624386D71E096B8800F69E07 /* RCTJPushActionQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
+		626F957A1F2EF8CC009C6BB5 /* jpush-ios-3.0.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 626F95791F2EF8CC009C6BB5 /* jpush-ios-3.0.6.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,12 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		623D057F1EA4D29100F31FBE /* jpush-ios-3.0.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.5.a"; sourceTree = "<group>"; };
 		623D05801EA4D29100F31FBE /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushActionQueue.h; sourceTree = "<group>"; };
 		624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushActionQueue.m; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
+		626F95791F2EF8CC009C6BB5 /* jpush-ios-3.0.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.6.a"; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				623D05811EA4D29100F31FBE /* jpush-ios-3.0.5.a in Frameworks */,
+				626F957A1F2EF8CC009C6BB5 /* jpush-ios-3.0.6.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +65,7 @@
 		6280980C1CEDC407000D3A81 /* RCTJPushModule */ = {
 			isa = PBXGroup;
 			children = (
-				623D057F1EA4D29100F31FBE /* jpush-ios-3.0.5.a */,
+				626F95791F2EF8CC009C6BB5 /* jpush-ios-3.0.6.a */,
 				623D05801EA4D29100F31FBE /* JPUSHService.h */,
 				624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */,
 				624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */,
@@ -224,11 +224,11 @@
 		628098141CEDC407000D3A81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/React/**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../react-native/React/**";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RCTJPushModule",
-					"$(SRCROOT)/../../../jcore-react-native/ios",
+					"$(SRCROOT)/../../jcore-react-native/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "-ljcore-ios";
@@ -240,11 +240,11 @@
 		628098151CEDC407000D3A81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/React/**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../react-native/React/**";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/RCTJPushModule",
-					"$(SRCROOT)/../../../jcore-react-native/ios",
+					"$(SRCROOT)/../../jcore-react-native/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "-ljcore-ios";

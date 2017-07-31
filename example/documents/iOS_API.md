@@ -2,68 +2,70 @@
 
 All apis can find in jpush-react-native/index.js.
 
-- setBadge(badge, cb)
+- setBadge(Int, Function)
 
 设置 badge 值
-```
+```javascript
 JPushModule.setBadge(5, (success) => {
   console.log(success)
 });
 ```
-
-- setLocalNotification( date,
-         textContain,     // date
-         badge,           // int
-         alertAction,     // String
-         notificationKey, // String
-         userInfo,   // Dictionary
-         soundName   // String
+- setLocalNotification
+```javascript
+setLocalNotification(  Date,    		// date  触发本地推送的时间
+                       textContain,     // String 推送消息体内容
+                       badge,           // int   本地推送触发后 应用 Badge（小红点）显示的数字
+                       alertAction,     // String 弹框的按钮显示的内容（IOS 8默认为"打开", 其他默认为"启动"）
+                       notificationKey, // String 本地推送标示符
+                       userInfo,   		// Object 推送的附加字段 (任意键值对)
+                       soundName   		// String 自定义通知声音，设置为 null 为默认声音
          )
 
 设置本地推送
 ```
+```javascript
   JPushModule.setLocalNotification( this.state.date, 
                                     this.state.textContain,
                                     5, 
-                                    'dfsa',
-                                    'dfaas',
-                                    null,
+                                    'Action',
+                                    'notificationIdentify',
+                                    {myInfo: ""},
                                     null);
 ```
 
 ## 事件
-监听 `ReceiveNotification` 事件，收到到推送的时候会回调
-```
-var subscription = NativeAppEventEmitter.addListener(
-  'ReceiveNotification',
-  (notification) => console.log(notification)
-);
-```
+**点击推送启动应用事件**
 
-监听 `OpenNotificationToLaunchApp` 事件，点击推送**启动 App **的时候会触发这个事件
+- addOpenNotificationLaunchAppListener(Function) 
 
-```
-var subscription = NativeAppEventEmitter.addListener(
-  'OpenNotificationToLaunchApp',
-  (notification) => console.log(notification)
-);
-```
+    监听：应用没有启动的状态点击推送打开应用
+
+  ```javascript
+    JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
+      
+    })
+  ```
+
+- removeOpenNotificationLaunchAppListener(Function)  
+
+  取消监听：应用没有启动的状态点击推送打开应用，和 `addOpenNotificationLaunchAppListener` 成对使用
+
+  ​
+
+**登录事件**
 
 
+- addnetworkDidLoginListener(Function)
 
-监听 `OpenNotification` 事件，点击推送的时候会执行这个回调(注意：iOS10 才开始触发这个事件)
+  监听：极光 SDK 已登录，setTag 和 setAlias 相关操作需要在这个事件触发后才能起作用
 
-```
-var subscription = NativeAppEventEmitter.addListener(
-  'OpenNotification',
-  (notification) => console.log(notification)
-);
-```
+  ```javascript
+  JPushModule.addnetworkDidLoginListener( () => {
+      
+    })
+  ```
 
-监听 `networkDidReceiveMessage` 事件，收到 JPush 应用内消息会执行这个回调
-```
-var subscription = NativeAppEventEmitter.addListener(
-  'networkDidReceiveMessage',
-  (message) => console.log(message)
-);
-```
+- removenetworkDidLoginListener(Function)
+
+  取消监听：应用连接已登录，和 `addnetworkDidLoginListener` 成对使用
+

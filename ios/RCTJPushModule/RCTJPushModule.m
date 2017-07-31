@@ -10,6 +10,10 @@
 #import "RCTJPushModule.h"
 #import "RCTJPushActionQueue.h"
 
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+
 #if __has_include(<React/RCTBridge.h>)
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTRootView.h>
@@ -58,10 +62,6 @@ RCT_EXPORT_MODULE();
   [defaultCenter addObserver:self
                     selector:@selector(networkDidClose:)
                         name:kJPFNetworkDidCloseNotification
-                      object:nil];
-  [defaultCenter addObserver:self
-                    selector:@selector(networkDidRegister:)
-                        name:kJPFNetworkDidRegisterNotification
                       object:nil];
   [defaultCenter addObserver:self
                     selector:@selector(networkDidLogin:)
@@ -120,45 +120,40 @@ RCT_EXPORT_MODULE();
 
 // request push notification permissions only
 RCT_EXPORT_METHOD(setupPush) {
+
   if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-    //可以添加自定义categories
     [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
                                                       UIUserNotificationTypeSound |
                                                       UIUserNotificationTypeAlert)
-                  categories:nil];
-    } else {
-      //categories 必须为nil
-      [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                        UIRemoteNotificationTypeSound |
-                                                        UIRemoteNotificationTypeAlert)
-                    categories:nil];
-    }
+                                          categories:nil];
+  } else {
+    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                      UIRemoteNotificationTypeSound |
+                                                      UIRemoteNotificationTypeAlert)
+                                          categories:nil];
+  }
 }
 
 - (void)openNotificationToLaunchApp:(NSNotification *)notification {
   id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotificationToLaunchApp" body:obj];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotificationLaunchApp" body:obj];
 }
 
 - (void)openNotification:(NSNotification *)notification {
   id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"OpenNotification" body:obj];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotification" body:obj];
 }
 
 - (void)networkDidSetup:(NSNotification *)notification {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidSetup"
-                                               body:nil];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
+                                               body:@(true)];
 }
 
 - (void)networkDidClose:(NSNotification *)notification {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidClose"
-                                               body:nil];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
+                                               body:@(true)];
 }
 
-- (void)networkDidRegister:(NSNotification *)notification {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidRegister"
-                                               body:nil];
-}
 
 - (void)networkDidLogin:(NSNotification *)notification {
   _isJPushDidLogin = YES;
@@ -168,7 +163,7 @@ RCT_EXPORT_METHOD(setupPush) {
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidReceiveMessage"
+  [self.bridge.eventDispatcher sendAppEventWithName:@"receivePushMsg"
                                                body:[notification userInfo]];
 }
 
@@ -176,13 +171,12 @@ RCT_EXPORT_METHOD(setupPush) {
 
   if ([RCTJPushActionQueue sharedInstance].isReactDidLoad == YES) {
     id obj = [notification object];
-    [self.bridge.eventDispatcher sendAppEventWithName:@"ReceiveNotification" body:obj];
+    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body:obj];
   } else {
     [[RCTJPushActionQueue sharedInstance] postNotification:notification];
   }
   
 }
-
 
 - (dispatch_queue_t)methodQueue
 {
@@ -272,10 +266,13 @@ RCT_EXPORT_METHOD( setTags:(NSArray *)tags
   }
 
   self.asyCallback = callback;
-
-  [JPUSHService setTags:tagSet alias:nil fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-    callback(@[@(iResCode)]);
-  }];
+  [JPUSHService setTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
 }
 
 /*!
@@ -284,13 +281,97 @@ RCT_EXPORT_METHOD( setTags:(NSArray *)tags
 RCT_EXPORT_METHOD( setAlias:(NSString *)alias
                   callback:(RCTResponseSenderBlock)callback) {
 
-  NSString *aliasString;
-
   self.asyCallback = callback;
+  [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"alias": iAlias ?: @""}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
 
-  [JPUSHService setTags:nil alias:alias fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
-    callback(@[@(iResCode)]);
-  }];
+RCT_EXPORT_METHOD( addTags:(NSArray *)tags
+                  callback:(RCTResponseSenderBlock)callback) {
+  NSSet *tagSet;
+  
+  if (tags != NULL) {
+    tagSet = [NSSet setWithArray:tags];
+  }
+  [JPUSHService addTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
+
+RCT_EXPORT_METHOD( deleteTags:(NSArray *)tags
+                  callback:(RCTResponseSenderBlock)callback) {
+  NSSet *tagSet;
+  
+  if (tags != NULL) {
+    tagSet = [NSSet setWithArray:tags];
+  }
+  [JPUSHService deleteTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
+
+RCT_EXPORT_METHOD( cleanTags:(RCTResponseSenderBlock)callback) {
+  [JPUSHService cleanTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
+
+RCT_EXPORT_METHOD( getAllTags:(RCTResponseSenderBlock)callback) {
+  [JPUSHService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
+
+RCT_EXPORT_METHOD(checkTagBindState:(NSString *)tag
+                           callback:(RCTResponseSenderBlock)callback) {
+  [JPUSHService validTag:tag completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind) {
+    if (iResCode == 0) {
+      callback(@[@{@"isBind": @(isBind)}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
+
+RCT_EXPORT_METHOD(deleteAlias:(RCTResponseSenderBlock)callback) {
+  [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"alias": iAlias ?: @""}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
+}
+
+RCT_EXPORT_METHOD(getAlias:(RCTResponseSenderBlock)callback) {
+  [JPUSHService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+    if (iResCode == 0) {
+      callback(@[@{@"alias": iAlias ?: @""}]);
+    } else {
+      callback(@[@{@"errorCode": @(iResCode)}]);
+    }
+  } seq: 0];
 }
 
 /*!
