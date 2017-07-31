@@ -41,7 +41,7 @@ react-native link
 
 - 在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下路径
 ```
-$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
+$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule
 ```
 - 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
 
