@@ -14,7 +14,8 @@ const {
   ScrollView,
   DeviceEventEmitter,
   NativeAppEventEmitter,
-  StyleSheet
+  StyleSheet,
+  Alert,
 } = ReactNative;
 
 import JPushModule from 'jpush-react-native';
@@ -47,19 +48,29 @@ var PushActivity = React.createClass({
     },
     componentWillMount() {
       
-        NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
-        this.setState({ connectStatus: '已连接' });
-        });
-        NativeAppEventEmitter.addListener('networkDidClose', (token) => {
-        this.setState({ connectStatus: '连接已断开' });
-        });
-        NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
-        this.setState({ connectStatus: '已注册' });
-        });
-        NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
-        this.setState({ connectStatus: '已登陆' });
-        });
+        // NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
+        // this.setState({ connectStatus: '已连接' });
+        // });
+        // NativeAppEventEmitter.addListener('networkDidClose', (token) => {
+        // this.setState({ connectStatus: '连接已断开' });
+        // });
+        // NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
+        // this.setState({ connectStatus: '已注册' });
+        // });
+        // NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
+        // this.setState({ connectStatus: '已登陆' });
+        // });
+        JPushModule.addnetworkDidLoginListener(() => {
+          Alert.alert('连接已登录')
+        })
 
+        JPushModule.addConnectionChangeListener((result) => {
+          if (result) {
+            Alert.alert('网络已连接')
+          } else {
+            Alert.alert('网络已断开')
+          }
+        })
         var subscription = NativeAppEventEmitter.addListener(
                               'ReceiveNotification',
                               (notification) => console.log(notification)

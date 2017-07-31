@@ -31,27 +31,63 @@ var SetActivity = React.createClass({
 			alias: '',
 		};
 	},
-	setTag() {
-		if (this.state.tag !== undefined) {
-			JPushModule.setTags([this.state.tag], () => {
-				// Alert.alert('成功', 'tags 成功',[{text: 'OK'}])；
-				console.log('success set tag');
-			}, () => {
-				// Alert.alert('失败','设置alias 失败',[{text:'fail'}]);
-				console.log('fail set tag');
-			});
-		};
+	addTag() {
+		JPushModule.addTags([this.state.tag], (result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
 	},
 	setAlias() {
 		if (this.state.alias !== undefined) {
 			JPushModule.setAlias(this.state.alias, () => {
-				// Alert.alert('成功', '设置alias 成功',[{text: 'OK'}]);
-				console.log('success set alias');
+				// console.log('success set alias');
+				Alert.alert('success set alias')
 			},() => {
-				// Alert.alert('失败','设置alias 失败',[{text:'fail'}]);
-				console.log('fail set alias');
+				Alert.alert('fail set alias')
+				// console.log('fail set alias');
 			});
 		};
+	},
+	//static addTags(tags, cb) {
+	setTags() {
+		JPushModule.setTags(['tag1', 'tag2'], (result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
+	},
+
+	deleteTags() {
+		JPushModule.deleteTags(['tag1', 'tag2'], (result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
+	},
+
+	cleanTags() {
+		JPushModule.cleanTags((result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
+	},
+
+	getAllTags() {
+		JPushModule.getAllTags((result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
+	},
+
+	checkTagBindState() {
+		JPushModule.checkTagBindState('tag1', (result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
+	},
+
+	deleteAlias() {
+		JPushModule.deleteAlias((result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
+	},
+
+	getAlias() {
+		JPushModule.getAlias((result)=> {
+			Alert.alert(JSON.stringify(result))
+		})
 	},
 
 	render() {
@@ -59,7 +95,7 @@ var SetActivity = React.createClass({
 				<View style = { styles.container }>
 					<View style = { styles.title }>
 						<Text style = { styles.titleText }>
-							设置Tag和Alias
+							设置 Tag 和 Alias
 						</Text>
 					</View>
 					<View style = { styles.cornorBg }>
@@ -74,11 +110,11 @@ var SetActivity = React.createClass({
 							</TextInput>
 							<TouchableHighlight
 								style = { styles.btnStyle }
-								onPress = { this.setTag }
+								onPress = { this.addTag }
 								underlayColor = '#e4083f'
 								activeOpacity = { 0.5 }>
 								<Text style = { styles.btnText }>
-									设置Tag
+									addTag
 								</Text>
 							</TouchableHighlight> 
 						</View>
@@ -97,7 +133,67 @@ var SetActivity = React.createClass({
 								underlayColor = '#e4083f'
 								activeOpacity = { 0.5 }>
 								<Text style = { styles.btnText }>
-									设置Alias
+									addAlias
+								</Text>
+							</TouchableHighlight>
+						</View>
+
+
+						<View style = { styles.setterRowContainer }>
+							<TouchableHighlight
+								style = { styles.setterBtnStyle }
+								onPress = { this.setTags }
+								underlayColor = '#e4083f'
+								activeOpacity = { 0.5 }>
+								<Text style = { styles.btnText }>
+									setTags
+								</Text>
+							</TouchableHighlight>
+							<TouchableHighlight
+								style = { styles.setterBtnStyle }
+								onPress = { this.cleanTags }
+								underlayColor = '#e4083f'
+								activeOpacity = { 0.5 }>
+								<Text style = { styles.btnText }>
+									cleanTags
+								</Text>
+							</TouchableHighlight>
+							<TouchableHighlight
+								style = { styles.setterBtnStyle }
+								onPress = { this.getAllTags }
+								underlayColor = '#e4083f'
+								activeOpacity = { 0.5 }>
+								<Text style = { styles.btnText }>
+									getAllTags
+								</Text>
+							</TouchableHighlight>
+							<TouchableHighlight
+								style = { styles.setterBtnStyle }
+								onPress = { this.checkTagBindState }
+								underlayColor = '#e4083f'
+								activeOpacity = { 0.5 }>
+								<Text style = { styles.btnText }>
+									检查设备是否绑定 tag
+								</Text>
+							</TouchableHighlight>
+
+							<TouchableHighlight
+								style = { styles.setterBtnStyle }
+								onPress = { this.deleteAlias }
+								underlayColor = '#e4083f'
+								activeOpacity = { 0.5 }>
+								<Text style = { styles.btnText }>
+									deleteAlias
+								</Text>
+							</TouchableHighlight>
+							
+							<TouchableHighlight
+								style = { styles.setterBtnStyle }
+								onPress = { this.getAlias }
+								underlayColor = '#e4083f'
+								activeOpacity = { 0.5 }>
+								<Text style = { styles.btnText }>
+									getAlias
 								</Text>
 							</TouchableHighlight>
 						</View>
@@ -111,7 +207,6 @@ var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-
 	},
 	title: {
 		padding: 10,
@@ -127,6 +222,10 @@ var styles = StyleSheet.create({
 	},
 	setterContainer: {
 		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	setterRowContainer: {
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
@@ -151,7 +250,17 @@ var styles = StyleSheet.create({
     	borderRadius: 8,
     	backgroundColor: '#3e83d7',
     	padding: 10
+	},
+	setterBtnStyle: {
+		width: 180,
+    	marginTop: 10,
+   		borderWidth: 1,
+    	borderColor: '#3e83d7',
+    	borderRadius: 8,
+    	backgroundColor: '#3e83d7',
+    	padding: 10
   	},
+
   	btnText: {
     	textAlign: 'center',
     	fontSize: 12,
