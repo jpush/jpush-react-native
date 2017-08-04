@@ -50,10 +50,20 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   self = [super init];
-  
   NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
   
   [defaultCenter removeObserver:self];
+
+  
+  [defaultCenter addObserver:self
+                    selector:@selector(networkConnecting:)
+                        name:kJPFNetworkIsConnectingNotification
+                      object:nil];
+  
+  [defaultCenter addObserver:self
+                    selector:@selector(networkRegister:)
+                        name:kJPFNetworkDidRegisterNotification
+                      object:nil];
   
   [defaultCenter addObserver:self
                     selector:@selector(networkDidSetup:)
@@ -110,6 +120,12 @@ RCT_EXPORT_MODULE();
     [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
   }
   
+  if (_isJPushDidLogin) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFNetworkDidLoginNotification object:nil];
+  } else {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFNetworkDidCloseNotification object:nil];
+  }
+  
 }
 
 - (void)setBridge:(RCTBridge *)bridge {
@@ -144,22 +160,40 @@ RCT_EXPORT_METHOD(setupPush) {
   [self.bridge.eventDispatcher sendAppEventWithName:@"openNotification" body:obj];
 }
 
+
+- (void)networkConnecting:(NSNotification *)notification {
+  _isJPushDidLogin = false;
+  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
+                                               body:@(false)];
+}
+
+- (void)networkRegister:(NSNotification *)notification {
+  _isJPushDidLogin = false;
+  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
+                                               body:@(false)];
+}
+
 - (void)networkDidSetup:(NSNotification *)notification {
+  _isJPushDidLogin = false;
   [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
                                                body:@(true)];
 }
 
 - (void)networkDidClose:(NSNotification *)notification {
+  _isJPushDidLogin = false;
   [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
-                                               body:@(true)];
+                                               body:@(false)];
 }
 
 
 - (void)networkDidLogin:(NSNotification *)notification {
   _isJPushDidLogin = YES;
   [[RCTJPushActionQueue sharedInstance] scheduleGetRidCallbacks];
+//  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
+//                                               body:@(true)];
   [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidLogin"
                                                body:nil];
+  
 }
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
