@@ -145,7 +145,7 @@ dependencies {
     compile project(':jpush-react-native')
     compile project(':jcore-react-native')
     compile "com.android.support:appcompat-v7:25.3.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile "com.facebook.react:react-native:0.47.1"  // From node_modules
 }
 
 // Run this once to be able to run the application with BUCK

@@ -47,21 +47,12 @@ var PushActivity = React.createClass({
       this.props.navigator.push({ name:'LocalPushActivity' });
     },
     componentWillMount() {
-      
-        // NativeAppEventEmitter.addListener('networkDidSetup', (token) => {
-        // this.setState({ connectStatus: '已连接' });
-        // });
-        // NativeAppEventEmitter.addListener('networkDidClose', (token) => {
-        // this.setState({ connectStatus: '连接已断开' });
-        // });
-        // NativeAppEventEmitter.addListener('networkDidRegister', (token) => {
-        // this.setState({ connectStatus: '已注册' });
-        // });
-        // NativeAppEventEmitter.addListener('networkDidLogin', (token) => {
-        // this.setState({ connectStatus: '已登陆' });
-        // });
         JPushModule.addnetworkDidLoginListener(() => {
           Alert.alert('连接已登录')
+          
+          JPushModule.addTags(['dasffas'], (result)=> {
+            Alert.alert('addTags success:' + JSON.stringify(result))
+          })
         })
 
         JPushModule.addConnectionChangeListener((result) => {
@@ -71,11 +62,10 @@ var PushActivity = React.createClass({
             Alert.alert('网络已断开')
           }
         })
-        var subscription = NativeAppEventEmitter.addListener(
-                              'ReceiveNotification',
-                              (notification) => console.log(notification)
-                          );
 
+        JPushModule.addReceiveNotificationListener((notification) => {
+          Alert.alert(JSON.stringify(notification))
+        })
     },
     componentDidMount() {
 
