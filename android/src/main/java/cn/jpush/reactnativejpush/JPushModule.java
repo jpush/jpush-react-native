@@ -78,7 +78,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
         mCachedBundle = null;
         if (null != sCacheMap) {
             sCacheMap.clear();
-            sCacheMap = null;
         }
     }
 
