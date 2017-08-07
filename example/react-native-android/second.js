@@ -30,6 +30,12 @@ export default class second extends React.Component {
     }
   }
 
+  componentDidMount() {
+    JPushModule.addReceiveExtrasListener((map) => {
+      console.log("Got extra, key: hello, value: " + map.hello);
+    });
+  }
+
   onButtonPress = () => {
     console.log("will jump to setting page");
     let navigator = this.props.navigator;

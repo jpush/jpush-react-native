@@ -17,6 +17,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -122,6 +123,16 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void crashLogOFF() {
+        JPushInterface.stopCrashHandler(getReactApplicationContext());
+    }
+
+    @ReactMethod
+    public void crashLogON() {
+        JPushInterface.initCrashHandler(getReactApplicationContext());
+    }
+
+    @ReactMethod
     public void notifyJSDidLoad(Callback callback) {
         // send cached event
         if (getReactApplicationContext().hasActiveCatalystInstance()) {
@@ -157,8 +168,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
                             .emit(mEvent, map);
                     break;
                 case CONNECTION_CHANGE:
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit(mEvent, mCachedBundle.getBoolean(JPushInterface.EXTRA_CONNECTION_CHANGE, false));
+                    if (mCachedBundle != null) {
+                        mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                .emit(mEvent, mCachedBundle.getBoolean(JPushInterface.EXTRA_CONNECTION_CHANGE, false));
+                    }
                     break;
             }
             mEvent = null;
@@ -446,7 +459,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     } else {
                         intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     }
                     intent.putExtras(mCachedBundle);
                     context.startActivity(intent);
@@ -573,6 +586,26 @@ public class JPushModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
         }
 
+    }
+
+    @ReactMethod
+    public void jumpToPushActivityWithParams(String activityName, ReadableMap map) {
+        Logger.d(TAG, "Jumping to " + activityName);
+        try {
+            Intent intent = new Intent();
+            if (null != map) {
+                while (map.keySetIterator().hasNextKey()) {
+                    String key = map.keySetIterator().nextKey();
+                    String value = map.getString(key);
+                    intent.putExtra(key, value);
+                }
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setClassName(mRAC, mRAC.getPackageName() + "." + activityName);
+            mRAC.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @ReactMethod

@@ -1,44 +1,49 @@
 {
-	"name": "jpush-react-native",
-	"version": "2.0.1",
-	"description": "a jpush plugin for react native application",
-	"main": "index.js",
-	"scripts": {
-		"postinstall": "node postInstall.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:jpush/jpush-react-native.git"
-	},
-	"keywords": [
-		"react",
-		"native",
-		"jpush"
-	],
-	"author": "KenChoi, huminiOS",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/jpush/jpush-react-native/issues"
-	},
-	"homepage": "https://github.com/jpush/jpush-react-native#readme",
-	"peerDependencies": {
-		"jcore-react-native": ">= 1.1.5"
-	},
-	"rnpm": {
-		"ios": {
-			"sharedLibraries": [
-				"libz",
-				"UserNotifications",
-				"CoreTelephony",
-				"Security",
-				"CFNetwork",
-				"CoreFoundation",
-				"SystemConfiguration",
-				"Foundation",
-				"UIKit",
-				"libresolv",
-				"CoreGraphics"
-			]
-		}
-	}
+  "name": "jpush-react-native",
+  "version": "2.0.2",
+  "description": "a jpush plugin for react native application",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node postInstall.js"
+  },
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jpush/jpush-react-native.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "jpush"
+  ],
+  "author": "KenChoi, huminiOS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpush/jpush-react-native/issues"
+  },
+  "homepage": "https://github.com/jpush/jpush-react-native#readme",
+  "peerDependencies": {
+    "jcore-react-native": ">= 1.1.5"
+  },
+  "rnpm": {
+    "ios": {
+      "sharedLibraries": [
+        "libz",
+        "UserNotifications",
+        "CoreTelephony",
+        "Security",
+        "CFNetwork",
+        "CoreFoundation",
+        "SystemConfiguration",
+        "Foundation",
+        "UIKit",
+        "libresolv",
+        "CoreGraphics"
+      ]
+    }
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0"
+  }
 }
