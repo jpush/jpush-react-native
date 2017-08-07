@@ -13,7 +13,8 @@ const connectionChangeEvent = "connectionChange";
 
 const getRegistrationIdEvent = "getRegistrationId"; // Android Only
 const openNotificationLaunchAppEvent = "openNotificationLaunchApp"; // iOS Only
-const networkDidLogin = "networkDidLogin" // iOS Only
+const networkDidLogin = "networkDidLogin"; // iOS Only
+const receiveExtrasEvent = "receiveExtras"; // Android Only
 
 /**
  * Logs message to console with the [JPush] prefix
@@ -64,6 +65,20 @@ export default class JPush {
 	 */
 	static resumePush() {
 		JPushModule.resumePush();
+	}
+
+	/**
+	 * Android Only
+	 */
+	static crashLogOFF() {
+		JPushModule.crashLogOFF();
+	}
+
+	/**
+	 * Android Only
+	 */
+	static crashLogON() {
+		JPushModule.crashLogON();
 	}
 
 	/**
@@ -264,6 +279,13 @@ export default class JPush {
 	/**
 	 * Android Only
 	 */
+	static jumpToPushActivityWithParams(activityName, map) {
+		JPushModule.jumpToPushActivityWithParams(activityName, map);
+	}
+
+	/**
+	 * Android Only
+	 */
 	static finishActivity() {
 		JPushModule.finishActivity();
 	}
@@ -302,7 +324,7 @@ export default class JPush {
 				cb(registrationId);
 			});
 	}
-	
+
 	/**
 	 * iOS Only
 	 * 取消监听：应用没有启动的状态点击推送打开应用
@@ -328,7 +350,7 @@ export default class JPush {
 				cb(registrationId);
 			});
 	}
-	
+
 	/**
 	 * iOS Only
 	 * 
@@ -439,7 +461,27 @@ export default class JPush {
 		listeners[cb] = null;
 	}
 
-	
+	/**
+	 * 监听：收到 Native 下发的 extra 事件
+	 * @param {Function} cb = (map) => { }
+	 * 返回 Object，属性和值在 Native 定义
+	 */
+	static addReceiveExtrasListener(cb) {
+		listeners[cb] = DeviceEventEmitter.addListener(receiveExtrasEvent,
+			(map) => {
+				cb(map);
+			});
+	}
+
+	static removeReceiveExtrasListener(cb) {
+		if (!listeners[cb]) {
+			return;
+		}
+		listeners[cb].remove();
+		listeners[cb] = null;
+	}
+
+
 	/**
 	 * 获取 RegistrationId 
 	 * @param {Function} cb = (String) => { }

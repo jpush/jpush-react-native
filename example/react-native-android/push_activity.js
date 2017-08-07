@@ -46,14 +46,14 @@ export default class PushActivity extends React.Component {
 	}
 
 	jumpSetActivity() {
-		this.props.navigator.push({
-			name: 'setActivity'
-		});
+		this.props.navigation.navigate("Setting");
 	}
 
 	jumpSecondActivity() {
 		console.log("jump to SecondActivity");
-		JPushModule.jumpToPushActivity("SecondActivity");
+		JPushModule.jumpToPushActivityWithParams("SecondActivity", {
+			hello: "world"
+		});
 		// this.props.navigator.push({
 		// 	name: "second"
 		// });
@@ -94,8 +94,7 @@ export default class PushActivity extends React.Component {
 			});
 		});
 		JPushModule.notifyJSDidLoad((resultCode) => {
-			if (resultCode === 0) {
-			}
+			if (resultCode === 0) {}
 		});
 		JPushModule.addReceiveCustomMsgListener((map) => {
 			this.setState({
@@ -112,7 +111,8 @@ export default class PushActivity extends React.Component {
 		JPushModule.addReceiveOpenNotificationListener((map) => {
 			console.log("Opening notification!");
 			console.log("map.extra: " + map.extras);
-			JPushModule.jumpToPushActivity("SecondActivity");
+			this.jumpSecondActivity();
+			// JPushModule.jumpToPushActivity("SecondActivity");
 		});
 		JPushModule.addGetRegistrationIdListener((registrationId) => {
 			console.log("Device register succeed, registrationId " + registrationId);
