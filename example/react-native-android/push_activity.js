@@ -51,12 +51,10 @@ export default class PushActivity extends React.Component {
 
 	jumpSecondActivity() {
 		console.log("jump to SecondActivity");
-		JPushModule.jumpToPushActivityWithParams("SecondActivity", {
-			hello: "world"
-		});
-		// this.props.navigator.push({
-		// 	name: "second"
+		// JPushModule.jumpToPushActivityWithParams("SecondActivity", {
+		// 	hello: "world"
 		// });
+		this.props.navigation.navigate("Push");
 	}
 
 	onInitPress() {

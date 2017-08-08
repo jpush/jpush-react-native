@@ -109,4 +109,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent("second", () => second);
+// AppRegistry.registerComponent("second", () => second);
