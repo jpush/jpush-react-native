@@ -55,6 +55,10 @@ var PushActivity = React.createClass({
           })
         })
 
+        JPushModule.addOpenNotificationLaunchAppListener((result) => {
+          Alert.alert('addOpenNotificationLaunchAppListener', 'the notification is :' + JSON.stringify(result))
+        })
+
         JPushModule.addConnectionChangeListener((result) => {
           if (result) {
             Alert.alert('网络已连接')
