@@ -175,7 +175,7 @@ if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
                                                       UIRemoteNotificationTypeAlert)
                                           categories:nil];
   }
-  
+
   [JPUSHService setupWithOption:launchOptions appKey:appKey
                         channel:channel apsForProduction:isProduction];
 }
@@ -191,12 +191,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 ```
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   // 取得 APNs 标准信息内容
-  
+
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
 }
 //iOS 7 Remote Notification
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:  (NSDictionary *)userInfo fetchCompletionHandler:(void (^)   (UIBackgroundFetchResult))completionHandler {
-  
+
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
 }
 
@@ -219,7 +219,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 var { NativeAppEventEmitter } = require('react-native');
 
 var subscription = NativeAppEventEmitter.addListener(
-  'ReceiveNotification',
+  'receiveNotification',
   (notification) => console.log(notification)
 );
 ...
