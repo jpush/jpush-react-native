@@ -21,7 +21,7 @@ static BOOL isProduction = false;  //填写isProdurion  平时测试时为false 
     JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
      entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
      [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
- 
+
 #endif
 } else if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
     [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
@@ -34,7 +34,7 @@ static BOOL isProduction = false;  //填写isProdurion  平时测试时为false 
                                                       UIRemoteNotificationTypeAlert)
                                           categories:nil];
   }
-  
+
   [JPUSHService setupWithOption:launchOptions appKey:appKey
                         channel:channel apsForProduction:isProduction];
 }
@@ -50,12 +50,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 ```
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   // 取得 APNs 标准信息内容
-  
+
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
 }
 //iOS 7 Remote Notification
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:  (NSDictionary *)userInfo fetchCompletionHandler:(void (^)   (UIBackgroundFetchResult))completionHandler {
-  
+
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
 }
 
@@ -86,7 +86,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 var { NativeAppEventEmitter } = require('react-native');
 
 var subscription = NativeAppEventEmitter.addListener(
-  'ReceiveNotification',
+  'receiveNotification',
   (notification) => console.log(notification)
 );
 ...
@@ -97,7 +97,7 @@ subscription.remove();
 在 jpush-react-native 1.2.9 开始提供 OpenNotification 事件。获取点击通知事件，需要获得该条推送需要在 js 代码加入如下监听代码：（注意这个事件只有在 iOS 10之后才有）
 ```
 var subscription = NativeAppEventEmitter.addListener(
-  'OpenNotification',
+  'openNotification',
   (notification) => console.log(notification)
 );
 
