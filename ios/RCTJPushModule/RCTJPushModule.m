@@ -150,6 +150,10 @@ RCT_EXPORT_METHOD(setupPush) {
   }
 }
 
+RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
+  callback(@[@([UIApplication sharedApplication].applicationIconBadgeNumber)]);
+}
+
 - (void)openNotificationToLaunchApp:(NSNotification *)notification {
   id obj = [notification object];
   [self.bridge.eventDispatcher sendAppEventWithName:@"openNotificationLaunchApp" body:obj];
