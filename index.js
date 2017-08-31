@@ -515,7 +515,7 @@ export default class JPush {
 	 * iOS Only
 	 * @param {Function} cb = (int) => { } // 返回应用 icon badge。
 	 */
-	static getApplicationIconBadge(cb) {
+	static getBadge(cb) {
 		JPushModule.getApplicationIconBadge((badge) => {
 			cb(badge);
 		});
