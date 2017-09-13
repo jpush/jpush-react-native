@@ -272,6 +272,30 @@ export default class JPush {
 	/**
 	 * Android Only
 	 */
+	static setLatestNotificationNumber(maxNumber) {
+		JPushModule.setLatestNotificationNumber(maxNumber);
+	}
+
+	/**
+	 * Android Only
+	 * @param {object} config = {"startTime": String, "endTime": String}  // 例如：{startTime: "20:30", endTime: "8:30"}
+	 */
+	static setSilenceTime(config) {
+		JPushModule.setSilenceTime(config);
+	}
+
+	/**
+	 * Android Only
+	 * @param {object} config = {"days": Array, "startHour": Number, "endHour": Number}  
+	 * // 例如：{days: [0, 6], startHour: 8, endHour: 23} 表示星期天和星期六的上午 8 点到晚上 11 点都可以推送
+	 */
+	static setPushTime(config) {
+		JPushModule.setPushTime(config);
+	}
+
+	/**
+	 * Android Only
+	 */
 	static jumpToPushActivity(activityName) {
 		JPushModule.jumpToPushActivity(activityName);
 	}

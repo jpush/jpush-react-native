@@ -76,3 +76,28 @@ Clear all notifications
 清除所有通知，建议在 `componentWillUnmount` 中调用
 
 - clearAllNotifications()
+
+- setLatestNotificationNumber 设置保留最近通知的条数，默认为 5 条。
+
+- setSilenceTime 设置通知静默时间，如果在该时间段内收到消息，则：不会有铃声和震动。格式如下：
+
+  ```
+  var config = {
+    startTime: "22:30",
+    endTime: "8:30"
+  }
+  ```
+
+- setPushTime 设置允许推送时间，格式如下：
+
+  ```
+  var config = {
+    days: [0,5,6] //  0表示星期天，1表示星期一，以此类推。
+    startHour: 8,
+    endHour: 23
+  }
+  ```
+
+  表示在星期天，星期五和星期六的 8 点到 23 点都允许推送。
+
+  ​

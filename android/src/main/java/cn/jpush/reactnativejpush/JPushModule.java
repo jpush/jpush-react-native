@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -402,6 +403,52 @@ public class JPushModule extends ReactContextBaseJavaModule {
         try {
             mContext = getCurrentActivity();
             JPushInterface.clearNotificationById(mContext, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void setLatestNotificationNumber(int number) {
+        try {
+            mContext = getCurrentActivity();
+            JPushInterface.setLatestNotificationNumber(mContext, number);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void setPushTime(ReadableMap map) {
+        try {
+            mContext = getCurrentActivity();
+            ReadableArray array = map.getArray("days");
+            Set<Integer> days = new HashSet<Integer>();
+            for (int i=0; i < array.size(); i++) {
+                days.add(array.getInt(i));
+            }
+            int startHour = map.getInt("startHour");
+            int endHour = map.getInt("endHour");
+            JPushInterface.setPushTime(mContext, days, startHour, endHour);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Set silent push time
+     * @param map must includes startTime and endTime property
+     */
+    @ReactMethod
+    public void setSilenceTime(ReadableMap map) {
+        try {
+            mContext = getCurrentActivity();
+            String starTime = map.getString("startTime");
+            String endTime = map.getString("endTime");
+            String[] sTime = starTime.split(":");
+            String[] eTime = endTime.split(":");
+            JPushInterface.setSilenceTime(mContext, Integer.valueOf(sTime[0]), Integer.valueOf(sTime[1]),
+                    Integer.valueOf(eTime[0]), Integer.valueOf(eTime[1]));
         } catch (Exception e) {
             e.printStackTrace();
         }
