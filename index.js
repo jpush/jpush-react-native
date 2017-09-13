@@ -537,6 +537,16 @@ export default class JPush {
 
 	/**
 	 * iOS Only
+	 * @param {Function} cb = (int) => { } // 返回应用 icon badge。
+	 */
+	static getBadge(cb) {
+		JPushModule.getApplicationIconBadge((badge) => {
+			cb(badge);
+		});
+	}
+
+	/**
+	 * iOS Only
 	 * 设置本地推送
 	 * @param {Date} date  触发本地推送的时间
 	 * @param {String} textContain 推送消息体内容

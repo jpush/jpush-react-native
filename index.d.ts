@@ -231,6 +231,11 @@ declare class JPush {
     static getAppkeyWithcallback(cb: JSuccessCallback<string>): void;
 
     /**
+	 * iOS Only
+	 */
+	static getBadge(cb: JSuccessCallback<number>): void
+
+    /**
      * iOS Only
      * 设置本地推送
      * @param {Date} date  触发本地推送的时间
