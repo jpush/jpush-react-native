@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "jcore-react-native": "^1.1.7",
-    "jpush-react-native": "^2.0.1",
+    "jpush-react-native": "^2.0.6",
     "react": "^16.0.0-alpha.12",
-    "react-native": "^0.44.2",
+    "react-native": "^0.47.1",
     "react-native-onesignal": "^3.0.4",
     "react-navigation": "^1.0.0-beta.11"
   },
