@@ -37,7 +37,7 @@ var PushActivity = React.createClass({
     onInitPress() {
 
       console.log('on click init push ');
-      // PushHelper.setupPush('dssdf');
+      // PushHelper.setupPush();
       JPushModule.getRegistrationID((registrationid) => {
         console.log(registrationid);
         this.setState({regid: registrationid});
@@ -47,6 +47,8 @@ var PushActivity = React.createClass({
       this.props.navigator.push({ name:'LocalPushActivity' });
     },
     componentWillMount() {
+
+        // JPushModule.setupPush()  // if you add register notification in Appdelegate.m 有 don't need call this function
         JPushModule.addnetworkDidLoginListener(() => {
           Alert.alert('连接已登录')
           
@@ -59,6 +61,14 @@ var PushActivity = React.createClass({
           Alert.alert('addOpenNotificationLaunchAppListener', 'the notification is :' + JSON.stringify(result))
         })
 
+        JPushModule.addReceiveOpenNotificationListener((result) => {
+          Alert.alert('addReceiveOpenNotificationListener','addReceiveOpenNotificationListener')
+        })
+
+        JPushModule.addReceiveNotificationListener((result) => {
+          Alert.alert('addReceiveNotificationListener','addReceiveNotificationListener')
+        })
+
         JPushModule.addConnectionChangeListener((result) => {
           if (result) {
             Alert.alert('网络已连接')
@@ -67,9 +77,9 @@ var PushActivity = React.createClass({
           }
         })
 
-        JPushModule.addReceiveNotificationListener((notification) => {
-          Alert.alert(JSON.stringify(notification))
-        })
+        // JPushModule.addReceiveNotificationListener((notification) => {
+        //   Alert.alert(JSON.stringify(notification))
+        // })
     },
     componentDidMount() {
 
