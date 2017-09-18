@@ -20,9 +20,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-   entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
-   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+//  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+//   entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+//   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
   
   [JPUSHService setupWithOption:launchOptions appKey:@"a1703c14b186a68a66ef86c1"
                         channel:nil apsForProduction:nil];
