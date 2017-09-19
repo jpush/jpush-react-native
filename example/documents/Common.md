@@ -14,7 +14,9 @@ Note: In Android, you must call initPush first, iOS doesn't need.
 
 **收到打开通知事件**
 
-- addOpenNotificationListener(callback)
+**NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
+
+- addOpenNotificationListener(callback)  
 
 
 ```
@@ -25,13 +27,14 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
     });
 ```
 
-- removeOpenNotificationListener(event)
-
+- removeOpenNotificationListener(event)  
 
 
 **收到通知事件**
 
-- addReceiveNotificationListener(callback)
+**NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
+
+- addReceiveNotificationListener(callback) 
 
 
 ```
@@ -43,14 +46,16 @@ JPushModule.addReceiveNotificationListener((map) => {
 });
 ```
 
-- removeReceiveNotificationListener(event)
+- removeReceiveNotificationListener(event)  **NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
 
 
 
 
 **接收自定义消息**(Add this listener to receive custom message.)
 
-- addReceiveCustomMsgListener(callback)
+**NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
+
+- addReceiveCustomMsgListener(callback)  **NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
 
 
 - removeReceiveCustomMsgListener(event)
