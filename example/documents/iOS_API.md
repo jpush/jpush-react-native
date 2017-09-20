@@ -50,6 +50,8 @@ All apis can find in jpush-react-native/index.js.
   ```
 
 ## 事件
+**NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
+
 **点击推送启动应用事件**
 
 - addOpenNotificationLaunchAppListener(Function) 
@@ -68,6 +70,8 @@ All apis can find in jpush-react-native/index.js.
 
 
 **登录事件**
+
+**NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
 
 
 - addnetworkDidLoginListener(Function)
