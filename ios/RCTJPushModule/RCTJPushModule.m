@@ -513,6 +513,69 @@ RCT_EXPORT_METHOD( setLocalNotification:(NSDate *)fireDate
                            soundName:soundName];
 }
 
+RCT_EXPORT_METHOD(sendLocalNotification:(NSDictionary *)params) {
+  
+  JPushNotificationContent *content = [[JPushNotificationContent alloc] init];
+  if (params[@"title"]) {
+    content.title = params[@"title"];
+  }
+  
+  if (params[@"subtitle"]) {
+    content.subtitle = params[@"subtitle"];
+  }
+  
+  if (params[@"content"]) {
+    content.body = params[@"content"];
+  }
+  
+  if (params[@"badge"]) {
+    content.badge = params[@"badge"];
+  }
+  
+  if (params[@"action"]) {
+    content.action = params[@"action"];
+  }
+  
+  if (params[@"extra"]) {
+    content.userInfo = params[@"extra"];
+  }
+  
+  if (params[@"sound"]) {
+    content.sound = params[@"sound"];
+  }
+  
+  JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
+  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0) {
+    if (params[@"fireTime"]) {
+      NSNumber *date = params[@"fireTime"];
+      NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+      NSTimeInterval interval = [date doubleValue]/1000 - currentInterval;
+      interval = interval>0?interval:0;
+      trigger.timeInterval = interval;
+    }
+  }
+  
+  else {
+    if (params[@"fireTime"]) {
+      NSNumber *date = params[@"fireTime"];
+      trigger.fireDate = [NSDate dateWithTimeIntervalSince1970: [date doubleValue]/1000];
+    }
+  }
+  JPushNotificationRequest *request = [[JPushNotificationRequest alloc] init];
+  request.content = content;
+  request.trigger = trigger;
+  
+  if (params[@"id"]) {
+    NSNumber *identify = params[@"id"];
+    request.requestIdentifier = [identify stringValue];
+  }
+  request.completionHandler = ^(id result) {
+    NSLog(@"result");
+  };
+  
+  [JPUSHService addNotification:request];
+  
+}
 
 /*!
  * @abstract 前台展示本地推送
