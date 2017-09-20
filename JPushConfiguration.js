@@ -51,24 +51,13 @@ function insertJpushCode(path) {
 	var rf = fs.readFileSync(path, "utf-8");
 	var searchDidlaunch = rf.match(/\n.*didFinishLaunchingWithOptions.*\n?\{/);
 	if (searchDidlaunch == null) {
-		console.log("没有匹配到 didFinishLaunchingWithOptions");
+		console.log("没有匹配到 didFinishLaunchingWithOptions,将自动插入改方法");
 		console.log(rf);
 	} else {
 		// console.log(searchDidlaunch[0]);
 		var oldValue = rf.match(/\[JPUSHService registerForRemoteNotificationTypes/)
 		if (oldValue == null) {
-			rf = rf.replace(searchDidlaunch[0], searchDidlaunch[0] + "\n    if \(\[\[UIDevice currentDevice\]\.systemVersion floatValue\] >= 10.0\) \{\n \#ifdef NSFoundationVersionNumber_iOS_9_x_Max\n    JPUSHRegisterEntity \* entity \= \[\[JPUSHRegisterEntity alloc\] init\]\;\n     entity\.types \= UNAuthorizationOptionAlert\|UNAuthorizationOptionBadge\|UNAuthorizationOptionSound\;\n     \[JPUSHService registerForRemoteNotificationConfig\:entity delegate\:self\]\;\n \n\#endif\n\} else if \(\[\[UIDevice currentDevice\]\.systemVersion floatValue\] \>\= 8\.0\) \{\n\
-    \[JPUSHService registerForRemoteNotificationTypes\:\(UIUserNotificationTypeBadge \|\n\
-                                                      UIUserNotificationTypeSound \|\n\
-                                                      UIUserNotificationTypeAlert\)\n\
-                                          categories\:nil\]\;\n\
-  \} else \{\n\
-    \[JPUSHService registerForRemoteNotificationTypes\:\(UIRemoteNotificationTypeBadge \|\n\
-                                                      UIRemoteNotificationTypeSound \|\n\
-                                                      UIRemoteNotificationTypeAlert)\n\
-                                          categories\:nil\]\;\n\
-  }\n\
-  \n\
+			rf = rf.replace(searchDidlaunch[0], searchDidlaunch[0] + "\nJPUSHRegisterEntity \* entity \= \[\[JPUSHRegisterEntity alloc\] init\]\;\n     entity\.types \= UNAuthorizationOptionAlert\|UNAuthorizationOptionBadge\|UNAuthorizationOptionSound\;\n     \[JPUSHService registerForRemoteNotificationConfig\:entity delegate\:self\]\;\n\
   \[JPUSHService setupWithOption\:launchOptions appKey\:\@\"" + appKey + "\"\n\
                         channel\:nil apsForProduction\:nil\]\;");
 			fs.writeFileSync(path, rf, "utf-8");
@@ -82,7 +71,7 @@ function insertJpushCode(path) {
 	var search = rf.match(/\n.*didRegisterForRemoteNotificationsWithDeviceToken\:\(NSData \*\)deviceToken[ ]*\{/);
 
 	if (search == null) {
-		console.log("没有匹配到 函数 didRegisterForRemoteNotificationsWithDeviceToken");
+		console.log("没有匹配到 函数 didRegisterForRemoteNotificationsWithDeviceToken,将自动插入改方法");
 		rf = rf.replace(/\@end/, "\- \(void\)application\:\(UIApplication \*\)application\ didRegisterForRemoteNotificationsWithDeviceToken\:\(NSData \*\)deviceToken \{\n\[JPUSHService registerDeviceToken:deviceToken\]\;\n\}\n\@end");
 		// console.log(rf);
 		fs.writeFileSync(path, rf, "utf-8");
@@ -102,7 +91,7 @@ function insertJpushCode(path) {
 	var rf = fs.readFileSync(path, "utf-8");
 	var search = rf.match(/\n.*didReceiveRemoteNotification\:\(NSDictionary \*\)userInfo[ ]*\{/);
 	if (search == null) {
-		console.log("没有匹配到 函数 didReceiveRemoteNotification");
+		console.log("没有匹配到 函数 didReceiveRemoteNotification,将自动插入改方法");
 		rf = rf.replace(/\@end/, "\- \(void\)application\:\(UIApplication \*\)application\ didReceiveRemoteNotification\:\(NSDictionary \*\)userInfo \{\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFDidReceiveRemoteNotification\ object\:userInfo\]\;\n\}\n\@end");
 		// console.log(rf);
 		fs.writeFileSync(path, rf, "utf-8");
@@ -112,7 +101,7 @@ function insertJpushCode(path) {
 	var rf = fs.readFileSync(path, "utf-8");
 	var search = rf.match(/\n.*didReceiveRemoteNotification\:[ ]*\(NSDictionary \*\)[ ]*userInfo[ ]*fetchCompletionHandler\:\(void[ ]*\(\^\)[ ]*\(UIBackgroundFetchResult\)\)completionHandler \{/);
 	if (search == null) {
-		console.log("没有匹配到 函数 didReceiveRemoteNotification fetchCompletionHandler");
+		console.log("没有匹配到 函数 didReceiveRemoteNotification fetchCompletionHandler,将自动插入改方法");
 		rf = rf.replace(/\@end/, "\- \(void\)application\:\(UIApplication \*\)application\ didReceiveRemoteNotification\:\(NSDictionary \*\)userInfo fetchCompletionHandler\:\(void\ \(\^\)   \(UIBackgroundFetchResult\)\)completionHandler\ \{\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFDidReceiveRemoteNotification\ object\:userInfo\]\;\n\}\n\@end");
 		// console.log(rf);
 		fs.writeFileSync(path, rf, "utf-8");
@@ -122,9 +111,8 @@ function insertJpushCode(path) {
 	var rf = fs.readFileSync(path, "utf-8");
 	var search = rf.match(/\n.*willPresentNotification\:\(UNNotification \*\)notification[ ]*withCompletionHandler\:.*\{\n/);
 	if (search == null) {
-		console.log("没有匹配到 函数 willPresentNotification");
-		rf = rf.replace(/\@end/, "\- \(void\)jpushNotificationCenter\:\(UNUserNotificationCenter\ \*\)center willPresentNotification\:\(UNNotification\ \*\)notification\ withCompletionHandler\:\(void\ \(\^\)\(NSInteger\)\)completionHandler\ \{\n NSDictionary\ \* userInfo\ \=\ notification\.request\.content\.userInfo\;\n if\(\[notification\.request\.trigger\ isKindOfClass\:\[UNPushNotificationTrigger\ class\]\]\)\ \{\n \[JPUSHService\ handleRemoteNotification\:userInfo\]\;\n \[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFDidReceiveRemoteNotification\ object\:userInfo\]\;\n \ \ \ \}\n completionHandler\(UNNotificationPresentationOptionAlert\)\;\n\}\n\@end");
-		// console.log(rf);
+		console.log("没有匹配到 函数 willPresentNotification,将自动插入改方法");
+		rf = rf.replace(/\@end/, "\- \(void\)jpushNotificationCenter\:\(UNUserNotificationCenter\ \*\)center willPresentNotification\:\(UNNotification\ \*\)notification\ withCompletionHandler\:\(void\ \(\^\)\(NSInteger\)\)completionHandler\ \{\n NSDictionary\ \* userInfo\ \=\ notification\.request\.content\.userInfo\;\n  \[JPUSHService\ handleRemoteNotification\:userInfo\]\;\n \[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFDidReceiveRemoteNotification\ object\:userInfo\]\;\n \ \ \ \n completionHandler\(UNNotificationPresentationOptionAlert\)\;\n\}\n\@end");
 		fs.writeFileSync(path, rf, "utf-8");
 	}
 
@@ -132,11 +120,19 @@ function insertJpushCode(path) {
 	var rf = fs.readFileSync(path, "utf-8");
 	var search = rf.match(/\n.*jpushNotificationCenter\:\(UNUserNotificationCenter \*\)center[ ]*didReceiveNotificationResponse\:\(UNNotificationResponse\ \*\)response.*\{\n/);
 	if (search == null) {
-		console.log("没有匹配到 函数 didReceiveRemoteNotification");
-		rf = rf.replace(/\@end/, "\- \(void\)jpushNotificationCenter\:\(UNUserNotificationCenter\ \*\)center\ didReceiveNotificationResponse\:\(UNNotificationResponse\ \*\)response\ withCompletionHandler\:\(void\ \(\^\)\(\)\)completionHandler\ \{\nNSDictionary\ \*\ userInfo\ \=\ response\.notification\.request\.content\.userInfo\;\nif\(\[response\.notification\.request\.trigger\ isKindOfClass\:\[UNPushNotificationTrigger\ class\]\]\)\ \{\n\[JPUSHService\ handleRemoteNotification\:userInfo\]\;\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFOpenNotification\ object:userInfo\]\;\n\}\ncompletionHandler\(\)\;\n\}\n\@end");
+		console.log("没有匹配到 函数 didReceiveRemoteNotification,将自动插入改方法");
+		rf = rf.replace(/\@end/, "\- \(void\)jpushNotificationCenter\:\(UNUserNotificationCenter\ \*\)center\ didReceiveNotificationResponse\:\(UNNotificationResponse\ \*\)response\ withCompletionHandler\:\(void\ \(\^\)\(\)\)completionHandler\ \{\nNSDictionary\ \*\ userInfo\ \=\ response\.notification\.request\.content\.userInfo\;\n\[JPUSHService\ handleRemoteNotification\:userInfo\]\;\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFOpenNotification\ object:userInfo\]\;\n\ncompletionHandler\(\)\;\n\}\n\@end");
 		// console.log(rf);
 		fs.writeFileSync(path, rf, "utf-8");
 	}
+
+	var rf = fs.readFileSync(path, "utf-8");
+	var search = rf.match(/\n.*didReceiveLocalNotification\:\(UILocalNotification \*\)notification[ ]*\{/);
+		if (search == null) {
+			console.log("没有匹配到 函数 didReceiveLocalNotification,将自动插入改方法");
+			rf = rf.replace(/\@end/, "\- \(void\)application\:\(UIApplication \*\)application\ didReceiveLocalNotification\:\(UILocalNotification \*\)notification \{\n\[\[NSNotificationCenter\ defaultCenter\]\ postNotificationName\:kJPFDidReceiveRemoteNotification\ object\:notification.userInfo\]\;\n\}\n\@end");
+			fs.writeFileSync(path, rf, "utf-8");
+		}
 }
 
 
