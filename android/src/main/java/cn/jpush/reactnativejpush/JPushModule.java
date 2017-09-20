@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
@@ -469,12 +468,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 json.put(key, extra.getString(key));
             }
             ln.setExtras(json.toString());
-            if (map.hasKey("broadcastTime")) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                Date date = sdf.parse(map.getString("broadcastTime"));
+            if (map.hasKey("fireTime")) {
+                long date = (long) map.getDouble("fireTime");
                 ln.setBroadcastTime(date);
-            } else if (map.hasKey("delay")) {
-                ln.setBroadcastTime(System.currentTimeMillis() + 1000 * map.getInt("delay"));
             }
             JPushInterface.addLocalNotification(getReactApplicationContext(), ln);
         } catch (Exception e) {
