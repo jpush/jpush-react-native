@@ -45,7 +45,6 @@ var LocalPushActivity = React.createClass({
 
   	addLocationNotification() {
   		JPushModule.setLocalNotification(this.state.date.getTime(), this.state.textContain, 5, 'dfsa', 'dfaas', null, null);
-
   	},
 
     render() {

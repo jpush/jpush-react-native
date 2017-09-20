@@ -49,8 +49,7 @@ var PushActivity = React.createClass({
 
         JPushModule.setupPush()  // if you add register notification in Appdelegate.m 有 don't need call this function
         JPushModule.addnetworkDidLoginListener(() => {
-          Alert.alert('连接已登录')
-          
+          console.log('连接已登录')
           JPushModule.addTags(['dasffas'], (result)=> {
             Alert.alert('addTags success:' + JSON.stringify(result))
           })
@@ -61,18 +60,18 @@ var PushActivity = React.createClass({
         })
 
         JPushModule.addReceiveOpenNotificationListener((result) => {
-          Alert.alert('addReceiveOpenNotificationListener','addReceiveOpenNotificationListener')
+          Alert.alert('addReceiveOpenNotificationListener',JSON.stringify(result))
         })
 
         JPushModule.addReceiveNotificationListener((result) => {
-          Alert.alert('addReceiveNotificationListener','addReceiveNotificationListener')
+          Alert.alert('addReceiveNotificationListener',JSON.stringify(result))
         })
 
         JPushModule.addConnectionChangeListener((result) => {
           if (result) {
-            Alert.alert('网络已连接')
+            console.log('网络已连接')
           } else {
-            Alert.alert('网络已断开')
+          console.log('网络已断开')
           }
         })
 
