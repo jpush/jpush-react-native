@@ -548,7 +548,7 @@ export default class JPush {
 	/**
 	 * iOS Only
 	 * 设置本地推送
-	 * @param {Date} date  触发本地推送的时间
+	 * @param {Number} date  触发本地推送的时间的时间戳(毫秒)
 	 * @param {String} textContain 推送消息体内容
 	 * @param {Int} badge  本地推送触发后 应用 Badge（小红点）显示的数字
 	 * @param {String} alertAction 弹框的按钮显示的内容（IOS 8默认为"打开", 其他默认为"启动"）
@@ -562,14 +562,14 @@ export default class JPush {
 
 	/**
 	 * @param {Object} notification = {
-	 	  'buildId': Number     // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。
+	 	  'buildId': Number     // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
 	 *    'id': Number    		// 通知的 id, 可用于取消通知
 	 *    'title': String 		// 通知标题
 	 *    'content': String  	// 通知内容
 	 *	  'extra': Object       // extra 字段
-	 *    'broadcastTime': String  // 通知触发时间 格式： 'yyyy-MM-dd HH:mm:ss'  broadcastTime 和 delay 两者选填一个即可。
-	 *    'delay': Number  // 秒，延迟多少秒后触发本地通知。delay 和 broadcastTime 两者之间选填一个即可。
-	 *    
+	 *    'fireTime': Number    // 通知触发时间的时间戳（毫秒）
+	 * 	  'badge': Number       // 本地推送触发后应用角标的 badge 值 
+	 *    'soundName': String   // 指定推送的音频文件 （iOS Only）
 	 *  }
 	 */
 	static sendLocalNotification(notification) {
