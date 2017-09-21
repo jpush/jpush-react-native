@@ -91,7 +91,7 @@ dependencies {
 
 
 
-## [常见问题](./example/documents/common_problems)
+## [常见问题](./example/documents/common_problems.md)
 
 ### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
 
