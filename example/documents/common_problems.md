@@ -39,7 +39,7 @@ iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使�
 
 #### Android:
 
-
+可以在点击推送事件中直接在 JS 中做跳转。也可以跳转到原生界面。第二种情况可以[参考这篇文章的高级应用部分](http://www.jianshu.com/p/6721a0360af9)
 
 ### 编译报错
 
@@ -60,6 +60,16 @@ iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使�
 
 #### Android
 
+- 编译时报错：找不到符号。
+
+解决方法：import 相关类。可手动导入，也可使用 Android Studio 打开项目，然后使用 option + enter 导入相关类。
+
+- 编译时报错：Multiple dex files define 
+
+解决方法：可手动删除 jpush , jcore 下的 build 文件夹，然后重新编译。也可以使用 AS 打开项目，然后选择菜单：Build -> Rebuild Project
+
+
+
 ### iOS 收不到推送
 
 - 确保是在真机上测试，而不是在模拟器
@@ -70,26 +80,15 @@ iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使�
 
 
 
-### Android
+### 其他
 
-1. 编译时报错：找不到符号。
-
-
-解决方法：import 相关类。可手动导入，也可使用 Android Studio 打开项目，然后使用 option + enter 导入相关类。
-
-2. 编译时报错：Multiple dex files define 
-
-解决方法：可手动删除 jpush , jcore 下的 build 文件夹，然后重新编译。也可以使用 AS 打开项目，然后选择菜单：Build -> Rebuild Project
-
-
-
-3. 没有执行 addReceiveOpenNotificationListener 回调。
+- 没有执行 addReceiveOpenNotificationListener 回调。
 
 解决方法： 在监听通知事件前，Android 加入了 `notifiyJSDidLoad` （1.6.6 版本后加入），务必在监听事件前先调用此方法。
 
 
 
-4. 取消弹出 Toast 信息。
+- 取消弹出 Toast 信息。
 
 解决方法：在加入 JPushPackage 时，将第一个参数设置为 true 即可。第二个参数设置为 true 将不会打印 debug 日志。
 
