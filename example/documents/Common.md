@@ -2,21 +2,19 @@
 
 Common API for Android and iOS.
 
-- setTags(array, successCallback, failedCallback)
+- setTags(array, successCallback,)
 
 - getRegistrationID(callback)
 
-- setAlias(alias, successCallback, failedCallback)
+- setAlias(alias, successCallback)
 
 Note: In Android, you must call initPush first, iOS doesn't need.
-
-
 
 **收到打开通知事件**
 
 **NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
 
-- addOpenNotificationListener(callback)  
+- addReceiveOpenNotificationListener(callback)  
 
 
 ```
@@ -27,7 +25,7 @@ JPushModule.addReceiveOpenNotificationListener((map) => {
     });
 ```
 
-- removeOpenNotificationListener(event)  
+- removeReceiveOpenNotificationListener(event)  
 
 
 **收到通知事件**
@@ -46,7 +44,7 @@ JPushModule.addReceiveNotificationListener((map) => {
 });
 ```
 
-- removeReceiveNotificationListener(event)  **NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
+- removeReceiveNotificationListener(event)  
 
 
 
@@ -55,7 +53,7 @@ JPushModule.addReceiveNotificationListener((map) => {
 
 **NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
 
-- addReceiveCustomMsgListener(callback)  **NOTE: **iOS 在 jpush-react-native@2.0.0 以上版本才提供该方法
+- addReceiveCustomMsgListener(callback)  
 
 
 - removeReceiveCustomMsgListener(event)
