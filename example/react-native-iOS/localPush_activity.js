@@ -44,7 +44,26 @@ var LocalPushActivity = React.createClass({
   },
 
   	addLocationNotification() {
-  		JPushModule.setLocalNotification(this.state.date.getTime(), this.state.textContain, 5, 'dfsa', 'dfaas', null, null);
+		// setLocalNotification 和 sendLocalNotification 都可以触发本地推送，推荐使用 sendLocalNotification 方法。
+		var cdate = new Date()
+		JPushModule.sendLocalNotification(
+			{
+				id:5,
+				title:'haha',
+				content:'content',
+				extra:{haha:'haha',lala:'lala'},
+				fireTime: cdate.getTime() + 3000,
+				badge: 8,
+				sound: 'fasdfa',
+				subtitle: "subtitle",
+				title: 'title'
+			}
+		)
+
+		// JPushModule.setLocalNotification(this.state.date.getTime(), this.state.textContain, 5, 'dfsa', 'dfaas', null, null);
+
+		
+		
   	},
 
     render() {
