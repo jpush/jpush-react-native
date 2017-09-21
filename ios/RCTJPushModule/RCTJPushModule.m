@@ -197,14 +197,29 @@ RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
 }
 
 - (void)receiveRemoteNotification:(NSNotification *)notification {
-
+  
   if ([RCTJPushActionQueue sharedInstance].isReactDidLoad == YES) {
-    id obj = [notification object];
-    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body:obj];
+    NSDictionary *obj = [notification object];
+    NSMutableDictionary *notificationDic = [[NSMutableDictionary alloc] initWithDictionary:obj];
+    
+    switch ([UIApplication sharedApplication].applicationState) {
+      case UIApplicationStateInactive:
+        notificationDic[@"appState"] = @"inactive";
+        break;
+      case UIApplicationStateActive:
+        notificationDic[@"appState"] = @"active";
+        break;
+      case UIApplicationStateBackground:
+        notificationDic[@"appState"] = @"background";
+        break;
+      default:
+        break;
+    }
+    NSDictionary *event = [NSDictionary dictionaryWithDictionary: notificationDic];
+    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body:event];
   } else {
     [[RCTJPushActionQueue sharedInstance] postNotification:notification];
   }
-  
 }
 
 - (dispatch_queue_t)methodQueue
