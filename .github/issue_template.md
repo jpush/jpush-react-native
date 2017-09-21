@@ -1,6 +1,6 @@
 <!--**WARNING: 如果不按照这个表格，我们将无法帮助你，并将忽略你的问题。** -->
 
-<!--**Tips：**可以在常见 [问题列表](https://github.com/jpush/jpush-react-native/blob/master/example/documents/common_problems) 中先搜寻你的问题。-->
+<!--**Tips：**可以在常见 [问题列表](https://github.com/jpush/jpush-react-native/blob/master/example/documents/common_problems.md) 中先搜寻你的问题。-->
 
 ## 你的运行环境
 
