@@ -1,6 +1,77 @@
 ## 常见问题
 
+- [事件的解析](#事件的解析)
+- [页面跳转](#页面跳转)
+- [编译报错](#编译报错)
+- [iOS 收不到推送](#iOS 收不到推送)
+
+
+
+### 事件的解析
+
+插件提供几种事件，这里对常见误区进行解释：
+
+#### iOS：
+
+iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使用该接口，建议升级到最新版本。
+
+- 收到推送并且点击推送：
+
+  - 应用没有启动情况：走 `JPushModule.addOpenNotificationLaunchAppListener` 的回调
+
+  - 应用已经启动但是应用在前台：
+
+    - iOS 10 及以上的系统：走 `JPushModule.addReceiveOpenNotificationListener` 的回调
+
+    - iOS 9 以下的系统：走 `JPushModule.addReceiveNotificationListener` 的回调
+- 在前台收到推送：走 `JPushModule.addReceiveNotificationListener` 的回调
+  - iOS 10 允许推送在前台展示，如果应用在前台且点击了推送，那么还会走 `JPushModule.addReceiveOpenNotificationListener` 回调。
+
+#### Android：
+
+
+
+### 页面跳转
+
+#### iOS：
+
+应用可以在点击推送事件中直接在 reactJS 中做跳转。
+
+#### Android:
+
+
+
+### 编译报错
+
+#### iOS：
+
+- 编译报 JCore 相关错误：检查 `jcore-react-native ` 安装了没，一般成功安装并且成功 link 后就能解决该问题。
+
+- 编译报 i386 错误：这种错误一般是使用 iphone5s 以下模拟器报的错误，如果使用模拟器建议使用 iphone 5s 以上的模拟器，整机编译不受印象。
+
+- 编译报 arm64 或者 x86_64 错误：一般是使用模拟器编译 release 导致的，通过真机编译就不会有这个问题，如果实在是想在模拟器上编译 release 可以参考该 [issue](https://github.com/jpush/jpush-react-native/issues/104)
+
+- 编译找不到头文件：在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下路径
+
+  ```
+  $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule
+  ```
+
+
+#### Android
+
+### iOS 收不到推送
+
+- 确保是在真机上测试，而不是在模拟器
+- 自己的应用已经在 Apple developer 给应用配置推送功能，创建推送证书 （并且保证 bundle id 与  Apple developer 上的是一致的）如果之前没有接触过推送证书建议看视频来 👉  [官方集成视频](https://community.jiguang.cn/t/jpush-ios-sdk/4247)
+- 能够获取 deviceToken 但是收不到推送， 如果是使用 xcode 8，检查  (Project -> Target -> Capabilities ) Push Notification 选项是否已经点开，如果没有需要点开
+
+
+
+
+
 ### Android
+
 1. 编译时报错：找不到符号。
 
 
