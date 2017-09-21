@@ -3,7 +3,9 @@
 - [事件的解析](#事件的解析)
 - [页面跳转](#页面跳转)
 - [编译报错](#编译报错)
-- [iOS 收不到推送](#iOS 收不到推送)
+- [iOS 收不到推送](#iOS收不到推送)
+- [iOS 应用角标 Badge](#iOS应用角标Badge)
+- [其他](#其他)
 
 
 
@@ -27,7 +29,10 @@ iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使�
 - 在前台收到推送：走 `JPushModule.addReceiveNotificationListener` 的回调
   - iOS 10 允许推送在前台展示，如果应用在前台且点击了推送，那么还会走 `JPushModule.addReceiveOpenNotificationListener` 回调。
 
-#### Android：
+#### Android
+- 没有执行 addReceiveOpenNotificationListener 回调。
+
+解决方法： 在监听通知事件前，Android 加入了 `notifiyJSDidLoad` （1.6.6 版本后加入），务必在监听事件前先调用此方法。
 
 
 
@@ -40,6 +45,8 @@ iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使�
 #### Android:
 
 可以在点击推送事件中直接在 JS 中做跳转。也可以跳转到原生界面。第二种情况可以[参考这篇文章的高级应用部分](http://www.jianshu.com/p/6721a0360af9)
+
+
 
 ### 编译报错
 
@@ -79,16 +86,25 @@ iOS 插件在 2.0.0+ 版本才提供 add********Listener 的方法，如果使�
 
 
 
+### iOS 应用角标 Badge
+
+有两种方式变变应用角标
+
+- 通过服务器下发，服务端 payload 有一个字段 badge 用于设置应用角标，如果客户端收到该条推送应用角标会被设为 badge ，如果想实现应用收到推送 badge 自动 +1 可以让服务端推送时将 badge 设为 "+1"。
+
+- 调用 setBadge 接口也可以改变应用角标，该 api 会设置本地应用的 badge 并且同步极光服务器的 badge 值（收到推送自动加一会依赖于极光服务器的 badge 值）。
+
+推送事件回调参数中，有一个 badge 值，该值就是服务器下发的 badge 值。
+
+
 
 ### 其他
 
-- 没有执行 addReceiveOpenNotificationListener 回调。
+#### RegistrationID 相关
 
-解决方法： 在监听通知事件前，Android 加入了 `notifiyJSDidLoad` （1.6.6 版本后加入），务必在监听事件前先调用此方法。
+建议参考这篇博文 [RegistrationID](https://community.jiguang.cn/t/registrationid/3810)
 
-
-
-- 取消弹出 Toast 信息。
+#### 取消弹出 Toast 信息。
 
 解决方法：在加入 JPushPackage 时，将第一个参数设置为 true 即可。第二个参数设置为 true 将不会打印 debug 日志。
 
