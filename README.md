@@ -89,6 +89,10 @@ dependencies {
   v1.6.7 新增 API `jumpToPushActivity`，使用参考 [demo](./example/react-native-android/push_activity.js#L113) 
 
 
+
+
+## [常见问题](./example/documents/common_problems)
+
 ### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
 
 ---
