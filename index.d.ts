@@ -257,6 +257,21 @@ declare class JPush {
     ): void;
 
     /**
+	 * @param {Object} notification = {
+	 	  'buildId': Number     // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
+	 *    'id': Number    		// 通知的 id, 可用于取消通知
+	 *    'title': String 		// 通知标题
+	 *    'content': String  	// 通知内容
+	 *	  'extra': Object       // extra 字段
+	 *    'fireTime': Number    // 通知触发时间的时间戳（毫秒）
+	 * 	  'badge': Number       // 本地推送触发后应用角标的 badge 值  （iOS Only）
+	 *    'soundName': String   // 指定推送的音频文件 （iOS Only）
+     *    'subtitle': String    // 子标题 （iOS10+ Only）
+	 *  }
+	 */
+    static sendLocalNotification(notification: Object): void;
+
+    /**
      * iOS Only
      * 设置应用 Badge（小红点）
      */

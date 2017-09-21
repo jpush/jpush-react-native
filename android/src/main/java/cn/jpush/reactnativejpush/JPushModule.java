@@ -8,8 +8,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -23,8 +21,9 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,7 +35,7 @@ import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.JPushMessage;
-import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.service.JPushMessageReceiver;
 
 public class JPushModule extends ReactContextBaseJavaModule {
@@ -449,6 +448,31 @@ public class JPushModule extends ReactContextBaseJavaModule {
             String[] eTime = endTime.split(":");
             JPushInterface.setSilenceTime(mContext, Integer.valueOf(sTime[0]), Integer.valueOf(sTime[1]),
                     Integer.valueOf(eTime[0]), Integer.valueOf(eTime[1]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void sendLocalNotification(ReadableMap map) {
+        try {
+            JPushLocalNotification ln = new JPushLocalNotification();
+            ln.setBuilderId(map.getInt("buildId"));
+            ln.setNotificationId(map.getInt("id"));
+            ln.setTitle(map.getString("title"));
+            ln.setContent(map.getString("content"));
+            ReadableMap extra = map.getMap("extra");
+            JSONObject json = new JSONObject();
+            while (extra.keySetIterator().hasNextKey()) {
+                String key = extra.keySetIterator().nextKey();
+                json.put(key, extra.getString(key));
+            }
+            ln.setExtras(json.toString());
+            if (map.hasKey("fireTime")) {
+                long date = (long) map.getDouble("fireTime");
+                ln.setBroadcastTime(date);
+            }
+            JPushInterface.addLocalNotification(getReactApplicationContext(), ln);
         } catch (Exception e) {
             e.printStackTrace();
         }

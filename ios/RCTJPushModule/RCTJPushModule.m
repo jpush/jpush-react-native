@@ -197,14 +197,29 @@ RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
 }
 
 - (void)receiveRemoteNotification:(NSNotification *)notification {
-
+  
   if ([RCTJPushActionQueue sharedInstance].isReactDidLoad == YES) {
-    id obj = [notification object];
-    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body:obj];
+    NSDictionary *obj = [notification object];
+    NSMutableDictionary *notificationDic = [[NSMutableDictionary alloc] initWithDictionary:obj];
+    
+    switch ([UIApplication sharedApplication].applicationState) {
+      case UIApplicationStateInactive:
+        notificationDic[@"appState"] = @"inactive";
+        break;
+      case UIApplicationStateActive:
+        notificationDic[@"appState"] = @"active";
+        break;
+      case UIApplicationStateBackground:
+        notificationDic[@"appState"] = @"background";
+        break;
+      default:
+        break;
+    }
+    NSDictionary *event = [NSDictionary dictionaryWithDictionary: notificationDic];
+    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body:event];
   } else {
     [[RCTJPushActionQueue sharedInstance] postNotification:notification];
   }
-  
 }
 
 - (dispatch_queue_t)methodQueue
@@ -513,6 +528,69 @@ RCT_EXPORT_METHOD( setLocalNotification:(NSDate *)fireDate
                            soundName:soundName];
 }
 
+RCT_EXPORT_METHOD(sendLocalNotification:(NSDictionary *)params) {
+  
+  JPushNotificationContent *content = [[JPushNotificationContent alloc] init];
+  if (params[@"title"]) {
+    content.title = params[@"title"];
+  }
+  
+  if (params[@"subtitle"]) {
+    content.subtitle = params[@"subtitle"];
+  }
+  
+  if (params[@"content"]) {
+    content.body = params[@"content"];
+  }
+  
+  if (params[@"badge"]) {
+    content.badge = params[@"badge"];
+  }
+  
+  if (params[@"action"]) {
+    content.action = params[@"action"];
+  }
+  
+  if (params[@"extra"]) {
+    content.userInfo = params[@"extra"];
+  }
+  
+  if (params[@"sound"]) {
+    content.sound = params[@"sound"];
+  }
+  
+  JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
+  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0) {
+    if (params[@"fireTime"]) {
+      NSNumber *date = params[@"fireTime"];
+      NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+      NSTimeInterval interval = [date doubleValue]/1000 - currentInterval;
+      interval = interval>0?interval:0;
+      trigger.timeInterval = interval;
+    }
+  }
+  
+  else {
+    if (params[@"fireTime"]) {
+      NSNumber *date = params[@"fireTime"];
+      trigger.fireDate = [NSDate dateWithTimeIntervalSince1970: [date doubleValue]/1000];
+    }
+  }
+  JPushNotificationRequest *request = [[JPushNotificationRequest alloc] init];
+  request.content = content;
+  request.trigger = trigger;
+  
+  if (params[@"id"]) {
+    NSNumber *identify = params[@"id"];
+    request.requestIdentifier = [identify stringValue];
+  }
+  request.completionHandler = ^(id result) {
+    NSLog(@"result");
+  };
+  
+  [JPUSHService addNotification:request];
+  
+}
 
 /*!
  * @abstract 前台展示本地推送
@@ -659,18 +737,14 @@ RCT_EXPORT_METHOD(setLogOFF) {
 
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
   NSDictionary * userInfo = notification.request.content.userInfo;
-  if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    [JPUSHService handleRemoteNotification:userInfo];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
-  }
+  [JPUSHService handleRemoteNotification:userInfo];
+  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
   completionHandler(UNNotificationPresentationOptionAlert); }
 
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
   NSDictionary * userInfo = response.notification.request.content.userInfo;
-  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    [JPUSHService handleRemoteNotification:userInfo];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:userInfo];
-  }
+  [JPUSHService handleRemoteNotification:userInfo];
+  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:userInfo];
   completionHandler();
 }
 @end
