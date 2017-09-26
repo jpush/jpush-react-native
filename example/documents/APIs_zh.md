@@ -67,7 +67,7 @@ Android 和 iOS 通用 API。
 
 #### addTags
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.7+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.7+ 。
 
 在原有 tags 的基础上添加 tags。
 
@@ -85,7 +85,7 @@ Android 和 iOS 通用 API。
 
 #### deleteTags
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.7+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.7+ 。
 
 删除指定的 tags
 
@@ -103,7 +103,7 @@ Android 和 iOS 通用 API。
 
 #### cleanTags
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.7+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.7+ 。
 
 清除所有 tags
 
@@ -129,7 +129,7 @@ Android 和 iOS 通用 API。
 
 #### 点击推送事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addReceiveOpenNotificationListener(function)  
 
@@ -147,7 +147,7 @@ Android 和 iOS 通用 API。
 
 #### 接收推送事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addReceiveNotificationListener(function) 
 
@@ -166,7 +166,7 @@ Android 和 iOS 通用 API。
 
 #### 接收自定义消息事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addReceiveCustomMsgListener(function)  
 
@@ -234,7 +234,7 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
 #### 点击推送启动应用事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addOpenNotificationLaunchAppListener(function) 
 
@@ -257,7 +257,7 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
 **Network Did Login Event**
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addnetworkDidLoginListener(function)
 

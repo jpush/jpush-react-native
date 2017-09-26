@@ -34,7 +34,7 @@
   - [addGetRegistrationIdListener](#addgetregistrationidlistener)
   - [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
-Note: In Android, you must call initPush first, iOS doesn't need.
+**Note**: In Android, you must call initPush first, iOS doesn't need.
 
 ### Common API
 
@@ -98,7 +98,7 @@ reset  tags.
 
 #### Open Notification Event
 
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addReceiveOpenNotificationListener(function)  
 
@@ -114,7 +114,7 @@ reset  tags.
   ```
 
 #### Receive Notification Event
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addReceiveNotificationListener(function) 
 
@@ -135,7 +135,7 @@ reset  tags.
 
 #### Receive Custom Message Event
 **receive custom message**(Add this listener to receive custom message.)
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 - addReceiveCustomMsgListener(function)  
 
   ```javascript
@@ -205,7 +205,7 @@ setLocalNotification(  Date,    		// date  local notification fire data
 
 #### Open Notification Launch App Event
 
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addOpenNotificationLaunchAppListener(function) 
 
@@ -228,7 +228,7 @@ setLocalNotification(  Date,    		// date  local notification fire data
 
 **Network Did Login Event**
 
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addnetworkDidLoginListener(function)
 
