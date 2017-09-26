@@ -17,7 +17,22 @@
   - [点击推送启动应用事件](#Open Notification Launch App Event)
   - [网络成功登陆事件](#Network Did Login Event)
 - [Android Only API:](Android Only API)
-  - ​
+  - [initPush](#initPush)
+  - [stopPush](#stopPush)
+  - [resumePush](#resumePush)
+  - [crashLogOFF](#crashLogOFF)
+  - [crashLogON](#crashLogON)
+  - [notifyJSDidLoad](#notifyJSDidLoad)
+  - [clearAllNotifications](#clearAllNotifications)
+  - [clearNotificationById](#clearNotificationById)
+  - [getInfo](#getInfo)
+  - [setStyleBasic](#setStyleBasic)
+  - [setStyleCustom](#setStyleCustom)
+  - [setLatestNotificationNumber](#setLatestNotificationNumber)
+  - [setSilenceTime](#setSilenceTime)
+  - [setPushTime](#setPushTime)
+  - [addGetRegistrationIdListener](#addGetRegistrationIdListener)
+  - [removeGetRegistrationIdListener](#removeGetRegistrationIdListener)
 
 注意: 在 Android 需要先调用 `initPush`  方法, iOS 端不需要。
 
@@ -259,5 +274,152 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
   移除回调：移除该回调 ，`removenetworkDidLoginListener` 取消事件回调，和 `addnetworkDidLoginListener` 方法成对使用。
 
 
-
 ### Android Only API
+
+- #### initPush
+
+  初始化 JPush。建议在 `MainActivity` 的 `onCreate` 中调用：
+
+  ```
+  JPushInterface.init(this);
+  ```
+
+- #### stopPush
+
+  停止推送。建议在 `MainActivity` 的 `onStop` 中调用：
+
+  ```
+  JPushInterface.onStop(this);
+  ```
+
+- #### resumePush
+
+  恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
+
+  ```
+  JPushInterface.onResume(this);
+  ```
+
+- #### crashLogOFF
+
+  停止上报崩溃日志
+
+  ```
+  JPushModule.crashLogOFF();
+  ```
+
+- #### crashLogON
+
+  开启上报崩溃日志
+
+  ```
+  JPushModule.crashLogON();
+  ```
+
+- #### notifyJSDidLoad
+
+  通知 JPushModule 初始化完成，发送缓存事件。
+
+  ```
+  JPushModule.notifyJSDidLoad((resultCode) => {
+
+  });
+  ```
+
+- #### clearAllNotifications
+
+  清除所有通知
+
+  ```
+  JPushModule.clearAllNotifications();
+  ```
+
+- #### clearNotificationById
+
+  根据 notificationId 来清除通知
+
+  ```
+  JPushModule.clearNotificationById(id);
+  ```
+
+- #### getInfo
+
+  获取设备信息
+
+  ```
+  JPushModule.getInfo((map) => {
+  });
+  ```
+
+- #### setStyleBasic
+
+  设置通知为基本样式
+
+  ```
+  JPushModule.setStyleBasic();
+  ```
+
+- #### setStyleCustom
+
+  自定义通知样式，需要添加自定义 xml 样式。
+
+  ```
+  JPushModule.setStyleCustom();
+  ```
+
+- #### setLatestNotificationNumber
+
+  设置展示最近通知的条数，默认展示 5 条。
+
+  ```
+  JPushModule.setLatestNotificationNumber(maxNumber);
+  ```
+
+- #### setSilenceTime
+
+  设置静默推送时间
+
+  ```
+  /**
+   * Android Only
+   * @param {object} config = {"startTime": String, "endTime": String}  // 例如：{startTime: "20:30", endTime: "8:30"}
+   */
+  JPushModule.setSilenceTime(config);
+  ```
+
+- #### setPushTime
+
+  设置允许推送时间
+
+  ```
+  /**
+   * Android Only
+   * @param {object} config = {"days": Array, "startHour": Number, "endHour": Number}  
+   * // 例如：{days: [0, 6], startHour: 8, endHour: 23} 表示星期天和星期六的上午 8 点到晚上 11 点都可以推送
+   */
+  JPushModule.setPushTime(config);
+  ```
+
+  ​
+
+- #### addGetRegistrationIdListener
+
+  如果添加这个监听，设备注册成功后，打开应用将会回调这个事件。
+
+  ```
+  JPushModule.addGetRegistrationIdListener(cb)
+  ```
+
+- #### removeGetRegistrationIdListener
+
+  移除监听 registrationId 事件，与 `addGetRegistrationIdListener` 成对使用。
+
+  ```
+  JPushModule.removeGetRegistrationIdListener(callback);
+  ```
+
+  ​
+
+  ​
+
+  ​

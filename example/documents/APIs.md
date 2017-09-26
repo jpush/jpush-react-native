@@ -17,7 +17,22 @@
   - [Open Notification Launch App Event](#Open Notification Launch App Event)
   - [Network Did Login Event](#Network Did Login Event)
 - [Android Only API:](Android Only API)
-  - ​
+  - [initPush](#initPush)
+  - [stopPush](#stopPush)
+  - [resumePush](#resumePush)
+  - [crashLogOFF](#crashLogOFF)
+  - [crashLogON](#crashLogON)
+  - [notifyJSDidLoad](#notifyJSDidLoad)
+  - [clearAllNotifications](#clearAllNotifications)
+  - [clearNotificationById](#clearNotificationById)
+  - [getInfo](#getInfo)
+  - [setStyleBasic](#setStyleBasic)
+  - [setStyleCustom](#setStyleCustom)
+  - [setLatestNotificationNumber](#setLatestNotificationNumber)
+  - [setSilenceTime](#setSilenceTime)
+  - [setPushTime](#setPushTime)
+  - [addGetRegistrationIdListener](#addGetRegistrationIdListener)
+  - [removeGetRegistrationIdListener](#removeGetRegistrationIdListener)
 
 Note: In Android, you must call initPush first, iOS doesn't need.
 
@@ -230,5 +245,148 @@ setLocalNotification(  Date,    		// date  local notification fire data
   remove: JPush SDK did login event ，`removenetworkDidLoginListener` and `addnetworkDidLoginListener` used in pairs.
 
 
-
 ### Android Only API
+
+- #### initPush
+
+  Init  JPush。Suggest invokes in `MainActivity` 's  `onCreate`  method：
+
+  ```
+  JPushInterface.init(this);
+  ```
+
+- #### stopPush
+
+  Stop push. Suggest invokes in  `MainActivity` 's  `onStop` method：
+
+  ```
+  JPushInterface.onStop(this);
+  ```
+
+- #### resumePush
+
+  Resume push. Suggest invokes in  `MainActivity` 's  `onResume` method：
+
+  ```
+  JPushInterface.onResume(this);
+  ```
+
+- #### crashLogOFF
+
+  Stop upload crash log.
+
+  ```
+  JPushModule.crashLogOFF();
+  ```
+
+- #### crashLogON
+
+  Start upload crash log.
+
+  ```
+  JPushModule.crashLogON();
+  ```
+
+- #### notifyJSDidLoad
+
+  Notify  JPushModule complete init，send cached events.
+
+  ```
+  JPushModule.notifyJSDidLoad((resultCode) => {
+
+  });
+  ```
+
+- #### clearAllNotifications
+
+  Clear all notifications.
+
+  ```
+  JPushModule.clearAllNotifications();
+  ```
+
+- #### clearNotificationById
+
+  Clear notification by id.
+
+  ```
+  JPushModule.clearNotificationById(id);
+  ```
+
+- #### getInfo
+
+  Get device's infomation.
+
+  ```
+  JPushModule.getInfo((map) => {
+  });
+  ```
+
+- #### setStyleBasic
+
+  Set notification's style to basic style.
+
+  ```
+  JPushModule.setStyleBasic();
+  ```
+
+- #### setStyleCustom
+
+  Set custom notification style. Need add custom xml file to Android resource.
+
+  ```
+  JPushModule.setStyleCustom();
+  ```
+
+- #### setLatestNotificationNumber
+
+  Set latest number of notifications. Default will show 5 latest notifications.
+
+  ```
+  JPushModule.setLatestNotificationNumber(maxNumber);
+  ```
+
+- #### setSilenceTime
+
+  Set silence push time, will not push during these time.
+
+  ```
+  /**
+   * Android Only
+   * @param {object} config = {"startTime": String, "endTime": String}  // eg：{startTime: "20:30", endTime: "8:30"}
+   */
+  JPushModule.setSilenceTime(config);
+  ```
+
+- #### setPushTime
+
+  Set allow push time.
+
+  ```
+  /**
+   * Android Only
+   * @param {object} config = {"days": Array, "startHour": Number, "endHour": Number}  
+   * // eg：{days: [0, 6], startHour: 8, endHour: 23} indicate push is allowed in 8 a.m. to 23 p.m. in satuaday and sunday.
+   */
+  JPushModule.setPushTime(config);
+  ```
+
+  ​
+
+- #### addGetRegistrationIdListener
+
+  If add this listener, when finished registering device, open app will invoke this callback.
+
+  ```
+  JPushModule.addGetRegistrationIdListener(cb)
+  ```
+
+- #### removeGetRegistrationIdListener
+
+  Remove listener. `removeGetRegistrationIdListener` and  `addGetRegistrationIdListener`  should used in pairs.
+
+  ```
+  JPushModule.removeGetRegistrationIdListener(callback);
+  ```
+
+  ​
