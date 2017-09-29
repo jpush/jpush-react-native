@@ -7,6 +7,7 @@
   - [deleteTags](#deletetags)
   - [setTags](#settags)
   - [cleanTags](#cleantags)
+  - [sendLocalNotification](#sendlocalnotification)
   - [点击推送事件](#点击推送事件)
   - [接收推送事件](#接收推送事件)
   - [接收自定义消息事件](#接收自定义消息事件)
@@ -125,6 +126,37 @@ Android 和 iOS 通用 API。
 
   ```javascript
   JPushModule.setTags(['tag1','tag2'], (success) => {})
+  ```
+
+#### sendLocalNotification
+
+- sendLocalNotification(notification)
+
+  - **buildId** : Number         // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
+  - **id** : Number    	       	// 通知的 id, 可用于取消通知
+  - **title** : String 		        // 通知标题
+  - **content** : String  	        // 通知内容
+  - **extra** : Object                // extra 字段
+  - **fireTime** : Number       // 通知触发时间的时间戳（毫秒）
+  - **badge** : Number           // 本地推送触发后应用角标的 badge 值  （iOS Only）
+  - **soundName** : String     // 指定推送的音频文件 （iOS Only）
+  - **subtitle** : String              // 子标题 （iOS10+ Only）
+
+  ```javascript
+  var currentDate = new Date()
+  JPushModule.sendLocalNotification(
+      {
+          id:5,
+          title:'haha',
+          content:'content',
+          extra:{key1:'value1',key2:'value2'},
+          fireTime: currentDate.getTime() + 3000,
+          badge: 8,
+          sound: 'fasdfa',
+          subtitle: "subtitle",
+          title: 'title'
+      }
+  )
   ```
 
 #### 点击推送事件
