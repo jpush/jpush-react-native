@@ -1,38 +1,39 @@
 [English document](./APIs.md)
 
-- - [Common API:](#Common API)
-  - [getRegistrationID](#getRegistrationID)
-  - [setAlias](#setAlias)
-  - [addTags](#addTags)
-  - [deleteTags](#deleteTags)
-  - [setTags](#setTags)
-  - [cleanTags](#cleanTags)
+- [Common API](#common-api)
+  - [getRegistrationID](#getregistrationid)
+  - [setAlias](#setalias)
+  - [addTags](#addtags)
+  - [deleteTags](#deletetags)
+  - [setTags](#settags)
+  - [cleanTags](#cleantags)
+  - [sendLocalNotification](#sendlocalnotification)
   - [点击推送事件](#点击推送事件)
   - [接收推送事件](#接收推送事件)
   - [接收自定义消息事件](#接收自定义消息事件)
-- [iOS Only API:](#iOS Only API)
-  - [setBadge](#setBadge)
-  - [getBadge](#getBadge)
-  - [setLocalNotification](#setLocalNotification)
-  - [点击推送启动应用事件](#Open Notification Launch App Event)
-  - [网络成功登陆事件](#Network Did Login Event)
-- [Android Only API:](Android Only API)
-  - [initPush](#initPush)
-  - [stopPush](#stopPush)
-  - [resumePush](#resumePush)
-  - [crashLogOFF](#crashLogOFF)
-  - [crashLogON](#crashLogON)
-  - [notifyJSDidLoad](#notifyJSDidLoad)
-  - [clearAllNotifications](#clearAllNotifications)
-  - [clearNotificationById](#clearNotificationById)
+- [iOS Only API](#ios-only-api)
+  - [setBadge](#setbadge)
+  - [getBadge](#getbadge)
+  - [setLocalNotification](#setlocalnotification)
+  - [点击推送启动应用事件](#open-notification-launch-app-event)
+  - [网络成功登陆事件](#network-did-login-event)
+- [Android Only API](#android-only-api)
+  - [initPush](#initpush)
+  - [stopPush](#stoppush)
+  - [resumePush](#resumepush)
+  - [crashLogOFF](#crashlogoff)
+  - [crashLogON](#crashlogno)
+  - [notifyJSDidLoad](#notifyjsdidload)
+  - [clearAllNotifications](#clearallnotifications)
+  - [clearNotificationById](#clearnotificationbyId)
   - [getInfo](#getInfo)
-  - [setStyleBasic](#setStyleBasic)
-  - [setStyleCustom](#setStyleCustom)
-  - [setLatestNotificationNumber](#setLatestNotificationNumber)
-  - [setSilenceTime](#setSilenceTime)
-  - [setPushTime](#setPushTime)
-  - [addGetRegistrationIdListener](#addGetRegistrationIdListener)
-  - [removeGetRegistrationIdListener](#removeGetRegistrationIdListener)
+  - [setStyleBasic](#setstylebasic)
+  - [setStyleCustom](#setstylecustom)
+  - [setLatestNotificationNumber](#setlatestnotificationnumber)
+  - [setSilenceTime](#setsilencetime)
+  - [setPushTime](#setpushtime)
+  - [addGetRegistrationIdListener](#addgetregistrationIdlistener)
+  - [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
 注意: 在 Android 需要先调用 `initPush`  方法, iOS 端不需要。
 
@@ -67,7 +68,7 @@ Android 和 iOS 通用 API。
 
 #### addTags
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.7+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.7+ 。
 
 在原有 tags 的基础上添加 tags。
 
@@ -85,7 +86,7 @@ Android 和 iOS 通用 API。
 
 #### deleteTags
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.7+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.7+ 。
 
 删除指定的 tags
 
@@ -103,7 +104,7 @@ Android 和 iOS 通用 API。
 
 #### cleanTags
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.7+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.7+ 。
 
 清除所有 tags
 
@@ -127,9 +128,40 @@ Android 和 iOS 通用 API。
   JPushModule.setTags(['tag1','tag2'], (success) => {})
   ```
 
+#### sendLocalNotification
+
+- sendLocalNotification(notification)
+
+  - **buildId** : Number         // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
+  - **id** : Number    	       	// 通知的 id, 可用于取消通知
+  - **title** : String 		        // 通知标题
+  - **content** : String  	        // 通知内容
+  - **extra** : Object                // extra 字段
+  - **fireTime** : Number       // 通知触发时间的时间戳（毫秒）
+  - **badge** : Number           // 本地推送触发后应用角标的 badge 值  （iOS Only）
+  - **soundName** : String     // 指定推送的音频文件 （iOS Only）
+  - **subtitle** : String              // 子标题 （iOS10+ Only）
+
+  ```javascript
+  var currentDate = new Date()
+  JPushModule.sendLocalNotification(
+      {
+          id:5,
+          title:'haha',
+          content:'content',
+          extra:{key1:'value1',key2:'value2'},
+          fireTime: currentDate.getTime() + 3000,
+          badge: 8,
+          sound: 'fasdfa',
+          subtitle: "subtitle",
+          title: 'title'
+      }
+  )
+  ```
+
 #### 点击推送事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addReceiveOpenNotificationListener(function)  
 
@@ -147,7 +179,7 @@ Android 和 iOS 通用 API。
 
 #### 接收推送事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addReceiveNotificationListener(function) 
 
@@ -166,7 +198,7 @@ Android 和 iOS 通用 API。
 
 #### 接收自定义消息事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addReceiveCustomMsgListener(function)  
 
@@ -234,7 +266,7 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
 #### 点击推送启动应用事件
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addOpenNotificationLaunchAppListener(function) 
 
@@ -257,7 +289,7 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
 **Network Did Login Event**
 
-**NOTE: ** iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**:  iOS 需要安装到 jpush-react-native@2.0.0+ 。
 
 - addnetworkDidLoginListener(function)
 

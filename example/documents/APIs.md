@@ -1,40 +1,41 @@
 [中文文档](./APIs_zh.md)
 
-- - [Common API:](#Common API)
-  - [getRegistrationID](#getRegistrationID)
-  - [setAlias](#setAlias)
-  - [addTags](#addTags)
-  - [setTags](#setTags)
-  - [cleanTags](#cleanTags)
-  - [setAlias](#setAlias)
-  - [Open Notification Event](#Open Notification Event)
-  - [Receive Notification event](#Receive Notification Event)
-  - [Receive Custom Message Event](#Receive Custom Message Event)
-- [iOS Only API:](#iOS Only API)
-  - [setBadge](#setBadge)
-  - [getBadge](#getBadge)
-  - [setLocalNotification](#setLocalNotification)
-  - [Open Notification Launch App Event](#Open Notification Launch App Event)
-  - [Network Did Login Event](#Network Did Login Event)
-- [Android Only API:](Android Only API)
-  - [initPush](#initPush)
-  - [stopPush](#stopPush)
-  - [resumePush](#resumePush)
-  - [crashLogOFF](#crashLogOFF)
-  - [crashLogON](#crashLogON)
-  - [notifyJSDidLoad](#notifyJSDidLoad)
-  - [clearAllNotifications](#clearAllNotifications)
-  - [clearNotificationById](#clearNotificationById)
+- [Common API](#common-api)
+  - [getRegistrationID](#getregistrationid)
+  - [setAlias](#setalias)
+  - [addTags](#addtags)
+  - [setTags](#settags)
+  - [cleanTags](#cleantags)
+  - [setAlias](#setalias)
+  - [Open Notification Event](#open-notification-event)
+  - [Receive Notification event](#receive-notification-event)
+  - [Receive Custom Message Event](#receive-custom-message-event)
+  - [sendLocalNotification](#sendlocalnotification)
+- [iOS Only API](#ios-only-api)
+  - [setBadge](#setbadge)
+  - [getBadge](#getbadge)
+  - [setLocalNotification](#setlocalnotification)
+  - [Open Notification Launch App Event](#open-notification-launch-app-event)
+  - [Network Did Login Event](#network-did-login-event)
+- [Android Only API](#android-only-api)
+  - [initPush](#initpush)
+  - [stopPush](#stoppush)
+  - [resumePush](#resumepush)
+  - [crashLogOFF](#crashlogoff)
+  - [crashLogON](#crashlogon)
+  - [notifyJSDidLoad](#notifyjsdidload)
+  - [clearAllNotifications](#clearallnotifications)
+  - [clearNotificationById](#clearnotificationbyId)
   - [getInfo](#getInfo)
-  - [setStyleBasic](#setStyleBasic)
-  - [setStyleCustom](#setStyleCustom)
-  - [setLatestNotificationNumber](#setLatestNotificationNumber)
-  - [setSilenceTime](#setSilenceTime)
-  - [setPushTime](#setPushTime)
-  - [addGetRegistrationIdListener](#addGetRegistrationIdListener)
-  - [removeGetRegistrationIdListener](#removeGetRegistrationIdListener)
+  - [setStyleBasic](#setstylebasic)
+  - [setStyleCustom](#setstylecustom)
+  - [setLatestNotificationNumber](#setlatestnotificationnumber)
+  - [setSilenceTime](#setsilencetime)
+  - [setPushTime](#setpushtime)
+  - [addGetRegistrationIdListener](#addgetregistrationidlistener)
+  - [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
-Note: In Android, you must call initPush first, iOS doesn't need.
+**Note**: In Android, you must call initPush first, iOS doesn't need.
 
 ### Common API
 
@@ -96,9 +97,40 @@ reset  tags.
   JPushModule.cleanTags((success) => {})
   ```
 
+#### sendLocalNotification
+
+- sendLocalNotification(notification)
+
+  - **buildId** : Number         // set local notification styles，1 defoult style，2 custom style( you should call setStyleCustom frist) (Android Only)
+  - **id** : Number    	       	// local notification identify,l you can use it to cancel local notification
+  - **title** : String 		        // local notification title
+  - **content** : String  	        // local notification content
+  - **extra** : Object                // local notification extra (key-value)
+  - **fireTime** : Number       // show local notification time（ms）
+  - **badge** : Number           // when local notification fire, application icon will set badge with this value  （iOS Only）
+  - **soundName** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
+  - **subtitle** : String              // set local notification subtitle  （iOS10+ Only）
+
+  ```javascript
+  var currentDate = new Date()
+  JPushModule.sendLocalNotification(
+      {
+          id:5,
+          title:'haha',
+          content:'content',
+          extra:{key1:'value1',key2:'value2'},
+          fireTime: currentDate.getTime() + 3000,
+          badge: 8,
+          sound: 'fasdfa',
+          subtitle: "subtitle",
+          title: 'title'
+      }
+  )
+  ```
+
 #### Open Notification Event
 
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addReceiveOpenNotificationListener(function)  
 
@@ -114,7 +146,7 @@ reset  tags.
   ```
 
 #### Receive Notification Event
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addReceiveNotificationListener(function) 
 
@@ -135,7 +167,7 @@ reset  tags.
 
 #### Receive Custom Message Event
 **receive custom message**(Add this listener to receive custom message.)
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 - addReceiveCustomMsgListener(function)  
 
   ```javascript
@@ -149,7 +181,7 @@ reset  tags.
 
 - removeReceiveCustomMsgListener(function)
 
-  ```
+  ```javascript
   JPushModule.removeReceiveCustomMsgListener(callback);
   ```
 
@@ -205,7 +237,7 @@ setLocalNotification(  Date,    		// date  local notification fire data
 
 #### Open Notification Launch App Event
 
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addOpenNotificationLaunchAppListener(function) 
 
@@ -228,7 +260,7 @@ setLocalNotification(  Date,    		// date  local notification fire data
 
 **Network Did Login Event**
 
-**NOTE: ** iOS need update to jpush-react-native@2.0.0+
+**NOTE**:  iOS need update to jpush-react-native@2.0.0+
 
 - addnetworkDidLoginListener(function)
 
