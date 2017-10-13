@@ -19,6 +19,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.ReadableNativeMap;
 
 
 import org.json.JSONObject;
@@ -26,10 +27,12 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Iterator;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
@@ -462,11 +465,19 @@ public class JPushModule extends ReactContextBaseJavaModule {
             ln.setTitle(map.getString("title"));
             ln.setContent(map.getString("content"));
             ReadableMap extra = map.getMap("extra");
+            HashMap Hmap=new HashMap();
+            ReadableNativeMap RNMap = (ReadableNativeMap) extra;
+            Hmap=RNMap.toHashMap();
+
             JSONObject json = new JSONObject();
-            while (extra.keySetIterator().hasNextKey()) {
-                String key = extra.keySetIterator().nextKey();
-                json.put(key, extra.getString(key));
+            Iterator iter = Hmap.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                Object key = entry.getKey();
+                Object val = entry.getValue();
+                json.put(key.toString(), val);
             }
+
             ln.setExtras(json.toString());
             if (map.hasKey("fireTime")) {
                 long date = (long) map.getDouble("fireTime");
