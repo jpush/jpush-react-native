@@ -16,6 +16,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -463,8 +465,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
             ln.setContent(map.getString("content"));
             ReadableMap extra = map.getMap("extra");
             JSONObject json = new JSONObject();
-            while (extra.keySetIterator().hasNextKey()) {
-                String key = extra.keySetIterator().nextKey();
+            ReadableMapKeySetIterator iterator = extra.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String key = iterator.nextKey();
                 json.put(key, extra.getString(key));
             }
             ln.setExtras(json.toString());
