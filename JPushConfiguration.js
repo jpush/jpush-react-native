@@ -4,13 +4,13 @@ var spath = require('path');
 var os = require('os');
 
 // add other link flag
-var appKey = process.argv.splice(2)[0];
+var appKey = process.argv.slice(2)[0];
 if (appKey == undefined || appKey == null) {
 	console.log("error 没有输入 appKey 参数");
 	return;
 }
 
-var moduleName = process.argv.splice(2)[1];
+var moduleName = process.argv.slice(2)[1];
 if (moduleName == undefined || moduleName == null) {
 	console.log("没有输入 moduleName, 将使用默认模块名： app");
 	moduleName = "app";
