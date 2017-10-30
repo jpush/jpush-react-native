@@ -115,6 +115,18 @@ export default class PushActivity extends React.Component {
 		JPushModule.addGetRegistrationIdListener((registrationId) => {
 			console.log("Device register succeed, registrationId " + registrationId);
 		});
+		// var notification = {
+		// 	buildId: 1,
+		// 	id: 5,
+		// 	title: 'jpush',
+		// 	content: 'This is a test!!!!',
+		// 	extra: {
+		// 		key1: 'value1',
+		// 		key2: 'value2'
+		// 	},
+		// 	fireTime: 2000,
+		// }
+		// JPushModule.sendLocalNotification(notification);
 	}
 
 	componentWillUnmount() {

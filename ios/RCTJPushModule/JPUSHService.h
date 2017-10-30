@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.0.6
+#define JPUSH_VERSION_NUMBER 3.0.7
 
 #import <Foundation/Foundation.h>
 
@@ -222,6 +222,7 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
 
 /**
  删除指定tags
+
  @param tags 需要删除的tags集合
  @param completion 响应回调
  @param seq 请求序列号
