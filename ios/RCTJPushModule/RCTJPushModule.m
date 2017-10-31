@@ -227,6 +227,10 @@ RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
   return dispatch_get_main_queue();
 }
 
++ (BOOL)requiresMainQueueSetup {
+    return YES;
+}
+
 - (void)didRegistRemoteNotification:(NSString *)token {
   [self.bridge.eventDispatcher sendAppEventWithName:@"didRegisterToken"
                                                body:token];
