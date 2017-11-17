@@ -102,9 +102,9 @@ reset  tags.
 - sendLocalNotification(notification)
 
   - **buildId** : Number         // set local notification styles，1 defoult style，2 custom style( you should call setStyleCustom frist) (Android Only)
-  - **id** : Number    	       	// local notification identify,l you can use it to cancel local notification
-  - **title** : String 		        // local notification title
-  - **content** : String  	        // local notification content
+   - **id** : Number           	// local notification identify,l you can use it to cancel local notification
+    - **title** : String         // local notification title
+   - **content** : String          // local notification content
   - **extra** : Object                // local notification extra (key-value)
   - **fireTime** : Number       // show local notification time（ms）
   - **badge** : Number           // when local notification fire, application icon will set badge with this value  （iOS Only）
@@ -250,13 +250,13 @@ setLocalNotification(  Date,    		// date  local notification fire data
   JPushModule.addOpenNotificationLaunchAppListener(callback)
   ```
 
-- removeOpenNotificationLaunchAppListener(function)
+- removeOpenNotificationLaunchAppEventListener(function)
 
   ```javascript
-  JPushModule.removeOpenNotificationLaunchAppListener(callback)
+  JPushModule.removeOpenNotificationLaunchAppEventListener(callback)
   ```
 
-  remove listener：application not running and tap notification to run application，`removeOpenNotificationLaunchAppListener` and `addOpenNotificationLaunchAppListener` used in pairs.
+  remove listener：application not running and tap notification to run application，`removeOpenNotificationLaunchAppEventListener` and `addOpenNotificationLaunchAppListener` used in pairs.
 
 **Network Did Login Event**
 
