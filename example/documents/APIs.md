@@ -102,13 +102,13 @@ reset  tags.
 - sendLocalNotification(notification)
 
   - **buildId** : Number         // set local notification styles，1 defoult style，2 custom style( you should call setStyleCustom frist) (Android Only)
-   - **id** : Number           	// local notification identify,l you can use it to cancel local notification
-    - **title** : String         // local notification title
-   - **content** : String          // local notification content
+     - **id** : Number           // local notification identify,l you can use it to cancel local notification
+  - **title** : String         // local notification title
+  - **content** : String          // local notification content
   - **extra** : Object                // local notification extra (key-value)
   - **fireTime** : Number       // show local notification time（ms）
   - **badge** : Number           // when local notification fire, application icon will set badge with this value  （iOS Only）
-  - **soundName** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
+  - **sound** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
   - **subtitle** : String              // set local notification subtitle  （iOS10+ Only）
 
   ```javascript
@@ -116,7 +116,6 @@ reset  tags.
   JPushModule.sendLocalNotification(
       {
           id:5,
-          title:'haha',
           content:'content',
           extra:{key1:'value1',key2:'value2'},
           fireTime: currentDate.getTime() + 3000,
