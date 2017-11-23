@@ -196,9 +196,7 @@ All apis can find in jpush-react-native/index.js.
 set application's badge.
 
 ```js
-  JPushModule.setBadge(5, (success) => {
-    console.log(success)
-  });
+  JPushModule.setBadge(5, (success) => { } );
 ```
 
 #### getBadge
@@ -206,9 +204,7 @@ set application's badge.
 get application's  badge.
 
 ```javascript
-  JPushModule.getBadge((badge) => {
-    console.log(badge)
-  });
+  JPushModule.getBadge( (badge) => { } );
 ```
 
 #### setLocalNotification
