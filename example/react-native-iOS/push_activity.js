@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactNative from 'react-native';
 
 const {
@@ -18,22 +18,28 @@ const {
   Alert,
 } = ReactNative;
 
-import JPushModule from 'jpush-react-native';
 
-var PushActivity = React.createClass({
-    
-    getInitialState: function() {
-      return {
-        bg: '#ffffff',
-        regid: '',
-        connectStatus: '',
-        package: 'PackageName',
-        deviceId: 'DeviceId',
-     };
-    },
+import JPushModule from 'jpush-react-native';
+export default class PushActivity extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bg: '#ffffff',
+      regid: '',
+      connectStatus: '',
+      package: 'PackageName',
+      deviceId: 'DeviceId',
+   };
+
+   this.onInitPress = this.onInitPress.bind(this)
+  }
+
     jumpSetActivity() {
-      this.props.navigator.push({ name:'setActivity' });
-    },
+      this.props.navigation.navigate('Setting')
+    }
+
     onInitPress() {
 
       console.log('on click init push ');
@@ -41,13 +47,15 @@ var PushActivity = React.createClass({
         console.log(registrationid);
         this.setState({regid: registrationid});
       });
-    },
+    }
     onSetuplocalNotificationPress() {
       this.props.navigator.push({ name:'LocalPushActivity' });
-    },
+    }
+
     componentWillMount() {
 
         JPushModule.setupPush()  // if you add register notification in Appdelegate.m 有 don't need call this function
+        JPushModule.getBadge((badge) => {Alert.alert("badge", badge)})
         JPushModule.addnetworkDidLoginListener(() => {
           console.log('连接已登录')
           JPushModule.addTags(['dasffas'], (result)=> {
@@ -78,14 +86,14 @@ var PushActivity = React.createClass({
         // JPushModule.addReceiveNotificationListener((notification) => {
         //   Alert.alert(JSON.stringify(notification))
         // })
-    },
+    }
     componentDidMount() {
 
-    },
+    }
     componentWillUnmount() {
       DeviceEventEmitter.removeAllListeners();
       NativeAppEventEmitter.removeAllListeners();
-    },
+    }
     render() {
 
         return (
@@ -107,7 +115,7 @@ var PushActivity = React.createClass({
               underlayColor = '#0866d9'
               activeOpacity = { 0.5 }
               style = { styles.btnStyle }
-              onPress = { this.jumpSetActivity }>
+              onPress = { () => { this.props.navigation.navigate("Setting")} }>
               <Text style = { styles.btnTextStyle }>
                 设置
               </Text>
@@ -125,7 +133,7 @@ var PushActivity = React.createClass({
               underlayColor = '#e4083f'
               activeOpacity = { 0.5 }
               style = { styles.btnStyle }
-              onPress = { this.onSetuplocalNotificationPress }>
+              onPress = { () => {this.props.navigation.navigate("LocalPush")} }>
                 <Text style = { styles.btnTextStyle }>
                   local notification
                 </Text>
@@ -134,7 +142,7 @@ var PushActivity = React.createClass({
 
           )
     }
-});
+};
 
 var styles = StyleSheet.create({
   parent: {
@@ -165,7 +173,7 @@ var styles = StyleSheet.create({
     borderColor: '#48bbec',
     borderWidth: 1,
 
-  },
+  }
 });
 
 
