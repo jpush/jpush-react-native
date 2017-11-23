@@ -9,7 +9,8 @@ const {
     TextInput,
     TouchableHighlight,
     NativeModules,
-    StyleSheet
+	StyleSheet,
+	ScrollView
 } = ReactNative;
 
 import JPushModule from 'jpush-react-native';
@@ -23,6 +24,8 @@ export default class SetActivity extends Component {
 			tag: '',
 			alias: '',
 		};	
+		this.addTag = this.addTag.bind(this)
+		this.setAlias = this.setAlias.bind(this)
 	  }
 
 	addTag() {
@@ -34,16 +37,14 @@ export default class SetActivity extends Component {
 	setAlias() {
 		if (this.state.alias !== undefined) {
 			JPushModule.setAlias(this.state.alias, () => {
-				// console.log('success set alias');
+				
 				Alert.alert('success set alias')
 			},() => {
 				Alert.alert('fail set alias')
-				// console.log('fail set alias');
 			});
 		};
 	}
 
-	//static addTags(tags, cb) {
 	setTags() {
 		JPushModule.setTags(['tag1', 'tag2'], (result)=> {
 			Alert.alert(JSON.stringify(result))
@@ -88,7 +89,8 @@ export default class SetActivity extends Component {
 
 	render() {
 		return (
-				<View style = { styles.container }>
+
+				<ScrollView style = { styles.container }>
 					<View style = { styles.title }>
 						<Text style = { styles.titleText }>
 							设置 Tag 和 Alias
@@ -194,7 +196,7 @@ export default class SetActivity extends Component {
 							</TouchableHighlight>
 						</View>
 					</View>
-				</View>
+				</ScrollView>
 			);
 	}
 };
