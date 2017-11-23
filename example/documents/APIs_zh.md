@@ -147,7 +147,6 @@ Android 和 iOS 通用 API。
   JPushModule.sendLocalNotification(
       {
           id:5,
-          title:'haha',
           content:'content',
           extra:{key1:'value1',key2:'value2'},
           fireTime: currentDate.getTime() + 3000,
