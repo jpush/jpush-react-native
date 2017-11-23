@@ -55,7 +55,6 @@ export default class PushActivity extends Component {
     componentWillMount() {
 
         JPushModule.setupPush()  // if you add register notification in Appdelegate.m 有 don't need call this function
-        JPushModule.getBadge((badge) => {Alert.alert("badge", badge)})
         JPushModule.addnetworkDidLoginListener(() => {
           console.log('连接已登录')
           JPushModule.addTags(['dasffas'], (result)=> {
