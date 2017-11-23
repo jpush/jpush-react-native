@@ -213,7 +213,7 @@ Android 和 iOS 通用 API。
 - removeReceiveCustomMsgListener(function)
 
   ```
-  JPushModule.removeReceiveCustomMsgListener(callback);​
+  JPushModule.removeReceiveCustomMsgListener(callback);
   ```
 
 
@@ -225,9 +225,7 @@ Android 和 iOS 通用 API。
 设置应用 badge 值，该方法还会同步 JPush 服务器的的 badge 值，JPush 服务器的 badge 值用于推送 badge 自动 +1 时会用到。
 
 ```js
-  JPushModule.setBadge(5, (success) => {
-    console.log(success)
-  });
+  JPushModule.setBadge(5, (success) => {} );
 ```
 
 #### getBadge
@@ -235,9 +233,7 @@ Android 和 iOS 通用 API。
 获取应用 badge 值。
 
 ```javascript
-  JPushModule.getBadge((badge) => {
-    console.log(badge)
-  });
+  JPushModule.getBadge((badge) => { } );
 ```
 
 #### setLocalNotification

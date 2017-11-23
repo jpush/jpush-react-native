@@ -1,16 +1,6 @@
 'use strict'
 
-// var React = require('react-native');
-// var {
-// 	Text,
-// 	View,
-// 	Alert,
-// 	TextInput,
-// 	TouchableHighlight,
-// 	NativeModules
-// } = React;
-// var React = require('react-native');
-import React from 'react';
+import React, { Component } from 'react';
 import ReactNative from 'react-native';
 const {
     Text,
@@ -24,18 +14,23 @@ const {
 
 import JPushModule from 'jpush-react-native';
 
-var SetActivity = React.createClass({
-	getInitialState() {
-		return {
+export default class SetActivity extends Component {
+
+	constructor(props) {
+		super(props);
+	
+		this.state = {
 			tag: '',
 			alias: '',
-		};
-	},
+		};	
+	  }
+
 	addTag() {
 		JPushModule.addTags([this.state.tag], (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
+
 	setAlias() {
 		if (this.state.alias !== undefined) {
 			JPushModule.setAlias(this.state.alias, () => {
@@ -46,49 +41,50 @@ var SetActivity = React.createClass({
 				// console.log('fail set alias');
 			});
 		};
-	},
+	}
+
 	//static addTags(tags, cb) {
 	setTags() {
 		JPushModule.setTags(['tag1', 'tag2'], (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	deleteTags() {
 		JPushModule.deleteTags(['tag1', 'tag2'], (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	cleanTags() {
 		JPushModule.cleanTags((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	getAllTags() {
 		JPushModule.getAllTags((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	checkTagBindState() {
 		JPushModule.checkTagBindState('tag1', (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	deleteAlias() {
 		JPushModule.deleteAlias((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	getAlias() {
 		JPushModule.getAlias((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	render() {
 		return (
@@ -200,8 +196,8 @@ var SetActivity = React.createClass({
 					</View>
 				</View>
 			);
-	},
-});
+	}
+};
 
 var styles = StyleSheet.create({
 	container: {
