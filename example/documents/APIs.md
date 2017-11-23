@@ -108,7 +108,7 @@ reset  tags.
   - **extra** : Object                // local notification extra (key-value)
   - **fireTime** : Number       // show local notification time（ms）
   - **badge** : Number           // when local notification fire, application icon will set badge with this value  （iOS Only）
-  - **soundName** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
+  - **sound** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
   - **subtitle** : String              // set local notification subtitle  （iOS10+ Only）
 
   ```javascript

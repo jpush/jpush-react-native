@@ -139,7 +139,7 @@ Android 和 iOS 通用 API。
   - **extra** : Object                // extra 字段
   - **fireTime** : Number       // 通知触发时间的时间戳（毫秒）
   - **badge** : Number           // 本地推送触发后应用角标的 badge 值  （iOS Only）
-  - **soundName** : String     // 指定推送的音频文件 （iOS Only）
+  - **sound** : String     // 指定推送的音频文件 （iOS Only）
   - **subtitle** : String              // 子标题 （iOS10+ Only）
 
   ```javascript
