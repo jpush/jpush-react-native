@@ -12,6 +12,7 @@
   - [接收推送事件](#接收推送事件)
   - [接收自定义消息事件](#接收自定义消息事件)
 - [iOS Only API](#ios-only-api)
+  - [setupPush](#setuppush)
   - [setBadge](#setbadge)
   - [getBadge](#getbadge)
   - [setLocalNotification](#setlocalnotification)
@@ -219,6 +220,17 @@ Android 和 iOS 通用 API。
 
 
 ### iOS Only API
+
+#### setupPush
+
+调用这个接口会向系统注册推送功能（会弹出推送权限请求），注意使用自动配置会自动在 `AppDeletate.m` 插入注册代码如下，如果不希望在应用启动的时候就向用户申请权限可以删掉这部分代码。
+
+```objective-c
+// AppDelegate.m 自动插入的代码
+JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+[JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+```
 
 #### setBadge
 
