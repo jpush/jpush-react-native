@@ -53,9 +53,6 @@ export default class JPush {
 		JPushModule.initPush();
 	}
 
-	/**
-	 * Android Only
-	 */
 	static stopPush() {
 		JPushModule.stopPush();
 	}
@@ -524,6 +521,8 @@ export default class JPush {
 	static setupPush() {
 		JPushModule.setupPush();
 	}
+
+
 
 	/**
 	 * iOS Only

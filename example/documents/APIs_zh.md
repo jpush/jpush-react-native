@@ -381,9 +381,10 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
 - #### clearNotificationById
 
-  根据 notificationId 来清除通知
+  根据 notificationId 来清除通知,  notificationId 为 int 类型。
 
   ```
+  var notificationId = 5;
   JPushModule.clearNotificationById(id);
   ```
 

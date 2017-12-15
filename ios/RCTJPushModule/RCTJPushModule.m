@@ -141,6 +141,10 @@ RCT_EXPORT_METHOD(setupPush) {
   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
 }
 
+RCT_EXPORT_METHOD(stopPush) {
+  [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+}
+
 RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
   callback(@[@([UIApplication sharedApplication].applicationIconBadgeNumber)]);
 }
@@ -737,6 +741,20 @@ RCT_EXPORT_METHOD(setDebugMode) {
  */
 RCT_EXPORT_METHOD(setLogOFF) {
   [JPUSHService setLogOFF];
+}
+
+RCT_EXPORT_METHOD(clearAllNotifications) {
+  if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+    [UNUserNotificationCenter.currentNotificationCenter removeAllPendingNotificationRequests];
+  } else {
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+  }
+}
+
+RCT_EXPORT_METHOD(clearNotificationById:(NSInteger)identify) {
+  JPushNotificationIdentifier *pushIdentify = [[JPushNotificationIdentifier alloc] init];
+  pushIdentify.identifiers = @[[@(identify) description]];
+  [JPUSHService removeNotification: pushIdentify];
 }
 
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {

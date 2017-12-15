@@ -334,9 +334,10 @@ setLocalNotification(  Date,    		// date  local notification fire data
 
 - #### clearNotificationById
 
-  Clear notification by id.
+  Clear notification by id(int type).
 
   ```
+  var id = 5；
   JPushModule.clearNotificationById(id);
   ```
 
