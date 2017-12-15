@@ -28,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,6 +54,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
     private final static String CONNECTION_CHANGE = "connectionChange";
 
     private static HashMap<Integer, Callback> sCacheMap = new HashMap<Integer, Callback>();
+    private static Callback mGetRidCallback;
 
     public JPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -81,7 +81,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
         mCachedBundle = null;
         if (null != sCacheMap) {
             sCacheMap.clear();
+            sCacheMap = null;
         }
+        mEvent = null;
+        mGetRidCallback = null;
     }
 
     @ReactMethod
@@ -157,6 +160,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
                             .emit(mEvent, map);
                     break;
                 case RECEIVE_REGISTRATION_ID:
+                    if (mGetRidCallback != null) {
+                        mGetRidCallback.invoke(mCachedBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
+                        mGetRidCallback = null;
+                    }
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, mCachedBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
                     break;
@@ -375,7 +382,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
         try {
             mContext = getCurrentActivity();
             String id = JPushInterface.getRegistrationID(mContext);
-            callback.invoke(id);
+            if (id != null) {
+                callback.invoke(id);
+            } else {
+                mGetRidCallback = callback;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -656,6 +667,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setClassName(mRAC, mRAC.getPackageName() + "." + activityName);
             mRAC.startActivity(intent);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

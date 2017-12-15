@@ -17,9 +17,6 @@ declare class JPush {
      */
     static initPush(): void;
 
-    /**
-     * Android Only
-     */
     static stopPush(): void;
 
     /**
