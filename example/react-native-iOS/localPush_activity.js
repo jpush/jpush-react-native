@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactNative from 'react-native';
 
 var PushActivity = require('./push_activity');
@@ -20,28 +20,22 @@ const {
 } = ReactNative;
 import JPushModule from 'jpush-react-native';
 
-var LocalPushActivity = React.createClass({
-	getDefaultProps: function () {
-    return {
-      date: new Date(),
-      timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-
-    };
-  },
-
-    getInitialState: function() {
-      return {
-		      	     date: this.props.date,
-	timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
-			  textContain: '',
-			   butonTitle: '',
-     };
-    },
-     onDateChange: function(date) {
+export default class LocalPushActivity extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			date: new Date(),
+			timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
+			textContain: '',
+				butonTitle: '',
+		};	
+	  }
+	
+     onDateChange(dateTime) {
      	console.log('the date is change ');
      	console.log(date.toString);
-    this.setState({date: date});
-  },
+		this.setState({date: dateTime});
+	}
 
   	addLocationNotification() {
 		// setLocalNotification 和 sendLocalNotification 都可以触发本地推送，推荐使用 sendLocalNotification 方法。
@@ -64,7 +58,7 @@ var LocalPushActivity = React.createClass({
 
 		
 		
-  	},
+  	}
 
     render() {
     	return (
@@ -115,7 +109,7 @@ var LocalPushActivity = React.createClass({
     	)
     }
 
-})
+}
 
 var styles = StyleSheet.create({
 	parent: {

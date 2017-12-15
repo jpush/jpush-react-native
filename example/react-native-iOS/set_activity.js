@@ -1,16 +1,6 @@
 'use strict'
 
-// var React = require('react-native');
-// var {
-// 	Text,
-// 	View,
-// 	Alert,
-// 	TextInput,
-// 	TouchableHighlight,
-// 	NativeModules
-// } = React;
-// var React = require('react-native');
-import React from 'react';
+import React, { Component } from 'react';
 import ReactNative from 'react-native';
 const {
     Text,
@@ -19,80 +9,88 @@ const {
     TextInput,
     TouchableHighlight,
     NativeModules,
-    StyleSheet
+	StyleSheet,
+	ScrollView
 } = ReactNative;
 
 import JPushModule from 'jpush-react-native';
 
-var SetActivity = React.createClass({
-	getInitialState() {
-		return {
+export default class SetActivity extends Component {
+
+	constructor(props) {
+		super(props);
+	
+		this.state = {
 			tag: '',
 			alias: '',
-		};
-	},
+		};	
+		this.addTag = this.addTag.bind(this)
+		this.setAlias = this.setAlias.bind(this)
+	  }
+
 	addTag() {
 		JPushModule.addTags([this.state.tag], (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
+
 	setAlias() {
 		if (this.state.alias !== undefined) {
 			JPushModule.setAlias(this.state.alias, () => {
-				// console.log('success set alias');
+				
 				Alert.alert('success set alias')
 			},() => {
 				Alert.alert('fail set alias')
-				// console.log('fail set alias');
 			});
 		};
-	},
-	//static addTags(tags, cb) {
+	}
+
 	setTags() {
 		JPushModule.setTags(['tag1', 'tag2'], (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	deleteTags() {
 		JPushModule.deleteTags(['tag1', 'tag2'], (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	cleanTags() {
 		JPushModule.cleanTags((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	getAllTags() {
 		JPushModule.getAllTags((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	checkTagBindState() {
 		JPushModule.checkTagBindState('tag1', (result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	deleteAlias() {
 		JPushModule.deleteAlias((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	getAlias() {
 		JPushModule.getAlias((result)=> {
 			Alert.alert(JSON.stringify(result))
 		})
-	},
+	}
 
 	render() {
 		return (
-				<View style = { styles.container }>
+
+				<ScrollView style = { styles.container }>
 					<View style = { styles.title }>
 						<Text style = { styles.titleText }>
 							设置 Tag 和 Alias
@@ -198,10 +196,10 @@ var SetActivity = React.createClass({
 							</TouchableHighlight>
 						</View>
 					</View>
-				</View>
+				</ScrollView>
 			);
-	},
-});
+	}
+};
 
 var styles = StyleSheet.create({
 	container: {

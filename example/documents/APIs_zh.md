@@ -12,6 +12,7 @@
   - [接收推送事件](#接收推送事件)
   - [接收自定义消息事件](#接收自定义消息事件)
 - [iOS Only API](#ios-only-api)
+  - [setupPush](#setuppush)
   - [setBadge](#setbadge)
   - [getBadge](#getbadge)
   - [setLocalNotification](#setlocalnotification)
@@ -133,13 +134,19 @@ Android 和 iOS 通用 API。
 - sendLocalNotification(notification)
 
   - **buildId** : Number         // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
+<<<<<<< HEAD
    - **id** : Number           	// 通知的 id, 可用于取消通知
     - **title** : String         // 通知标题
    - **content** : String          // 通知内容
+=======
+     - **id** : Number           // 通知的 id, 可用于取消通知
+  - **title** : String         // 通知标题
+  - **content** : String          // 通知内容
+>>>>>>> 57b24382bb295d08dbb0f1275ebfc3880fe2d9b9
   - **extra** : Object                // extra 字段
   - **fireTime** : Number       // 通知触发时间的时间戳（毫秒）
   - **badge** : Number           // 本地推送触发后应用角标的 badge 值  （iOS Only）
-  - **soundName** : String     // 指定推送的音频文件 （iOS Only）
+  - **sound** : String     // 指定推送的音频文件 （iOS Only）
   - **subtitle** : String              // 子标题 （iOS10+ Only）
 
   ```javascript
@@ -147,7 +154,6 @@ Android 和 iOS 通用 API。
   JPushModule.sendLocalNotification(
       {
           id:5,
-          title:'haha',
           content:'content',
           extra:{key1:'value1',key2:'value2'},
           fireTime: currentDate.getTime() + 3000,
@@ -214,21 +220,30 @@ Android 和 iOS 通用 API。
 - removeReceiveCustomMsgListener(function)
 
   ```
-  JPushModule.removeReceiveCustomMsgListener(callback);​
+  JPushModule.removeReceiveCustomMsgListener(callback);
   ```
 
 
 
 ### iOS Only API
 
+#### setupPush
+
+调用这个接口会向系统注册推送功能（会弹出推送权限请求），注意使用自动配置会自动在 `AppDeletate.m` 插入注册代码如下，如果不希望在应用启动的时候就向用户申请权限可以删掉这部分代码。
+
+```objective-c
+// AppDelegate.m 自动插入的代码
+JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+[JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+```
+
 #### setBadge
 
 设置应用 badge 值，该方法还会同步 JPush 服务器的的 badge 值，JPush 服务器的 badge 值用于推送 badge 自动 +1 时会用到。
 
 ```js
-  JPushModule.setBadge(5, (success) => {
-    console.log(success)
-  });
+  JPushModule.setBadge(5, (success) => {} );
 ```
 
 #### getBadge
@@ -236,9 +251,7 @@ Android 和 iOS 通用 API。
 获取应用 badge 值。
 
 ```javascript
-  JPushModule.getBadge((badge) => {
-    console.log(badge)
-  });
+  JPushModule.getBadge((badge) => { } );
 ```
 
 #### setLocalNotification
@@ -279,13 +292,13 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
   JPushModule.addOpenNotificationLaunchAppListener(callback)
   ```
 
-- removeOpenNotificationLaunchAppListener(function)
+- removeOpenNotificationLaunchAppEventListener(function)
 
   ```javascript
-  JPushModule.removeOpenNotificationLaunchAppListener(callback)
+  JPushModule.removeOpenNotificationLaunchAppEventListener(callback)
   ```
 
-  取消监听：`removeOpenNotificationLaunchAppListener`  取消事件回调，和`addOpenNotificationLaunchAppListener` 方法成对使用。
+  取消监听：`removeOpenNotificationLaunchAppEventListener`  取消事件回调，和`addOpenNotificationLaunchAppListener` 方法成对使用。
 
 **Network Did Login Event**
 
@@ -293,7 +306,7 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
 
 - addnetworkDidLoginListener(function)
 
-  添加回调：添加网络已经等了事件回调 ，`setTag` 和 `setAlias` 需要在网络已经登录成功后调用才会有效 。
+  添加回调：添加网络已登录事件回调 ，`setTag` 和 `setAlias` 需要在网络已经登录成功后调用才会有效 。
 
   ```javascript
   var callback = () => {

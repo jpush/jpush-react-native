@@ -108,7 +108,7 @@ reset  tags.
   - **extra** : Object                // local notification extra (key-value)
   - **fireTime** : Number       // show local notification time（ms）
   - **badge** : Number           // when local notification fire, application icon will set badge with this value  （iOS Only）
-  - **soundName** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
+  - **sound** : String     // if you what to custom notification sound ,you should specify audio file name （iOS Only）
   - **subtitle** : String              // set local notification subtitle  （iOS10+ Only）
 
   ```javascript
@@ -116,7 +116,6 @@ reset  tags.
   JPushModule.sendLocalNotification(
       {
           id:5,
-          title:'haha',
           content:'content',
           extra:{key1:'value1',key2:'value2'},
           fireTime: currentDate.getTime() + 3000,
@@ -197,9 +196,7 @@ All apis can find in jpush-react-native/index.js.
 set application's badge.
 
 ```js
-  JPushModule.setBadge(5, (success) => {
-    console.log(success)
-  });
+  JPushModule.setBadge(5, (success) => { } );
 ```
 
 #### getBadge
@@ -207,9 +204,7 @@ set application's badge.
 get application's  badge.
 
 ```javascript
-  JPushModule.getBadge((badge) => {
-    console.log(badge)
-  });
+  JPushModule.getBadge( (badge) => { } );
 ```
 
 #### setLocalNotification
@@ -250,13 +245,13 @@ setLocalNotification(  Date,    		// date  local notification fire data
   JPushModule.addOpenNotificationLaunchAppListener(callback)
   ```
 
-- removeOpenNotificationLaunchAppListener(function)
+- removeOpenNotificationLaunchAppEventListener(function)
 
   ```javascript
-  JPushModule.removeOpenNotificationLaunchAppListener(callback)
+  JPushModule.removeOpenNotificationLaunchAppEventListener(callback)
   ```
 
-  remove listener：application not running and tap notification to run application，`removeOpenNotificationLaunchAppListener` and `addOpenNotificationLaunchAppListener` used in pairs.
+  remove listener：application not running and tap notification to run application，`removeOpenNotificationLaunchAppEventListener` and `addOpenNotificationLaunchAppListener` used in pairs.
 
 **Network Did Login Event**
 
