@@ -2,12 +2,15 @@
 
 - [Common API](#common-api)
   - [getRegistrationID](#getregistrationid)
+  - [stopPush](#stoppush)
   - [setAlias](#setalias)
   - [addTags](#addtags)
   - [deleteTags](#deletetags)
   - [setTags](#settags)
   - [cleanTags](#cleantags)
   - [sendLocalNotification](#sendlocalnotification)
+  - [clearAllNotifications](#clearallnotifications)
+  - [clearNotificationById](#clearnotificationbyId)
   - [点击推送事件](#点击推送事件)
   - [接收推送事件](#接收推送事件)
   - [接收自定义消息事件](#接收自定义消息事件)
@@ -20,13 +23,10 @@
   - [网络成功登陆事件](#network-did-login-event)
 - [Android Only API](#android-only-api)
   - [initPush](#initpush)
-  - [stopPush](#stoppush)
   - [resumePush](#resumepush)
   - [crashLogOFF](#crashlogoff)
   - [crashLogON](#crashlogno)
   - [notifyJSDidLoad](#notifyjsdidload)
-  - [clearAllNotifications](#clearallnotifications)
-  - [clearNotificationById](#clearnotificationbyId)
   - [getInfo](#getInfo)
   - [setStyleBasic](#setstylebasic)
   - [setStyleCustom](#setstylecustom)
@@ -50,6 +50,15 @@ Android 和 iOS 通用 API。
 
   ```javascript
   JPushModule.getRegistrationID((registrationId) => {})
+  ```
+
+
+#### stopPush
+
+  停止推送。
+
+  ```
+JPushModule.stopPush();
   ```
 
 #### setAlias
@@ -134,15 +143,9 @@ Android 和 iOS 通用 API。
 - sendLocalNotification(notification)
 
   - **buildId** : Number         // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
-<<<<<<< HEAD
-   - **id** : Number           	// 通知的 id, 可用于取消通知
-    - **title** : String         // 通知标题
-   - **content** : String          // 通知内容
-=======
-     - **id** : Number           // 通知的 id, 可用于取消通知
+  - **id** : Number           // 通知的 id, 可用于取消通知
   - **title** : String         // 通知标题
   - **content** : String          // 通知内容
->>>>>>> 57b24382bb295d08dbb0f1275ebfc3880fe2d9b9
   - **extra** : Object                // extra 字段
   - **fireTime** : Number       // 通知触发时间的时间戳（毫秒）
   - **badge** : Number           // 本地推送触发后应用角标的 badge 值  （iOS Only）
@@ -163,6 +166,23 @@ Android 和 iOS 通用 API。
           title: 'title'
       }
   )
+  ```
+
+#### clearAllNotifications
+
+  清除所有通知
+
+  ```
+  JPushModule.clearAllNotifications();
+  ```
+
+#### clearNotificationById
+
+  根据 notificationId 来清除通知,  notificationId 为 int 类型。
+
+  ```
+  var notificationId = 5;
+  JPushModule.clearNotificationById(id);
   ```
 
 #### 点击推送事件
@@ -329,14 +349,6 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
   JPushInterface.init(this);
   ```
 
-- #### stopPush
-
-  停止推送。建议在 `MainActivity` 的 `onStop` 中调用：
-
-  ```
-  JPushInterface.onStop(this);
-  ```
-
 - #### resumePush
 
   恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
@@ -369,23 +381,6 @@ setLocalNotification(  Date,    		// date  触发本地推送的时间
   JPushModule.notifyJSDidLoad((resultCode) => {
 
   });
-  ```
-
-- #### clearAllNotifications
-
-  清除所有通知
-
-  ```
-  JPushModule.clearAllNotifications();
-  ```
-
-- #### clearNotificationById
-
-  根据 notificationId 来清除通知,  notificationId 为 int 类型。
-
-  ```
-  var notificationId = 5;
-  JPushModule.clearNotificationById(id);
   ```
 
 - #### getInfo
