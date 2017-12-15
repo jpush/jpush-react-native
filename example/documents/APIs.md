@@ -102,9 +102,9 @@ reset  tags.
 - sendLocalNotification(notification)
 
   - **buildId** : Number         // set local notification styles，1 defoult style，2 custom style( you should call setStyleCustom frist) (Android Only)
-  - **id** : Number    	       	// local notification identify,l you can use it to cancel local notification
-  - **title** : String 		        // local notification title
-  - **content** : String  	        // local notification content
+   - **id** : Number           	// local notification identify,l you can use it to cancel local notification
+    - **title** : String         // local notification title
+   - **content** : String          // local notification content
   - **extra** : Object                // local notification extra (key-value)
   - **fireTime** : Number       // show local notification time（ms）
   - **badge** : Number           // when local notification fire, application icon will set badge with this value  （iOS Only）
@@ -405,7 +405,7 @@ setLocalNotification(  Date,    		// date  local notification fire data
 
   ​
 
-- #### addGetRegistrationIdListener
+- #### addGetRegistrationIdListener(^2.1.4 Deprecated, use [getRegistrationId](#getregistrationid) instead)
 
   If add this listener, when finished registering device, open app will invoke this callback.
 
@@ -413,7 +413,7 @@ setLocalNotification(  Date,    		// date  local notification fire data
   JPushModule.addGetRegistrationIdListener(cb)
   ```
 
-- #### removeGetRegistrationIdListener
+- #### removeGetRegistrationIdListener(^2.1.4 Deprecated)
 
   Remove listener. `removeGetRegistrationIdListener` and  `addGetRegistrationIdListener`  should used in pairs.
 

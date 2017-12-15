@@ -79,7 +79,7 @@ export default class PushActivity extends React.Component {
 		});
 	}
 
-	componentWillMount() {}
+	componentWillMount() { }
 
 	componentDidMount() {
 		JPushModule.getInfo((map) => {
@@ -92,7 +92,7 @@ export default class PushActivity extends React.Component {
 			});
 		});
 		JPushModule.notifyJSDidLoad((resultCode) => {
-			if (resultCode === 0) {}
+			if (resultCode === 0) { }
 		});
 		JPushModule.addReceiveCustomMsgListener((map) => {
 			this.setState({
@@ -140,84 +140,84 @@ export default class PushActivity extends React.Component {
 
 	render() {
 		return (
-			<ScrollView style={ styles.parent }>
+			<ScrollView style={styles.parent}>
 
-                <Text style={ styles.textStyle }>
-                    { this.state.appkey }
-                </Text>
-                <Text style={ styles.textStyle }>
-                    { this.state.imei }
-                </Text>
-                <Text style={ styles.textStyle }>
-                    { this.state.package }
-                </Text>
-                <Text style={ styles.textStyle }>
-                    { this.state.deviceId }
-                </Text>
-                <Text style={ styles.textStyle }>
-                    { this.state.version }
-                </Text>
-                <TouchableHighlight
-                    underlayColor='#0866d9'
-                    activeOpacity={ 0.5 }
-                    style={ styles.btnStyle }
-                    onPress={ this.jumpSetActivity }>
-                    <Text style={ styles.btnTextStyle }>
-                        设置
+				<Text style={styles.textStyle}>
+					{this.state.appkey}
+				</Text>
+				<Text style={styles.textStyle}>
+					{this.state.imei}
+				</Text>
+				<Text style={styles.textStyle}>
+					{this.state.package}
+				</Text>
+				<Text style={styles.textStyle}>
+					{this.state.deviceId}
+				</Text>
+				<Text style={styles.textStyle}>
+					{this.state.version}
+				</Text>
+				<TouchableHighlight
+					underlayColor='#0866d9'
+					activeOpacity={0.5}
+					style={styles.btnStyle}
+					onPress={this.jumpSetActivity}>
+					<Text style={styles.btnTextStyle}>
+						设置
                     </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    underlayColor='#0866d9'
-                    activeOpacity={ 0.5 }
-                    style={ styles.btnStyle }
-                    onPress={ this.onInitPress }>
-                    <Text style={ styles.btnTextStyle }>
-                        INITPUSH
+				</TouchableHighlight>
+				<TouchableHighlight
+					underlayColor='#0866d9'
+					activeOpacity={0.5}
+					style={styles.btnStyle}
+					onPress={this.onInitPress}>
+					<Text style={styles.btnTextStyle}>
+						INITPUSH
                     </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    underlayColor='#e4083f'
-                    activeOpacity={ 0.5 }
-                    style={ styles.btnStyle }
-                    onPress={ this.onStopPress }>
-                    <Text style={ styles.btnTextStyle }>
-                        STOPPUSH
+				</TouchableHighlight>
+				<TouchableHighlight
+					underlayColor='#e4083f'
+					activeOpacity={0.5}
+					style={styles.btnStyle}
+					onPress={this.onStopPress}>
+					<Text style={styles.btnTextStyle}>
+						STOPPUSH
                     </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    underlayColor='#f5a402'
-                    activeOpacity={ 0.5 }
-                    style={ styles.btnStyle }
-                    onPress={ this.onResumePress }>
-                    <Text style={ styles.btnTextStyle }>
-                        RESUMEPUSH
+				</TouchableHighlight>
+				<TouchableHighlight
+					underlayColor='#f5a402'
+					activeOpacity={0.5}
+					style={styles.btnStyle}
+					onPress={this.onResumePress}>
+					<Text style={styles.btnTextStyle}>
+						RESUMEPUSH
                     </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    underlayColor='#f5a402'
-                    activeOpacity={ 0.5 }
-                    style={ styles.btnStyle }
-                    onPress={ this.onGetRegistrationIdPress }>
-                    <Text style={ styles.btnTextStyle }>
-                        GET REGISTRATIONID
+				</TouchableHighlight>
+				<TouchableHighlight
+					underlayColor='#f5a402'
+					activeOpacity={0.5}
+					style={styles.btnStyle}
+					onPress={this.onGetRegistrationIdPress}>
+					<Text style={styles.btnTextStyle}>
+						GET REGISTRATIONID
                     </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    underlayColor='#f5a402'
-                    activeOpacity={ 0.5 }
-                    style={ styles.btnStyle }
-                    onPress={ this.jumpSecondActivity }>
-                    <Text style={ styles.btnTextStyle }>
-                        Go to SecondActivity
+				</TouchableHighlight>
+				<TouchableHighlight
+					underlayColor='#f5a402'
+					activeOpacity={0.5}
+					style={styles.btnStyle}
+					onPress={this.jumpSecondActivity}>
+					<Text style={styles.btnTextStyle}>
+						Go to SecondActivity
                     </Text>
-                </TouchableHighlight>
-                <Text style={ styles.textStyle }>
-                    { this.state.pushMsg }
-                </Text>
-                <Text style={styles.textStyle}>
-                    { this.state.registrationId }
-                </Text>
-            </ScrollView>
+				</TouchableHighlight>
+				<Text style={styles.textStyle}>
+					{this.state.pushMsg}
+				</Text>
+				<Text style={styles.textStyle}>
+					{this.state.registrationId}
+				</Text>
+			</ScrollView>
 
 		)
 	}
