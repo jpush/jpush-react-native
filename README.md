@@ -78,7 +78,7 @@ dependencies {
 
 
 ### API
-**Android v1.6.6 版本后新增 notifiyJSDidLoad，请务必在接收事件之前调用此方法。**
+**Android v1.6.6 版本后新增 notifyJSDidLoad，请务必在接收事件之前调用此方法。**
 - [API](./example/documents/APIs.md)
 
 ### 关于点击通知跳转到指定界面
