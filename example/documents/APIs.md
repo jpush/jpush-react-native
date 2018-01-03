@@ -15,6 +15,7 @@
   - [clearAllNotifications](#clearallnotifications)
   - [clearNotificationById](#clearnotificationbyId)
 - [iOS Only API](#ios-only-api)
+  - [setupPush](#setuppush)
   - [setBadge](#setbadge)
   - [getBadge](#getbadge)
   - [setLocalNotification](#setlocalnotification)
@@ -216,6 +217,16 @@ JPushModule.clearNotificationById(id);
 
 All apis can find in jpush-react-native/index.js.
 
+#### setupPush
+
+register remote notification from system（will show request remote notification permission）.
+
+```objective-c
+// AppDelegate.m 
+JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+[JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+```
 #### setBadge
 
 set application's badge.

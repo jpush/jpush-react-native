@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseArray;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -26,7 +27,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -53,7 +53,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
     private final static String RECEIVE_REGISTRATION_ID = "getRegistrationId";
     private final static String CONNECTION_CHANGE = "connectionChange";
 
-    private static HashMap<Integer, Callback> sCacheMap = new HashMap<Integer, Callback>();
+    private static SparseArray<Callback> sCacheMap;
     private static Callback mGetRidCallback;
 
     public JPushModule(ReactApplicationContext reactContext) {
@@ -73,6 +73,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @Override
     public void initialize() {
         super.initialize();
+        sCacheMap = new SparseArray<>();
     }
 
     @Override
