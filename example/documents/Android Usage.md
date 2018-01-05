@@ -20,6 +20,8 @@ This document is a guidance for how to use jpush-react-native in Android.
 > app/MainApplication.java
 
 ```
+    import cn.jpush.reactnativejpush.JPushPackage;
+    
     // 设置为 true 将不弹出 toast
     private boolean SHUTDOWN_TOAST = false;
     // 设置为 true 将不打印 log
