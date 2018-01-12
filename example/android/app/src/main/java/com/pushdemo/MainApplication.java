@@ -25,6 +25,10 @@ public class MainApplication extends Application implements ReactApplication {
             return BuildConfig.DEBUG;
         }
 
+        @Override
+        protected String getJSMainModuleName() {
+            return "index";
+        }
 
         @Override
         protected List<ReactPackage> getPackages() {
@@ -35,14 +39,14 @@ public class MainApplication extends Application implements ReactApplication {
         }
     };
 
-    @Override
-    public ReactNativeHost getReactNativeHost() {
-        return mReactNativeHost;
-    }
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        SoLoader.init(this, false);
-    }
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+  }
 }
