@@ -14,7 +14,21 @@ npm install jpush-react-native --save
 npm install jcore-react-native --save ## jpush-react-native 1.4.2 版本以后需要同时安装 jcore-react-native
 
 ```
+##### （如果是原生应用集成 react-native）使用 CocoaPods 安装
+
+在 Podfile 中添加如下代码:
+
+```
+pod 'JPushRN', :path => '../node_modules/jpush-react-native'
+```
+终端执行如下指令:
+
+```
+pod install
+```
+
 ## 配置
+
 配置包括两个步骤，自动配置和手动操作。
 ### 1.自动配置部分（以下命令均在你的 React Native Project 目录下运行，自动配置后仍需手动配置一部分）
 
@@ -32,7 +46,7 @@ npm run configureJPush d4ee2375846bc30fa51334f5 app
 //执行自动配置脚本后再执行 link 操作
 react-native link
 ```
-自动配置操作会自动插入 Native 代码，这个部分用户无需关系具体细节，如果实在想了解加入代码的细节可以查看如下链接
+自动配置操作会自动插入 Native 代码（iOS 中使用 Appdelegate.m 文件名，如果修改了该文件名需要手动插入[代码](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md)），这个部分用户无需关系具体细节，如果实在想了解加入代码的细节可以查看如下链接
 - [iOS 自动配置后自动添加的代码](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md)
 
 ### 2.手动操作部分(自动配置后，部分操作需要手动修改) 

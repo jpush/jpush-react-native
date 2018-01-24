@@ -1,23 +1,26 @@
 {
-  "name": "PushDemo",
+  "name": "example",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
   },
   "dependencies": {
-    "jcore-react-native": "^1.2.2",
-    "jpush-react-native": "^2.1.6",
-    "react": "^16.0.0",
-    "react-native": "^0.51.0",
-    "react-native-onesignal": "^3.0.4",
-    "react-navigation": "^1.0.0-beta.21"
+    "jcore-react-native": "^1.2.3",
+    "jpush-react-native": "^2.1.7",
+    "react": "16.2.0",
+    "react-native": "0.52.0",
+    "react-navigation": "^1.0.0-beta.25"
   },
   "devDependencies": {
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
-    "babel-preset-es2015": "^6.22.0",
-    "webpack": "^2.2.1"
+    "babel-jest": "22.0.6",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "22.0.6",
+    "react-test-renderer": "16.2.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }
