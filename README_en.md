@@ -38,7 +38,7 @@ npm run configureJPush d4ee2375846bc30fa51334f5 app
 react-native link
 ```
 
-If you want to know what auto configuration script does, see [The codes iOS auto configuration script adds](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md) for detail, otherwise ignore this.
+If you want to know what auto configuration script does, see [The codes iOS auto configuration script adds](documents/ios_usage.md) for detail, otherwise ignore this.
 
 ### 2.Manual configuration part(After auto configure, you need modify specific files manually)
 
@@ -83,20 +83,18 @@ dependencies {
 
 Change yourApplicationId to your actual package name；change yourAppKey to your AppKey apply from our website.
 
-* [Check configuration to see if matchs](https://github.com/jpush/jpush-react-native/blob/master/example/documents/CheckEn.md)
-* [Add JPushPackage](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
+* [Check configuration to see if matchs](documents/check_en.md)
+* [Add JPushPackage](documents/android_usage.md)
 
 ### API
 
-* [Common](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Common.md)
-* [Android API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20API.md)
-* [iOS API](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_API.md)
-
-### [About update React Native](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
+* [Common](documents/common.md)
+* [Android API](documents/android_api.md)
+* [iOS API](documents/ios_api.md)
 
 ---
 
-贡献者列表
+### Contributors
 
 * [bang88](https://github.com/bang88)
 * [pampang](https://github.com/pampang)

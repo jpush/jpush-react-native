@@ -1,4 +1,4 @@
-[English document](./APIs.md)
+[English document](api_en.md)
 
 * [Common API](#common-api)
   * [getRegistrationID](#getregistrationid)
