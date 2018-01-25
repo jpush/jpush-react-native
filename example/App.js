@@ -5,6 +5,8 @@
 
 import React, { Component } from 'react'
 import {
+  Alert,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -141,8 +143,8 @@ export default class App extends Component {
     })
   }
 
-  cleanAllTags = () => {
-    JPushModule.cleanAllTags(map => {
+  cleanTags = () => {
+    JPushModule.cleanTags(map => {
       if (map.errorCode === 0) {
         console.log('Clean all tags succeed')
       } else {
@@ -185,48 +187,62 @@ export default class App extends Component {
   }
 
   setBaseStyle () {
-    JPushModule.setStyleBasic()
+    if (Platform.OS === 'android') {
+      JPushModule.setStyleBasic()
+    } else {
+      Alert.alert('iOS not support this function', '')
+    }
   }
 
   setCustomStyle () {
-    JPushModule.setStyleCustom()
+    if (Platform.OS === 'android') {
+      JPushModule.setStyleCustom()
+    } else {
+      Alert.alert('iOS not support this function', '')
+    }
   }
 
   componentWillMount () {}
 
   componentDidMount () {
-    JPushModule.initPush()
-    JPushModule.getInfo(map => {
-      this.setState({
-        appkey: map.myAppKey,
-        imei: map.myImei,
-        package: map.myPackageName,
-        deviceId: map.myDeviceId,
-        version: map.myVersion
+    if (Platform.OS === 'android') {
+      JPushModule.initPush()
+      JPushModule.getInfo(map => {
+        this.setState({
+          appkey: map.myAppKey,
+          imei: map.myImei,
+          package: map.myPackageName,
+          deviceId: map.myDeviceId,
+          version: map.myVersion
+        })
       })
-    })
-    JPushModule.notifyJSDidLoad(resultCode => {
-      if (resultCode === 0) {
-      }
-    })
+      JPushModule.notifyJSDidLoad(resultCode => {
+        if (resultCode === 0) {
+        }
+      })
+    }
+
     JPushModule.addReceiveCustomMsgListener(map => {
       this.setState({
         pushMsg: map.message
       })
       console.log('extras: ' + map.extras)
     })
+
     JPushModule.addReceiveNotificationListener(map => {
       console.log('alertContent: ' + map.alertContent)
       console.log('extras: ' + map.extras)
       // var extra = JSON.parse(map.extras);
       // console.log(extra.key + ": " + extra.value);
     })
+
     JPushModule.addReceiveOpenNotificationListener(map => {
       console.log('Opening notification!')
       console.log('map.extra: ' + map.extras)
       this.jumpSecondActivity()
       // JPushModule.jumpToPushActivity("SecondActivity");
     })
+
     JPushModule.addGetRegistrationIdListener(registrationId => {
       console.log('Device register succeed, registrationId ' + registrationId)
     })
@@ -437,9 +453,9 @@ export default class App extends Component {
             underlayColor='#0866d9'
             activeOpacity={0.5}
             style={styles.bigBtn}
-            onPress={this.cleanAllTags}
+            onPress={this.cleanTags}
           >
-            <Text style={styles.bigTextStyle}>Clean All Tags</Text>
+            <Text style={styles.bigTextStyle}>Clean Tags</Text>
           </TouchableHighlight>
         </View>
         <View style={styles.title}>

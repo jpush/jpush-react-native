@@ -3,7 +3,7 @@ import { StackNavigator } from 'react-navigation'
 import Second from './Second'
 import App from './App'
 
-const PushDemoApp = StackNavigator({
+const PushDemo = StackNavigator({
   Home: {
     screen: App
   },
@@ -12,4 +12,4 @@ const PushDemoApp = StackNavigator({
   }
 })
 
-AppRegistry.registerComponent('example', () => PushDemoApp)
+AppRegistry.registerComponent('PushDemo', () => PushDemo)

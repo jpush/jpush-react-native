@@ -130,7 +130,7 @@ reset tags.
     badge: 8,
     sound: 'fasdfa',
     subtitle: 'subtitle',
-    title: 'title',
+    title: 'title'
   })
   ```
 
