@@ -1,7 +1,7 @@
 ;[
-  require('./postlink-ios'),
-  require('./postlink-android')
-  // run them sequentially
+  // run postlink sequentially
+  require('./postlink-android'),
+  require('./postlink-ios')
 ]
   .reduce((p, fn) => p.then(fn), Promise.resolve())
   .catch(err => {
