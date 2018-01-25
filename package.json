@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
-    "postinstall": "node postInstall.js",
     "lint": "prettier --write '**/*.{js,ts,md}'; standard --fix"
   },
   "types": "index.d.ts",
@@ -59,20 +58,25 @@
     ]
   },
   "rnpm": {
+    "android": {
+      "packageInstance": "new JPushPackage(!BuildConfig.DEBUG, !BuildConfig.DEBUG)"
+    },
     "ios": {
       "sharedLibraries": [
-        "libz",
         "UserNotifications",
         "CoreTelephony",
-        "Security",
-        "CFNetwork",
-        "CoreFoundation",
-        "SystemConfiguration",
-        "Foundation",
-        "UIKit",
-        "libresolv",
-        "CoreGraphics"
+        "Security"
       ]
+    },
+    "params": [
+      {
+        "type": "input",
+        "name": "jpushAppKey",
+        "message": "What is your JPush appKey (hit <ENTER> to ignore)"
+      }
+    ],
+    "commands": {
+      "postlink": "node node_modules/jpush-react-native/scripts/run-postlink"
     }
   }
 }
