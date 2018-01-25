@@ -12,4 +12,4 @@ const PushDemoApp = StackNavigator({
   }
 })
 
-AppRegistry.registerComponent('PushDemoApp', () => PushDemoApp)
+AppRegistry.registerComponent('example', () => PushDemoApp)
