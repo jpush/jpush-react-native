@@ -6,22 +6,21 @@ This document is a guidance for how to use jpush-react-native in Android.
 
 ##### RN 0.29.0 以下版本
 
-- 打开 app 下的 MainActivity，在 ReactInstanceManager 的 build 方法中加入 JPushPackage：
+* 打开 app 下的 MainActivity，在 ReactInstanceManager 的 build 方法中加入 JPushPackage：
 
 > app/MainActivity.java
 
 ![](https://github.com/KenChoi1992/SomeArticles/blob/master/screenshots/plugin3.png)
 
-
 ##### RN 0.29.0 以上版本
 
-- 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/src/com/pushdemo/MainApplication.java):
+* 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/src/com/pushdemo/MainApplication.java):
 
 > app/MainApplication.java
 
 ```
     import cn.jpush.reactnativejpush.JPushPackage;
-    
+
     // 设置为 true 将不弹出 toast
     private boolean SHUTDOWN_TOAST = false;
     // 设置为 true 将不打印 log

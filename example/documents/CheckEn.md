@@ -1,6 +1,6 @@
 ## Android check configuration part
 
-- Check dependencies in build.gradle to see if jpush-react-native and jcore-react-native have been added.
+* Check dependencies in build.gradle to see if jpush-react-native and jcore-react-native have been added.
 
 > your react native project/android/app/build.gradle
 
@@ -14,7 +14,7 @@ dependencies {
 }
 ```
 
-- Check settings.gradle in your android project, to see if jpush and jcore have been included：
+* Check settings.gradle in your android project, to see if jpush and jcore have been included：
 
 > settings.gradle
 
@@ -22,10 +22,9 @@ dependencies {
 include ':app', ':jpush-react-native', ':jcore-react-native'
 project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
 project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
-
 ```
 
-- Check AndroidManifest in your module，to see if \<meta-data> part has been added.
+* Check AndroidManifest in your module，to see if \<meta-data> part has been added.
 
 > your react native project/android/app/AndroidManifest.xml
 
@@ -39,4 +38,4 @@ project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '..
     </application>
 ```
 
-- Now sync project(press sync button in Android Studio)，you should see jpush-react-native and jcore-react-native have been imported in your android project as Android library project.
+* Now sync project(press sync button in Android Studio)，you should see jpush-react-native and jcore-react-native have been imported in your android project as Android library project.
