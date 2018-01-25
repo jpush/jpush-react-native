@@ -16,7 +16,8 @@ import {
   requireNativeComponent,
   NativeModules,
   ScrollView,
-  DeviceEventEmitter,
+	DeviceEventEmitter,
+	Alert
 } from 'react-native';
 
 import JPushModule from 'jpush-react-native';
@@ -143,7 +144,7 @@ export default class App extends Component<{}> {
 	}
 
 	cleanAllTags = () => {
-		JPushModule.cleanAllTags((map) => {
+		JPushModule.cleanTags((map) => {
 			if (map.errorCode === 0) {
 				console.log("Clean all tags succeed");
 			} else {
@@ -187,29 +188,41 @@ export default class App extends Component<{}> {
 	}
 
 	setBaseStyle() {
-		JPushModule.setStyleBasic();
+		if (Platform.OS === 'android') {
+			JPushModule.setStyleBasic();
+		} else {
+			Alert.alert('iOS not support this function', '')
+		}
 	}
 
 	setCustomStyle() {
-		JPushModule.setStyleCustom();
+		if (Platform.OS === 'android') {
+			JPushModule.setStyleCustom();
+		} else {
+			Alert.alert('iOS not support this function', '')
+		}
+		
 	}
 
   componentWillMount() { }
 
   componentDidMount() {
-    JPushModule.initPush();
-    JPushModule.getInfo((map) => {
-      this.setState({
-        appkey: map.myAppKey,
-        imei: map.myImei,
-        package: map.myPackageName,
-        deviceId: map.myDeviceId,
-        version: map.myVersion
-      });
-    });
-    JPushModule.notifyJSDidLoad((resultCode) => {
-      if (resultCode === 0) { }
-    });
+		if (Platform.OS === 'android') {
+			JPushModule.initPush();
+			JPushModule.getInfo((map) => {
+				this.setState({
+					appkey: map.myAppKey,
+					imei: map.myImei,
+					package: map.myPackageName,
+					deviceId: map.myDeviceId,
+					version: map.myVersion
+				});
+			});
+			JPushModule.notifyJSDidLoad((resultCode) => {
+				if (resultCode === 0) { }
+			});
+		}
+
     JPushModule.addReceiveCustomMsgListener((map) => {
       this.setState({
         pushMsg: map.message
