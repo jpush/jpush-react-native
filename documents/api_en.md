@@ -1,4 +1,4 @@
-[中文文档](./APIs_zh.md)
+[中文文档](api.md)
 
 * [Common API](#common-api)
   * [getRegistrationID](#getregistrationid)
