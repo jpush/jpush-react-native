@@ -64,7 +64,7 @@ function insertJpushCode (path) {
   [JPUSHService setupWithOption:launchOptions appKey:@"' +
           appKey +
           '"\n\
-                        channel:nil apsForProduction:nil];'
+                        channel:nil apsForProduction:true];'
       )
       fs.writeFileSync(path, rf, 'utf-8')
     }
