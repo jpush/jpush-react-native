@@ -19,29 +19,48 @@ This document is a guidance for how to use jpush-react-native in Android.
 > app/MainApplication.java
 
 ```
-    import cn.jpush.reactnativejpush.JPushPackage;
+import cn.jpush.reactnativejpush.JPushPackage;   // <--   导入 JPushPackage
 
-    // 设置为 true 将不弹出 toast
+public class MainApplication extends Application implements ReactApplication {
+
+    // 设置为 true 将不会弹出 toast
     private boolean SHUTDOWN_TOAST = false;
-    // 设置为 true 将不打印 log
+    // 设置为 true 将不会打印 log
     private boolean SHUTDOWN_LOG = false;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
         @Override
-        protected boolean getUseDeveloperSupport() {
+        public boolean getUseDeveloperSupport() {
             return BuildConfig.DEBUG;
         }
 
+        @Override
+        protected String getJSMainModuleName() {         // rn 0.49 后修改入口为 index
+            return "index";
+        }
 
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
-            );
+                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)   //  <-- 添加 JPushPackage
+             );
         }
     };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+  }
+}
+
 ```
 
 ### import JPushModule
