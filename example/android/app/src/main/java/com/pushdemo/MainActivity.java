@@ -48,7 +48,7 @@ public class MainActivity extends ReactActivity implements DefaultHardwareBackBt
 
     @Override
     protected String getMainComponentName() {
-        return "PushDemoApp";
+        return "PushDemo";
     }
 
     @Override

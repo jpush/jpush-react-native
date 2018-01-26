@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "jcore-react-native": "^1.2.3",
-    "jpush-react-native": "^2.1.7",
+    "jpush-react-native": "..",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-navigation": "^1.0.0-beta.25"
