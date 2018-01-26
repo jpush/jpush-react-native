@@ -2,18 +2,17 @@ import React from 'react'
 import ReactNative from 'react-native'
 import JPushModule from 'jpush-react-native'
 
-const { View, Text, TouchableHighlight, StyleSheet } = ReactNative
+const { View, Text, StyleSheet } = ReactNative
 
 export default class Second extends React.Component {
-
-  componentDidMount() {
-    // Receive extra 
+  componentDidMount () {
+    // Receive extra
     JPushModule.addReceiveExtrasListener(map => {
       console.log('Got extra, key: hello, value: ' + map.hello)
     })
   }
 
-  render() {
+  render () {
     return (
       <View>
         <Text style={styles.welcome}>Welcome !</Text>
@@ -22,9 +21,9 @@ export default class Second extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   welcome: {
     textAlign: 'center',
     margin: 10
-  },
+  }
 })

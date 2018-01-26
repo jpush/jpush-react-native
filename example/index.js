@@ -1,6 +1,6 @@
 import { AppRegistry } from 'react-native'
 import { StackNavigator } from 'react-navigation'
-import Second from './second'
+import Second from './Second'
 import App from './App'
 
 const PushDemo = StackNavigator({
