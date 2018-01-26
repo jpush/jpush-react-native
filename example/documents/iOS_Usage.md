@@ -26,7 +26,7 @@ JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
      entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
      [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
   [JPUSHService setupWithOption:launchOptions appKey:appkey
-                        channel:nil apsForProduction:nil];
+                        channel:nil apsForProduction:isProduction];
 }
 ```
 
