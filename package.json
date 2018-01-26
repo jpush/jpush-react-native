@@ -4,7 +4,9 @@
   "description": "a jpush plugin for react native application",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node postInstall.js"
+    "precommit": "lint-staged",
+    "postinstall": "node postInstall.js",
+    "lint": "prettier --write '**/*.{js,ts,md}'; standard --fix"
   },
   "types": "index.d.ts",
   "repository": {
@@ -25,6 +27,37 @@
   "peerDependencies": {
     "jcore-react-native": ">= 1.2.0"
   },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.1",
+    "prettier": "^1.10.2",
+    "standard": "^10.0.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js": [
+      "standard --fix",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "standard": {
+    "env": {
+      "jest": true
+    },
+    "parser": "babel-eslint",
+    "ignore": [
+      "android/",
+      "ios/"
+    ]
+  },
   "rnpm": {
     "ios": {
       "sharedLibraries": [
@@ -41,9 +74,5 @@
         "CoreGraphics"
       ]
     }
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.6.0"
   }
 }

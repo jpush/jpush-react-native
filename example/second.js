@@ -1,80 +1,57 @@
-'use strict';
+import React from 'react'
+import ReactNative from 'react-native'
+import JPushModule from 'jpush-react-native'
 
-import React from 'react';
-import ReactNative from 'react-native';
-import JPushModule from 'jpush-react-native';
+const { View, Text, TouchableHighlight, StyleSheet } = ReactNative
 
-const {
-  AppRegistry,
-  View,
-  Text,
-  TouchableHighlight,
-  StyleSheet,
-  NativeModules,
-} = ReactNative;
-
-
-
-export default class second extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class Second extends React.Component {
   onBackPress = () => {
-    let navigator = this.props.navigator;
-    if (navigator != undefined) {
-      this.props.navigator.pop();
+    if (!this.props.navigator) {
+      this.props.navigator.pop()
     } else {
-      console.log("finishing second activity");
-      JPushModule.finishActivity();
+      console.log('finishing second activity')
+      JPushModule.finishActivity()
     }
   }
 
-  componentDidMount() {
-    JPushModule.addReceiveExtrasListener((map) => {
-      console.log("Got extra, key: hello, value: " + map.hello);
-    });
+  componentDidMount () {
+    JPushModule.addReceiveExtrasListener(map => {
+      console.log('Got extra, key: hello, value: ' + map.hello)
+    })
   }
 
   onButtonPress = () => {
-    console.log("will jump to setting page");
-    let navigator = this.props.navigator;
-    if (navigator != undefined) {
+    console.log('will jump to setting page')
+    if (!this.props.navigator) {
       this.props.navigator.push({
-        name: "setActivity"
-      });
+        name: 'setActivity'
+      })
     } else {
-
     }
-
   }
 
-  render() {
+  render () {
     return (
       <View>
         <TouchableHighlight
           style={styles.backBtn}
-          underlayColor = '#e4083f'
-          activeOpacity = {0.5}
-          onPress = {this.onBackPress}>
-          <Text>
-            Back
-          </Text>
+          underlayColor='#e4083f'
+          activeOpacity={0.5}
+          onPress={this.onBackPress}
+        >
+          <Text>Back</Text>
         </TouchableHighlight>
-        <Text
-          style={styles.welcome}> 
-          Welcome ! 
-        </Text> 
-        <TouchableHighlight underlayColor = '#e4083f'
-          activeOpacity = {0.5}
-          style = {styles.btnStyle}
-          onPress = {this.onButtonPress}>
-          <Text style={styles.btnTextStyle}>
-            Jump To Setting page!
-          </Text> 
+        <Text style={styles.welcome}>Welcome !</Text>
+        <TouchableHighlight
+          underlayColor='#e4083f'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.onButtonPress}
+        >
+          <Text style={styles.btnTextStyle}>Jump To Setting page!</Text>
         </TouchableHighlight>
-        </View>
-    );
+      </View>
+    )
   }
 }
 
@@ -91,7 +68,7 @@ var styles = StyleSheet.create({
   },
   welcome: {
     textAlign: 'center',
-    margin: 10,
+    margin: 10
   },
   btnStyle: {
     marginTop: 10,
@@ -106,7 +83,5 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
     color: '#ffffff'
-  },
-});
-
-// AppRegistry.registerComponent("second", () => second);
+  }
+})
