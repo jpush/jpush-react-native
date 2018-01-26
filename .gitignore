@@ -203,3 +203,4 @@ typings/
 package-lock.json
 yarn.lock
 *.qshell
+*.DS_Store

@@ -450,7 +450,7 @@ export default class App extends Component {
             underlayColor='#0866d9'
             activeOpacity={0.5}
             style={styles.bigBtn}
-            onPress={this.cleanTags}
+            onPress={this.cleanAllTags}
           >
             <Text style={styles.bigTextStyle}>Clean Tags</Text>
           </TouchableHighlight>
