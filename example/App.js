@@ -80,146 +80,151 @@ export default class App extends Component {
     })
   }
 
+  setTag () {
+    if (this.state.tag) {
+      /**
+       * 请注意这个接口要传一个数组过去，这里只是个简单的示范
+       */
+      JPushModule.setTags(this.state.tag.split(','), map => {
+        if (map.errorCode === 0) {
+          console.log('Tag operate succeed, tags: ' + map.tags)
+        } else {
+          console.log('error code: ' + map.errorCode)
+        }
+      })
+    }
+  }
 
-  setTag() {
-		if (this.state.tag !== undefined) {
-			/*
-			 * 请注意这个接口要传一个数组过去，这里只是个简单的示范
-			 */
-			JPushModule.setTags(this.state.tag.split(","), (map) => {
-				if (map.errorCode === 0) {
-					console.log("Tag operate succeed, tags: " + map.tags);
-				} else {
-					console.log("error code: " + map.errorCode);
-				}
-			});
-		}
-	}
+  addTag = () => {
+    console.log('Adding tag: ' + this.state.tag)
+    JPushModule.addTags(this.state.tag.split(','), map => {
+      if (map.errorCode === 0) {
+        console.log('Add tags succeed, tags: ' + map.tags)
+      } else {
+        console.log('Add tags failed, error code: ' + map.errorCode)
+      }
+    })
+  }
 
-	addTag = () => {
-		console.log("Adding tag: " + this.state.tag);
-		JPushModule.addTags(this.state.tag.split(","), (map) => {
-			if (map.errorCode === 0) {
-				console.log("Add tags succeed, tags: " + map.tags);
-			} else {
-				console.log("Add tags failed, error code: " + map.errorCode);
-			}
-		});
-	}
+  deleteTags = () => {
+    console.log('Deleting tag: ' + this.state.tag)
+    JPushModule.deleteTags(this.state.tag.split(','), map => {
+      if (map.errorCode === 0) {
+        console.log('Delete tags succeed, tags: ' + map.tags)
+      } else {
+        console.log('Delete tags failed, error code: ' + map.errorCode)
+      }
+    })
+  }
 
-	deleteTags = () => {
-		console.log("Deleting tag: " + this.state.tag);
-		JPushModule.deleteTags(this.state.tag.split(","), (map) => {
-			if (map.errorCode === 0) {
-				console.log("Delete tags succeed, tags: " + map.tags);
-			} else {
-				console.log("Delete tags failed, error code: " + map.errorCode);
-			}
-		});
-	}
+  checkTag = () => {
+    console.log('Checking tag bind state, tag: ' + this.state.tag)
+    JPushModule.checkTagBindState(this.state.tag, map => {
+      if (map.errorCode === 0) {
+        console.log(
+          'Checking tag bind state, tag: ' +
+            map.tag +
+            ' bindState: ' +
+            map.bindState
+        )
+      } else {
+        console.log(
+          'Checking tag bind state failed, error code: ' + map.errorCode
+        )
+      }
+    })
+  }
 
-	checkTag = () => {
-		console.log("Checking tag bind state, tag: " + this.state.tag);
-		JPushModule.checkTagBindState(this.state.tag, (map) => {
-			if (map.errorCode === 0) {
-				console.log("Checking tag bind state, tag: " + map.tag + " bindState: " + map.bindState);
-			} else {
-				console.log("Checking tag bind state failed, error code: " + map.errorCode);
-			}
-		});
-	}
+  getAllTags = () => {
+    JPushModule.getAllTags(map => {
+      if (map.errorCode === 0) {
+        console.log('Get all tags succeed, tags: ' + map.tags)
+      } else {
+        console.log('Get all tags failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
 
-	getAllTags = () => {
-		JPushModule.getAllTags((map) => {
-			if (map.errorCode === 0) {
-				console.log("Get all tags succeed, tags: " + map.tags);
-			} else {
-				console.log("Get all tags failed, errorCode: " + map.errorCode);
-			}
-		});
-	}
+  cleanAllTags = () => {
+    JPushModule.cleanTags(map => {
+      if (map.errorCode === 0) {
+        console.log('Clean all tags succeed')
+      } else {
+        console.log('Clean all tags failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
 
-	cleanAllTags = () => {
-		JPushModule.cleanTags((map) => {
-			if (map.errorCode === 0) {
-				console.log("Clean all tags succeed");
-			} else {
-				console.log("Clean all tags failed, errorCode: " + map.errorCode);
-			}
-		});
-	}
+  setAlias () {
+    if (this.state.alias !== undefined) {
+      JPushModule.setAlias(this.state.alias, map => {
+        if (map.errorCode === 0) {
+          console.log('set alias succeed')
+        } else {
+          console.log('set alias failed, errorCode: ' + map.errorCode)
+        }
+      })
+    }
+  }
 
+  deleteAlias = () => {
+    console.log('Deleting alias')
+    JPushModule.deleteAlias(map => {
+      if (map.errorCode === 0) {
+        console.log('delete alias succeed')
+      } else {
+        console.log('delete alias failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
 
-	setAlias() {
-		if (this.state.alias !== undefined) {
-			JPushModule.setAlias(this.state.alias, (map) => {
-				if (map.errorCode === 0) {
-					console.log("set alias succeed");
-				} else {
-					console.log("set alias failed, errorCode: " + map.errorCode);
-				}
-			});
-		}
-	}
+  getAlias = () => {
+    JPushModule.getAlias(map => {
+      if (map.errorCode === 0) {
+        console.log('Get alias succeed, alias: ' + map.alias)
+      } else {
+        console.log('Get alias failed, errorCode: ' + map.errorCode)
+      }
+    })
+  }
 
-	deleteAlias = () => {
-		console.log("Deleting alias");
-		JPushModule.deleteAlias((map) => {
-			if (map.errorCode === 0) {
-				console.log("delete alias succeed");
-			} else {
-				console.log("delete alias failed, errorCode: " + map.errorCode);
-			}
-		})
-	}
+  setBaseStyle () {
+    if (Platform.OS === 'android') {
+      JPushModule.setStyleBasic()
+    } else {
+      Alert.alert('iOS not support this function', '')
+    }
+  }
 
-	getAlias = () => {
-		JPushModule.getAlias((map) => {
-			if (map.errorCode === 0) {
-				console.log("Get alias succeed, alias: " + map.alias);
-			} else {
-				console.log("Get alias failed, errorCode: " + map.errorCode);
-			}
-		});
-	}
+  setCustomStyle () {
+    if (Platform.OS === 'android') {
+      JPushModule.setStyleCustom()
+    } else {
+      Alert.alert('iOS not support this function', '')
+    }
+  }
 
-	setBaseStyle() {
-		if (Platform.OS === 'android') {
-			JPushModule.setStyleBasic();
-		} else {
-			Alert.alert('iOS not support this function', '')
-		}
-	}
+  componentWillMount () {}
 
-	setCustomStyle() {
-		if (Platform.OS === 'android') {
-			JPushModule.setStyleCustom();
-		} else {
-			Alert.alert('iOS not support this function', '')
-		}
-		
-	}
+  componentDidMount () {
+    if (Platform.OS === 'android') {
+      JPushModule.initPush()
+      JPushModule.getInfo(map => {
+        this.setState({
+          appkey: map.myAppKey,
+          imei: map.myImei,
+          package: map.myPackageName,
+          deviceId: map.myDeviceId,
+          version: map.myVersion
+        })
+      })
+      JPushModule.notifyJSDidLoad(resultCode => {
+        if (resultCode === 0) {
+        }
+      })
+    }
 
-  componentWillMount() { }
-
-  componentDidMount() {
-		if (Platform.OS === 'android') {
-			JPushModule.initPush();
-			JPushModule.getInfo((map) => {
-				this.setState({
-					appkey: map.myAppKey,
-					imei: map.myImei,
-					package: map.myPackageName,
-					deviceId: map.myDeviceId,
-					version: map.myVersion
-				});
-			});
-			JPushModule.notifyJSDidLoad((resultCode) => {
-				if (resultCode === 0) { }
-			});
-		}
-
-    JPushModule.addReceiveCustomMsgListener((map) => {
+    JPushModule.addReceiveCustomMsgListener(map => {
       this.setState({
         pushMsg: map.message
       })
