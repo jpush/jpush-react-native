@@ -1,6 +1,6 @@
 {
   "name": "jpush-react-native",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "a jpush plugin for react native application",
   "main": "index.js",
   "scripts": {
