@@ -3,7 +3,7 @@
 
 # JPush React Native Plugin
 
-[English Document](https://github.com/jpush/jpush-react-native/blob/master/example/documents/ReadMeEn.md)
+[English Document](README_en.md)
 
 ## NOTE:
 
@@ -54,9 +54,9 @@ npm run configureJPush d4ee2375846bc30fa51334f5 app
 react-native link
 ```
 
-自动配置操作会自动插入 Native 代码（iOS 中使用 Appdelegate.m 文件名，如果修改了该文件名需要手动插入[代码](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md)），这个部分用户无需关系具体细节，如果实在想了解加入代码的细节可以查看如下链接
+自动配置操作会自动插入 Native 代码（iOS 中使用 Appdelegate.m 文件名，如果修改了该文件名需要手动插入[代码](documents/ios_usage.md)），这个部分用户无需关系具体细节，如果实在想了解加入代码的细节可以查看如下链接
 
-* [iOS 自动配置后自动添加的代码](https://github.com/jpush/jpush-react-native/blob/master/example/documents/iOS_Usage.md)
+* [iOS 自动配置后自动添加的代码](documents/ios_usage.md)
 
 ### 2.手动操作部分(自动配置后，部分操作需要手动修改)
 
@@ -100,29 +100,27 @@ dependencies {
 
 将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey。
 
-* [检查添加的配置项](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Check.md)
+* [检查添加的配置项](documents/check.md)
 
-* [加入 JPushPackage，有参数！](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Android%20Usage.md)
+* [加入 JPushPackage，有参数！](documents/android_usage.md)
 
 ### API
 
 **Android v1.6.6 版本后新增 notifyJSDidLoad，请务必在接收事件之前调用此方法。**
 
-* [API](./example/documents/APIs.md)
+* [API](documents/api_en.md)
 
 ### 关于点击通知跳转到指定界面
 
 * Android
 
-  v1.6.7 新增 API `jumpToPushActivity`，使用参考 [demo](./example/react-native-android/push_activity.js#L113)
+  v1.6.7 新增 API `jumpToPushActivity`，使用参考 [demo](example/App.js#L113)
 
-## [常见问题](./example/documents/common_problems.md)
-
-### [关于更新 RN](https://github.com/jpush/jpush-react-native/blob/master/example/documents/Update%20React%20Native.md)
+## [常见问题](./documents/common_problems.md)
 
 ---
 
-贡献者列表
+## 贡献者列表
 
 * [bang88](https://github.com/bang88)
 * [pampang](https://github.com/pampang)
