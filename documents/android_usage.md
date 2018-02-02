@@ -14,7 +14,7 @@ This document is a guidance for how to use jpush-react-native in Android.
 
 ##### RN 0.29.0 以上版本
 
-* 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](https://github.com/jpush/jpush-react-native/blob/master/example/android/app/src/com/pushdemo/MainApplication.java):
+* 打开 app 下的 MainApplication.java 文件，然后加入 JPushPackage，[参考 demo](../example/android/app/src/main/java/com/pushdemo/MainApplication.java):
 
 > app/MainApplication.java
 
@@ -60,7 +60,6 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
-
 ```
 
 ### import JPushModule
