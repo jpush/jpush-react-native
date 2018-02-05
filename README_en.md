@@ -10,8 +10,7 @@
 ## Install
 
 ```
-npm install jpush-react-native --save
-npm install jcore-react-native --save ## jpush-react-native 1.4.2 or later need install jcore-react-native as well.
+npm install jpush-react-native jcore-react-native --save
 ```
 
 ## Configure
@@ -34,9 +33,10 @@ npm run configureJPush d4ee2375846bc30fa51334f5 app
 * Link project
 
 ```
-// run this command after running script command.
 react-native link
 ```
+
+Input `appKey` for JPush and that's all.
 
 If you want to know what auto configuration script does, see [The codes iOS auto configuration script adds](documents/ios_usage.md) for detail, otherwise ignore this.
 
