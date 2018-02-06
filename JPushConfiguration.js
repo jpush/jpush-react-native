@@ -20,6 +20,9 @@ const questions = [
 
 inquirer.prompt(questions).then(answers => {
   const { appKey, moduleName } = answers
+  if (moduleName == undefined) {
+    moduleName = "app"
+  }
 
   //  深度遍历所有文件，
   getAllFiles('./ios', function(f, s) {
@@ -43,7 +46,7 @@ inquirer.prompt(questions).then(answers => {
     var isSettingGradle = f.match(/settings\.gradle/)
     if (isSettingGradle != null) {
       console.log('find settings.gradle in android project ' + f)
-      configureSetting(f)
+      configureSetting(f, moduleName)
     }
 
     // 找到project下的build.gradle
@@ -305,12 +308,12 @@ function configureAppKey(file, appKey) {
   var rf = fs.readFileSync(file, 'utf-8')
   var isAlreadyWrite = rf.match(/.*JPUSH_APPKEY.*/)
   if (isAlreadyWrite == null) {
-    var insertKey = rf.match(/\n.*ndk \{\n.*\}\n/)
+  var insertKey = rf.match(/.*versionName.*\n/)
     if (insertKey != null) {
       rf = rf.replace(
         insertKey[0],
         insertKey[0] +
-        'manifestPlaceholders = [\n            JPUSH_APPKEY: "' +
+        '        manifestPlaceholders = [\n            JPUSH_APPKEY: "' +
         appKey +
         '",\n            APP_CHANNEL: "developer-default"\n        ]\n'
       )
@@ -321,7 +324,7 @@ function configureAppKey(file, appKey) {
   }
 }
 
-function configureSetting(file) {
+function configureSetting(file, moduleName) {
   if (!isFile(file)) {
     console.log('configuration JPush error!!')
     return
@@ -333,11 +336,7 @@ function configureSetting(file) {
     var re = new RegExp("\n.*include.*':" + moduleName + "'", 'gi')
     var searchKey = rf.match(re)
     if (searchKey != null) {
-      rf = rf.replace(
-        searchKey[0],
-        searchKey[0] +
-        ", ':jpush-react-native', ':jcore-react-native'\nproject(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')\nproject(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')\n"
-      )
+      rf = rf.replace("\n", "\ninclude ':jpush-react-native' \nproject(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')\ninclude ':jcore-react-native' \nproject(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')\n")
       fs.writeFileSync(file, rf, 'utf-8')
     } else {
       console.log('Did not find include in settings.gradle: ' + file)
