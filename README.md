@@ -109,3 +109,4 @@ dependencies {
 * [bang88](https://github.com/bang88)
 * [pampang](https://github.com/pampang)
 * [huhuanming](https://github.com/huhuanming)
+* [arniu](https://github.com/arniu)
