@@ -38,7 +38,7 @@ function applyRecipe (text, recipe) {
 
 /**
  * @param {string} file
- * @param {(Recipe|Recipe[])} recipes
+ * @param {Recipe[]} recipes
  */
 function patch (file, recipes) {
   debug(`patching ${file}...`)
