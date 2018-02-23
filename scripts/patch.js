@@ -14,19 +14,26 @@ function checkPatch (text, patch) {
 /**
  * @param {string} text
  * @param {Recipe} recipe
- * @return {string?}
+ * @return {?string}
  */
 function applyRecipe (text, recipe) {
-  if (!text || checkPatch(text, recipe.patch)) {
+  if (!text) {
+    return text
+  }
+
+  if (checkPatch(text, recipe.patch)) {
+    debug('already patched, skipped')
     return null
   }
 
   const matched = text.match(recipe.pattern)
-  if (matched && matched.length === 1) {
-    return text.replace(matched[0], `${matched[0]}${recipe.patch}`)
+
+  if (!matched) {
+    debug(`not found ${recipe.pattern}`)
+    return text
   }
 
-  return text
+  return text.replace(matched[0], `${matched[0]}${recipe.patch}`)
 }
 
 /**
@@ -34,7 +41,7 @@ function applyRecipe (text, recipe) {
  * @param {(Recipe|Recipe[])} recipes
  */
 function patch (file, recipes) {
-  debug(`patching ${file}`)
+  debug(`patching ${file}...`)
 
   const path = glob.sync(file, {
     ignore: ['node_modules/**', '**/build/**']
@@ -43,7 +50,7 @@ function patch (file, recipes) {
   const init = fs.readFileSync(path, 'utf8')
   const text = recipes.reduce(applyRecipe, init)
 
-  if (text) {
+  if (text != null) {
     fs.writeFileSync(path, text)
   }
 }
