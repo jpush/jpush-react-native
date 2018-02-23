@@ -28,11 +28,11 @@ project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '..
     pattern: `</activity>`,
     patch: `
     <meta-data
-        android:name="JPUSH_CHANNEL"
-        android:value="\${APP_CHANNEL}" />
-    <meta-data
         android:name="JPUSH_APPKEY"
         android:value="\${JPUSH_APPKEY}" />
+    <meta-data
+        android:name="JPUSH_CHANNEL"
+        android:value="\${APP_CHANNEL}" />
 `
   },
 
@@ -75,13 +75,6 @@ project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '..
     {
       pattern: `@implementation AppDelegate`,
       patch: `
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
-}
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
