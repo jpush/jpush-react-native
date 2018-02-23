@@ -78,7 +78,7 @@
       ]
     },
     "commands": {
-      "postlink": "node node_modules/jpush-react-native/scripts/patch"
+      "prelink": "node node_modules/jpush-react-native/scripts/patch"
     }
   },
   "dependencies": {
