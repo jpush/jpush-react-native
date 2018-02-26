@@ -82,7 +82,7 @@
     }
   },
   "dependencies": {
-    "glob": "*",
-    "inquirer": "*"
+    "inquirer": "*",
+    "mpatch": "^0.1.0"
   }
 }

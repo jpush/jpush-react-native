@@ -1,9 +1,3 @@
-/**
- * @typedef {object} Recipe
- * @param {string} pattern
- * @param {string} patch
- */
-
 const defaultContext = {
   appKey: '<Your JPush appKey>'
 }
