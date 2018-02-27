@@ -59,6 +59,9 @@
     ]
   },
   "rnpm": {
+    "android": {
+      "packageInstance": "new JPushPackage(!BuildConfig.DEBUG, !BuildConfig.DEBUG)"
+    },
     "ios": {
       "sharedLibraries": [
         "libz",
@@ -75,10 +78,11 @@
       ]
     },
     "commands": {
-      "prelink": "node node_modules/jpush-react-native/JPushConfiguration"
+      "prelink": "node node_modules/jpush-react-native/scripts/patch"
     }
   },
   "dependencies": {
-    "inquirer": "*"
+    "inquirer": "*",
+    "mpatch": "^0.1.0"
   }
 }
