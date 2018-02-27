@@ -59,8 +59,7 @@ project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '..
 `
     },
     {
-      pattern: `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{`,
+      pattern: `didFinishLaunchingWithOptions[^{]*{`,
       patch: `
   [JPUSHService setupWithOption:launchOptions appKey:@"${ctx.appKey}"
                         channel:nil apsForProduction:nil];
