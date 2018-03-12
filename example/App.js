@@ -222,6 +222,10 @@ export default class App extends Component {
         if (resultCode === 0) {
         }
       })
+
+      if (Platform.OS === 'ios') {
+        JPushModule.setupPush()
+      }
     }
 
     JPushModule.addReceiveCustomMsgListener(map => {
