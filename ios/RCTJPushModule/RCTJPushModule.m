@@ -320,7 +320,9 @@ RCT_EXPORT_METHOD( setTags:(NSArray *)tags
   self.asyCallback = callback;
   [JPUSHService setTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+      callback(@[@{@"tags": [iTags allObjects] ?: @[],
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -336,7 +338,9 @@ RCT_EXPORT_METHOD( setAlias:(NSString *)alias
   self.asyCallback = callback;
   [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"alias": iAlias ?: @""}]);
+      callback(@[@{@"alias": iAlias ?: @"",
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -352,7 +356,9 @@ RCT_EXPORT_METHOD( addTags:(NSArray *)tags
   }
   [JPUSHService addTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+      callback(@[@{@"tags": [iTags allObjects] ?: @[],
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -368,7 +374,9 @@ RCT_EXPORT_METHOD( deleteTags:(NSArray *)tags
   }
   [JPUSHService deleteTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+      callback(@[@{@"tags": [iTags allObjects] ?: @[],
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -378,7 +386,9 @@ RCT_EXPORT_METHOD( deleteTags:(NSArray *)tags
 RCT_EXPORT_METHOD( cleanTags:(RCTResponseSenderBlock)callback) {
   [JPUSHService cleanTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+      callback(@[@{@"tags": [iTags allObjects] ?: @[],
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -388,7 +398,9 @@ RCT_EXPORT_METHOD( cleanTags:(RCTResponseSenderBlock)callback) {
 RCT_EXPORT_METHOD( getAllTags:(RCTResponseSenderBlock)callback) {
   [JPUSHService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[]}]);
+      callback(@[@{@"tags": [iTags allObjects] ?: @[],
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -399,7 +411,9 @@ RCT_EXPORT_METHOD(checkTagBindState:(NSString *)tag
                            callback:(RCTResponseSenderBlock)callback) {
   [JPUSHService validTag:tag completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind) {
     if (iResCode == 0) {
-      callback(@[@{@"isBind": @(isBind)}]);
+      callback(@[@{@"isBind": @(isBind),
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -409,7 +423,9 @@ RCT_EXPORT_METHOD(checkTagBindState:(NSString *)tag
 RCT_EXPORT_METHOD(deleteAlias:(RCTResponseSenderBlock)callback) {
   [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"alias": iAlias ?: @""}]);
+      callback(@[@{@"alias": iAlias ?: @"",
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }
@@ -419,7 +435,9 @@ RCT_EXPORT_METHOD(deleteAlias:(RCTResponseSenderBlock)callback) {
 RCT_EXPORT_METHOD(getAlias:(RCTResponseSenderBlock)callback) {
   [JPUSHService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
     if (iResCode == 0) {
-      callback(@[@{@"alias": iAlias ?: @""}]);
+      callback(@[@{@"alias": iAlias ?: @"",
+                   @"errorCode": @(0)
+                   }]);
     } else {
       callback(@[@{@"errorCode": @(iResCode)}]);
     }

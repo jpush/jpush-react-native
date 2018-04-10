@@ -222,6 +222,8 @@ export default class App extends Component {
         if (resultCode === 0) {
         }
       })
+    } else {
+      JPushModule.setupPush()
     }
 
     JPushModule.addReceiveCustomMsgListener(map => {
