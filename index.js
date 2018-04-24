@@ -334,6 +334,7 @@ export default class JPush {
   }
 
   /**
+   * @deprecated Since version 2.2.0, will deleted in 3.0.0.
    * iOS Only
    * 监听：应用没有启动的状态点击推送打开应用
    * 注意：2.2.0 版本开始，提供了 getLaunchAppNotification
