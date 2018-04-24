@@ -1,4 +1,8 @@
-import { DeviceEventEmitter, NativeModules } from 'react-native'
+import { 
+  DeviceEventEmitter, 
+  NativeModules,
+  Platform
+ } from 'react-native'
 
 const JPushModule = NativeModules.JPushModule
 
@@ -15,22 +19,31 @@ const receiveExtrasEvent = 'receiveExtras' // Android Only
 
 export default class JPush {
   /**
-   * Android Only
    * 初始化JPush 必须先初始化才能执行其他操作
    */
   static initPush () {
-    JPushModule.initPush()
+    if (Platform.OS == "android") {
+      JPushModule.initPush()
+    } else {
+      JPush.setupPush()
+    }
   }
-
+  /**
+   * 停止推送，调用该方法后将不再受到推送
+   */
   static stopPush () {
     JPushModule.stopPush()
   }
 
   /**
-   * Android Only
+   * 恢复推送功能，停止推送后，可调用该方法重新获得推送能力
    */
   static resumePush () {
-    JPushModule.resumePush()
+    if (Platform.OS == "android") {
+      JPushModule.resumePush()
+    } else {
+      JPush.setupPush()
+    }
   }
 
   /**
@@ -59,10 +72,14 @@ export default class JPush {
   }
 
   /**
-   * Android Only
+   * 清除通知栏的所有通知
    */
   static clearAllNotifications () {
-    JPushModule.clearAllNotifications()
+    if (Platform.OS == "android") {
+      JPushModule.clearAllNotifications()
+    } else {
+      JPush.setBadge(0,() => {})
+    }
   }
 
   /**
@@ -307,7 +324,21 @@ export default class JPush {
 
   /**
    * iOS Only
+   * 点击推送启动应用的时候原生会将该 notification 缓存起来，该方法用于获取缓存 notification
+   * 注意：notification 可能是 remoteNotification 和 localNotification，两种推送字段不一样。
+   * 如果不是通过点击推送启动应用，比如点击应用 icon 直接启动应用，notification 会返回 undefine。
+   * @param {Function} cb = (notification) => {}
+   */
+  static getLaunchAppNotification (cb) {
+    JPushModule.getLaunchAppNotification(cb)
+  }
+
+  /**
+   * @deprecated Since version 2.2.0, will deleted in 3.0.0.
+   * iOS Only
    * 监听：应用没有启动的状态点击推送打开应用
+   * 注意：2.2.0 版本开始，提供了 getLaunchAppNotification
+   * 
    * @param {Function} cb = (notification) => {}
    */
   static addOpenNotificationLaunchAppListener (cb) {
@@ -320,6 +351,7 @@ export default class JPush {
   }
 
   /**
+   * @deprecated Since version 2.2.0, will deleted in 3.0.0.
    * iOS Only
    * 取消监听：应用没有启动的状态点击推送打开应用
    * @param {Function} cb = () => {}

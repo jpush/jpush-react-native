@@ -145,6 +145,21 @@ RCT_EXPORT_METHOD(stopPush) {
   [[UIApplication sharedApplication] unregisterForRemoteNotifications];
 }
 
+RCT_EXPORT_METHOD(getLaunchAppNotification:(RCTResponseSenderBlock)callback) {
+
+  if ([RCTJPushActionQueue sharedInstance].openedRemoteNotification != nil) {
+    callback(@[[RCTJPushActionQueue sharedInstance].openedRemoteNotification]);
+    return;
+  }
+  
+  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
+    callback(@[[RCTJPushActionQueue sharedInstance].openedLocalNotification]);
+    return;
+  }
+  
+  callback(@[]);
+}
+
 RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
   callback(@[@([UIApplication sharedApplication].applicationIconBadgeNumber)]);
 }
