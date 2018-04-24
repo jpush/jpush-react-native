@@ -12,16 +12,12 @@ type JResultCallback<T = undefined> = (result: T) => void
 
 declare class JPush {
   /**
-   * Android only
    * 初始化JPush 必须先初始化才能执行其他操作
    */
   static initPush(): void
 
   static stopPush(): void
 
-  /**
-   * Android Only
-   */
   static resumePush(): void
 
   /**
@@ -29,9 +25,6 @@ declare class JPush {
    */
   static notifyJSDidLoad(cb: JResultCallback<number>): void
 
-  /**
-   * Android Only
-   */
   static clearAllNotifications(): void
 
   /**
@@ -166,6 +159,11 @@ declare class JPush {
    * Android Only
    */
   static removeReceiveCustomMsgListener(cb: JSuccessCallback<any>): void
+
+  /**
+   * iOS Onlylalala
+   */
+  static getLaunchAppNotification (cb: JSuccessCallback<string>): void
 
   /**
    * iOS Only
