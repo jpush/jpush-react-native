@@ -101,9 +101,10 @@ RCT_EXPORT_MODULE();
                         name:kJPFOpenNotificationToLaunchApp
                       object:nil];
   
-  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
-  }
+//  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
+//    [self alert:@"openedLocalNotification is not nil"];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
+//  }
   
   return self;
 }
@@ -125,13 +126,16 @@ RCT_EXPORT_MODULE();
   } else {
     [[NSNotificationCenter defaultCenter] postNotificationName:kJPFNetworkDidCloseNotification object:nil];
   }
-  
 }
 
 - (void)setBridge:(RCTBridge *)bridge {
   _bridge = bridge;
   [RCTJPushActionQueue sharedInstance].openedRemoteNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-  [RCTJPushActionQueue sharedInstance].openedLocalNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+  if ([_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
+    UILocalNotification *localNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    [RCTJPushActionQueue sharedInstance].openedLocalNotification = localNotification.userInfo;// null?
+  }
+  
 }
 
 // request push notification permissions only
@@ -146,17 +150,19 @@ RCT_EXPORT_METHOD(stopPush) {
 }
 
 RCT_EXPORT_METHOD(getLaunchAppNotification:(RCTResponseSenderBlock)callback) {
-
+  NSDictionary *notification;
   if ([RCTJPushActionQueue sharedInstance].openedRemoteNotification != nil) {
-    callback(@[[RCTJPushActionQueue sharedInstance].openedRemoteNotification]);
+    notification = [self jpushFormatNotification: [RCTJPushActionQueue sharedInstance].openedRemoteNotification];
+    callback(@[notification]);
     return;
   }
-  
+
   if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
-    callback(@[[RCTJPushActionQueue sharedInstance].openedLocalNotification]);
+    notification = [self jpushFormatNotification:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
+    callback(@[notification]);
     return;
   }
-  
+
   callback(@[]);
 }
 
@@ -164,16 +170,69 @@ RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
   callback(@[@([UIApplication sharedApplication].applicationIconBadgeNumber)]);
 }
 
+// TODO:
 - (void)openNotificationToLaunchApp:(NSNotification *)notification {
-  id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotificationLaunchApp" body:obj];
+  NSDictionary *obj = [notification object];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotificationLaunchApp" body:[self jpushFormatNotification:obj]];
 }
 
+// TODO:
 - (void)openNotification:(NSNotification *)notification {
-  id obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotification" body:obj];
+  NSDictionary *obj = [notification object];
+  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotification" body: [self jpushFormatNotification:obj]];
 }
 
+- (NSMutableDictionary *)jpushFormatNotification:(NSDictionary *)dic {
+  if (!dic) {
+    return @[].mutableCopy;
+  }
+  if (dic.count == 0) {
+    return @[].mutableCopy;
+  }
+
+  if (dic[@"aps"]) {
+    return [self jpushFormatAPNSDic:dic];
+  } else {
+    return [self jpushFormatLocalNotificationDic:dic];
+  }
+}
+
+- (NSMutableDictionary *)jpushFormatLocalNotificationDic:(NSDictionary *)dic {
+  return [NSMutableDictionary dictionaryWithDictionary:dic];
+}
+  
+- (NSMutableDictionary *)jpushFormatAPNSDic:(NSDictionary *)dic {
+  NSMutableDictionary *extras = @{}.mutableCopy;
+  for (NSString *key in dic) {
+    if([key isEqualToString:@"_j_business"]      ||
+       [key isEqualToString:@"_j_msgid"]         ||
+       [key isEqualToString:@"_j_uid"]           ||
+       [key isEqualToString:@"actionIdentifier"] ||
+       [key isEqualToString:@"aps"]) {
+      continue;
+    }
+    // 和 android 统一将 extras 字段移动到 extras 里面
+    extras[key] = dic[key];
+  }
+  NSMutableDictionary *formatDic = dic.mutableCopy;
+  formatDic[@"extras"] = extras;
+  
+  // 新增 应用状态
+  switch ([UIApplication sharedApplication].applicationState) {
+    case UIApplicationStateInactive:
+      formatDic[@"appState"] = @"inactive";
+      break;
+    case UIApplicationStateActive:
+      formatDic[@"appState"] = @"active";
+      break;
+    case UIApplicationStateBackground:
+      formatDic[@"appState"] = @"background";
+      break;
+    default:
+      break;
+  }
+  return formatDic;
+}
 
 - (void)networkConnecting:(NSNotification *)notification {
   _isJPushDidLogin = false;
@@ -215,27 +274,13 @@ RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
                                                body:[notification userInfo]];
 }
 
+
+// TODO:
 - (void)receiveRemoteNotification:(NSNotification *)notification {
   
   if ([RCTJPushActionQueue sharedInstance].isReactDidLoad == YES) {
     NSDictionary *obj = [notification object];
-    NSMutableDictionary *notificationDic = [[NSMutableDictionary alloc] initWithDictionary:obj];
-    
-    switch ([UIApplication sharedApplication].applicationState) {
-      case UIApplicationStateInactive:
-        notificationDic[@"appState"] = @"inactive";
-        break;
-      case UIApplicationStateActive:
-        notificationDic[@"appState"] = @"active";
-        break;
-      case UIApplicationStateBackground:
-        notificationDic[@"appState"] = @"background";
-        break;
-      default:
-        break;
-    }
-    NSDictionary *event = [NSDictionary dictionaryWithDictionary: notificationDic];
-    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body:event];
+    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body: [self jpushFormatNotification:obj]];
   } else {
     [[RCTJPushActionQueue sharedInstance] postNotification:notification];
   }
