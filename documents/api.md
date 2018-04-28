@@ -19,6 +19,7 @@
   * [setBadge](#setbadge)
   * [getBadge](#getbadge)
   * [setLocalNotification](#setlocalnotification)
+  * [getLaunchAppNotification](#getlaunchappnotification)
   * [点击推送启动应用事件](#open-notification-launch-app-event)
   * [网络成功登陆事件](#network-did-login-event)
 * [Android Only API](#android-only-api)
@@ -290,6 +291,22 @@ JPushModule.setLocalNotification(
   { myInfo: '' },
   null
 )
+```
+
+#### getLaunchAppNotification
+
+点击推送启动应用的时候原生会将该 notification 缓存起来，该方法用于获取缓存的 notification。
+
+```javascript
+JPushModule.getLaunchAppNotification( notification => {
+  if (notification === undefined) {
+    // 说明应用不是通过点击通知启动的，是通过点击应用 icon
+  } else if (notification['aps'] === undefined) {
+    // 说明是 local notification
+  } else {
+    // 说明是 remote notification
+  }
+})
 ```
 
 #### 点击推送启动应用事件
