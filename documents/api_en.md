@@ -19,6 +19,7 @@
   * [setBadge](#setbadge)
   * [getBadge](#getbadge)
   * [setLocalNotification](#setlocalnotification)
+  * [getLaunchAppNotification](#getlaunchappnotification)
   * [Open Notification Launch App Event](#open-notification-launch-app-event)
   * [Network Did Login Event](#network-did-login-event)
 * [Android Only API](#android-only-api)
@@ -261,6 +262,22 @@ JPushModule.setLocalNotification(
   { myInfo: '' },
   null
 )
+```
+
+#### getLaunchAppNotification
+
+Get Launch app's notification, this function will get the launch notificatiton from cache .
+
+```javascript
+JPushModule.getLaunchAppNotification( notification => {
+  if (notification === undefined) {
+    // application was launch by tap app's icon
+  } else if (notification['aps'] === undefined) {
+    // application was launch by tap local notification
+  } else {
+    // application was launch by tap remote notification
+  }
+})
 ```
 
 #### Open Notification Launch App Event
