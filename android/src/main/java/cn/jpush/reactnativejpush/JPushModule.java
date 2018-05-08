@@ -537,14 +537,14 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     // extra 字段的 json 字符串
                     String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
                     Intent intent;
-                    if (isApplicationRunningBackground(context)) {
-                        intent = new Intent();
-                        intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    } else {
+//                    if (isApplicationRunningBackground(context)) {
+//                        intent = new Intent();
+//                        intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    } else {
                         intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    }
+//                    }
                     intent.putExtras(mCachedBundle);
                     context.startActivity(intent);
                     mEvent = OPEN_NOTIFICATION;
