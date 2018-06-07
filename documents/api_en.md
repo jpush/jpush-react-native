@@ -3,6 +3,7 @@
 * [Common API](#common-api)
   * [getRegistrationID](#getregistrationid)
   * [stopPush](#stoppush)
+  * [resumePush](#resumepush)
   * [setAlias](#setalias)
   * [addTags](#addtags)
   * [setTags](#settags)
@@ -24,7 +25,6 @@
   * [Network Did Login Event](#network-did-login-event)
 * [Android Only API](#android-only-api)
   * [initPush](#initpush)
-  * [resumePush](#resumepush)
   * [crashLogOFF](#crashlogoff)
   * [crashLogON](#crashlogon)
   * [notifyJSDidLoad](#notifyjsdidload)
@@ -60,6 +60,20 @@ Stop push.
 ```
 JPushModule.stopPush();
 ```
+
+* #### resumePush
+
+  Resume push. Suggest invokes in `MainActivity` 's `onResume` method：
+
+  ```
+  // android native java
+  JPushInterface.onResume(this);
+  ```
+
+  ```
+  // iOS - javascirpt
+  JPushModule.resumePush();
+  ```
 
 #### setAlias
 
@@ -328,14 +342,6 @@ JPushModule.getLaunchAppNotification( notification => {
 
   ```
   JPushInterface.init(this);
-  ```
-
-* #### resumePush
-
-  Resume push. Suggest invokes in `MainActivity` 's `onResume` method：
-
-  ```
-  JPushInterface.onResume(this);
   ```
 
 * #### crashLogOFF

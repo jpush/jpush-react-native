@@ -745,10 +745,12 @@ RCT_EXPORT_METHOD(clearAllLocalNotifications) {
  * - 通过本 API 把当前客户端(当前这个用户的) 的实际 badge 设置到服务器端保存起来;
  * - 调用服务器端 API 发 APNs 时(通常这个调用是批量针对大量用户),
  *   使用 "+1" 的语义, 来表达需要基于目标用户实际的 badge 值(保存的) +1 来下发通知时带上新的 badge 值;
+ *
+ * setBadge(-1): 支持清空icon的badge而不清空通知栏消息
  */
 RCT_EXPORT_METHOD(setBadge:(NSInteger)value callback:(RCTResponseSenderBlock)callback) {// ->Bool
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:value];
-  NSNumber *badgeNumber = [NSNumber numberWithBool:[JPUSHService setBadge: value]];
+  NSNumber *badgeNumber = [NSNumber numberWithBool:[JPUSHService setBadge: value > 0 ? value : 0]];
   callback(@[badgeNumber]);
 }
 
