@@ -66,7 +66,13 @@ JPushModule.stopPush();
   恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
 
   ```
+  // android native java
   JPushInterface.onResume(this);
+  ```
+
+  ```
+  // iOS - javascirpt
+  JPushModule.resumePush();
   ```
   
 #### setAlias
