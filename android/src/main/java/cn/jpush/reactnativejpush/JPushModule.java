@@ -44,7 +44,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
     private static String TAG = "JPushModule";
     private Context mContext;
     private static String mEvent;
+    private static String mRidEvent;
+    private static String mConnectEvent;
     private static Bundle mCachedBundle;
+    private static Bundle mRidBundle;
+    private static Bundle mConnectCachedBundle;
     private static ReactApplicationContext mRAC;
 
     private final static String RECEIVE_NOTIFICATION = "receiveNotification";
@@ -80,10 +84,14 @@ public class JPushModule extends ReactContextBaseJavaModule {
     public void onCatalystInstanceDestroy() {
         super.onCatalystInstanceDestroy();
         mCachedBundle = null;
+        mRidBundle = null;
+        mConnectCachedBundle = null;
         if (null != sCacheMap) {
             sCacheMap.clear();
         }
         mEvent = null;
+        mRidEvent = null;
+        mConnectEvent = null;
         mGetRidCallback = null;
     }
 
@@ -159,14 +167,6 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, map);
                     break;
-                case RECEIVE_REGISTRATION_ID:
-                    if (mGetRidCallback != null) {
-                        mGetRidCallback.invoke(mCachedBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
-                        mGetRidCallback = null;
-                    }
-                    mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit(mEvent, mCachedBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
-                    break;
                 case RECEIVE_NOTIFICATION:
                 case OPEN_NOTIFICATION:
                     map = Arguments.createMap();
@@ -176,15 +176,32 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, map);
                     break;
-                case CONNECTION_CHANGE:
-                    if (mCachedBundle != null) {
-                        mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                                .emit(mEvent, mCachedBundle.getBoolean(JPushInterface.EXTRA_CONNECTION_CHANGE, false));
-                    }
-                    break;
             }
+                 
             mEvent = null;
             mCachedBundle = null;
+        }
+
+        if (mRidEvent != null) {
+            Logger.i(TAG, "Sending ridevent : " + mRidEvent);
+            if (mGetRidCallback != null) {
+                mGetRidCallback.invoke(mRidBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
+                mGetRidCallback = null;
+            }
+            mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(mRidEvent, mRidBundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
+            mRidEvent = null;
+            mRidBundle = null;
+        }
+
+        if (mConnectEvent != null) {
+            Logger.i(TAG, "Sending connectevent : " + mConnectEvent);
+            if (mConnectCachedBundle != null) {
+                mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(mConnectEvent,
+                        mConnectCachedBundle.getBoolean(JPushInterface.EXTRA_CONNECTION_CHANGE, false));
+            }
+            mConnectEvent = null;
+            mConnectCachedBundle = null;
         }
     }
 
@@ -502,8 +519,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
         @Override
         public void onReceive(Context context, Intent data) {
-            mCachedBundle = data.getExtras();
+
             if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(data.getAction())) {
+                mCachedBundle = data.getExtras();
                 try {
                     String message = data.getStringExtra(JPushInterface.EXTRA_MESSAGE);
                     Logger.i(TAG, "收到自定义消息: " + message);
@@ -515,6 +533,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     e.printStackTrace();
                 }
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(data.getAction())) {
+                mCachedBundle = data.getExtras();
                 try {
                     // 通知内容
                     String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
@@ -530,21 +549,15 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     e.printStackTrace();
                 }
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
+                mCachedBundle = data.getExtras();
                 try {
                     Logger.d(TAG, "用户点击打开了通知");
                     // 通知内容
                     String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
                     // extra 字段的 json 字符串
                     String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
-                    Intent intent;
-//                    if (isApplicationRunningBackground(context)) {
-//                        intent = new Intent();
-//                        intent.setClassName(context.getPackageName(), context.getPackageName() + ".MainActivity");
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    } else {
-                        intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    }
+                    Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtras(mCachedBundle);
                     context.startActivity(intent);
                     mEvent = OPEN_NOTIFICATION;
@@ -559,8 +572,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 // After JPush finished registering, will send this broadcast, use JPushModule.addGetRegistrationIdListener
                 // to get registrationId in the first instance.
             } else if (JPushInterface.ACTION_REGISTRATION_ID.equals(data.getAction())) {
+                mRidBundle = data.getExtras();
                 try {
-                    mEvent = RECEIVE_REGISTRATION_ID;
+                    mRidEvent = RECEIVE_REGISTRATION_ID;
                     if (mRAC != null) {
                         sendEvent();
                     }
@@ -568,8 +582,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     e.printStackTrace();
                 }
             } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(data.getAction())) {
+                mConnectCachedBundle = data.getExtras();
                 try {
-                    mEvent = CONNECTION_CHANGE;
+                    mConnectEvent = CONNECTION_CHANGE;
                     if (mRAC != null) {
                         sendEvent();
                     }
