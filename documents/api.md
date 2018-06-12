@@ -3,6 +3,7 @@
 * [Common API](#common-api)
   * [getRegistrationID](#getregistrationid)
   * [stopPush](#stoppush)
+  * [resumePush](#resumepush)
   * [setAlias](#setalias)
   * [addTags](#addtags)
   * [deleteTags](#deletetags)
@@ -24,7 +25,6 @@
   * [网络成功登陆事件](#network-did-login-event)
 * [Android Only API](#android-only-api)
   * [initPush](#initpush)
-  * [resumePush](#resumepush)
   * [crashLogOFF](#crashlogoff)
   * [crashLogON](#crashlogno)
   * [notifyJSDidLoad](#notifyjsdidload)
@@ -61,6 +61,20 @@ Android 和 iOS 通用 API。
 JPushModule.stopPush();
 ```
 
+* #### resumePush
+
+  恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
+
+  ```
+  // android native java
+  JPushInterface.onResume(this);
+  ```
+
+  ```
+  // iOS - javascirpt
+  JPushModule.resumePush();
+  ```
+  
 #### setAlias
 
 * setAlias(alias, successCallback)
@@ -357,14 +371,6 @@ JPushModule.getLaunchAppNotification( notification => {
 
   ```
   JPushInterface.init(this);
-  ```
-
-* #### resumePush
-
-  恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
-
-  ```
-  JPushInterface.onResume(this);
   ```
 
 * #### crashLogOFF
