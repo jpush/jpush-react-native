@@ -74,7 +74,7 @@ JPushModule.stopPush();
   // iOS - javascirpt
   JPushModule.resumePush();
   ```
-  
+
 #### setAlias
 
 * setAlias(alias, successCallback)
@@ -199,7 +199,7 @@ JPushModule.clearNotificationById(id);
 
 #### 点击推送事件
 
-**NOTE**: iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**: iOS 需要安装到 jpush-react-native@2.0.0+ 。参数 function 不能复用，不能用于其他 add****Listener 的方法。
 
 * addReceiveOpenNotificationListener(function)
 
@@ -216,7 +216,7 @@ JPushModule.clearNotificationById(id);
 
 #### 接收推送事件
 
-**NOTE**: iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**: iOS 需要安装到 jpush-react-native@2.0.0+ 。参数 function 不能复用，不能用于其他 add****Listener 的方法。
 
 * addReceiveNotificationListener(function)
 
@@ -235,7 +235,7 @@ JPushModule.clearNotificationById(id);
 
 #### 接收自定义消息事件
 
-**NOTE**: iOS 需要安装到 jpush-react-native@2.0.0+ 。
+**NOTE**: iOS 需要安装到 jpush-react-native@2.0.0+ 。参数 function 不能复用，不能用于其他 add****Listener 的方法。
 
 * addReceiveCustomMsgListener(function)
 
