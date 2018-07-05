@@ -162,7 +162,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
                 case RECEIVE_CUSTOM_MESSAGE:
                     WritableMap map = Arguments.createMap();
                     map.putInt("id", mCachedBundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID));
-                    map.putString("message", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
+                    map.putString("content", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
+                    map.putString("content_type", mCachedBundle.getString(JPushInterface.EXTRA_CONTENT_TYPE));
+                    map.putString("title", mCachedBundle.getString(JPushInterface.EXTRA_TITLE));
                     map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, map);
@@ -177,7 +179,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
                             .emit(mEvent, map);
                     break;
             }
-                 
+
             mEvent = null;
             mCachedBundle = null;
         }
