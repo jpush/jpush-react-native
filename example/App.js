@@ -228,7 +228,7 @@ export default class App extends Component {
 
     JPushModule.addReceiveCustomMsgListener(map => {
       this.setState({
-        pushMsg: map.message
+        pushMsg: map.content
       })
       console.log('extras: ' + map.extras)
     })
