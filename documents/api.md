@@ -1,6 +1,7 @@
 [English document](api_en.md)
 
 * [Common API](#common-api)
+  * [initPush](#initpush)
   * [getRegistrationID](#getregistrationid)
   * [stopPush](#stoppush)
   * [resumePush](#resumepush)
@@ -24,7 +25,6 @@
   * [点击推送启动应用事件](#open-notification-launch-app-event)
   * [网络成功登陆事件](#network-did-login-event)
 * [Android Only API](#android-only-api)
-  * [initPush](#initpush)
   * [crashLogOFF](#crashlogoff)
   * [crashLogON](#crashlogno)
   * [notifyJSDidLoad](#notifyjsdidload)
@@ -37,12 +37,26 @@
   * [addGetRegistrationIdListener](#addgetregistrationIdlistener)
   * [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
-注意: 在 Android 需要先调用 `initPush` 方法, iOS 端不需要。
+注意: 需要调用先调用 `initPush` 方法才能正常使用。
 
 ### Common API
 
 Android 和 iOS 通用 API。
 
+#### initPush
+
+初始化 JPush，这个方法初始化推送功能 iOS 会弹出获取推送权限的提示框（注意这个系统提示框只会触发一次，如果用户首次不同意，之后需要用户到设置中修改推送权限）。
+
+```
+JPushModule.initPush()
+```
+
+Android 建议在原生 `MainActivity` 的 `onCreate` 中调用：
+
+```
+// java 原生代码
+JPushInterface.init(this);
+```
 #### getRegistrationID
 
 * getRegistrationID(function)
@@ -61,20 +75,19 @@ Android 和 iOS 通用 API。
 JPushModule.stopPush();
 ```
 
-* #### resumePush
+#### resumePush
 
-  恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
+恢复推送。建议在 `MainActivity` 的 `onResume` 中调用：
 
-  ```
-  // android native java
-  JPushInterface.onResume(this);
-  ```
+```
+// android native java
+JPushInterface.onResume(this);
+```
 
-  ```
-  // iOS - javascirpt
-  JPushModule.resumePush();
-  ```
-
+```
+// iOS - javascirpt
+JPushModule.resumePush();
+```
 #### setAlias
 
 * setAlias(alias, successCallback)
@@ -365,13 +378,6 @@ JPushModule.getLaunchAppNotification( notification => {
 
 ### Android Only API
 
-* #### initPush
-
-  初始化 JPush。建议在 `MainActivity` 的 `onCreate` 中调用：
-
-  ```
-  JPushInterface.init(this);
-  ```
 
 * #### crashLogOFF
 
