@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		624386D71E096B8800F69E07 /* RCTJPushActionQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
-		626A78821FA336AA0074D518 /* libjpush-ios-3.0.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 626A78811FA336AA0074D518 /* libjpush-ios-3.0.7.a */; };
+		62854FE720F76769001F09E3 /* libjpush-ios-3.0.9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62854FE620F76769001F09E3 /* libjpush-ios-3.0.9.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,13 +25,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		623D05801EA4D29100F31FBE /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushActionQueue.h; sourceTree = "<group>"; };
 		624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushActionQueue.m; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
-		626A78811FA336AA0074D518 /* libjpush-ios-3.0.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpush-ios-3.0.7.a"; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		62854FE520F76769001F09E3 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		62854FE620F76769001F09E3 /* libjpush-ios-3.0.9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpush-ios-3.0.9.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				626A78821FA336AA0074D518 /* libjpush-ios-3.0.7.a in Frameworks */,
+				62854FE720F76769001F09E3 /* libjpush-ios-3.0.9.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +65,8 @@
 		6280980C1CEDC407000D3A81 /* RCTJPushModule */ = {
 			isa = PBXGroup;
 			children = (
-				626A78811FA336AA0074D518 /* libjpush-ios-3.0.7.a */,
-				623D05801EA4D29100F31FBE /* JPUSHService.h */,
+				62854FE520F76769001F09E3 /* JPUSHService.h */,
+				62854FE620F76769001F09E3 /* libjpush-ios-3.0.9.a */,
 				624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */,
 				624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */,
 				624386D31E096B8800F69E07 /* RCTJPushModule.h */,

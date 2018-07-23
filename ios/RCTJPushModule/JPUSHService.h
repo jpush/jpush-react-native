@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.0.7
+#define JPUSH_VERSION_NUMBER 3.0.9
 
 #import <Foundation/Foundation.h>
 
@@ -493,6 +493,20 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  */
 + (void)resetBadge;
 
+///----------------------------------------------------
+/// @name Other Feature 其他功能
+///----------------------------------------------------
+
+/*!
+ * @abstract 设置手机号码(到服务器)
+ *
+ * @param mobileNumber 手机号码. 会与用户信息一一对应。可为空，为空则清除号码
+ * @param completion 响应回调。成功则error为空，失败则error带有错误码及错误信息
+ *
+ * @discussion 设置手机号码后，可实现“推送不到短信到”的通知方式，提高推送达到率。结果信息通过completion异步返回，也可将completion设置为nil不处理结果信息。
+ *
+ */
++ (void)setMobileNumber:(NSString *)mobileNumber completion:(void (^)(NSError *error))completion;
 
 ///----------------------------------------------------
 /// @name Logs and others 日志与其他
@@ -535,7 +549,6 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  * 建议在发布的版本里, 调用此接口, 关闭掉日志打印.
  */
 + (void)setLogOFF;
-
 
 ///----------------------------------------------------
 ///********************下列方法已过期********************
