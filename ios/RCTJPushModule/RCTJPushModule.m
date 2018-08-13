@@ -785,6 +785,13 @@ RCT_EXPORT_METHOD(getRegistrationID:(RCTResponseSenderBlock)callback) {// -> str
   NSLog(@"simulator can not get registrationid");
   callback(@[@""]);
 #elif TARGET_OS_IPHONE//真机
+    if ([JPUSHService registrationID] != nil && ![[JPUSHService registrationID] isEqualToString:@""]) {
+            // 如果已经成功获取 registrationID，从本地获取直接缓存
+            callback(@[[JPUSHService registrationID]]);
+            return;
+    }
+    
+  //    第一次获取时需要 jpush login 状态
   if (_isJPushDidLogin) {
     callback(@[[JPUSHService registrationID]]);
   } else {
