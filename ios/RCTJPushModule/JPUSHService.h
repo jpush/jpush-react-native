@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.0.9
+#define JPUSH_VERSION_NUMBER 3.1.0
 
 #import <Foundation/Foundation.h>
 
@@ -304,23 +304,26 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  * @abstract 开始记录页面停留
  *
  * @param pageName 页面名称
+ * @discussion JCore 1.1.8 版本后，如需统计页面流，请使用 JAnalytics
  */
-+ (void)startLogPageView:(NSString *)pageName;
++ (void)startLogPageView:(NSString *)pageName __attribute__((deprecated("JCore 1.1.8 版本已过期")));
 
 /*!
  * @abstract 停止记录页面停留
  *
  * @param pageName 页面
+ * @discussion JCore 1.1.8 版本后，如需统计页面流，请使用 JAnalytics
  */
-+ (void)stopLogPageView:(NSString *)pageName;
++ (void)stopLogPageView:(NSString *)pageName __attribute__((deprecated("JCore 1.1.8 版本已过期")));
 
 /*!
  * @abstract 直接上报在页面的停留时间
  *
  * @param pageName 页面
  * @param seconds 停留的秒数
+ * @discussion JCore 1.1.8 版本后，如需统计页面流，请使用 JAnalytics
  */
-+ (void)beginLogPageView:(NSString *)pageName duration:(int)seconds;
++ (void)beginLogPageView:(NSString *)pageName duration:(int)seconds __attribute__((deprecated("JCore 1.1.8 版本已过期")));
 
 /*!
  * @abstract 开启Crash日志收集
@@ -375,7 +378,7 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  * @abstract 查找推送 (支持iOS10，并兼容iOS10以下版本)
  *
  * JPush 2.1.9新接口
- * @param identifier JPushNotificationIdentifier类型，iOS10以上可以通过设置identifier.delivered和identifier.identifiers来查找相应在通知中心显示推送或待推送请求，identifier.identifiers如果设置为nil或空数组则返回相应标志下所有在通知中心显示推送或待推送请求；iOS10以下identifier.delivered属性无效，identifier.identifiers如果设置nil或空数组则返回所有推送。须要设置identifier.findCompletionHandler回调才能得到查找结果，通过(NSArray *results)返回相应对象数组。
+ * @param identifier JPushNotificationIdentifier类型，iOS10以上可以通过设置identifier.delivered和identifier.identifiers来查找相应在通知中心显示推送或待推送请求，identifier.identifiers如果设置为nil或空数组则返回相应标志下所有在通知中心显示推送或待推送请求；iOS10以下identifier.delivered属性无效，identifier.identifiers如果设置nil或空数组则返回所有未触发的推送。须要设置identifier.findCompletionHandler回调才能得到查找结果，通过(NSArray *results)返回相应对象数组。
  * @discussion 旧的查找推送接口被废弃，使用此接口可以替换
  *
  */
