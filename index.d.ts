@@ -6,6 +6,22 @@ interface JInfoMap {
   myVersion: string
 }
 
+type ExtraData = {
+  [key: string]: any
+}
+
+interface LocalNotificationOptions {
+  buildId: 1 | 2     // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
+  id: number         // 通知的 id, 可用于取消通知
+  title: string      // 通知标题
+  content: string    // 通知内容
+  fireTime: number   // 通知触发时间的时间戳（毫秒）
+  extra?: ExtraData  // extra 字段
+  badge?: number     // 本地推送触发后应用角标的 badge 值  （iOS Only）
+  soundName?: string // 指定推送的音频文件 （iOS Only）
+  subtitle?: string  // 子标题 （iOS10+ Only）
+}
+
 type JSuccessCallback<T = undefined> = (result: T) => void
 type JFailCallback = (result: { errorCode: number }) => void
 type JResultCallback<T = undefined> = (result: T) => void
@@ -291,7 +307,7 @@ declare class JPush {
      *    'subtitle': String    // 子标题 （iOS10+ Only）
 	 *  }
 	 */
-  static sendLocalNotification(notification: Object): void
+  static sendLocalNotification(notification: LocalNotificationOptions): void
 
   /**
    * iOS Only
