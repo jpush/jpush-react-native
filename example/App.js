@@ -17,10 +17,10 @@ import {
 
 import JPushModule from 'jpush-react-native'
 
-const receiveCustomMsgEvent = 'receivePushMsg'
-const receiveNotificationEvent = 'receiveNotification'
-const openNotificationEvent = 'openNotification'
-const getRegistrationIdEvent = 'getRegistrationId'
+// const receiveCustomMsgEvent = 'receivePushMsg'
+// const receiveNotificationEvent = 'receiveNotification'
+// const openNotificationEvent = 'openNotification'
+// const getRegistrationIdEvent = 'getRegistrationId'
 
 export default class App extends Component {
   constructor (props) {
@@ -226,50 +226,38 @@ export default class App extends Component {
       JPushModule.setupPush()
     }
 
-    JPushModule.addReceiveCustomMsgListener(map => {
+    this.receiveCustomMsgListener = map => {
       this.setState({
         pushMsg: map.content
       })
       console.log('extras: ' + map.extras)
-    })
+    }
 
-    JPushModule.addReceiveNotificationListener(map => {
+    JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
+    this.receiveNotificationListener = map => {
       console.log('alertContent: ' + map.alertContent)
       console.log('extras: ' + map.extras)
-      // var extra = JSON.parse(map.extras);
-      // console.log(extra.key + ": " + extra.value);
-    })
+    }
+    JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
 
-    JPushModule.addReceiveOpenNotificationListener(map => {
+    this.openNotificationListener = map => {
       console.log('Opening notification!')
       console.log('map.extra: ' + map.extras)
       this.jumpSecondActivity()
-      // JPushModule.jumpToPushActivity("SecondActivity");
-    })
+    }
+    JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)
 
-    JPushModule.addGetRegistrationIdListener(registrationId => {
+    this.getRegistrationIdListener = registrationId => {
       console.log('Device register succeed, registrationId ' + registrationId)
-    })
-
-    // var notification = {
-    //   buildId: 1,
-    //   id: 5,
-    //   title: 'jpush',
-    //   content: 'This is a test!!!!',
-    //   extra: {
-    //     key1: 'value1',
-    //     key2: 'value2'
-    //   },
-    //   fireTime: 2000
-    // }
-    // JPushModule.sendLocalNotification(notification)
+    }
+    JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener)
   }
 
   componentWillUnmount () {
-    JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent)
-    JPushModule.removeReceiveNotificationListener(receiveNotificationEvent)
-    JPushModule.removeReceiveOpenNotificationListener(openNotificationEvent)
-    JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent)
+    JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
+    JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
+    JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
+    JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
     console.log('Will clear all notifications')
     JPushModule.clearAllNotifications()
   }
