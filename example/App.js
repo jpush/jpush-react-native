@@ -67,6 +67,10 @@ export default class App extends Component {
     console.log('Stop push press')
   }
 
+  onHasPermission () {
+    JPushModule.hasPermission( res => console.log(`onHasPermission ${res}`) )
+  }
+
   onResumePress () {
     JPushModule.resumePush()
     console.log('Resume push press')
@@ -285,6 +289,14 @@ export default class App extends Component {
           onPress={this.onStopPress}
         >
           <Text style={styles.btnTextStyle}>STOPPUSH</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          underlayColor='#e4083f'
+          activeOpacity={0.5}
+          style={styles.btnStyle}
+          onPress={this.onHasPermission}
+        >
+          <Text style={styles.btnTextStyle}>HasPermission</Text>
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor='#f5a402'
