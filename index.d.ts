@@ -61,6 +61,11 @@ declare class JPush {
   static getConnectionState(cb: JResultCallback<boolean>): void
 
   /**
+   * iOS Only
+   * 获取应用是否有推送权限
+   */
+  static hasPermission(cb: JResultCallback<boolean>): void
+  /**
    * 重新设置 Tag
    */
   static setTags(
