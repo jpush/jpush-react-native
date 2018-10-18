@@ -24,6 +24,7 @@
   * [getLaunchAppNotification](#getlaunchappnotification)
   * [点击推送启动应用事件](#open-notification-launch-app-event)
   * [网络成功登陆事件](#network-did-login-event)
+  * [hasPermission](#haspermission)
 * [Android Only API](#android-only-api)
   * [crashLogOFF](#crashlogoff)
   * [crashLogON](#crashlogno)
@@ -333,6 +334,16 @@ JPushModule.getLaunchAppNotification( notification => {
   } else {
     // 说明是 remote notification
   }
+})
+```
+
+#### hasPermission
+
+获取应用是否有推送权限。
+
+```
+JPushModule.hasPermission( res => {
+  // res = boolen
 })
 ```
 
