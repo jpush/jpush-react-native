@@ -13,6 +13,8 @@
   * [Receive Notification event](#receive-notification-event)
   * [Receive Custom Message Event](#receive-custom-message-event)
   * [sendLocalNotification](#sendlocalnotification)
+  * [removeLocalNotification](#removeLocalNotification)
+  * [clearLocalNotifications](#clearLocalNotifications)
   * [clearAllNotifications](#clearallnotifications)
   * [clearNotificationById](#clearnotificationbyId)
 * [iOS Only API](#ios-only-api)
@@ -148,6 +150,23 @@ reset tags.
     title: 'title'
   })
   ```
+
+#### clearLocalNotifications
+
+Removes all local notifications
+
+```
+JPushModule.clearLocalNotifications();
+```
+
+#### removeLocalNotification
+
+Remove the specified local notification by notificationId(int type)。
+
+```
+var notificationId = 5;
+JPushModule.removeLocalNotification(id);
+```
 
 #### clearAllNotifications
 

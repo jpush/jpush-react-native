@@ -515,6 +515,25 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
         }
     }
 
+    @ReactMethod
+    public void removeLocalNotification(int id) {
+        try {
+            Logger.d(TAG, "removeLocalNotification："+id);
+            JPushInterface.removeLocalNotification(getReactApplicationContext(), id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @ReactMethod
+    public void clearLocalNotifications() {
+        try {
+            Logger.d(TAG, "clearLocalNotifications");
+            JPushInterface.clearLocalNotifications(getReactApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onHostResume() {
         Logger.d(TAG, "onHostResume");
