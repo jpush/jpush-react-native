@@ -628,6 +628,28 @@ export default class JPush {
   }
 
   /**
+  * 移除所有的本地通知
+  */
+  static clearLocalNotifications() {
+    if (Platform.OS == "android") {
+      JPushModule.clearLocalNotifications()
+    } else {
+      
+    }
+  }
+
+  /**
+   * 移除指定的本地通知
+   */
+  static removeLocalNotification(id) {
+    if (Platform.OS == "android") {
+      JPushModule.removeLocalNotification(id)
+    } else {
+
+    }
+  }
+
+  /**
    * iOS Only
    * 设置应用 Badge（小红点）
    * @param {Int} badge
