@@ -870,11 +870,16 @@ RCT_EXPORT_METHOD(clearAllNotifications) {
   }
 }
 
-RCT_EXPORT_METHOD(clearNotificationById:(NSInteger)identify) {
+RCT_EXPORT_METHOD(removeLocalNotification:(NSInteger)identify) {
   JPushNotificationIdentifier *pushIdentify = [[JPushNotificationIdentifier alloc] init];
   pushIdentify.identifiers = @[[@(identify) description]];
   [JPUSHService removeNotification: pushIdentify];
 }
+
+RCT_EXPORT_METHOD(clearLocalNotifications) {
+  [JPUSHService removeNotification: nil];
+}
+
 
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
   NSDictionary * userInfo = notification.request.content.userInfo;
