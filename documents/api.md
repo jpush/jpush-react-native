@@ -210,7 +210,7 @@ JPushModule.clearLocalNotifications();
 
 ```
 var notificationId = 5;
-JPushModule.removeLocalNotification(id);
+JPushModule.removeLocalNotification(notificationId);
 ```
 
 #### clearAllNotifications
@@ -227,7 +227,7 @@ JPushModule.clearAllNotifications();
 
 ```
 var notificationId = 5;
-JPushModule.clearNotificationById(id);
+JPushModule.clearNotificationById(notificationId);
 ```
 
 #### 点击推送事件
