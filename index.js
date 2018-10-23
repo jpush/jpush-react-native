@@ -99,10 +99,15 @@ export default class JPush {
   }
 
   /**
-   * Android Only
+   * Android Only.
+   * 删除通知栏指定的推送。
    */
   static clearNotificationById (id) {
-    JPushModule.clearNotificationById(id)
+    if (Platform.OS == "android") {
+      JPushModule.clearNotificationById(id)
+    } else {
+      console.warn("iOS 没有提供该方法！")
+    }
   }
 
   /**
@@ -625,6 +630,20 @@ export default class JPush {
    */
   static sendLocalNotification (notification) {
     JPushModule.sendLocalNotification(notification)
+  }
+
+  /**
+  * 移除所有的本地通知
+  */
+  static clearLocalNotifications() {
+      JPushModule.clearLocalNotifications()
+  }
+
+  /**
+   * 移除指定未触发的本地通知。
+   */
+  static removeLocalNotification(id) {
+      JPushModule.removeLocalNotification(id)
   }
 
   /**

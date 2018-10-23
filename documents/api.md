@@ -11,6 +11,8 @@
   * [setTags](#settags)
   * [cleanTags](#cleantags)
   * [sendLocalNotification](#sendlocalnotification)
+  * [clearLocalNotifications](#clearlocalnotifications)
+  * [removeLocalNotification](#removelocalnotification)
   * [clearAllNotifications](#clearallnotifications)
   * [clearNotificationById](#clearnotificationbyId)
   * [点击推送事件](#点击推送事件)
@@ -194,6 +196,23 @@ JPushModule.resumePush();
   })
   ```
 
+#### clearLocalNotifications
+
+移除所有的本地通知
+
+```
+JPushModule.clearLocalNotifications();
+```
+
+#### removeLocalNotification
+
+根据 notificationId 移除指定的本地通知, notificationId 为 int 类型。
+
+```
+var notificationId = 5;
+JPushModule.removeLocalNotification(notificationId);
+```
+
 #### clearAllNotifications
 
 清除所有通知
@@ -208,7 +227,7 @@ JPushModule.clearAllNotifications();
 
 ```
 var notificationId = 5;
-JPushModule.clearNotificationById(id);
+JPushModule.clearNotificationById(notificationId);
 ```
 
 #### 点击推送事件

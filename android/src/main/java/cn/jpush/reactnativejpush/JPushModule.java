@@ -12,6 +12,7 @@ import android.util.SparseArray;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -39,7 +40,7 @@ import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.service.JPushMessageReceiver;
 
-public class JPushModule extends ReactContextBaseJavaModule {
+public class JPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
     private static String TAG = "JPushModule";
     private Context mContext;
@@ -62,6 +63,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     public JPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -83,6 +85,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @Override
     public void onCatalystInstanceDestroy() {
         super.onCatalystInstanceDestroy();
+        Logger.i(TAG, "onCatalystInstanceDestroy");
         mCachedBundle = null;
         mRidBundle = null;
         mConnectCachedBundle = null;
@@ -93,6 +96,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         mRidEvent = null;
         mConnectEvent = null;
         mGetRidCallback = null;
+        mRAC = null;
     }
 
     @ReactMethod
@@ -509,6 +513,41 @@ public class JPushModule extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @ReactMethod
+    public void removeLocalNotification(int id) {
+        try {
+            Logger.d(TAG, "removeLocalNotification："+id);
+            JPushInterface.removeLocalNotification(getReactApplicationContext(), id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @ReactMethod
+    public void clearLocalNotifications() {
+        try {
+            Logger.d(TAG, "clearLocalNotifications");
+            JPushInterface.clearLocalNotifications(getReactApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onHostResume() {
+        Logger.d(TAG, "onHostResume");
+    }
+
+    @Override
+    public void onHostPause() {
+        Logger.d(TAG, "onHostPause");
+    }
+
+    @Override
+    public void onHostDestroy() {
+        Logger.d(TAG, "onHostDestroy");
+        mRAC = null;
     }
 
     /**
