@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/jpush/jpush-react-native#readme",
   "peerDependencies": {
-    "jcore-react-native": ">= 1.2.10"
+    "jcore-react-native": ">= 1.2.11"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
