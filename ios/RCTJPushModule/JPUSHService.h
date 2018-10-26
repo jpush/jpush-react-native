@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.1.0
+#define JPUSH_VERSION_NUMBER 3.1.1
 
 #import <Foundation/Foundation.h>
 
@@ -40,6 +40,11 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
     JPAuthorizationOptionBadge   = (1 << 0),    // the application may badge its icon upon a notification being received
     JPAuthorizationOptionSound   = (1 << 1),    // the application may play a sound upon a notification being received
     JPAuthorizationOptionAlert   = (1 << 2),    // the application may display an alert upon a notification being received
+    JPAuthorizationOptionCarPlay = (1 << 3),    // The ability to display notifications in a CarPlay environment.
+    JPAuthorizationOptionCriticalAlert NS_AVAILABLE_IOS(12.0) = (1 << 4) ,   //The ability to play sounds for critical alerts.
+    JPAuthorizationOptionProvidesAppNotificationSettings NS_AVAILABLE_IOS(12.0) = (1 << 5) ,      //An option indicating the system should display a button for in-app notification settings.
+    JPAuthorizationOptionProvisional NS_AVAILABLE_IOS(12.0) = (1 << 6) ,     //The ability to post noninterrupting notifications provisionally to the Notification Center.
+  
 };
 
 /*!
@@ -73,6 +78,17 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
 @end
 
 /*!
+ * 推送通知声音实体类
+ * iOS10以上有效
+ */
+@interface JPushNotificationSound : NSObject <NSCopying, NSCoding>
+@property (nonatomic, copy) NSString *soundName; //普通通知铃声
+@property (nonatomic, copy) NSString *criticalSoundName NS_AVAILABLE_IOS(12.0); //警告通知铃声
+@property (nonatomic, assign) float criticalSoundVolume NS_AVAILABLE_IOS(12.0); //警告通知铃声音量，有效值在0~1之间，默认为1
+@end
+
+
+/*!
  * 推送内容实体类
  */
 @interface JPushNotificationContent : NSObject<NSCopying, NSCoding>
@@ -85,11 +101,15 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
 @property (nonatomic, copy) NSString *categoryIdentifier;   // 行为分类标识
 @property (nonatomic, copy) NSDictionary *userInfo;         // 本地推送时可以设置userInfo来增加附加信息，远程推送时设置的payload推送内容作为此userInfo
 @property (nonatomic, copy) NSString *sound;                // 声音名称，不设置则为默认声音
+@property (nonatomic, copy) JPushNotificationSound *soundSetting NS_AVAILABLE_IOS(10.0);   //推送声音实体
 @property (nonatomic, copy) NSArray *attachments NS_AVAILABLE_IOS(10_0);                 // 附件，iOS10以上有效，需要传入UNNotificationAttachment对象数组类型
 @property (nonatomic, copy) NSString *threadIdentifier NS_AVAILABLE_IOS(10_0); // 线程或与推送请求相关对话的标识，iOS10以上有效，可用来对推送进行分组
 @property (nonatomic, copy) NSString *launchImageName NS_AVAILABLE_IOS(10_0);  // 启动图片名，iOS10以上有效，从推送启动时将会用到
+@property (nonatomic, copy) NSString *summaryArgument NS_AVAILABLE_IOS(12.0);  //插入到通知摘要中的部分参数。iOS12以上有效。
+@property (nonatomic, assign) NSUInteger summaryArgumentCount NS_AVAILABLE_IOS(12.0); //插入到通知摘要中的项目数。iOS12以上有效。
 
 @end
+
 
 /*!
  * 推送触发方式实体类
@@ -607,5 +627,12 @@ callbackSelector:(SEL)cbSelector
  * @param completionHandler
  */
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler;
+
+/*
+ * @brief handle UserNotifications.framework [openSettingsForNotification:]
+ * @param center [UNUserNotificationCenter currentNotificationCenter] 新特性用户通知中心
+ * @param notification 当前管理的通知对象
+ */
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(nullable UNNotification *)notification NS_AVAILABLE_IOS(12.0);
 
 @end
