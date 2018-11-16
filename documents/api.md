@@ -18,6 +18,7 @@
   * [点击推送事件](#点击推送事件)
   * [接收推送事件](#接收推送事件)
   * [接收自定义消息事件](#接收自定义消息事件)
+  * [hasPermission](#haspermission)
 * [iOS Only API](#ios-only-api)
   * [setupPush](#setuppush)
   * [setBadge](#setbadge)
@@ -26,7 +27,6 @@
   * [getLaunchAppNotification](#getlaunchappnotification)
   * [点击推送启动应用事件](#open-notification-launch-app-event)
   * [网络成功登陆事件](#network-did-login-event)
-  * [hasPermission](#haspermission)
 * [Android Only API](#android-only-api)
   * [crashLogOFF](#crashlogoff)
   * [crashLogON](#crashlogno)
@@ -285,6 +285,17 @@ JPushModule.clearNotificationById(notificationId);
   JPushModule.removeReceiveCustomMsgListener(callback);
   ```
 
+
+#### hasPermission
+
+获取应用是否有推送权限。
+
+```
+JPushModule.hasPermission( res => {
+  // res = boolen
+})
+```
+
 ### iOS Only API
 
 #### setupPush
@@ -353,16 +364,6 @@ JPushModule.getLaunchAppNotification( notification => {
   } else {
     // 说明是 remote notification
   }
-})
-```
-
-#### hasPermission
-
-获取应用是否有推送权限。
-
-```
-JPushModule.hasPermission( res => {
-  // res = boolen
 })
 ```
 
