@@ -36,19 +36,15 @@ export default class JPush {
   }
 
 
-
   /**
-   * iOS Only
    * 判断是否成功授权推送（或是否在设置中成功开启推送功能）
    * 
    * @param {Function} cb
    */
   static hasPermission (cb) {
-    if (Platform.OS == "ios") {
-      JPushModule.hasPermission(res => {
-        cb(res)
-      })
-    }
+    JPushModule.hasPermission(res => {
+      cb(res)
+    })
   }
 
   /**

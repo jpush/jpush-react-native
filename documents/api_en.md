@@ -17,6 +17,7 @@
   * [clearLocalNotifications](#clearlocalnotifications)
   * [clearAllNotifications](#clearallnotifications)
   * [clearNotificationById](#clearnotificationbyId)
+  * [hasPermission](#haspermission)
 * [iOS Only API](#ios-only-api)
   * [setupPush](#setuppush)
   * [setBadge](#setbadge)
@@ -239,6 +240,16 @@ JPushModule.clearNotificationById(id);
   ```javascript
   JPushModule.removeReceiveCustomMsgListener(callback)
   ```
+
+#### hasPermission
+
+获取应用是否有推送权限。
+
+```
+JPushModule.hasPermission( res => {
+  // res = boolen
+})
+```
 
 ### iOS Only API
 
