@@ -40,7 +40,7 @@
   * [addGetRegistrationIdListener](#addgetregistrationidlistener)
   * [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
-**Note**: In Android, you must call initPush first, iOS doesn't need.
+**Note**: You must call initPush first.
 
 ### Common API
 
