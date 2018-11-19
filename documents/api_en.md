@@ -1,6 +1,7 @@
 [中文文档](api.md)
 
 * [Common API](#common-api)
+  * [initPush](#initpush)
   * [getRegistrationID](#getregistrationid)
   * [stopPush](#stoppush)
   * [resumePush](#resumepush)
@@ -27,7 +28,6 @@
   * [Open Notification Launch App Event](#open-notification-launch-app-event)
   * [Network Did Login Event](#network-did-login-event)
 * [Android Only API](#android-only-api)
-  * [initPush](#initpush)
   * [crashLogOFF](#crashlogoff)
   * [crashLogON](#crashlogon)
   * [notifyJSDidLoad](#notifyjsdidload)
@@ -40,7 +40,7 @@
   * [addGetRegistrationIdListener](#addgetregistrationidlistener)
   * [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
-**Note**: In Android, you must call initPush first, iOS doesn't need.
+**Note**: You must call initPush first.
 
 ### Common API
 
