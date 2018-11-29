@@ -74,10 +74,10 @@ android {
 }
 ...
 dependencies {
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile project(':jpush-react-native')  // add jpush dependency
-    compile project(':jcore-react-native')  // add jcore dependency
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':jpush-react-native')  // add jpush dependency
+    implementation project(':jcore-react-native')  // add jcore dependency
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 ```
 

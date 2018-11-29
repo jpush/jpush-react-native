@@ -81,10 +81,10 @@ android {
 }
 ...
 dependencies {
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile project(':jpush-react-native')  // 添加 jpush 依赖
-    compile project(':jcore-react-native')  // 添加 jcore 依赖
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':jpush-react-native')  // 添加 jpush 依赖
+    implementation project(':jcore-react-native')  // 添加 jcore 依赖
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 ```
 
