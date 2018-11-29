@@ -98,16 +98,17 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.pushdemo"
+        applicationId "com.test.josh" //替换包名：
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
         manifestPlaceholders = [
-                JPUSH_APPKEY: "d4ee2375846bc30fa51334f5",   //在此替换你的APPKey
+                JPUSH_APPKEY: "7b4b94cca0d185d611e53cca",   //在此替换你的APPKey
                 APP_CHANNEL : "developer-default"           //应用渠道号
         ]
     }
@@ -141,11 +142,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':jpush-react-native')
-    api project(':jcore-react-native')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.facebook.react:react-native:+'
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':jcore-react-native')
+    implementation project(':jpush-react-native')
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.facebook.react:react-native:+'
     // From node_modules
 }
 
