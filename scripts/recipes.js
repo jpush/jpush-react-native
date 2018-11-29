@@ -34,8 +34,8 @@ project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '..
     {
       pattern: 'dependencies {',
       patch: `
-    compile project(':jcore-react-native')
-    compile project(':jpush-react-native')`
+    implementation project(':jcore-react-native')
+    implementation project(':jpush-react-native')`
     },
     {
       pattern: `versionName .*`,
