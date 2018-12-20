@@ -462,12 +462,15 @@ JPushModule.getLaunchAppNotification( notification => {
 
 * #### setGeofenceInterval
 
+  Supported version: v2.5.0 
 
   ```
   JPushModule.setGeofenceInterval(interval);
   ```
   ​
 * #### setMaxGeofenceNumber
+
+  Supported version: v2.5.0
 
   ```
   JPushModule.setMaxGeofenceNumber(maxNumber);
