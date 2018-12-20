@@ -273,7 +273,9 @@ export default class JPush {
    * Android Only
    */
   static setLatestNotificationNumber (maxNumber) {
-    JPushModule.setLatestNotificationNumber(maxNumber)
+    if (Platform.OS == "android") {
+      JPushModule.setLatestNotificationNumber(maxNumber)
+    }
   }
 
   /**
@@ -281,7 +283,9 @@ export default class JPush {
    * @param {object} config = {"startTime": String, "endTime": String}  // 例如：{startTime: "20:30", endTime: "8:30"}
    */
   static setSilenceTime (config) {
-    JPushModule.setSilenceTime(config)
+    if (Platform.OS == "android") {
+      JPushModule.setSilenceTime(config)
+    }
   }
 
   /**
@@ -290,7 +294,25 @@ export default class JPush {
    * // 例如：{days: [0, 6], startHour: 8, endHour: 23} 表示星期天和星期六的上午 8 点到晚上 11 点都可以推送
    */
   static setPushTime (config) {
-    JPushModule.setPushTime(config)
+    if (Platform.OS == "android") {
+      JPushModule.setPushTime(config)
+    }
+  }
+
+  /**
+   * Android Only
+   */
+  static setGeofenceInterval(interval) {
+    if (Platform.OS == "android") {
+      JPushModule.setGeofenceInterval(interval)
+    }
+  }
+
+  /**
+   * Android Only
+   */
+  static setMaxGeofenceNumber(maxNumber) {
+    JPushModule.setMaxGeofenceNumber(maxNumber)
   }
 
   /**

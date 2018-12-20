@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.facebook.react.bridge.Arguments;
@@ -381,7 +382,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
      */
     @ReactMethod
     public void setStyleBasic() {
-        mContext = getReactApplicationContext();
+        mContext = getCurrentActivity();
         if (mContext != null) {
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(mContext);
             builder.statusBarDrawable = IdHelper.getDrawable(mContext, "ic_launcher");
@@ -399,7 +400,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
      */
     @ReactMethod
     public void setStyleCustom() {
-        mContext = getReactApplicationContext();
+        mContext = getCurrentActivity();
         CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(mContext
                 , IdHelper.getLayout(mContext, "customer_notification_layout"),
                 IdHelper.getViewID(mContext, "icon"), IdHelper.getViewID(mContext, "title"),
@@ -499,6 +500,28 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
             String[] eTime = endTime.split(":");
             JPushInterface.setSilenceTime(mContext, Integer.valueOf(sTime[0]), Integer.valueOf(sTime[1]),
                     Integer.valueOf(eTime[0]), Integer.valueOf(eTime[1]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @ReactMethod
+    public void setGeofenceInterval(double interval) {
+        try {
+            mContext = getReactApplicationContext();
+            JPushInterface.setGeofenceInterval(mContext, (long)interval);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @ReactMethod
+    public void setMaxGeofenceNumber(int maxNumber) {
+        try {
+            mContext = getReactApplicationContext();
+            JPushInterface.setMaxGeofenceNumber(mContext, maxNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -778,7 +801,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
     private boolean hasPermission(String appOpsServiceId) {
 
-        Context context = getCurrentActivity().getApplicationContext();
+        Context context = getReactApplicationContext();
         if (Build.VERSION.SDK_INT >= 24) {
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(
                     Context.NOTIFICATION_SERVICE);
