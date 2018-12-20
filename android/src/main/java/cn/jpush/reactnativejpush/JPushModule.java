@@ -508,7 +508,6 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
     @ReactMethod
     public void setGeofenceInterval(double interval) {
-        Log.i("tessss",interval+"interval");
         try {
             mContext = getReactApplicationContext();
             JPushInterface.setGeofenceInterval(mContext, (long)interval);
@@ -520,7 +519,6 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
     @ReactMethod
     public void setMaxGeofenceNumber(int maxNumber) {
-        Log.i("tessss",maxNumber+"maxNumber");
         try {
             mContext = getReactApplicationContext();
             JPushInterface.setMaxGeofenceNumber(mContext, maxNumber);
