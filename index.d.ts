@@ -164,6 +164,15 @@ declare class JPush {
   /**
    * Android Only
    */
+  static setGeofenceInterval(interval: number): void
+
+  /**
+   * Android Only
+   */
+  static setMaxGeofenceNumber(maxNumber: number): void
+  /**
+   * Android Only
+   */
   static jumpToPushActivity(activityName: string): void
 
   /**
