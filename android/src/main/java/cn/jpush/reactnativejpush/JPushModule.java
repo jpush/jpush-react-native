@@ -108,7 +108,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
     @ReactMethod
     public void initPush() {
-        mContext = getCurrentActivity();
+        mContext = getReactApplicationContext();
         JPushInterface.init(getReactApplicationContext());
         Logger.toast(mContext, "Init push success");
         Logger.i(TAG, "init Success!");
@@ -133,7 +133,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
     @ReactMethod
     public void stopPush() {
-        mContext = getCurrentActivity();
+        mContext = getReactApplicationContext();
         JPushInterface.stopPush(getReactApplicationContext());
         Logger.i(TAG, "Stop push");
         Logger.toast(mContext, "Stop push success");
@@ -148,7 +148,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
     @ReactMethod
     public void resumePush() {
-        mContext = getCurrentActivity();
+        mContext = getReactApplicationContext();
         JPushInterface.resumePush(getReactApplicationContext());
         Logger.i(TAG, "Resume push");
         Logger.toast(mContext, "Resume push success");
@@ -381,7 +381,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
      */
     @ReactMethod
     public void setStyleBasic() {
-        mContext = getCurrentActivity();
+        mContext = getReactApplicationContext();
         if (mContext != null) {
             BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(mContext);
             builder.statusBarDrawable = IdHelper.getDrawable(mContext, "ic_launcher");
@@ -399,7 +399,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
      */
     @ReactMethod
     public void setStyleCustom() {
-        mContext = getCurrentActivity();
+        mContext = getReactApplicationContext();
         CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(mContext
                 , IdHelper.getLayout(mContext, "customer_notification_layout"),
                 IdHelper.getViewID(mContext, "icon"), IdHelper.getViewID(mContext, "title"),
@@ -451,7 +451,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
     @ReactMethod
     public void clearNotificationById(int id) {
         try {
-            mContext = getCurrentActivity();
+            mContext = getReactApplicationContext();
             JPushInterface.clearNotificationById(mContext, id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -461,7 +461,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
     @ReactMethod
     public void setLatestNotificationNumber(int number) {
         try {
-            mContext = getCurrentActivity();
+            mContext = getReactApplicationContext();
             JPushInterface.setLatestNotificationNumber(mContext, number);
         } catch (Exception e) {
             e.printStackTrace();
@@ -471,7 +471,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
     @ReactMethod
     public void setPushTime(ReadableMap map) {
         try {
-            mContext = getCurrentActivity();
+            mContext = getReactApplicationContext();
             ReadableArray array = map.getArray("days");
             Set<Integer> days = new HashSet<Integer>();
             for (int i=0; i < array.size(); i++) {
@@ -492,7 +492,7 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
     @ReactMethod
     public void setSilenceTime(ReadableMap map) {
         try {
-            mContext = getCurrentActivity();
+            mContext = getReactApplicationContext();
             String starTime = map.getString("startTime");
             String endTime = map.getString("endTime");
             String[] sTime = starTime.split(":");
