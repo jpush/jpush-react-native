@@ -37,6 +37,8 @@
   * [setLatestNotificationNumber](#setlatestnotificationnumber)
   * [setSilenceTime](#setsilencetime)
   * [setPushTime](#setpushtime)
+  * [setGeofenceInterval](#setgeofenceinterval)
+  * [setMaxGeofenceNumber](#setmaxgeofencenumber)
   * [addGetRegistrationIdListener](#addgetregistrationidlistener)
   * [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
@@ -458,7 +460,21 @@ JPushModule.getLaunchAppNotification( notification => {
   JPushModule.setPushTime(config);
   ```
 
+* #### setGeofenceInterval
+
+  Supported version: v2.5.0 
+
+  ```
+  JPushModule.setGeofenceInterval(interval);
+  ```
   ​
+* #### setMaxGeofenceNumber
+
+  Supported version: v2.5.0
+
+  ```
+  JPushModule.setMaxGeofenceNumber(maxNumber);
+  ```
 
 * #### addGetRegistrationIdListener(^2.1.4 Deprecated, use [getRegistrationId](#getregistrationid) instead)
 

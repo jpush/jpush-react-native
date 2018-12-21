@@ -37,6 +37,8 @@
   * [setLatestNotificationNumber](#setlatestnotificationnumber)
   * [setSilenceTime](#setsilencetime)
   * [setPushTime](#setpushtime)
+  * [setGeofenceInterval](#setgeofenceinterval)
+  * [setMaxGeofenceNumber](#setmaxgeofencenumber)
   * [addGetRegistrationIdListener](#addgetregistrationIdlistener)
   * [removeGetRegistrationIdListener](#removegetregistrationidlistener)
 
@@ -494,7 +496,32 @@ JPushModule.getLaunchAppNotification( notification => {
   JPushModule.setPushTime(config);
   ```
 
+* #### setGeofenceInterval
+
+  v2.5.0 开始支持,设置地理围栏监控周期，最小3分钟，最大1天。默认为15分钟，当距离地理围栏边界小于1000米周期自动调整为3分钟。设置成功后一直使用设置周期，不会进行调整。
+  
+
+  ```
+  /**
+   * Android Only
+   * @param interval number
+   监控周期，单位是毫秒。
+   */
+  JPushModule.setGeofenceInterval(interval);
+  ```
   ​
+* #### setMaxGeofenceNumber
+
+  v2.5.0 开始支持,设置最多允许保存的地理围栏数量，超过最大限制后，如果继续创建先删除最早创建的地理围栏。默认数量为10个，允许设置最小1个，最大100个。
+
+  ```
+  /**
+   * Android Only
+   * @param maxNumber number
+   最多允许保存的地理围栏个数
+   */
+  JPushModule.setMaxGeofenceNumber(maxNumber);
+  ```
 
 * #### addGetRegistrationIdListener (^2.1.4 Deprecated, 使用 [getRegistrationId](#getregistrationid) 代替)
 
