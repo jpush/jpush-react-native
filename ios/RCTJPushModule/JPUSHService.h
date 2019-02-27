@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 3.1.1
+#define JPUSH_VERSION_NUMBER 3.1.2
 
 #import <Foundation/Foundation.h>
 
@@ -21,6 +21,7 @@
 @class UNNotificationRequest;
 @class UNNotification;
 @protocol JPUSHRegisterDelegate;
+@protocol JPUSHGeofenceDelegate;
 
 typedef void (^JPUSHTagsOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq);
 typedef void (^JPUSHTagValidOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind);
@@ -370,6 +371,19 @@ typedef NS_OPTIONS(NSUInteger, JPAuthorizationOptions) {
  */
 + (void)setLocation:(CLLocation *)location;
 
+/**
+ 设置地理围栏的最大个数
+ 默认值为 10 ，iOS系统默认地理围栏最大个数为20
+ @param count 个数 count
+ */
++ (void)setGeofenecMaxCount:(NSInteger)count;
+/**
+ 注册地理围栏的代理
+
+ @param delegate 代理
+ @param launchOptions app启动完成是收到的字段参数
+ */
++ (void)registerLbsGeofenceDelegate:(id<JPUSHGeofenceDelegate>)delegate withLaunchOptions:(NSDictionary *)launchOptions;
 
 ///----------------------------------------------------
 /// @name Local Notification 本地通知
@@ -634,5 +648,27 @@ callbackSelector:(SEL)cbSelector
  * @param notification 当前管理的通知对象
  */
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(nullable UNNotification *)notification NS_AVAILABLE_IOS(12.0);
+
+@end
+
+@protocol JPUSHGeofenceDelegate <NSObject>
+
+/**
+ 进入地理围栏区域
+ 
+ @param geofenceId 地理围栏id
+ @param userInfo 地理围栏触发时返回的信息
+ @param error 错误信息
+ */
+- (void)jpushGeofenceIdentifer:(NSString * _Nonnull)geofenceId didEnterRegion:(NSDictionary * _Nullable)userInfo error:(NSError * _Nullable)error;
+
+/**
+ 离开地理围栏区域
+ 
+ @param geofenceId 地理围栏id
+ @param userInfo 地理围栏触发时返回的信息
+ @param error 错误信息
+ */
+- (void)jpushGeofenceIdentifer:(NSString * _Nonnull)geofenceId didExitRegion:(NSDictionary * _Nullable)userInfo error:(NSError * _Nullable)error;
 
 @end

@@ -73,7 +73,8 @@
         <!-- User defined. 用户自定义的广播接收器-->
         <receiver
             android:name="cn.jpush.reactnativejpush.JPushModule$JPushReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required 用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required 用户接收SDK消息的intent-->
@@ -85,7 +86,9 @@
             </intent-filter>
         </receiver>
         <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
-        <receiver android:name="cn.jpush.reactnativejpush.JPushModule$MyJPushMessageReceiver">
+        <receiver android:name="cn.jpush.reactnativejpush.JPushModule$MyJPushMessageReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="${applicationId}" />
