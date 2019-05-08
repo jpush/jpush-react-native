@@ -29,6 +29,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -37,6 +38,7 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -181,21 +183,36 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
             switch (mEvent) {
                 case RECEIVE_CUSTOM_MESSAGE:
                     WritableMap map = Arguments.createMap();
-                    map.putInt("id", mCachedBundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID));
-                    map.putString("message", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
-                    map.putString("content", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
-                    map.putString("content_type", mCachedBundle.getString(JPushInterface.EXTRA_CONTENT_TYPE));
-                    map.putString("title", mCachedBundle.getString(JPushInterface.EXTRA_TITLE));
+                    WritableMap extrasMap =Arguments.createMap();
                     map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
+                    map.putString("content_type", mCachedBundle.getString(JPushInterface.EXTRA_CONTENT_TYPE));
+                    map.putString("content", mCachedBundle.getString(JPushInterface.EXTRA_MESSAGE));
+                    map.putString("title", mCachedBundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
+                    map.putString("id", mCachedBundle.getString(JPushInterface.EXTRA_MSG_ID));
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, map);
                     break;
                 case RECEIVE_NOTIFICATION:
                 case OPEN_NOTIFICATION:
                     map = Arguments.createMap();
-                    map.putInt("id", mCachedBundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID));
-                    map.putString("alertContent", mCachedBundle.getString(JPushInterface.EXTRA_ALERT));
-                    map.putString("extras", mCachedBundle.getString(JPushInterface.EXTRA_EXTRA));
+                    extrasMap =Arguments.createMap();
+                    try {
+                        String string = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
+                        JSONObject jsonObject = new JSONObject(string);
+                        Iterator it = jsonObject.keys();
+                        while (it.hasNext()) {
+                            String key = (String)it.next();
+                            String value = jsonObject.getString(key);
+                            extrasMap.putString(key,value);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    map.putMap("extras",extrasMap);
+                    map.putString("content_type", mCachedBundle.getString(JPushInterface.EXTRA_ALERT_TYPE));
+                    map.putString("content", mCachedBundle.getString(JPushInterface.EXTRA_ALERT));
+                    map.putString("title", mCachedBundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
+                    map.putString("id", mCachedBundle.getString(JPushInterface.EXTRA_MSG_ID));
                     mRAC.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(mEvent, map);
                     break;
@@ -599,12 +616,9 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
 
         @Override
         public void onReceive(Context context, Intent data) {
-
             if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(data.getAction())) {
                 mCachedBundle = data.getExtras();
                 try {
-                    String message = data.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-                    Logger.i(TAG, "收到自定义消息: " + message);
                     mEvent = RECEIVE_CUSTOM_MESSAGE;
                     if (mRAC != null) {
                         sendEvent();
@@ -615,12 +629,6 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(data.getAction())) {
                 mCachedBundle = data.getExtras();
                 try {
-                    // 通知内容
-                    String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
-                    // extra 字段的 json 字符串
-                    String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
-                    Logger.i(TAG, "收到推送下来的通知: " + alertContent);
-                    Logger.i(TAG, "extras: " + extras);
                     mEvent = RECEIVE_NOTIFICATION;
                     if (mRAC != null) {
                         sendEvent();
@@ -631,15 +639,6 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
                 mCachedBundle = data.getExtras();
                 try {
-                    Logger.d(TAG, "用户点击打开了通知");
-                    // 通知内容
-                    String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
-                    // extra 字段的 json 字符串
-                    String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
-                    Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtras(mCachedBundle);
-                    context.startActivity(intent);
                     mEvent = OPEN_NOTIFICATION;
                     if (mRAC != null) {
                         sendEvent();

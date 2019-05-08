@@ -225,6 +225,16 @@ declare class JPush {
 
   /**
    * 监听：接收推送事件
+   * 
+   *    any = {
+   *    id:         string 
+   *    title:      string
+   *    content:    string
+   *    extras = {string : string,string : string ....... }
+   *    content_type: string (android only)
+   *    appState:     string (inactive/active/background ,ios only)  
+   * }
+   * 
    */
   static addReceiveNotificationListener(cb: JSuccessCallback<any>): void
 
@@ -235,6 +245,16 @@ declare class JPush {
 
   /**
    * 监听：点击推送事件
+   * 
+   *    any = {
+   *    id:         string 
+   *    title:      string
+   *    content:    string
+   *    extras = {string : string,string : string ....... }
+   *    content_type: string (android only)
+   *    appState:     string (inactive/active/background ,ios only)  
+   * }
+   * 
    */
   static addReceiveOpenNotificationListener(cb: JSuccessCallback<any>): void
 

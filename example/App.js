@@ -234,19 +234,39 @@ export default class App extends Component {
       this.setState({
         pushMsg: map.content
       })
-      console.log('extras: ' + map.extras)
+      for (var key in map) {  
+        console.log('JS receiveCustomNotification key:'+key+",vaule:" +map[key]);  
+      }
     }
-
     JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
+
     this.receiveNotificationListener = map => {
-      console.log('alertContent: ' + map.alertContent)
-      console.log('extras: ' + map.extras)
+      for (var key in map) {  
+        console.log('JS receiveNotification key:'+key+",vaule:" +map[key]);
+        if(key==="extras"){
+          var extrasMap =  map["extras"];
+          for(var extras in extrasMap){
+            console.log('JS receiveNotification extras key:'+extras+",vaule:" +extrasMap[extras]);
+          }
+        }  
+      }
     }
     JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
-
+    
+    if(Platform.OS === "ios"){//监听应用启动
+      this.openNotificationLaunchAppListener = map => {
+        for (var key in map) {  
+          console.log('JS openNotificationLaunchApp key:'+key+",vaule:" +map[key]);
+        }
+        this.jumpSecondActivity()
+      }
+      JPushModule.addOpenNotificationLaunchAppListener(this.openNotificationLaunchAppListener)
+    }  
+   
     this.openNotificationListener = map => {
-      console.log('Opening notification!')
-      console.log('map.extra: ' + map.extras)
+      for (var key in map) {  
+        console.log('JS openNotification key:'+key+",vaule:" +map[key]);  
+      }
       this.jumpSecondActivity()
     }
     JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)

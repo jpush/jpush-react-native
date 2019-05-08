@@ -234,35 +234,46 @@ RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
 }
   
 - (NSMutableDictionary *)jpushFormatAPNSDic:(NSDictionary *)dic {
-  NSMutableDictionary *extras = @{}.mutableCopy;
-  for (NSString *key in dic) {
-    if([key isEqualToString:@"_j_business"]      ||
-       [key isEqualToString:@"_j_msgid"]         ||
-       [key isEqualToString:@"_j_uid"]           ||
-       [key isEqualToString:@"actionIdentifier"] ||
-       [key isEqualToString:@"aps"]) {
-      continue;
+    NSMutableDictionary *extras = @{}.mutableCopy;
+    NSMutableDictionary *formatDic = @{}.mutableCopy;
+    for (NSString *key in dic) {
+        if([key isEqualToString:@"_j_business"]      ||
+           [key isEqualToString:@"_j_msgid"]         ||
+           [key isEqualToString:@"_j_uid"]           ||
+           [key isEqualToString:@"actionIdentifier"] ||
+           [key isEqualToString:@"aps"]) {
+           continue;
     }
     // 和 android 统一将 extras 字段移动到 extras 里面
     extras[key] = dic[key];
   }
-  NSMutableDictionary *formatDic = dic.mutableCopy;
-  formatDic[@"extras"] = extras;
-  
-  // 新增 应用状态
-  switch ([UIApplication sharedApplication].applicationState) {
-    case UIApplicationStateInactive:
-      formatDic[@"appState"] = @"inactive";
-      break;
-    case UIApplicationStateActive:
-      formatDic[@"appState"] = @"active";
-      break;
-    case UIApplicationStateBackground:
-      formatDic[@"appState"] = @"background";
-      break;
-    default:
-      break;
+    NSMutableDictionary *aps = dic[@"aps"];
+    if(dic[@"_j_msgid"]){
+        formatDic[@"id"] = dic[@"_j_msgid"];
+    }
+    if (aps[@"alert"]) {
+        if([aps[@"alert"] isKindOfClass:[NSString class]]){
+              formatDic[@"content"] = aps[@"alert"];
+        }else{
+            formatDic[@"content"] = aps[@"alert"][@"body"];
+            formatDic[@"title"] = aps[@"alert"][@"title"];
+        }
+    }
+    // 新增 应用状态
+    switch ([UIApplication sharedApplication].applicationState) {
+        case UIApplicationStateInactive:
+            formatDic[@"appState"] = @"inactive";
+            break;
+        case UIApplicationStateActive:
+            formatDic[@"appState"] = @"active";
+            break;
+        case UIApplicationStateBackground:
+            formatDic[@"appState"] = @"background";
+            break;
+        default:
+            break;
   }
+  formatDic[@"extras"] = extras;
   return formatDic;
 }
 
