@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.jpush.reactnativejpush">
 
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22" />
     <!-- Required 自定义用来收发消息的相关权限 -->
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
