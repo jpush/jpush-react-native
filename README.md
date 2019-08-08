@@ -49,6 +49,15 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule
       implementation "com.facebook.react:react-native:+"  // From node_modules
   }
   ```
+  同时在AndridManifest.xml中添加如下代码
+  ```
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="${JPUSH_CHANNEL}" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="${JPUSH_APPKEY}" />
+  ```
 
 - 修改setting.gradle配置：
 
