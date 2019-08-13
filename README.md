@@ -24,6 +24,9 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule
 
 - 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态
 
+#### 2. iOS 手动配置 CocoaPods 部分
+- 在自己项目 ios/Podfile 里配置 `pod 'jpush-react-native', :path => '../node_modules/jpush-react-native'`
+
 #### 2. Android 手动操作部分 （3 个步骤）
 
 - 修改 app 下的 build.gradle 配置：

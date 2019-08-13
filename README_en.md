@@ -54,6 +54,9 @@ $(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule
 
 * Xcode8 or later, you need turn Push Nofication on. TARGETS -> Capabilities -> Push Notification turn on this option.
 
+#### 2. iOS CocoaPods part
+- Add these code `pod 'jpush-react-native', :path => '../node_modules/jpush-react-native'` into your `ios/Podfile`
+
 #### Android part （Three steps）
 
 * Modify your build.gradle in you Android module：
