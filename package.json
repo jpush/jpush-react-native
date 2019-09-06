@@ -91,7 +91,7 @@
   },
   "rnpm": {
     "android": {
-      "packageInstance": "new JPushPackage(!BuildConfig.DEBUG, !BuildConfig.DEBUG)"
+      "packageInstance": "new JPushPackage()"
     },
     "ios": {
       "sharedLibraries": [
