@@ -1,15 +1,6 @@
 import { AppRegistry } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import Second from './Second'
+
 import App from './App'
+import {name as appName} from './app.json';
 
-const PushDemo = StackNavigator({
-  Home: {
-    screen: App
-  },
-  Push: {
-    screen: Second
-  }
-})
-
-AppRegistry.registerComponent('PushDemo', () => PushDemo)
+AppRegistry.registerComponent(appName, () => App);

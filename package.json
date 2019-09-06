@@ -1,31 +1,52 @@
 {
-  "name": "jpush-react-native",
-  "version": "2.5.3",
-  "description": "a jpush plugin for react native application",
-  "main": "index.js",
-  "scripts": {
-    "precommit": "lint-staged",
-    "lint": "prettier --write '**/*.{js,ts,md}'; standard --fix"
-  },
-  "types": "index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:jpush/jpush-react-native.git"
-  },
-  "keywords": [
-    "react",
-    "native",
-    "jpush"
+  "_args": [
+    [
+      {
+        "raw": "jpush-react-native@file:..",
+        "scope": null,
+        "escapedName": "jpush-react-native",
+        "name": "jpush-react-native",
+        "rawSpec": "file:..",
+        "spec": "/Users/wicked/github/react-native/JPush-Copy",
+        "type": "directory"
+      },
+      "/Users/wicked/github/react-native/JPush-Copy/example"
+    ]
   ],
-  "author": "KenChoi, huminiOS",
-  "license": "ISC",
+  "_from": "..",
+  "_id": "jpush-react-native@2.5.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/jpush-react-native",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "jpush-react-native@file:..",
+    "scope": null,
+    "escapedName": "jpush-react-native",
+    "name": "jpush-react-native",
+    "rawSpec": "file:..",
+    "spec": "/Users/wicked/github/react-native/JPush-Copy",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "file:..",
+  "_shasum": "1683f2e2a896772c28225467137213400769c32c",
+  "_shrinkwrap": null,
+  "_spec": "jpush-react-native@file:..",
+  "_where": "/Users/wicked/github/react-native/JPush-Copy/example",
+  "author": {
+    "name": "KenChoi, huminiOS"
+  },
   "bugs": {
     "url": "https://github.com/jpush/jpush-react-native/issues"
   },
-  "homepage": "https://github.com/jpush/jpush-react-native#readme",
-  "peerDependencies": {
-    "jcore-react-native": ">= 1.3.1"
+  "dependencies": {
+    "inquirer": "*",
+    "mpatch": "^0.1.0"
   },
+  "description": "a jpush plugin for react native application",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "husky": "^0.14.3",
@@ -33,6 +54,14 @@
     "prettier": "^1.10.2",
     "standard": "^10.0.3"
   },
+  "gitHead": "32f66384e2052ca100bb2b1dd38d1e4621c2b750",
+  "homepage": "https://github.com/jpush/jpush-react-native#readme",
+  "keywords": [
+    "react",
+    "native",
+    "jpush"
+  ],
+  "license": "ISC",
   "lint-staged": {
     "*.{ts,md}": [
       "prettier --write",
@@ -44,19 +73,21 @@
       "git add"
     ]
   },
+  "main": "index.js",
+  "name": "jpush-react-native",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "jcore-react-native": ">= 1.3.1"
+  },
   "prettier": {
     "semi": false,
     "singleQuote": true
   },
-  "standard": {
-    "env": {
-      "jest": true
-    },
-    "parser": "babel-eslint",
-    "ignore": [
-      "android/",
-      "ios/"
-    ]
+  "readme": "[![tag](https://img.shields.io/badge/tag-1.6.7-blue.svg)](https://github.com/jpush/jpush-react-native/releases)\n[![QQ Group](https://img.shields.io/badge/QQ%20Group-553406342-red.svg)]()\n\n# JPush React Native Plugin\n\n[English Document](README_en.md)\n\n## 注意:\n\n* jpush-react-native 自 1.4.4 之后, 需要安装 [jcore-react-native](https://github.com/jpush/jcore-react-native)\n* 安装完后，需要执行 `react-native link`。如果出错了，无需惊慌，手动配置一下即可，具体可参考这篇[文章](http://bbs.reactnative.cn/topic/3505/%E7%94%A8-jpush-react-native-%E6%8F%92%E4%BB%B6%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD-android-%E7%AF%87)\n\n## 安装\n\n```\nnpm install jpush-react-native jcore-react-native --save\n```\n## 配置\n\n配置包括两个步骤，自动配置和手动操作。\n\n### 1.自动配置部分（以下命令均在你的 React Native Project 目录下运行）\n\n如果工程不是通过 Cocoapods 来集成 ReactNative 的可以直接使用下面代码来 link 插件。\n```\nreact-native link\n```\n\n根据提示，输入 `appKey` 等即可。\n\n自动配置操作会自动插入 Native 代码（iOS 中使用 Appdelegate.m 文件名，如果修改了该文件名需要手动插入[代码](documents/ios_usage.md)），这个部分用户无需关系具体细节。\n\n\n\n##### （如果是原生应用集成 react-native）使用 CocoaPods 安装\n\n#####    如果你的 React Native 是通过 Cocoapods 来集成的则使用下面两个步骤来集成，注意： 使用 pod 就不要使用 react-native link 了，不然会有冲突。\n\n1. 在 Podfile 中添加如下代码:\n\n```\npod 'JPushRN', :path => '../node_modules/jpush-react-native'\n```\n\n2. 终端执行如下指令:\n\n```\npod install\n```\n\n### 2.手动操作部分（自动配置后，部分操作需要手动修改）\n\n#### iOS 手动操作部分 （3 个步骤）\n\n* 在 iOS 工程中设置 TARGETS-> BUILD Phases -> LinkBinary with Libraries 找到 UserNotifications.framework 把 status 设为 optional\n\n* 在 iOS 工程中如果找不到头文件可能要在 TARGETS-> BUILD SETTINGS -> Search Paths -> Header Search Paths 添加如下路径\n\n```\n$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule\n```\n\n* 在 xcode8 之后需要点开推送选项： TARGETS -> Capabilities -> Push Notification 设为 on 状态\n\n#### Android 手动操作部分 （3 个步骤）\n\n* 修改 app 下的 build.gradle 配置：\n\n> your react native project/android/app/build.gradle\n\n```\nandroid {\n    defaultConfig {\n        applicationId \"yourApplicationId\"\n        ...\n        manifestPlaceholders = [\n                JPUSH_APPKEY: \"yourAppKey\", //在此替换你的APPKey\n                APP_CHANNEL: \"developer-default\"    //应用渠道号\n        ]\n    }\n}\n...\ndependencies {\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n    implementation project(':jpush-react-native')  // 添加 jpush 依赖\n    implementation project(':jcore-react-native')  // 添加 jcore 依赖\n    implementation \"com.facebook.react:react-native:+\"  // From node_modules\n}\n```\n\n将此处的 yourApplicationId 替换为你的项目的包名；yourAppKey 替换成你在官网上申请的应用的 AppKey。\n\n* [检查添加的配置项](documents/check.md)\n\n* [加入 JPushPackage，有参数！](documents/android_usage.md)\n\n### API\n\n**Android v1.6.6 版本后新增 notifyJSDidLoad，请务必在接收事件之前调用此方法。**\n\n* [API](documents/api_en.md)\n\n### 关于点击通知跳转到指定界面\n\n* Android v1.6.7 新增 API `jumpToPushActivity`，使用参考 [demo](example/App.js#L113)\n\n## [常见问题](./documents/common_problems.md)\n\n---\n\n## 贡献者列表\n\n* [bang88](https://github.com/bang88)\n* [pampang](https://github.com/pampang)\n* [huhuanming](https://github.com/huhuanming)\n* [arniu](https://github.com/arniu)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jpush/jpush-react-native.git"
   },
   "rnpm": {
     "android": {
@@ -81,8 +112,19 @@
       "prelink": "node node_modules/jpush-react-native/scripts/patch"
     }
   },
-  "dependencies": {
-    "inquirer": "*",
-    "mpatch": "^0.1.0"
-  }
+  "scripts": {
+    "lint": "prettier --write '**/*.{js,ts,md}'; standard --fix",
+    "precommit": "lint-staged"
+  },
+  "standard": {
+    "env": {
+      "jest": true
+    },
+    "parser": "babel-eslint",
+    "ignore": [
+      "android/",
+      "ios/"
+    ]
+  },
+  "version": "2.5.5"
 }

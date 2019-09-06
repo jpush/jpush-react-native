@@ -11,7 +11,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.jpush.reactnativejpush.JPushPackage;
+import cn.jiguang.plugins.push.JPushPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -34,7 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
+                    new JPushPackage()
             );
         }
     };
