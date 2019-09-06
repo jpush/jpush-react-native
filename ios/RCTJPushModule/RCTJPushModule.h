@@ -1,30 +1,22 @@
-//
-//  JPushHelper.h
-//  PushDemo
-//
-//  Created by oshumini on 16/3/14.
-//  Copyright © 2016年 Facebook. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
-#if __has_include(<React/RCTBridgeModule.h>)
-#import <React/RCTBridgeModule.h>
-#elif __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#elif __has_include("React/RCTBridgeModule.h")
-#import "React/RCTBridgeModule.h"
+#if __has_include(<React/RCTBridge.h>)
+#import <React/RCTEventEmitter.h>
+#import <React/RCTRootView.h>
+#import <React/RCTBridge.h>
+#elif __has_include("RCTBridge.h")
+#import "RCTEventEmitter.h"
+#import "RCTRootView.h"
+#import "RCTBridge.h"
 #endif
 
 #import "JPUSHService.h"
 
-#define kJPFDidReceiveRemoteNotification  @"kJPFDidReceiveRemoteNotification"
+#define J_APNS_NOTIFICATION_ARRIVED_EVENT @"J_APNS_NOTIFICATION_ARRIVED_EVENT"
+#define J_APNS_NOTIFICATION_OPENED_EVENT  @"J_APNS_NOTIFICATION_OPENED_EVENT"
+#define J_CUSTOM_NOTIFICATION_EVENT       @"J_CUSTOM_NOTIFICATION_EVENT"
+#define J_LOCAL_NOTIFICATION_EVENT        @"J_LOCAL_NOTIFICATION_EVENT"
 
-#define kJPFOpenNotification @"kJPFOpenNotification" // 通过点击通知事件
-#define kJPFOpenNotificationToLaunchApp @"kJPFOpenNotificationToLaunchApp" // 通过点击通知启动应用
+@interface RCTJPushModule : RCTEventEmitter <RCTBridgeModule>
 
-@interface RCTJPushModule : NSObject <RCTBridgeModule, JPUSHRegisterDelegate>
-@property(strong,nonatomic)RCTResponseSenderBlock asyCallback;
-
-- (void)didRegistRemoteNotification:(NSString *)token;
 @end

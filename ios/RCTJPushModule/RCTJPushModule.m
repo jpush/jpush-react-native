@@ -1,907 +1,416 @@
-//
-//  JPushHelper.m
-//  PushDemo
-//
-//  Created by oshumini on 16/3/14.
-//  Copyright © 2016年 Facebook. All rights reserved.
-//
-
-#import <UIKit/UIKit.h>
 #import "RCTJPushModule.h"
-#import "RCTJPushActionQueue.h"
 
-#ifdef NSFoundationVersionNumber_iOS_9_x_Max
-#import <UserNotifications/UserNotifications.h>
-#endif
+//常量
+#define CODE           @"code"
+#define BADGE          @"badge"
+#define SEQUENCE       @"sequence"
+#define REGISTER_ID    @"registerID"
+#define MOBILE_NUMBER  @"mobileNumber"
+#define CONNECT_ENABLE @"connectEnable"
 
-#if __has_include(<React/RCTBridge.h>)
-#import <React/RCTEventDispatcher.h>
-#import <React/RCTRootView.h>
-#import <React/RCTBridge.h>
-#elif __has_include("RCTBridge.h")
-#import "RCTEventDispatcher.h"
-#import "RCTRootView.h"
-#import "RCTBridge.h"
-#elif __has_include("React/RCTBridge.h")
-#import "React/RCTEventDispatcher.h"
-#import "React/RCTRootView.h"
-#import "React/RCTBridge.h"
-#endif
+//通知消息
+#define MESSAGE_ID @"messageID"
+#define TITLE      @"title"
+#define CONTENT    @"content"
+#define EXTRAS     @"extras"
 
-@interface RCTJPushModule () {
-  BOOL _isJPushDidLogin;
-}
+//tagAlias
+#define TAG         @"tag"
+#define TAGS        @"tags"
+#define TAG_ENABLE  @"tagEnable"
+
+#define ALIAS       @"alias"
+
+//地理围栏
+#define GEO_FENCE_ID         @"geoFenceID"
+#define GEO_FENCE_MAX_NUMBER @"geoFenceMaxNumber"
+
+//通知事件类型
+#define NOTIFICATION_TYPE         @"notificationType"
+#define NOTIFICATION_ARRIVED      @"notificationArrived"
+#define NOTIFICATION_OPENED       @"notificationOpened"
+#define NOTIFICATION_DISMISSED    @"notificationDismissed"
+//通知消息事件
+#define NOTIFICATION_EVENT        @"NotificationEvent"
+//自定义消息
+#define CUSTOM_MESSAGE_EVENT      @"CustomMessageEvent"
+//本地通知
+#define LOCAL_NOTIFICATION_EVENT  @"LocalNotificationEvent"
+//连接状态
+#define CONNECT_EVENT        @"ConnectEvent"
+//tag alias
+#define TAG_ALIAS_EVENT      @"TagAliasEvent"
+//phoneNumber
+#define MOBILE_NUMBER_EVENT  @"MobileNumberEvent"
+
+@interface RCTJPushModule ()
 
 @end
 
 @implementation RCTJPushModule
 
-RCT_EXPORT_MODULE();
-@synthesize bridge = _bridge;
-
-+ (id)allocWithZone:(NSZone *)zone {
-  static RCTJPushModule *sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [super allocWithZone:zone];
-  });
-  return sharedInstance;
-}
+RCT_EXPORT_MODULE(JPushModule);
 
 - (id)init {
-  self = [super init];
-  NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-  
-  [defaultCenter removeObserver:self];
-
-  
-  [defaultCenter addObserver:self
-                    selector:@selector(networkConnecting:)
-                        name:kJPFNetworkIsConnectingNotification
-                      object:nil];
-  
-  [defaultCenter addObserver:self
-                    selector:@selector(networkRegister:)
-                        name:kJPFNetworkDidRegisterNotification
-                      object:nil];
-  
-  [defaultCenter addObserver:self
-                    selector:@selector(networkDidSetup:)
-                        name:kJPFNetworkDidSetupNotification
-                      object:nil];
-  [defaultCenter addObserver:self
-                    selector:@selector(networkDidClose:)
-                        name:kJPFNetworkDidCloseNotification
-                      object:nil];
-  [defaultCenter addObserver:self
-                    selector:@selector(networkDidLogin:)
-                        name:kJPFNetworkDidLoginNotification
-                      object:nil];
-  [defaultCenter addObserver:self
-                    selector:@selector(networkDidReceiveMessage:)
-                        name:kJPFNetworkDidReceiveMessageNotification
-                      object:nil];
-  [defaultCenter addObserver:self
-                    selector:@selector(receiveRemoteNotification:)
-                        name:kJPFDidReceiveRemoteNotification
-                      object:nil];
-  
-  [defaultCenter addObserver:self
-                    selector:@selector(reactJSDidload)
-                        name:RCTJavaScriptDidLoadNotification
-                      object:nil];
-  
-  [defaultCenter addObserver:self
-                    selector:@selector(openNotification:)
-                        name:kJPFOpenNotification
-                      object:nil];
-  
-  [defaultCenter addObserver:self
-                    selector:@selector(openNotificationToLaunchApp:)
-                        name:kJPFOpenNotificationToLaunchApp
-                      object:nil];
-  
-//  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
-//    [self alert:@"openedLocalNotification is not nil"];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
-//  }
-  
-  return self;
-}
-
-- (void)reactJSDidload {
-  [RCTJPushActionQueue sharedInstance].isReactDidLoad = YES;
-  [[RCTJPushActionQueue sharedInstance] scheduleNotificationQueue];
-  
-  if ([RCTJPushActionQueue sharedInstance].openedRemoteNotification != nil) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedRemoteNotification];
-  }
-  
-  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotificationToLaunchApp object:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
-  }
-  
-  if (_isJPushDidLogin) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFNetworkDidLoginNotification object:nil];
-  } else {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFNetworkDidCloseNotification object:nil];
-  }
-}
-
-- (void)setBridge:(RCTBridge *)bridge {
-  _bridge = bridge;
-  [RCTJPushActionQueue sharedInstance].openedRemoteNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-  if ([_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
-    UILocalNotification *localNotification = [_bridge.launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    [RCTJPushActionQueue sharedInstance].openedLocalNotification = localNotification.userInfo;// null?
-  }
-  
-}
-
-// request push notification permissions only
-RCT_EXPORT_METHOD(setupPush) {
-  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-  entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
-  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
-}
-
-RCT_EXPORT_METHOD(stopPush) {
-  [[UIApplication sharedApplication] unregisterForRemoteNotifications];
-}
-
-RCT_EXPORT_METHOD(hasPermission:(RCTResponseSenderBlock)callback) {
-  float systemVersion = [[UIDevice currentDevice].systemVersion floatValue];
-  
-  
-  if (systemVersion >= 8.0) {
-    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-    UIUserNotificationType type = settings.types;
-    if (type == UIUserNotificationTypeNone) {
-      callback(@[@(NO)]);
-    } else {
-      callback(@[@(YES)]);
-    }
+    self = [super init];
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
-  } else if (systemVersion >= 10.0) {
-    [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-      
-      switch (settings.authorizationStatus)
-      {
-        case UNAuthorizationStatusDenied:
-        case UNAuthorizationStatusNotDetermined:
-          callback(@[@(NO)]);
-          break;
-        case UNAuthorizationStatusAuthorized:
-          callback(@[@(YES)]);
-          break;
-      }
+    [defaultCenter removeObserver:self];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendApnsNotificationEvent:)
+                          name:J_APNS_NOTIFICATION_ARRIVED_EVENT
+                        object:nil];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendApnsNotificationEvent:)
+                          name:J_APNS_NOTIFICATION_OPENED_EVENT
+                        object:nil];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendCustomNotificationEvent:)
+                          name:J_CUSTOM_NOTIFICATION_EVENT
+                        object:nil];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendLocalNotificationEvent:)
+                          name:J_LOCAL_NOTIFICATION_EVENT
+                        object:nil];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendConnectEvent:)
+                          name:kJPFNetworkDidCloseNotification
+                        object:nil];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendConnectEvent:)
+                          name:kJPFNetworkFailedRegisterNotification
+                        object:nil];
+    
+    [defaultCenter addObserver:self
+                      selector:@selector(sendConnectEvent:)
+                          name:kJPFNetworkDidLoginNotification
+                        object:nil];
+
+    return self;
+}
+
+
+RCT_EXPORT_METHOD(setDebugMode: (NSDictionary *)options)
+{
+    BOOL isDebug = false;
+    if([options[@"debug"] isKindOfClass:[NSNumber class]]){
+        isDebug = [options[@"debug"] boolValue];
+    }
+    if(isDebug){
+        [JPUSHService setDebugMode];
+    }
+}
+
+RCT_EXPORT_METHOD(getRegisterId:(RCTResponseSenderBlock) callback)
+{
+    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+        NSMutableDictionary *response = [[NSMutableDictionary alloc] init];
+        [response setValue:registrationID?registrationID:@"" forKey:REGISTER_ID];
+        callback(@[response]);
     }];
-  }
-  
-  
 }
 
-RCT_EXPORT_METHOD(getLaunchAppNotification:(RCTResponseSenderBlock)callback) {
-  NSDictionary *notification;
-  if ([RCTJPushActionQueue sharedInstance].openedRemoteNotification != nil) {
-    notification = [self jpushFormatNotification: [RCTJPushActionQueue sharedInstance].openedRemoteNotification];
-    callback(@[notification]);
-    return;
-  }
 
-  if ([RCTJPushActionQueue sharedInstance].openedLocalNotification != nil) {
-    notification = [self jpushFormatNotification:[RCTJPushActionQueue sharedInstance].openedLocalNotification];
-    callback(@[notification]);
-    return;
-  }
-
-  callback(@[]);
-}
-
-RCT_EXPORT_METHOD(getApplicationIconBadge:(RCTResponseSenderBlock)callback) {
-  callback(@[@([UIApplication sharedApplication].applicationIconBadgeNumber)]);
-}
-
-// TODO:
-- (void)openNotificationToLaunchApp:(NSNotification *)notification {
-  NSDictionary *obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotificationLaunchApp" body:[self jpushFormatNotification:obj]];
-}
-
-// TODO:
-- (void)openNotification:(NSNotification *)notification {
-  NSDictionary *obj = [notification object];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"openNotification" body: [self jpushFormatNotification:obj]];
-}
-
-- (NSMutableDictionary *)jpushFormatNotification:(NSDictionary *)dic {
-  if (!dic) {
-    return @[].mutableCopy;
-  }
-  if (dic.count == 0) {
-    return @[].mutableCopy;
-  }
-
-  if (dic[@"aps"]) {
-    return [self jpushFormatAPNSDic:dic];
-  } else {
-    return [self jpushFormatLocalNotificationDic:dic];
-  }
-}
-
-- (NSMutableDictionary *)jpushFormatLocalNotificationDic:(NSDictionary *)dic {
-  return [NSMutableDictionary dictionaryWithDictionary:dic];
-}
-  
-- (NSMutableDictionary *)jpushFormatAPNSDic:(NSDictionary *)dic {
-    NSMutableDictionary *extras = @{}.mutableCopy;
-    NSMutableDictionary *formatDic = @{}.mutableCopy;
-    for (NSString *key in dic) {
-        if([key isEqualToString:@"_j_business"]      ||
-           [key isEqualToString:@"_j_msgid"]         ||
-           [key isEqualToString:@"_j_uid"]           ||
-           [key isEqualToString:@"actionIdentifier"] ||
-           [key isEqualToString:@"aps"]) {
-           continue;
-    }
-    // 和 android 统一将 extras 字段移动到 extras 里面
-    extras[key] = dic[key];
-  }
-    NSMutableDictionary *aps = dic[@"aps"];
-    if(dic[@"_j_msgid"]){
-        formatDic[@"id"] = dic[@"_j_msgid"];
-    }
-    if (aps[@"alert"]) {
-        if([aps[@"alert"] isKindOfClass:[NSString class]]){
-              formatDic[@"content"] = aps[@"alert"];
-        }else{
-            formatDic[@"content"] = aps[@"alert"][@"body"];
-            formatDic[@"title"] = aps[@"alert"][@"title"];
+//tag
+RCT_EXPORT_METHOD(addTags:(NSDictionary *)params)
+{
+    if([params[@"tags"] isKindOfClass:[NSArray class]]){
+        NSArray *tags = [params[TAGS] copy];
+        if (tags != NULL) {
+            NSSet *tagSet = [NSSet setWithArray:tags];
+            NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+            [JPUSHService addTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                [self sendTagAliasEvent:data];
+            } seq:sequence];
         }
     }
-    // 新增 应用状态
-    switch ([UIApplication sharedApplication].applicationState) {
-        case UIApplicationStateInactive:
-            formatDic[@"appState"] = @"inactive";
-            break;
-        case UIApplicationStateActive:
-            formatDic[@"appState"] = @"active";
-            break;
-        case UIApplicationStateBackground:
-            formatDic[@"appState"] = @"background";
-            break;
-        default:
-            break;
-  }
-  formatDic[@"extras"] = extras;
-  return formatDic;
 }
 
-- (void)networkConnecting:(NSNotification *)notification {
-  _isJPushDidLogin = false;
-  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
-                                               body:@(false)];
-}
-
-- (void)networkRegister:(NSNotification *)notification {
-  _isJPushDidLogin = false;
-  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
-                                               body:@(false)];
-}
-
-- (void)networkDidSetup:(NSNotification *)notification {
-  _isJPushDidLogin = false;
-  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
-                                               body:@(true)];
-}
-
-- (void)networkDidClose:(NSNotification *)notification {
-  _isJPushDidLogin = false;
-  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
-                                               body:@(false)];
-}
-
-
-- (void)networkDidLogin:(NSNotification *)notification {
-  _isJPushDidLogin = YES;
-  [[RCTJPushActionQueue sharedInstance] scheduleGetRidCallbacks];
-//  [self.bridge.eventDispatcher sendAppEventWithName:@"connectionChange"
-//                                               body:@(true)];
-  [self.bridge.eventDispatcher sendAppEventWithName:@"networkDidLogin"
-                                               body:nil];
-  
-}
-
-- (void)networkDidReceiveMessage:(NSNotification *)notification {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"receivePushMsg"
-                                               body:[notification userInfo]];
-}
-
-
-// TODO:
-- (void)receiveRemoteNotification:(NSNotification *)notification {
-  
-  if ([RCTJPushActionQueue sharedInstance].isReactDidLoad == YES) {
-    NSDictionary *obj = [notification object];
-    [self.bridge.eventDispatcher sendAppEventWithName:@"receiveNotification" body: [self jpushFormatNotification:obj]];
-  } else {
-    [[RCTJPushActionQueue sharedInstance] postNotification:notification];
-  }
-}
-
-- (dispatch_queue_t)methodQueue
+RCT_EXPORT_METHOD(setTags:(NSDictionary *)params)
 {
-  return dispatch_get_main_queue();
-}
-
-+ (BOOL)requiresMainQueueSetup {
-    return YES;
-}
-
-- (void)didRegistRemoteNotification:(NSString *)token {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"didRegisterToken"
-                                               body:token];
-}
-
-RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location callback:(RCTResponseSenderBlock)callback) {
-  callback(@[name]);
-}
-
-///----------------------------------------------------
-/// @name Setup 启动相关
-///----------------------------------------------------
-//
-///*!
-// * @abstract 启动SDK
-// *
-// * @discussion 这是旧版本的启动方法, 依赖于 PushConfig.plist 文件. 建议不要使用, 已经过期.
-// */
-//RCT_EXPORT_METHOD(setupWithOption:(NSDictionary *)launchingOption __attribute__((deprecated("JPush 2.1.0 版本已过期")))) {
-//
-//}
-
-/*!
- * @abstract 启动SDK
- *
- * @param launchingOption 启动参数.
- * @param appKey 一个JPush 应用必须的,唯一的标识. 请参考 JPush 相关说明文档来获取这个标识.
- * @param channel 发布渠道. 可选.
- * @param isProduction 是否生产环境. 如果为开发状态,设置为 NO; 如果为生产状态,应改为 YES.
- *
- * @discussion 提供SDK启动必须的参数, 来启动 SDK.
- * 此接口必须在 App 启动时调用, 否则 JPush SDK 将无法正常工作.
- */
-RCT_EXPORT_METHOD(setupWithOption:(NSDictionary *)launchingOption
-                  appKey:(NSString *)appKey
-                  channel:(NSString *)channel
-                  apsForProduction:(BOOL)isProduction) {
-
-}
-
-
-///----------------------------------------------------
-/// @name APNs about 通知相关
-///----------------------------------------------------
-
-/*!
- * @abstract 注册要处理的远程通知类型
- *
- * @param types 通知类型
- * @param categories
- *
- * @discussion
- */
-RCT_EXPORT_METHOD(registerForRemoteNotificationTypes:(NSUInteger)types
-                  categories:(NSSet *)categories) {
-  [JPUSHService registerForRemoteNotificationTypes:types categories:categories];
-}
-
-RCT_EXPORT_METHOD(registerDeviceToken:(NSData *)deviceToken) {
-  [JPUSHService registerDeviceToken:deviceToken];
-}
-
-/*!
- * @abstract 处理收到的 APNs 消息
- */
-RCT_EXPORT_METHOD(handleRemoteNotification:(NSDictionary *)remoteInfo) {
-  [JPUSHService handleRemoteNotification:remoteInfo];
-}
-
-
-/*!
- * 设置 tags 的方法
- */
-RCT_EXPORT_METHOD( setTags:(NSArray *)tags
-                  callback:(RCTResponseSenderBlock)callback) {
-
-  NSSet *tagSet;
-
-  if (tags != NULL) {
-    tagSet = [NSSet setWithArray:tags];
-  }
-
-  self.asyCallback = callback;
-  [JPUSHService setTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[],
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
+    if([params[@"tags"] isKindOfClass:[NSArray class]]){
+        NSArray *tags = [params[TAGS] copy];
+        if (tags != NULL) {
+            NSSet *tagSet = [NSSet setWithArray:tags];
+            NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+            [JPUSHService setTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                [self sendTagAliasEvent:data];
+            } seq:sequence];
+        }
     }
-  } seq: 0];
 }
 
-/*!
- * 设置 Alias 的方法
- */
-RCT_EXPORT_METHOD( setAlias:(NSString *)alias
-                  callback:(RCTResponseSenderBlock)callback) {
-
-  self.asyCallback = callback;
-  [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"alias": iAlias ?: @"",
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
+RCT_EXPORT_METHOD(deleteTags:(NSDictionary *)params)
+{
+    if([params[@"tags"] isKindOfClass:[NSArray class]]){
+        NSArray *tags = [params[TAGS] copy];
+        if (tags != NULL) {
+            NSSet *tagSet = [NSSet setWithArray:tags];
+            NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+            [JPUSHService deleteTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+                NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+                [self sendTagAliasEvent:data];
+            } seq:sequence];
+        }
     }
-  } seq: 0];
 }
 
-RCT_EXPORT_METHOD( addTags:(NSArray *)tags
-                  callback:(RCTResponseSenderBlock)callback) {
-  NSSet *tagSet;
-  
-  if (tags != NULL) {
-    tagSet = [NSSet setWithArray:tags];
-  }
-  [JPUSHService addTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[],
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
+RCT_EXPORT_METHOD(cleanTags:(NSDictionary *)params)
+{
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [JPUSHService cleanTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq)};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+RCT_EXPORT_METHOD(getAllTags:(NSDictionary *)params)
+{
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [JPUSHService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAGS:[iTags allObjects]};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+RCT_EXPORT_METHOD(validTag:(NSDictionary *)params)
+{
+    if(params[TAG]){
+        NSString *tag = params[TAG];
+        NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+        [JPUSHService validTag:(tag)
+                    completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind) {
+                        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),TAG_ENABLE:@(isBind),TAG:tag};
+                        [self sendTagAliasEvent:data];
+                    } seq:sequence];
     }
-  } seq: 0];
 }
 
-RCT_EXPORT_METHOD( deleteTags:(NSArray *)tags
-                  callback:(RCTResponseSenderBlock)callback) {
-  NSSet *tagSet;
-  
-  if (tags != NULL) {
-    tagSet = [NSSet setWithArray:tags];
-  }
-  [JPUSHService deleteTags:tagSet completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[],
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
+//alias
+RCT_EXPORT_METHOD(setAlias:(NSDictionary *)params) {
+    if(params[ALIAS]){
+        NSString *alias = params[ALIAS];
+        NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+        [JPUSHService setAlias:alias
+                      completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                          NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),ALIAS:iAlias};
+                          [self sendTagAliasEvent:data];
+                      }
+                      seq:sequence];
     }
-  } seq: 0];
 }
 
-RCT_EXPORT_METHOD( cleanTags:(RCTResponseSenderBlock)callback) {
-  [JPUSHService cleanTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[],
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
+RCT_EXPORT_METHOD(deleteAlias:(NSDictionary *)params) {
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq)};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+RCT_EXPORT_METHOD(getAlias:(NSDictionary *)params) {
+    NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+    [JPUSHService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSDictionary *data = @{CODE:@(iResCode),SEQUENCE:@(seq),ALIAS:iAlias};
+        [self sendTagAliasEvent:data];
+    } seq:sequence];
+}
+
+//badge 角标
+RCT_EXPORT_METHOD(setBadge:(NSDictionary *)params)
+{
+    if(params[BADGE]){
+        NSNumber *number = params[BADGE];
+        [JPUSHService setBadge:[number integerValue]];
     }
-  } seq: 0];
 }
 
-RCT_EXPORT_METHOD( getAllTags:(RCTResponseSenderBlock)callback) {
-  [JPUSHService getAllTags:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"tags": [iTags allObjects] ?: @[],
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
+//设置手机号码
+RCT_EXPORT_METHOD(setMobileNumber:(NSDictionary *)params)
+{
+    if(params[MOBILE_NUMBER]){
+        NSString *number = params[MOBILE_NUMBER];
+        NSInteger sequence = params[SEQUENCE]?[params[SEQUENCE] integerValue]:-1;
+        [JPUSHService setMobileNumber:number completion:^(NSError *error) {
+            NSDictionary *data = @{CODE:@(error.code),SEQUENCE:@(sequence)};
+            [self sendMobileNumberEvent:data];
+        }];
     }
-  } seq: 0];
 }
 
-RCT_EXPORT_METHOD(checkTagBindState:(NSString *)tag
-                           callback:(RCTResponseSenderBlock)callback) {
-  [JPUSHService validTag:tag completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind) {
-    if (iResCode == 0) {
-      callback(@[@{@"isBind": @(isBind),
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
-    }
-  } seq: 0];
+//崩溃日志统计
+RCT_EXPORT_METHOD(crashLogON:(NSDictionary *)params)
+{
+    [JPUSHService crashLogON];
 }
 
-RCT_EXPORT_METHOD(deleteAlias:(RCTResponseSenderBlock)callback) {
-  [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"alias": iAlias ?: @"",
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
-    }
-  } seq: 0];
+//本地通知 todo
+RCT_EXPORT_METHOD(addNotification:(NSDictionary *)params)
+{
+
 }
 
-RCT_EXPORT_METHOD(getAlias:(RCTResponseSenderBlock)callback) {
-  [JPUSHService getAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-    if (iResCode == 0) {
-      callback(@[@{@"alias": iAlias ?: @"",
-                   @"errorCode": @(0)
-                   }]);
-    } else {
-      callback(@[@{@"errorCode": @(iResCode)}]);
-    }
-  } seq: 0];
-}
-
-/*!
- * @abstract 过滤掉无效的 tags
- *
- * @discussion 如果 tags 数量超过限制数量, 则返回靠前的有效的 tags.
- * 建议设置 tags 前用此接口校验. SDK 内部也会基于此接口来做过滤.
- */
-RCT_EXPORT_METHOD(filterValidTags:(NSSet *)tags callback:(RCTResponseSenderBlock)callback) {// -> nsset
-  NSArray *arr = [[JPUSHService filterValidTags:tags] allObjects];
-  callback(arr);
-}
-
-
-///----------------------------------------------------
-/// @name Stats 统计功能
-///----------------------------------------------------
-
-/*!
- * @abstract 开始记录页面停留
- *
- * @param pageName 页面名称
- */
-RCT_EXPORT_METHOD(startLogPageView:(NSString *)pageName) {
-  [JPUSHService startLogPageView:pageName];
-}
-
-/*!
- * @abstract 停止记录页面停留
- *
- * @param pageName 页面
- */
-RCT_EXPORT_METHOD(stopLogPageView:(NSString *)pageName) {
-  [JPUSHService stopLogPageView:pageName];
-}
-
-/*!
- * @abstract 直接上报在页面的停留时工
- *
- * @param pageName 页面
- * @param seconds 停留的秒数
- */
-RCT_EXPORT_METHOD(beginLogPageView:(NSString *)pageName duration:(int)seconds) {
-  [JPUSHService beginLogPageView:pageName duration:seconds];
-}
-
-/*!
- * @abstract 开启Crash日志收集
- *
- * @discussion 默认是关闭状态.
- */
-RCT_EXPORT_METHOD(crashLogON) {
-  [JPUSHService crashLogON];
-}
-
-/*!
- * @abstract 地理位置上报
- *
- * @param latitude 纬度.
- * @param longitude 经度.
- *
- */
-RCT_EXPORT_METHOD(setLatitude:(double)latitude longitude:(double)longitude) {
-  [JPUSHService setLatitude:latitude longitude:longitude];
-}
-
-/*!
- * @abstract 地理位置上报
- *
- * @param location 直接传递 CLLocation * 型的地理信息
- *
- * @discussion 需要链接 CoreLocation.framework 并且 #import <CoreLocation/CoreLocation.h>
- */
-RCT_EXPORT_METHOD(setLocation:(CLLocation *)location) {
-  [JPUSHService setLocation:location];
-}
-
-
-///----------------------------------------------------
-/// @name Local Notification 本地通知
-///----------------------------------------------------
-
-/*!
- * @abstract 本地推送，最多支持64个
- *
- * @param fireDate 本地推送触发的时间
- * @param alertBody 本地推送需要显示的内容
- * @param badge 角标的数字。如果不需要改变角标传-1
- * @param alertAction 弹框的按钮显示的内容（IOS 8默认为"打开", 其他默认为"启动"）
- * @param notificationKey 本地推送标示符
- * @param userInfo 自定义参数，可以用来标识推送和增加附加信息
- * @param soundName 自定义通知声音，设置为nil为默认声音
- *
- * @discussion 最多支持 64 个定义
- */
-RCT_EXPORT_METHOD( setLocalNotification:(NSDate *)fireDate
-                  alertBody:(NSString *)alertBody
-                  badge:(int)badge
-                  alertAction:(NSString *)alertAction
-                  identifierKey:(NSString *)notificationKey
-                  userInfo:(NSDictionary *)userInfo
-                  soundName:(NSString *)soundName) {
-
-  [JPUSHService setLocalNotification:fireDate
-                           alertBody:alertBody
-                               badge:badge
-                         alertAction:alertAction
-                       identifierKey:notificationKey
-                            userInfo:userInfo
-                           soundName:soundName];
-}
-
-RCT_EXPORT_METHOD(sendLocalNotification:(NSDictionary *)params) {
-  
-  JPushNotificationContent *content = [[JPushNotificationContent alloc] init];
-  if (params[@"title"]) {
-    content.title = params[@"title"];
-  }
-  
-  if (params[@"subtitle"]) {
-    content.subtitle = params[@"subtitle"];
-  }
-  
-  if (params[@"content"]) {
-    content.body = params[@"content"];
-  }
-  
-  if (params[@"badge"]) {
-    content.badge = params[@"badge"];
-  }
-  
-  if (params[@"action"]) {
-    content.action = params[@"action"];
-  }
-  
-  if (params[@"extra"]) {
-    content.userInfo = params[@"extra"];
-  }
-  
-  if (params[@"sound"]) {
-    content.sound = params[@"sound"];
-  }
-  
-  JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
-  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0) {
-    if (params[@"fireTime"]) {
-      NSNumber *date = params[@"fireTime"];
-      NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
-      NSTimeInterval interval = [date doubleValue]/1000 - currentInterval;
-      interval = interval>0?interval:0;
-      trigger.timeInterval = interval;
-    }
-  }
-  
-  else {
-    if (params[@"fireTime"]) {
-      NSNumber *date = params[@"fireTime"];
-      trigger.fireDate = [NSDate dateWithTimeIntervalSince1970: [date doubleValue]/1000];
-    }
-  }
-  JPushNotificationRequest *request = [[JPushNotificationRequest alloc] init];
-  request.content = content;
-  request.trigger = trigger;
-  
-  if (params[@"id"]) {
-    NSNumber *identify = params[@"id"];
-    request.requestIdentifier = [identify stringValue];
-  }
-  request.completionHandler = ^(id result) {
-    NSLog(@"result");
-  };
-  
-  [JPUSHService addNotification:request];
-  
-}
-
-/*!
- * @abstract 前台展示本地推送
- *
- * @param notification 本地推送对象
- * @param notificationKey 需要前台显示的本地推送通知的标示符
- *
- * @discussion 默认App在前台运行时不会进行弹窗，在程序接收通知调用此接口可实现指定的推送弹窗。
- */
-RCT_EXPORT_METHOD( showLocalNotificationAtFront:(UILocalNotification *)notification
-                  identifierKey:(NSString *)notificationKey) {
-  [JPUSHService showLocalNotificationAtFront:notification identifierKey:notificationKey];
-}
-/*!
- * @abstract 删除本地推送定义
- *
- * @param notificationKey 本地推送标示符
- * @param myUILocalNotification 本地推送对象
- */
-RCT_EXPORT_METHOD(deleteLocalNotificationWithIdentifierKey:(NSString *)notificationKey) {
-  [JPUSHService deleteLocalNotificationWithIdentifierKey:notificationKey];
-}
-
-/*!
- * @abstract 删除本地推送定义
- */
-RCT_EXPORT_METHOD(deleteLocalNotification:(UILocalNotification *)localNotification) {
-  [JPUSHService deleteLocalNotification:localNotification];
-}
-
-/*!
- * @abstract 获取指定通知
- *
- * @param notificationKey 本地推送标示符
- * @return 本地推送对象数组, [array count]为0时表示没找到
- */
-RCT_EXPORT_METHOD(findLocalNotificationWithIdentifier:(NSString *)notificationKey callback:(RCTResponseSenderBlock)callback) {// nsarray
-  callback([JPUSHService findLocalNotificationWithIdentifier:notificationKey]);
-}
-
-/*!
- * @abstract 清除所有本地推送对象
- */
-RCT_EXPORT_METHOD(clearAllLocalNotifications) {
-  [JPUSHService clearAllLocalNotifications];
-}
-
-
-///----------------------------------------------------
-/// @name Server badge 服务器端 badge 功能
-///----------------------------------------------------
-
-/*!
- * @abstract 设置角标(到服务器)
- *
- * @param value 新的值. 会覆盖服务器上保存的值(这个用户)
- *
- * @discussion 本接口不会改变应用本地的角标值.
- * 本地仍须调用 UIApplication:setApplicationIconBadgeNumber 函数来设置脚标.
- *
- * 本接口用于配合 JPush 提供的服务器端角标功能.
- * 该功能解决的问题是, 服务器端推送 APNs 时, 并不知道客户端原来已经存在的角标是多少, 指定一个固定的数字不太合理.
- *
- * JPush 服务器端脚标功能提供:
- *
- * - 通过本 API 把当前客户端(当前这个用户的) 的实际 badge 设置到服务器端保存起来;
- * - 调用服务器端 API 发 APNs 时(通常这个调用是批量针对大量用户),
- *   使用 "+1" 的语义, 来表达需要基于目标用户实际的 badge 值(保存的) +1 来下发通知时带上新的 badge 值;
- *
- * setBadge(-1): 支持清空icon的badge而不清空通知栏消息
- */
-RCT_EXPORT_METHOD(setBadge:(NSInteger)value callback:(RCTResponseSenderBlock)callback) {// ->Bool
-  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:value];
-  NSNumber *badgeNumber = [NSNumber numberWithBool:[JPUSHService setBadge: value > 0 ? value : 0]];
-  callback(@[badgeNumber]);
-}
-
-/*!
- * @abstract 重置脚标(为0)
- *
- * @discussion 相当于 [setBadge:0] 的效果.
- * 参考 [JPUSHService setBadge:] 说明来理解其作用.
- */
-RCT_EXPORT_METHOD(resetBadge) {
-  [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
-  [JPUSHService resetBadge];
-}
-
-
-///----------------------------------------------------
-/// @name Logs and others 日志与其他
-///----------------------------------------------------
-
-/*!
- * @abstract JPush标识此设备的 registrationID
- *
- * @discussion SDK注册成功后, 调用此接口获取到 registrationID 才能够获取到.
- *
- * JPush 支持根据 registrationID 来进行推送.
- * 如果你需要此功能, 应该通过此接口获取到 registrationID 后, 上报到你自己的服务器端, 并保存下来.
- *
- * 更多的理解请参考 JPush 的文档网站.
- */
-RCT_EXPORT_METHOD(getRegistrationID:(RCTResponseSenderBlock)callback) {// -> string
-#if TARGET_IPHONE_SIMULATOR//模拟器
-  NSLog(@"simulator can not get registrationid");
-  callback(@[@""]);
-#elif TARGET_OS_IPHONE//真机
-    if ([JPUSHService registrationID] != nil && ![[JPUSHService registrationID] isEqualToString:@""]) {
-            // 如果已经成功获取 registrationID，从本地获取直接缓存
-            callback(@[[JPUSHService registrationID]]);
-            return;
-    }
+RCT_EXPORT_METHOD(removeNotification:(NSDictionary *)params)
+{
     
-  //    第一次获取时需要 jpush login 状态
-  if (_isJPushDidLogin) {
-    callback(@[[JPUSHService registrationID]]);
-  } else {
-    [[RCTJPushActionQueue sharedInstance] postGetRidCallback:callback];
-  }
-  
-#endif
-
 }
 
-/*!
- * @abstract 打开日志级别到 Debug
- *
- * @discussion JMessage iOS 的日志系统参考 Android 设计了级别.
- * 从低到高是: Verbose, Debug, Info, Warning, Error.
- * 对日志级别的进一步理解, 请参考 Android 相关的说明.
- *
- * SDK 默认开启的日志级别为: Info. 只显示必要的信息, 不打印调试日志.
- *
- * 调用本接口可打开日志级别为: Debug, 打印调试日志.
- */
-RCT_EXPORT_METHOD(setDebugMode) {
-  [JPUSHService setDebugMode];
+RCT_EXPORT_METHOD(findNotification:(NSDictionary *)params)
+{
+    
 }
 
-/*!
- * @abstract 关闭日志
- *
- * @discussion 关于日志级别的说明, 参考 [JPUSHService setDebugMode]
- *
- * 虽说是关闭日志, 但还是会打印 Warning, Error 日志. 这二种日志级别, 在程序运行正常时, 不应有打印输出.
- *
- * 建议在发布的版本里, 调用此接口, 关闭掉日志打印.
- */
-RCT_EXPORT_METHOD(setLogOFF) {
-  [JPUSHService setLogOFF];
+//地理围栏
+RCT_EXPORT_METHOD(removeGeofenceWithIdentifier:(NSDictionary *)params)
+{
+    if(params[GEO_FENCE_ID]){
+        [JPUSHService removeGeofenceWithIdentifier:params[GEO_FENCE_ID]];
+    }
 }
 
-RCT_EXPORT_METHOD(clearAllNotifications) {
-  if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
-    [UNUserNotificationCenter.currentNotificationCenter removeAllPendingNotificationRequests];
-  } else {
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-  }
+RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
+{
+    if(params[GEO_FENCE_MAX_NUMBER]){
+        [JPUSHService setGeofenecMaxCount:[params[GEO_FENCE_MAX_NUMBER] integerValue]];
+    }
 }
 
-RCT_EXPORT_METHOD(removeLocalNotification:(NSInteger)identify) {
-  JPushNotificationIdentifier *pushIdentify = [[JPushNotificationIdentifier alloc] init];
-  pushIdentify.identifiers = @[[@(identify) description]];
-  [JPUSHService removeNotification: pushIdentify];
+//事件处理
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[CONNECT_EVENT,NOTIFICATION_EVENT,CUSTOM_MESSAGE_EVENT,LOCAL_NOTIFICATION_EVENT,TAG_ALIAS_EVENT,MOBILE_NUMBER_EVENT];
 }
 
-RCT_EXPORT_METHOD(clearLocalNotifications) {
-  [JPUSHService removeNotification: nil];
+//长连接登录
+- (void)sendConnectEvent:(NSNotification *)data {
+    NSDictionary *responseData = [self convertConnect:data];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[CONNECT_EVENT,responseData]
+                    completion:NULL];
 }
 
-
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
-  NSDictionary * userInfo = notification.request.content.userInfo;
-  [JPUSHService handleRemoteNotification:userInfo];
-  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
-  completionHandler(UNNotificationPresentationOptionAlert); }
-
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-  NSDictionary * userInfo = response.notification.request.content.userInfo;
-  [JPUSHService handleRemoteNotification:userInfo];
-  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:userInfo];
-  completionHandler();
+- (void)sendApnsNotificationEvent:(NSNotification *)data
+{
+    NSDictionary *responseData = [self convertApnsMessage:data];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[NOTIFICATION_EVENT, responseData]
+                    completion:NULL];
 }
+
+//自定义消息
+- (void)sendCustomNotificationEvent:(NSNotification *)data
+{
+    NSDictionary *responseData = [self convertCustomMessage:data];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[CUSTOM_MESSAGE_EVENT,responseData ]
+                    completion:NULL];
+}
+
+//本地通知
+- (void)sendLocalNotificationEvent:(NSNotification *)data
+{
+    NSDictionary *responseData = [self convertLocalMessage:data];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[LOCAL_NOTIFICATION_EVENT, responseData]
+                    completion:NULL];
+}
+
+//TagAlias
+- (void)sendTagAliasEvent:(NSDictionary *)data
+{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[TAG_ALIAS_EVENT, data]
+                    completion:NULL];
+}
+
+//电话号码
+- (void)sendMobileNumberEvent:(NSDictionary *)data
+{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[MOBILE_NUMBER_EVENT, data]
+                    completion:NULL];
+}
+
+//工具类
+-(NSDictionary *)convertConnect:(NSNotification *)data {
+    NSNotificationName notificationName = data.name;
+    BOOL isConnect = false;
+    if([notificationName isEqualToString:kJPFNetworkDidLoginNotification]){
+        isConnect = true;
+    }
+    NSDictionary *responseData = @{CONNECT_ENABLE:@(isConnect)};
+    return responseData;
+}
+
+-(NSDictionary *)convertApnsMessage:(NSNotification *)data{
+    NSNotificationName notificationName = data.name;
+    NSDictionary *objectData = data.object;
+    NSString *notificationType = ([notificationName isEqualToString:J_APNS_NOTIFICATION_OPENED_EVENT])?NOTIFICATION_OPENED:NOTIFICATION_ARRIVED;
+    NSDictionary *apnsData =  objectData[@"aps"][@"alert"];
+    NSDictionary *responseData;
+    NSMutableDictionary * copyData = [[NSMutableDictionary alloc] initWithDictionary:objectData];
+    if (copyData[@"_j_business"]) {
+         [copyData removeObjectForKey:@"_j_business"];
+    }
+    if (copyData[@"_j_uid"]) {
+        [copyData removeObjectForKey:@"_j_uid"];
+    }
+    [copyData removeObjectForKey:@"_j_msgid"];
+    if (copyData[@"aps"]) {
+        [copyData removeObjectForKey:@"aps"];
+    }
+    @try {
+        
+    } @catch (NSException *exception) {
+       
+    }
+    NSMutableDictionary * extrasData = [[NSMutableDictionary alloc] init];
+    
+    NSArray * allkeys = [copyData allKeys];
+    for (int i = 0; i < allkeys.count; i++)
+    {
+        NSString *key = [allkeys objectAtIndex:i];
+        NSString *value = [copyData objectForKey:key];
+        [extrasData setObject:value forKey:key];
+    };
+    if (extrasData.count > 0) {
+        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:apnsData[@"title"],CONTENT:apnsData[@"body"],EXTRAS:extrasData,NOTIFICATION_TYPE:notificationType};
+    }
+    else {
+        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:apnsData[@"title"],CONTENT:apnsData[@"body"],NOTIFICATION_TYPE:notificationType};
+    }
+    return responseData;
+}
+
+-(NSDictionary *)convertCustomMessage:(NSNotification *)data {
+    NSDictionary *objectData = data.object;
+    NSDictionary *responseData;
+    if(objectData[@"extras"]){
+        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],CONTENT:objectData[@"content"],EXTRAS:objectData[@"extras"]};
+    }else{
+        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],CONTENT:objectData[@"content"]};
+    }
+    return responseData;
+}
+
+-(NSDictionary *)convertLocalMessage:(NSNotification *)data {
+    //NSLog(@"convertConnect 结果返回：%@", data);
+    NSMutableDictionary *responseData = [[NSMutableDictionary alloc] init];
+    return responseData;
+}
+
 @end
