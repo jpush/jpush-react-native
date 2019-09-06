@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		624386D71E096B8800F69E07 /* RCTJPushActionQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */; };
+		5CF8E64A231E3A9300B12200 /* jpush-ios-3.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF8E648231E3A9300B12200 /* jpush-ios-3.2.2.a */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
-		62DA93BE21E8679300208462 /* libjpush-ios-3.1.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62DA93BD21E8679300208462 /* libjpush-ios-3.1.2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,13 +24,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushActionQueue.h; sourceTree = "<group>"; };
-		624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushActionQueue.m; sourceTree = "<group>"; };
+		5CF8E648231E3A9300B12200 /* jpush-ios-3.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "jpush-ios-3.2.2.a"; path = "RCTJPushModule/jpush-ios-3.2.2.a"; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		62DA93BC21E8679300208462 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
-		62DA93BD21E8679300208462 /* libjpush-ios-3.1.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libjpush-ios-3.1.2.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,18 +36,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62DA93BE21E8679300208462 /* libjpush-ios-3.1.2.a in Frameworks */,
+				5CF8E64A231E3A9300B12200 /* jpush-ios-3.2.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CF8E647231E3A9200B12200 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5CF8E648231E3A9300B12200 /* jpush-ios-3.2.2.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		628098011CEDC407000D3A81 = {
 			isa = PBXGroup;
 			children = (
 				6280980C1CEDC407000D3A81 /* RCTJPushModule */,
 				6280980B1CEDC407000D3A81 /* Products */,
+				5CF8E647231E3A9200B12200 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,9 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				62DA93BC21E8679300208462 /* JPUSHService.h */,
-				62DA93BD21E8679300208462 /* libjpush-ios-3.1.2.a */,
-				624386D11E096B8800F69E07 /* RCTJPushActionQueue.h */,
-				624386D21E096B8800F69E07 /* RCTJPushActionQueue.m */,
 				624386D31E096B8800F69E07 /* RCTJPushModule.h */,
 				624386D41E096B8800F69E07 /* RCTJPushModule.m */,
 			);
@@ -114,6 +117,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 628098011CEDC407000D3A81;
@@ -132,7 +136,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */,
-				624386D71E096B8800F69E07 /* RCTJPushActionQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
