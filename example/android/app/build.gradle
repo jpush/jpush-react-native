@@ -95,21 +95,19 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.test.josh" //替换包名：
+        applicationId "com.jmessage.sdk" //替换包名：
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
         manifestPlaceholders = [
-                JPUSH_APPKEY: "7b4b94cca0d185d611e53cca",   //在此替换你的APPKey
-                APP_CHANNEL : "developer-default"           //应用渠道号
+                JPUSH_CHANNEL: "developer-default",
+                JPUSH_APPKEY : "129c21dc4cb5e6f6de194003"
         ]
     }
     splits {
@@ -148,7 +146,6 @@ dependencies {
     implementation project(':jpush-react-native')
     implementation 'com.android.support:appcompat-v7:25.3.1'
     implementation 'com.facebook.react:react-native:+'
-    // From node_modules
 }
 
 // Run this once to be able to run the application with BUCK
