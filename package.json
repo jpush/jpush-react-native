@@ -7,10 +7,10 @@
         "escapedName": "jpush-react-native",
         "name": "jpush-react-native",
         "rawSpec": "file:..",
-        "spec": "/Users/wicked/github/react-native/JPush-Copy",
+        "spec": "/Users/wicked/github/react-native/JPush",
         "type": "directory"
       },
-      "/Users/wicked/github/react-native/JPush-Copy/example"
+      "/Users/wicked/github/react-native/JPush/example"
     ]
   ],
   "_from": "..",
@@ -25,7 +25,7 @@
     "escapedName": "jpush-react-native",
     "name": "jpush-react-native",
     "rawSpec": "file:..",
-    "spec": "/Users/wicked/github/react-native/JPush-Copy",
+    "spec": "/Users/wicked/github/react-native/JPush",
     "type": "directory"
   },
   "_requiredBy": [
@@ -35,7 +35,7 @@
   "_shasum": "1683f2e2a896772c28225467137213400769c32c",
   "_shrinkwrap": null,
   "_spec": "jpush-react-native@file:..",
-  "_where": "/Users/wicked/github/react-native/JPush-Copy/example",
+  "_where": "/Users/wicked/github/react-native/JPush/example",
   "author": {
     "name": "KenChoi, huminiOS"
   },
@@ -91,7 +91,7 @@
   },
   "rnpm": {
     "android": {
-      "packageInstance": "new JPushPackage(!BuildConfig.DEBUG, !BuildConfig.DEBUG)"
+      "packageInstance": "new JPushPackage()"
     },
     "ios": {
       "sharedLibraries": [
