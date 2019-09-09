@@ -37,7 +37,7 @@
   [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
   
   // ReactNative环境配置
-  NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.38.249:8081/index.bundle?platform=ios&dev=true"];
+  NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.16:8081/index.bundle?platform=ios&dev=true"];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ReactNative-JPush"
                                                initialProperties:nil
