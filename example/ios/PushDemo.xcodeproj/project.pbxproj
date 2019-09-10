@@ -190,19 +190,33 @@
 			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
 			remoteInfo = "cxxreact-tvOS";
 		};
-		3DAD3EAC1DF850E9000B6D8A /* PBXContainerItemProxy */ = {
+		5CAF6C072327F2F100B5A09F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
-			remoteInfo = jschelpers;
+			remoteGlobalIDString = EDEBC6D6214B3E7000DD5AC8;
+			remoteInfo = jsi;
 		};
-		3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */ = {
+		5CAF6C092327F2F100B5A09F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
-			remoteInfo = "jschelpers-tvOS";
+			remoteGlobalIDString = EDEBC73B214B45A300DD5AC8;
+			remoteInfo = jsiexecutor;
+		};
+		5CAF6C0B2327F2F100B5A09F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED296FB6214C9A0900B7C4FE;
+			remoteInfo = "jsi-tvOS";
+		};
+		5CAF6C0D2327F2F100B5A09F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED296FEE214C9CF800B7C4FE;
+			remoteInfo = "jsiexecutor-tvOS";
 		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -246,20 +260,6 @@
 			remoteGlobalIDString = 6212E9B41F3990DC00BDF51A;
 			remoteInfo = RCTJCoreModule;
 		};
-		62EDFB3B2019B8C000C0628D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3DBE0D001F3B181A0099AA32;
-			remoteInfo = fishhook;
-		};
-		62EDFB3D2019B8C000C0628D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
-			remoteInfo = "fishhook-tvOS";
-		};
 		62EDFB4D2019B8C000C0628D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -287,20 +287,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
-		};
-		62EDFB552019B8C000C0628D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
-			remoteInfo = privatedata;
-		};
-		62EDFB572019B8C000C0628D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
-			remoteInfo = "privatedata-tvOS";
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -490,8 +476,6 @@
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
 				3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */,
-				62EDFB3C2019B8C000C0628D /* libfishhook.a */,
-				62EDFB3E2019B8C000C0628D /* libfishhook-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -520,16 +504,16 @@
 				3DAD3EA71DF850E9000B6D8A /* libyoga.a */,
 				3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
-				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
-				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
 				6279623B212124B400CFE32D /* libjsinspector.a */,
 				6279623D212124B400CFE32D /* libjsinspector-tvOS.a */,
 				62EDFB4E2019B8C000C0628D /* libthird-party.a */,
 				62EDFB502019B8C000C0628D /* libthird-party.a */,
 				62EDFB522019B8C000C0628D /* libdouble-conversion.a */,
 				62EDFB542019B8C000C0628D /* libdouble-conversion.a */,
-				62EDFB562019B8C000C0628D /* libprivatedata.a */,
-				62EDFB582019B8C000C0628D /* libprivatedata-tvOS.a */,
+				5CAF6C082327F2F100B5A09F /* libjsi.a */,
+				5CAF6C0A2327F2F100B5A09F /* libjsiexecutor.a */,
+				5CAF6C0C2327F2F100B5A09F /* libjsi-tvOS.a */,
+				5CAF6C0E2327F2F100B5A09F /* libjsiexecutor-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -719,7 +703,7 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -946,18 +930,32 @@
 			remoteRef = 3DAD3EAA1DF850E9000B6D8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */ = {
+		5CAF6C082327F2F100B5A09F /* libjsi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = 3DAD3EAC1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			path = libjsi.a;
+			remoteRef = 5CAF6C072327F2F100B5A09F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */ = {
+		5CAF6C0A2327F2F100B5A09F /* libjsiexecutor.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			path = libjsiexecutor.a;
+			remoteRef = 5CAF6C092327F2F100B5A09F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5CAF6C0C2327F2F100B5A09F /* libjsi-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsi-tvOS.a";
+			remoteRef = 5CAF6C0B2327F2F100B5A09F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5CAF6C0E2327F2F100B5A09F /* libjsiexecutor-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsiexecutor-tvOS.a";
+			remoteRef = 5CAF6C0D2327F2F100B5A09F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
@@ -1002,20 +1000,6 @@
 			remoteRef = 62796271212124D500CFE32D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		62EDFB3C2019B8C000C0628D /* libfishhook.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libfishhook.a;
-			remoteRef = 62EDFB3B2019B8C000C0628D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62EDFB3E2019B8C000C0628D /* libfishhook-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libfishhook-tvOS.a";
-			remoteRef = 62EDFB3D2019B8C000C0628D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		62EDFB4E2019B8C000C0628D /* libthird-party.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1042,20 +1026,6 @@
 			fileType = archive.ar;
 			path = "libdouble-conversion.a";
 			remoteRef = 62EDFB532019B8C000C0628D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62EDFB562019B8C000C0628D /* libprivatedata.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libprivatedata.a;
-			remoteRef = 62EDFB552019B8C000C0628D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62EDFB582019B8C000C0628D /* libprivatedata-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libprivatedata-tvOS.a";
-			remoteRef = 62EDFB572019B8C000C0628D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -1192,7 +1162,6 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 8X2A38Q9VD;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 				);
@@ -1203,9 +1172,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.jiguang.hxhg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jmessage.sdk;
 				PRODUCT_NAME = PushDemo;
-				PROVISIONING_PROFILE_SPECIFIER = JIGUANGSDK;
+				PROVISIONING_PROFILE_SPECIFIER = "com.jmessage.sdk-dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1219,7 +1188,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8X2A38Q9VD;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 				);
@@ -1230,9 +1198,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.jiguang.hxhg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jmessage.sdk;
 				PRODUCT_NAME = PushDemo;
-				PROVISIONING_PROFILE_SPECIFIER = JIGUANGSDK;
+				PROVISIONING_PROFILE_SPECIFIER = "com.jmessage.sdk-dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1246,7 +1214,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1267,6 +1238,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.PushDemo-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
@@ -1282,8 +1254,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1303,6 +1278,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.PushDemo-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;

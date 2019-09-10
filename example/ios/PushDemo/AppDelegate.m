@@ -39,7 +39,7 @@
   // ReactNative环境配置
   NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.16:8081/index.bundle?platform=ios&dev=true"];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"ReactNative-JPush"
+                                                      moduleName:@"JPush-RN"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
