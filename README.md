@@ -53,13 +53,13 @@ npm install jpush-react-native --save
 * setting.gradle
 
   ```
-  	include ':jpush-react-native'
-    project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
-    include ':jcore-react-native'
-    project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+  include ':jpush-react-native'
+  project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
+  include ':jcore-react-native'
+  project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
   ```
 
-###2.2 iOS
+### 2.2 iOS
 
 * Libraries
 
