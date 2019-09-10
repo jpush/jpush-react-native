@@ -94,12 +94,11 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 25
-
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.jmessage.sdk" //替换包名：
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         ndk {
@@ -144,7 +143,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':jcore-react-native')
     implementation project(':jpush-react-native')
-    implementation 'com.android.support:appcompat-v7:25.3.1'
     implementation 'com.facebook.react:react-native:+'
 }
 

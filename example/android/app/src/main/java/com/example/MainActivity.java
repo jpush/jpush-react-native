@@ -1,4 +1,4 @@
-package com.pushdemo;
+package com.example;
 
 import android.os.Bundle;
 
@@ -16,7 +16,7 @@ public class MainActivity extends ReactActivity implements DefaultHardwareBackBt
 
     @Override
     protected String getMainComponentName() {
-        return "ReactNative-JPush";
+        return "JPush-RN";
     }
 
 }
