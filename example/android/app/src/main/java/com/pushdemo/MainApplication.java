@@ -15,9 +15,6 @@ import cn.jiguang.plugins.push.JPushPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
-    private boolean SHUTDOWN_TOAST = false;
-    private boolean SHUTDOWN_LOG = false;
-
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
         @Override
