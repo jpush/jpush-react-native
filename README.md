@@ -65,8 +65,8 @@ npm install jpush-react-native --save
 
   ```
   Add Files to "your project name"
-  node_modules/jcore-react-native/ios/RCTJCoreModule/
-  node_modules/jpush-react-native/ios/RCTJPushModule/
+  node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj
+  node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj
   ```
 
 * Capabilities
@@ -89,22 +89,28 @@ npm install jpush-react-native --save
   libz.tbd
   libresolv.tbd
   UserNotifications.framework
-  
+  libRCTJCoreModule.a
+  libRCTJPushModule.a
   ```
 
 ## 3. 引用
 
 ### 3.1 Android
 
-参考：[MainApplication.java](https://github.com/jpush/jpush-react-native/tree/master/example/android/app/src/main/java/com/example/MainApplication)
+参考：[MainApplication.java](https://github.com/jpush/jpush-react-native/tree/master/example/android/app/src/main/java/com/example/MainApplication.java)
 
 ### 3.2 iOS
 
-参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/PushDemo/AppDelegate.m) 
+参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/example/AppDelegate.m) 
 
 ## 4. API
 
 详见：[index.js](https://github.com/jpush/jpush-react-native/blob/master/index.js)
 
+## 5.  其他
 
+* 集成前务必将example工程跑通
+* JPush3.5.5&&JCore1.3.5属于重构版本，API主要缺少本地通知，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
+* 目前react-native link和pod install还不完善，待下个版本完成
 
+ 
