@@ -18,11 +18,8 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
-  [JPUSHService setDebugMode];
-  
-   // JPush初始化配置
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+  // JPush初始化配置
   [JPUSHService setupWithOption:launchOptions appKey:@"129c21dc4cb5e6f6de194003"
                         channel:@"dev" apsForProduction:YES];
   // Apns
@@ -35,7 +32,6 @@
   [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
   // 地理围栏
   [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
-  
   // ReactNative环境配置
   NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.16:8081/index.bundle?platform=ios&dev=true"];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
@@ -71,7 +67,7 @@
 //ios 4 本地通知 todo
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
   NSDictionary *userInfo =  notification.userInfo;
-   NSLog(@"iOS 4 本地通知");
+  NSLog(@"iOS 4 本地通知");
   [[NSNotificationCenter defaultCenter] postNotificationName:J_LOCAL_NOTIFICATION_EVENT object:userInfo];
 }
 
