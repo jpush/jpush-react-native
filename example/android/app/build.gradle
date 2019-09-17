@@ -139,7 +139,6 @@ android {
 }
 
 dependencies {
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':jcore-react-native')
     implementation project(':jpush-react-native')
