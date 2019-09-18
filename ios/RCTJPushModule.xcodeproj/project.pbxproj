@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5CF8E64A231E3A9300B12200 /* jpush-ios-3.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF8E648231E3A9300B12200 /* jpush-ios-3.2.2.a */; };
+		5C46FD2F2332061600F0198A /* libjpush-ios-3.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C46FD2E2332061600F0198A /* libjpush-ios-3.2.2.a */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5CF8E648231E3A9300B12200 /* jpush-ios-3.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "jpush-ios-3.2.2.a"; path = "RCTJPushModule/jpush-ios-3.2.2.a"; sourceTree = "<group>"; };
+		5C46FD2E2332061600F0198A /* libjpush-ios-3.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjpush-ios-3.2.2.a"; path = "RCTJPushModule/libjpush-ios-3.2.2.a"; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,7 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CF8E64A231E3A9300B12200 /* jpush-ios-3.2.2.a in Frameworks */,
+				5C46FD2F2332061600F0198A /* libjpush-ios-3.2.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,7 +46,7 @@
 		5CF8E647231E3A9200B12200 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5CF8E648231E3A9300B12200 /* jpush-ios-3.2.2.a */,
+				5C46FD2E2332061600F0198A /* libjpush-ios-3.2.2.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
