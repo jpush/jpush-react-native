@@ -73,7 +73,7 @@ pod install
   pod deintegrate
   ```
 
-###2.2.2 手动方式
+### 2.2.2 手动方式
 
 * Libraries
 
