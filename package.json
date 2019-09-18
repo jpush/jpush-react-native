@@ -89,29 +89,6 @@
     "type": "git",
     "url": "git+ssh://git@github.com/jpush/jpush-react-native.git"
   },
-  // "rnpm": {
-  //   "android": {
-  //     "packageInstance": "new JPushPackage()"
-  //   },
-  //   "ios": {
-  //     "sharedLibraries": [
-  //       "libz",
-  //       "UserNotifications",
-  //       "CoreTelephony",
-  //       "Security",
-  //       "CFNetwork",
-  //       "CoreFoundation",
-  //       "SystemConfiguration",
-  //       "Foundation",
-  //       "UIKit",
-  //       "libresolv",
-  //       "CoreGraphics"
-  //     ]
-  //   },
-  //   "commands": {
-  //     "prelink": "node node_modules/jpush-react-native/scripts/patch"
-  //   }
-  // },
   "scripts": {
     "lint": "prettier --write '**/*.{js,ts,md}'; standard --fix",
     "precommit": "lint-staged"
