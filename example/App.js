@@ -45,9 +45,6 @@ class Button extends React.Component {
   }
 }
 
-
-JPush.init();
-
 export default class App extends React.Component {
 
   constructor(props) {
@@ -55,6 +52,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    JPush.init();
     //连接状态
     this.connectListener = result => {
       console.log("connectListener:" + JSON.stringify(result))
