@@ -28,6 +28,8 @@ export default class JPush {
 
   /*
   * 初始化推送服务
+  * 
+  * 请在componentDidMount()调用init，否则会影响通知点击事件的回调
   * */
   static init() {
     if (Platform.OS == "android") {
@@ -324,15 +326,17 @@ export default class JPush {
   *
   * @param {Fucntion} callback = (result) => {"messageID":int,"title":int，"content":StringArray,"extras":{String:String}},"notificationType":String}
   *
-  * messageID:
+  * messageID:唯一标识通知消息的 ID
   *
-  * title:
+  * title:对应 Portal 推送通知界面上的“通知标题”字段
   *
-  * content:
+  * content:对应 Portal 推送通知界面上的“通知内容”字段
   *
-  * extras:
+  * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
   *
   * notificationType：分为notificationArrived和notificationOpened两种
+  *
+  * 注意：应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
   *
   * */
   static addNotificationListener(callback) {
@@ -347,11 +351,11 @@ export default class JPush {
   *
   * @param {Fucntion} callback = (result) => {"messageID":int，"content":StringArray,"extras":{String:String}}}
   *
-  * messageID:
+  * messageID:唯一标识自定义消息的 ID
   *
-  * content:
+  * content:对应 Portal 推送消息界面上的“自定义消息内容”字段
   *
-  * extras:
+  * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
   *
   * */
   static addCustomMessagegListener(callback) {
@@ -528,8 +532,8 @@ export default class JPush {
   }
 
   /*
- * 动态配置 channel，优先级比 AndroidManifest 里配置的高
- * */
+  * 动态配置 channel，优先级比 AndroidManifest 里配置的高
+  * */
   static setChannel(params) {
     if (Platform.OS == "android") {
       JPushModule.setChannel(params)
