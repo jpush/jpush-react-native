@@ -28,6 +28,8 @@ export default class JPush {
 
   /*
   * 初始化推送服务
+  * 
+  * 请在componentDidMount()调用init，否则会影响通知点击事件的回调
   * */
   static init() {
     if (Platform.OS == "android") {
@@ -528,8 +530,8 @@ export default class JPush {
   }
 
   /*
- * 动态配置 channel，优先级比 AndroidManifest 里配置的高
- * */
+  * 动态配置 channel，优先级比 AndroidManifest 里配置的高
+  * */
   static setChannel(params) {
     if (Platform.OS == "android") {
       JPushModule.setChannel(params)
