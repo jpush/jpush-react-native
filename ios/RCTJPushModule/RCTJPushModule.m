@@ -360,7 +360,17 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
     NSNotificationName notificationName = data.name;
     NSDictionary *objectData = data.object;
     NSString *notificationType = ([notificationName isEqualToString:J_APNS_NOTIFICATION_OPENED_EVENT])?NOTIFICATION_OPENED:NOTIFICATION_ARRIVED;
-    NSDictionary *apnsData =  objectData[@"aps"][@"alert"];
+    id alertData =  objectData[@"aps"][@"alert"];
+    NSString *title = @"";
+    NSString *content = @"";
+    
+    if([alertData isKindOfClass:[NSString class]]){
+       content = alertData;
+    }else if([alertData isKindOfClass:[NSDictionary class]]){
+        title = alertData[@"title"]?alertData[@"title"]:@"";
+        content = alertData[@"body"]?alertData[@"body"]:@"";
+    }
+    
     NSDictionary *responseData;
     NSMutableDictionary * copyData = [[NSMutableDictionary alloc] initWithDictionary:objectData];
     if (copyData[@"_j_business"]) {
@@ -373,11 +383,6 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
     if (copyData[@"aps"]) {
         [copyData removeObjectForKey:@"aps"];
     }
-    @try {
-        
-    } @catch (NSException *exception) {
-       
-    }
     NSMutableDictionary * extrasData = [[NSMutableDictionary alloc] init];
     
     NSArray * allkeys = [copyData allKeys];
@@ -387,11 +392,12 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
         NSString *value = [copyData objectForKey:key];
         [extrasData setObject:value forKey:key];
     };
+   
     if (extrasData.count > 0) {
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:apnsData[@"title"],CONTENT:apnsData[@"body"],EXTRAS:extrasData,NOTIFICATION_TYPE:notificationType};
+        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:title,CONTENT:content,EXTRAS:extrasData,NOTIFICATION_TYPE:notificationType};
     }
     else {
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:apnsData[@"title"],CONTENT:apnsData[@"body"],NOTIFICATION_TYPE:notificationType};
+        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:title,CONTENT:content,NOTIFICATION_TYPE:notificationType};
     }
     return responseData;
 }
