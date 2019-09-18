@@ -1,20 +1,21 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import "AppDelegate.h"
+
 #import <RCTJPushModule.h>
+
+#import <React/RCTBridge.h>
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
+
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
-
-#import <React/RCTBundleURLProvider.h>
-#import <React/RCTRootView.h>
 
 @implementation AppDelegate
 
@@ -33,9 +34,9 @@
   // 地理围栏
   [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
   // ReactNative环境配置
-  NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.16:8081/index.bundle?platform=ios&dev=true"];
+  NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.135:8081/index.bundle?platform=ios&dev=true"];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"JPush-RN"
+                                                      moduleName:@"example"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
