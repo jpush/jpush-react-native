@@ -61,6 +61,20 @@ npm install jpush-react-native --save
 
 ### 2.2 iOS
 
+### 2.2.1 pod
+
+```
+pod install
+```
+
+* 注意：如果项目里使用pod安装过，请先执行命令
+
+  ```
+  pod deintegrate
+  ```
+
+###2.2.2 手动方式
+
 * Libraries
 
   ```
@@ -110,7 +124,7 @@ npm install jpush-react-native --save
 ## 5.  其他
 
 * 集成前务必将example工程跑通
-* JPush3.5.5&&JCore1.3.5属于重构版本，API主要缺少本地通知，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
-* 目前react-native link和pod install还不完善，待下个版本完成
+* JPush3.5.7&&JCore1.3.7属于重构版本，API主要缺少本地通知，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
+* 目前react-native link还不完善，待下个版本完成
 
  
