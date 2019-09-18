@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 
 import org.json.JSONObject;
 
@@ -18,6 +19,8 @@ import java.util.Set;
 
 import cn.jiguang.plugins.push.common.JPushConstans;
 import cn.jiguang.plugins.push.common.JPushLogger;
+import cn.jiguang.plugins.push.helper.JPushHelper;
+import cn.jiguang.plugins.push.receiver.JPushBroadcastReceiver;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
@@ -54,6 +57,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void init() {
         JPushInterface.init(reactContext);
+        if (JPushBroadcastReceiver.NOTIFICATION_BUNDLE != null) {
+            WritableMap writableMap = JPushHelper.convertNotificationBundleToMap(JPushConstans.NOTIFICATION_OPENED, JPushBroadcastReceiver.NOTIFICATION_BUNDLE);
+            JPushHelper.sendEvent(JPushConstans.NOTIFICATION_EVENT, writableMap);
+            JPushBroadcastReceiver.NOTIFICATION_BUNDLE = null;
+        }
     }
 
     @ReactMethod
