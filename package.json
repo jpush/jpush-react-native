@@ -14,7 +14,7 @@
     ]
   ],
   "_from": "..",
-  "_id": "jpush-react-native@2.5.8",
+  "_id": "jpush-react-native@2.5.9",
   "_inCache": true,
   "_installable": true,
   "_location": "/jpush-react-native",
@@ -103,5 +103,5 @@
       "ios/"
     ]
   },
-  "version": "2.5.8"
+  "version": "2.5.9"
 }
