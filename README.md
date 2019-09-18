@@ -126,5 +126,6 @@ pod install
 * 集成前务必将example工程跑通
 * JPush3.5.7&&JCore1.3.7属于重构版本，API主要缺少本地通知，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
 * 目前react-native link还不完善，待下个版本完成
+* 上报问题还麻烦先调用JPush.setLoggerEnable({"debug": true}，拿到debug日志
 
  

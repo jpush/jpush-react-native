@@ -11,9 +11,9 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - JCoreRN (1.3.5):
+  - JCoreRN (1.3.7):
     - React
-  - JPushRN (2.5.6):
+  - JPushRN (2.5.7):
     - React
   - React (0.60.5):
     - React-Core (= 0.60.5)
@@ -167,8 +167,8 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  JCoreRN: 432fe2ced6135ebc02f1304a0ff8aa86ff52de29
-  JPushRN: 15a460420b3118ade38cb6d4b0b15de8ad567e65
+  JCoreRN: 3d47af5c3e3ce324e8982291e07a2c7236b48fb5
+  JPushRN: 82b1f607216ade82085c860a8ad691d801e150c5
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
   React-cxxreact: 8384287780c4999351ad9b6e7a149d9ed10a2395
