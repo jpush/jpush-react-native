@@ -28,7 +28,7 @@ export default class JPush {
 
   /*
   * 初始化推送服务
-  * 
+  *
   * 请在componentDidMount()调用init，否则会影响通知点击事件的回调
   * */
   static init() {
@@ -336,7 +336,9 @@ export default class JPush {
   *
   * notificationType：分为notificationArrived和notificationOpened两种
   *
-  * 注意：应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
+  * 注意：1.应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
+  *      2.请在JS的componentDidMount()中调用JPush.init()保证消息点击事件到达率
+  *      3.请在Android的Application onCreate()中调用JPushModule.registerActivityLifecycle(this)保证应用后台点击通知能切到前台
   *
   * */
   static addNotificationListener(callback) {
