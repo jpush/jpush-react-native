@@ -1,6 +1,9 @@
 
 package cn.jiguang.plugins.push;
 
+import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,11 +32,13 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     public static ReactApplicationContext reactContext;
 
+    public static boolean isAppForeground = false;
+
     public JPushModule(ReactApplicationContext reactApplicationContext) {
         super(reactContext);
         reactContext = reactApplicationContext;
     }
-        
+
     @Override
     public String getName() {
         return "JPushModule";
@@ -522,5 +527,48 @@ public class JPushModule extends ReactContextBaseJavaModule {
             JPushLogger.w("there are no " + JPushConstans.GEO_FENCE_ID);
         }
     }
+
+    //*****************************应用前后台状态监听*****************************
+    public static void registerActivityLifecycle(Application application) {
+        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle bundle) {
+                JPushLogger.d("onActivityCreated");
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                JPushLogger.d("onActivityStarted");
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                JPushLogger.d("onActivityResumed");
+                isAppForeground = true;
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                JPushLogger.d("onActivityPaused");
+                isAppForeground = false;
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                JPushLogger.d("onActivityStopped");
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+                JPushLogger.d("onActivitySaveInstanceState");
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                JPushLogger.d("onActivityDestroyed");
+            }
+        });
+    }
+
 
 }

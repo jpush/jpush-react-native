@@ -1,5 +1,7 @@
 package cn.jiguang.plugins.push.helper;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -97,6 +99,16 @@ public class JPushHelper {
             writableMap.putMap(JPushConstans.EXTRAS, extrasMap);
         } catch (Throwable throwable) {
             JPushLogger.w("convertExtras error:" + throwable.getMessage());
+        }
+    }
+
+    public static void launchApp(Context context) {
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        }catch (Throwable throwable){
+            JPushLogger.e("");
         }
     }
 
