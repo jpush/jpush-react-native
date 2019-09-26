@@ -23,7 +23,7 @@
   // JPush初始化配置
   [JPUSHService setupWithOption:launchOptions appKey:@"129c21dc4cb5e6f6de194003"
                         channel:@"dev" apsForProduction:YES];
-  // Apns
+  // APNS
   JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
   entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
@@ -51,15 +51,15 @@
 
 //************************************************JPush start************************************************
 
-//注册 APNs 成功并上报 DeviceToken
+//注册 APNS 成功并上报 DeviceToken
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [JPUSHService registerDeviceToken:deviceToken];
 }
 
-//iOS 7 Apns
+//iOS 7 APNS
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:  (NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   // iOS 10 以下 Required
-  NSLog(@"iOS 7 Apns");
+  NSLog(@"iOS 7 APNS");
   [JPUSHService handleRemoteNotification:userInfo];
   [[NSNotificationCenter defaultCenter] postNotificationName:J_APNS_NOTIFICATION_ARRIVED_EVENT object:userInfo];
   completionHandler(UIBackgroundFetchResultNewData);
@@ -77,7 +77,7 @@
   NSDictionary * userInfo = notification.request.content.userInfo;
   if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     // Apns
-    NSLog(@"iOS 10 Apns 前台收到消息");
+    NSLog(@"iOS 10 APNS 前台收到消息");
     [JPUSHService handleRemoteNotification:userInfo];
     [[NSNotificationCenter defaultCenter] postNotificationName:J_APNS_NOTIFICATION_ARRIVED_EVENT object:userInfo];
   }
@@ -93,9 +93,11 @@
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler: (void (^)())completionHandler {
   NSDictionary * userInfo = response.notification.request.content.userInfo;
   if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    NSLog(@"iOS 10 Apns 消息事件回调");
+    NSLog(@"iOS 10 APNS 消息事件回调");
     // Apns
     [JPUSHService handleRemoteNotification:userInfo];
+    // 保障应用被杀死状态下，用户点击推送消息，打开app后可以收到点击通知事件
+    [[RCTJPushEventQueue sharedInstance]._notificationQueue insertObject:userInfo atIndex:0];
     [[NSNotificationCenter defaultCenter] postNotificationName:J_APNS_NOTIFICATION_OPENED_EVENT object:userInfo];
   }
   else {
@@ -103,7 +105,8 @@
     NSLog(@"iOS 10 本地通知 消息事件回调");
     [[NSNotificationCenter defaultCenter] postNotificationName:J_LOCAL_NOTIFICATION_EVENT object:userInfo];
   }
-  completionHandler();  // 系统要求执行这个方法
+  // 系统要求执行这个方法
+  completionHandler();
 }
 
 //自定义消息
