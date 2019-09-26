@@ -54,7 +54,6 @@ RCT_EXPORT_MODULE(JPushModule);
 
 - (id)init
 {
-    NSLog(@"xxx init");
     self = [super init];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
@@ -403,7 +402,6 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
         title = alertData[@"title"]?alertData[@"title"]:@"";
         content = alertData[@"body"]?alertData[@"body"]:@"";
     }
-    
     NSDictionary *responseData;
     NSMutableDictionary * copyData = [[NSMutableDictionary alloc] initWithDictionary:objectData];
     if (copyData[@"_j_business"]) {
@@ -425,12 +423,12 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
         NSString *value = [copyData objectForKey:key];
         [extrasData setObject:value forKey:key];
     };
-   
+    NSString *messageID = objectData[@"_j_msgid"]?objectData[@"_j_msgid"]:@"";
     if (extrasData.count > 0) {
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:title,CONTENT:content,EXTRAS:extrasData,NOTIFICATION_EVENT_TYPE:notificationEventType};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,EXTRAS:extrasData,NOTIFICATION_EVENT_TYPE:notificationEventType};
     }
     else {
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:title,CONTENT:content,NOTIFICATION_EVENT_TYPE:notificationEventType};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,NOTIFICATION_EVENT_TYPE:notificationEventType};
     }
     return responseData;
 }
@@ -439,10 +437,13 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
 {
     NSDictionary *objectData = data.object;
     NSDictionary *responseData;
+    NSString *messageID = objectData[@"_j_msgid"]?objectData[@"_j_msgid"]:@"";
+    NSString *title = objectData[@"title"]?objectData[@"title"]:@"";
+    NSString *content = objectData[@"content"]?objectData[@"content"]:@"";
     if(objectData[@"extras"]){
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],CONTENT:objectData[@"content"],EXTRAS:objectData[@"extras"]};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,EXTRAS:objectData[@"extras"]};
     }else{
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],CONTENT:objectData[@"content"]};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content};
     }
     return responseData;
 }
