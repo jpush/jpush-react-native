@@ -10,7 +10,7 @@
   },
   "keywords": [
     "react-native",
-    "JPush",
+    "JPush"
   ],
   "peerDependencies": {
     "jcore-react-native": ">= 1.3.7",
