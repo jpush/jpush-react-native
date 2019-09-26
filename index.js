@@ -34,6 +34,8 @@ export default class JPush {
   static init() {
     if (Platform.OS == "android") {
       JPushModule.init()
+    }else{
+      JPushModule.loadJS()
     }
   }
 
@@ -324,7 +326,7 @@ export default class JPush {
   /*
   * 通知事件
   *
-  * @param {Fucntion} callback = (result) => {"messageID":int,"title":int，"content":StringArray,"extras":{String:String}},"notificationType":String}
+  * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"extras":{String:String},"notificationEventType":String}
   *
   * messageID:唯一标识通知消息的 ID
   *
@@ -334,11 +336,9 @@ export default class JPush {
   *
   * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
   *
-  * notificationType：分为notificationArrived和notificationOpened两种
+  * notificationEventType：分为notificationArrived和notificationOpened两种
   *
-  * 注意：1.应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
-  *      2.请在JS的componentDidMount()中调用JPush.init()保证消息点击事件到达率
-  *      3.请在Android的Application onCreate()中调用JPushModule.registerActivityLifecycle(this)保证应用后台点击通知能切到前台
+  * 注意：应用在存活状态下点击通知不会有跳转行为，应用在被杀死状态下点击通知会启动应用
   *
   * */
   static addNotificationListener(callback) {
@@ -351,7 +351,7 @@ export default class JPush {
   /*
   * 自定义消息事件
   *
-  * @param {Fucntion} callback = (result) => {"messageID":int，"content":StringArray,"extras":{String:String}}}
+  * @param {Fucntion} callback = (result) => {"messageID":String，"content":String,"extras":{String:String}}}
   *
   * messageID:唯一标识自定义消息的 ID
   *
@@ -378,7 +378,7 @@ export default class JPush {
   /*
   * tag alias事件
   *
-  * @param {Fucntion} callback = (result) => {"code":int,"sequence":int，"tags":StringArray,"tag":String,"tagEnable":boolean,"alias":String}
+  * @param {Fucntion} callback = (result) => {"code":int,"sequence":int，"tags":String,"tag":String,"tagEnable":boolean,"alias":String}
   *
   * code:结果，0为操作成功
   *

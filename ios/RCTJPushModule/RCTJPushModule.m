@@ -27,6 +27,7 @@
 
 //通知事件类型
 #define NOTIFICATION_TYPE         @"notificationType"
+#define NOTIFICATION_EVENT_TYPE   @"notificationEventType"
 #define NOTIFICATION_ARRIVED      @"notificationArrived"
 #define NOTIFICATION_OPENED       @"notificationOpened"
 #define NOTIFICATION_DISMISSED    @"notificationDismissed"
@@ -51,7 +52,8 @@
 
 RCT_EXPORT_MODULE(JPushModule);
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
@@ -95,7 +97,6 @@ RCT_EXPORT_MODULE(JPushModule);
     return self;
 }
 
-
 RCT_EXPORT_METHOD(setDebugMode: (NSDictionary *)options)
 {
     BOOL isDebug = false;
@@ -107,6 +108,14 @@ RCT_EXPORT_METHOD(setDebugMode: (NSDictionary *)options)
     }
 }
 
+RCT_EXPORT_METHOD(loadJS)
+{
+    NSMutableArray *list = [RCTJPushEventQueue sharedInstance]._notificationQueue;
+    if(list.count) {
+        [self sendApnsNotificationEventByDictionary:list[0]];
+    }
+}
+
 RCT_EXPORT_METHOD(getRegisterId:(RCTResponseSenderBlock) callback)
 {
     [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
@@ -115,7 +124,6 @@ RCT_EXPORT_METHOD(getRegisterId:(RCTResponseSenderBlock) callback)
         callback(@[response]);
     }];
 }
-
 
 //tag
 RCT_EXPORT_METHOD(addTags:(NSDictionary *)params)
@@ -298,6 +306,7 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
                     completion:NULL];
 }
 
+//APNS通知消息
 - (void)sendApnsNotificationEvent:(NSNotification *)data
 {
     NSDictionary *responseData = [self convertApnsMessage:data];
@@ -305,6 +314,21 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
                         method:@"emit"
                           args:@[NOTIFICATION_EVENT, responseData]
                     completion:NULL];
+    if([RCTJPushEventQueue sharedInstance]._notificationQueue.count){
+         [[RCTJPushEventQueue sharedInstance]._notificationQueue removeAllObjects];
+    }
+}
+
+- (void)sendApnsNotificationEventByDictionary:(NSDictionary *)data
+{
+    NSDictionary *responseData = [self convertApnsMessage:data];
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[NOTIFICATION_EVENT, responseData]
+                    completion:NULL];
+    if([RCTJPushEventQueue sharedInstance]._notificationQueue.count){
+         [[RCTJPushEventQueue sharedInstance]._notificationQueue removeAllObjects];
+    }
 }
 
 //自定义消息
@@ -356,10 +380,18 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
     return responseData;
 }
 
--(NSDictionary *)convertApnsMessage:(NSNotification *)data{
-    NSNotificationName notificationName = data.name;
-    NSDictionary *objectData = data.object;
-    NSString *notificationType = ([notificationName isEqualToString:J_APNS_NOTIFICATION_OPENED_EVENT])?NOTIFICATION_OPENED:NOTIFICATION_ARRIVED;
+-(NSDictionary *)convertApnsMessage:(id)data
+{
+    NSNotificationName notificationName;
+    NSDictionary *objectData;
+    if([data isKindOfClass:[NSNotification class]]){
+        notificationName = [(NSNotification *)data name];
+        objectData = [(NSNotification *)data object];
+    }else if([data isKindOfClass:[NSDictionary class]]){
+        notificationName = J_APNS_NOTIFICATION_OPENED_EVENT;
+        objectData = data;
+    }
+    NSString *notificationEventType = ([notificationName isEqualToString:J_APNS_NOTIFICATION_OPENED_EVENT])?NOTIFICATION_OPENED:NOTIFICATION_ARRIVED;
     id alertData =  objectData[@"aps"][@"alert"];
     NSString *title = @"";
     NSString *content = @"";
@@ -370,7 +402,6 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
         title = alertData[@"title"]?alertData[@"title"]:@"";
         content = alertData[@"body"]?alertData[@"body"]:@"";
     }
-    
     NSDictionary *responseData;
     NSMutableDictionary * copyData = [[NSMutableDictionary alloc] initWithDictionary:objectData];
     if (copyData[@"_j_business"]) {
@@ -392,28 +423,33 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
         NSString *value = [copyData objectForKey:key];
         [extrasData setObject:value forKey:key];
     };
-   
+    NSString *messageID = objectData[@"_j_msgid"]?objectData[@"_j_msgid"]:@"";
     if (extrasData.count > 0) {
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:title,CONTENT:content,EXTRAS:extrasData,NOTIFICATION_TYPE:notificationType};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,EXTRAS:extrasData,NOTIFICATION_EVENT_TYPE:notificationEventType};
     }
     else {
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],TITLE:title,CONTENT:content,NOTIFICATION_TYPE:notificationType};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,NOTIFICATION_EVENT_TYPE:notificationEventType};
     }
     return responseData;
 }
 
--(NSDictionary *)convertCustomMessage:(NSNotification *)data {
+-(NSDictionary *)convertCustomMessage:(NSNotification *)data
+{
     NSDictionary *objectData = data.object;
     NSDictionary *responseData;
+    NSString *messageID = objectData[@"_j_msgid"]?objectData[@"_j_msgid"]:@"";
+    NSString *title = objectData[@"title"]?objectData[@"title"]:@"";
+    NSString *content = objectData[@"content"]?objectData[@"content"]:@"";
     if(objectData[@"extras"]){
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],CONTENT:objectData[@"content"],EXTRAS:objectData[@"extras"]};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,EXTRAS:objectData[@"extras"]};
     }else{
-        responseData = @{MESSAGE_ID:objectData[@"_j_msgid"],CONTENT:objectData[@"content"]};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content};
     }
     return responseData;
 }
 
--(NSDictionary *)convertLocalMessage:(NSNotification *)data {
+-(NSDictionary *)convertLocalMessage:(NSNotification *)data
+{
     //NSLog(@"convertConnect 结果返回：%@", data);
     NSMutableDictionary *responseData = [[NSMutableDictionary alloc] init];
     return responseData;

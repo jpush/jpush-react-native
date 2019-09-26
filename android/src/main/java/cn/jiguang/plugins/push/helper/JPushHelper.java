@@ -52,10 +52,10 @@ public class JPushHelper {
         return writableMap;
     }
 
-
     public static WritableMap convertCustomMessage(CustomMessage customMessage) {
         WritableMap writableMap = Arguments.createMap();
         writableMap.putString(JPushConstans.MESSAGE_ID, customMessage.messageId);
+        writableMap.putString(JPushConstans.TITLE, customMessage.title);
         writableMap.putString(JPushConstans.CONTENT, customMessage.message);
         convertExtras(customMessage.extra, writableMap);
         return writableMap;
