@@ -13,6 +13,8 @@
 #define TITLE      @"title"
 #define CONTENT    @"content"
 #define EXTRAS     @"extras"
+#define BADGE      @"badge"
+#define RING       @"ring"
 
 //tagAlias
 #define TAG         @"tag"
@@ -398,9 +400,11 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
     }
     NSString *notificationEventType = ([notificationName isEqualToString:J_APNS_NOTIFICATION_OPENED_EVENT])?NOTIFICATION_OPENED:NOTIFICATION_ARRIVED;
     id alertData =  objectData[@"aps"][@"alert"];
+    NSString *badge = objectData[@"aps"][@"badge"]?[objectData[@"aps"][@"badge"] stringValue]:@"";
+    NSString *sound = objectData[@"aps"][@"sound"]?objectData[@"aps"][@"sound"]:@"";
+    
     NSString *title = @"";
     NSString *content = @"";
-    
     if([alertData isKindOfClass:[NSString class]]){
        content = alertData;
     }else if([alertData isKindOfClass:[NSDictionary class]]){
@@ -428,12 +432,12 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
         NSString *value = [copyData objectForKey:key];
         [extrasData setObject:value forKey:key];
     };
-    NSString *messageID = objectData[@"_j_msgid"]?objectData[@"_j_msgid"]:@"";
+    NSString *messageID = objectData[@"_j_msgid"]?[objectData[@"_j_msgid"] stringValue]:@"";
     if (extrasData.count > 0) {
-        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,EXTRAS:extrasData,NOTIFICATION_EVENT_TYPE:notificationEventType};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,BADGE:badge,RING:sound,EXTRAS:extrasData,NOTIFICATION_EVENT_TYPE:notificationEventType};
     }
     else {
-        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,NOTIFICATION_EVENT_TYPE:notificationEventType};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,BADGE:badge,RING:sound,NOTIFICATION_EVENT_TYPE:notificationEventType};
     }
     return responseData;
 }
