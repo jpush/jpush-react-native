@@ -34,7 +34,7 @@
   // 地理围栏
   [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
   // ReactNative环境配置
-  NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.135:8081/index.bundle?platform=ios&dev=true"];
+  NSURL *jsCodeLocation = [NSURL URLWithString:@"http://10.224.36.145:8081/index.bundle?platform=ios&dev=true"];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"example"
                                                initialProperties:nil
@@ -86,7 +86,8 @@
     NSLog(@"iOS 10 本地通知 前台收到消息");
     [[NSNotificationCenter defaultCenter] postNotificationName:J_LOCAL_NOTIFICATION_EVENT object:userInfo];
   }
-  completionHandler(UNNotificationPresentationOptionAlert);// 需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
+  //需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
+  completionHandler(UNNotificationPresentationOptionAlert);
 }
 
 //iOS 10 消息事件回调
