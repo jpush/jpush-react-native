@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage        = "https://github.com/jpush/jpush-react-native"
   s.summary         = pjson["description"]
   s.license         = pjson["license"]
-  s.author          = { "huminios" => "380108184@qq.com" }
+  s.author          = { "wicked.tc130" }
   
   s.ios.deployment_target = '7.0'
 
@@ -19,6 +19,5 @@ Pod::Spec.new do |s|
   s.weak_frameworks = 'UserNotifications'
   s.libraries       = 'z','resolv'
   s.vendored_libraries = "ios/RCTJPushModule/*.a"
-
   s.dependency 'React'
 end
