@@ -326,13 +326,17 @@ export default class JPush {
   /*
   * 通知事件
   *
-  * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"extras":{String:String},"notificationEventType":String}
+  * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"badge":String,"ring":String,"extras":{String:String},"notificationEventType":String}
   *
   * messageID:唯一标识通知消息的 ID
   *
   * title:对应 Portal 推送通知界面上的“通知标题”字段
   *
   * content:对应 Portal 推送通知界面上的“通知内容”字段
+  *
+  * badge:对应 Portal 推送通知界面上的可选设置里面的“badge”字段 (ios only)
+  *
+  * ring:对应 Portal 推送通知界面上的可选设置里面的“sound”字段 (ios only)
   *
   * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
   *
@@ -579,7 +583,7 @@ export default class JPush {
     }
   }
 
-  //***************************************iOS Only todo***************************************
+  //***************************************iOS Only***************************************
 
   /*
   * 设置 Badge
