@@ -52,6 +52,11 @@
 
 RCT_EXPORT_MODULE(JPushModule);
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 - (id)init
 {
     self = [super init];
