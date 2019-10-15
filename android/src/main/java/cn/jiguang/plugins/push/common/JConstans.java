@@ -1,6 +1,6 @@
 package cn.jiguang.plugins.push.common;
 
-public class JPushConstans {
+public class JConstans {
 
     public static final String DEBUG = "debug";
 
@@ -77,6 +77,5 @@ public class JPushConstans {
     public static final String LOCAL_NOTIFICATION_EVENT = "LocalNotificationEvent";
     public static final String TAG_ALIAS_EVENT = "TagAliasEvent";
     public static final String MOBILE_NUMBER_EVENT = "MobileNumberEvent";
-    //todo
     public static final String COMMAND_EVENT = "CommandEvent";
 }
