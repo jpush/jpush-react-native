@@ -3,9 +3,9 @@ package cn.jiguang.plugins.push.common;
 
 import android.util.Log;
 
-public class JPushLogger {
+public class JLogger {
 
-    private static final String TAG = "react-native-JPush";
+    public static final String TAG = "RN-JPush";
 
     private static boolean isLoggerEnable = false;
 

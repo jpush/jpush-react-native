@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import cn.jiguang.plugins.push.common.JPushLogger;
+import cn.jiguang.plugins.push.common.JLogger;
 import cn.jiguang.plugins.push.helper.JPushHelper;
 import cn.jpush.android.api.JPushInterface;
 
@@ -16,12 +16,12 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent data) {
     if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(data.getAction())) {
-      JPushLogger.d("JPushBroadcastReceiver ACTION_NOTIFICATION_OPENED");
+      JLogger.d("JPushBroadcastReceiver ACTION_NOTIFICATION_OPENED");
       try {
         NOTIFICATION_BUNDLE = data.getExtras();
         JPushHelper.launchApp(context);
       } catch (Throwable throwable) {
-        JPushLogger.e("JPushBroadcastReceiver ACTION_NOTIFICATION_OPENED error:" + throwable.getMessage());
+        JLogger.e("JPushBroadcastReceiver ACTION_NOTIFICATION_OPENED error:" + throwable.getMessage());
       }
     }
   }
