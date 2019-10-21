@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage        = "https://github.com/jpush/jpush-react-native"
   s.summary         = pjson["description"]
   s.license         = pjson["license"]
-  s.author          = { "wicked.tc130" }
+  s.author          = pjson["wicked.tc130" => ""]
   
   s.ios.deployment_target = '7.0'
 
