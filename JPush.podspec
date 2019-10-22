@@ -3,12 +3,12 @@ pjson = JSON.parse(File.read('package.json'))
 
 Pod::Spec.new do |s|
 
-  s.name            = "JPushRN"
+  s.name            = "JPush"
   s.version         = pjson["version"]
-  s.homepage        = "https://github.com/jpush/jpush-react-native"
+  s.homepage        = pjson["homepage"]
   s.summary         = pjson["description"]
   s.license         = pjson["license"]
-  s.author          = pjson["wicked.tc130" => ""]
+  s.author          = pjson["author"]
   
   s.ios.deployment_target = '7.0'
 
