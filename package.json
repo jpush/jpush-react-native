@@ -1,9 +1,11 @@
 {
   "name": "jpush-react-native",
   "description": "React Native JPush component for Android and iOS",
+  "homepage":"https://github.com/jpush/jpush-react-native",
   "main": "index.js",
+  "license": "ISC",
   "author": "wicked.tc130",
-  "version": "2.5.12",
+  "version": "2.6.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/jpush/jpush-react-native"
@@ -13,7 +15,7 @@
     "JPush"
   ],
   "peerDependencies": {
-    "jcore-react-native": ">= 1.3.7",
+    "jcore-react-native": ">= 1.5.0",
     "react-native": ">= 0.50"
   }
 }
