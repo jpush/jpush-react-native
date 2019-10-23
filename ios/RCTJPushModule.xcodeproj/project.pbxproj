@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C103CA7236041E7000AD3DA /* RCTJPushEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C103CA6236041E7000AD3DA /* RCTJPushEventQueue.m */; };
 		5C46FD2F2332061600F0198A /* libjpush-ios-3.2.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C46FD2E2332061600F0198A /* libjpush-ios-3.2.2.a */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C103CA5236041E7000AD3DA /* RCTJPushEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushEventQueue.h; sourceTree = "<group>"; };
+		5C103CA6236041E7000AD3DA /* RCTJPushEventQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushEventQueue.m; sourceTree = "<group>"; };
 		5C46FD2E2332061600F0198A /* libjpush-ios-3.2.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjpush-ios-3.2.2.a"; path = "RCTJPushModule/libjpush-ios-3.2.2.a"; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
@@ -71,6 +74,8 @@
 		6280980C1CEDC407000D3A81 /* RCTJPushModule */ = {
 			isa = PBXGroup;
 			children = (
+				5C103CA5236041E7000AD3DA /* RCTJPushEventQueue.h */,
+				5C103CA6236041E7000AD3DA /* RCTJPushEventQueue.m */,
 				62DA93BC21E8679300208462 /* JPUSHService.h */,
 				624386D31E096B8800F69E07 /* RCTJPushModule.h */,
 				624386D41E096B8800F69E07 /* RCTJPushModule.m */,
@@ -136,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */,
+				5C103CA7236041E7000AD3DA /* RCTJPushEventQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
