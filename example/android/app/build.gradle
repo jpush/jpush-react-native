@@ -30,14 +30,14 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.jmessage.sdk"
+        applicationId "com.jmessage.sdk"                          //在此替换你的applicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "129c21dc4cb5e6f6de194003",         //在此替换你的APPKey
-                JPUSH_CHANNEL: "default"        //在此替换你的channel
+                JPUSH_CHANNEL: "default"                          //在此替换你的channel
         ]
     }
     splits {
