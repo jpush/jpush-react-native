@@ -1,4 +1,5 @@
 #import "RCTJPushModule.h"
+#import <CoreLocation/CoreLocation.h>
 
 //常量
 #define CODE           @"code"
@@ -246,6 +247,10 @@ RCT_EXPORT_METHOD(setBadge:(NSDictionary *)params)
         NSNumber *number = params[BADGE];
         [JPUSHService setBadge:[number integerValue]];
     }
+    if (params[LOCAL_BADGE]) {
+        NSNumber *number = params[LOCAL_BADGE];
+        [UIApplication sharedApplication].applicationIconBadgeNumber = [number integerValue];
+    }
 }
 
 //设置手机号码
@@ -267,20 +272,195 @@ RCT_EXPORT_METHOD(crashLogON:(NSDictionary *)params)
     [JPUSHService crashLogON];
 }
 
-//本地通知 todo
+//本地通知
 RCT_EXPORT_METHOD(addNotification:(NSDictionary *)params)
 {
-
+    BOOL validTrigger = NO;
+    JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
+    if ([params[LOCAL_NOTIFICATION_TRIGGER_REPEAT] isKindOfClass:[NSNumber class]]) {
+        trigger.repeat = [params[LOCAL_NOTIFICATION_TRIGGER_REPEAT] boolValue];
+    }
+    if (@available(iOS 10.0, *)) {
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_YEAR] isKindOfClass:[NSNumber class]]) {
+            components.year = [params[LOCAL_NOTIFICATION_TRIGGER_YEAR] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_MONTH] isKindOfClass:[NSNumber class]]) {
+            components.month = [params[LOCAL_NOTIFICATION_TRIGGER_MONTH] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_DAY] isKindOfClass:[NSNumber class]]) {
+            components.day = [params[LOCAL_NOTIFICATION_TRIGGER_DAY] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_HOUR] isKindOfClass:[NSNumber class]]) {
+            components.hour = [params[LOCAL_NOTIFICATION_TRIGGER_HOUR] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_MINUTE] isKindOfClass:[NSNumber class]]) {
+            components.minute = [params[LOCAL_NOTIFICATION_TRIGGER_MINUTE] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_SECOND] isKindOfClass:[NSNumber class]]) {
+            components.second = [params[LOCAL_NOTIFICATION_TRIGGER_SECOND] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_YEAR] isKindOfClass:[NSNumber class]]) {
+            components.year = [params[LOCAL_NOTIFICATION_TRIGGER_YEAR] integerValue];
+        }
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_YEAR] isKindOfClass:[NSNumber class]]) {
+            components.year = [params[LOCAL_NOTIFICATION_TRIGGER_YEAR] integerValue];
+        }
+        if ([components isValidDate]) {
+            trigger.dateComponents = components;
+            validTrigger = YES;
+        }
+        else {
+            if ([params[LOCAL_NOTIFICATION_TRIGGER_TIME_SINCE_NOW] isKindOfClass:[NSNumber class]]) {
+                NSInteger timeInterval = [params[LOCAL_NOTIFICATION_TRIGGER_TIME_SINCE_NOW] integerValue];
+                if (timeInterval > 0) {
+                    if (trigger.repeat && timeInterval < 60) {
+                        NSLog(@"add notification trigger timeInterval must be more than 60s when it repeat");
+                        return;
+                    }
+                    trigger.timeInterval = timeInterval;
+                    validTrigger = YES;
+                }
+            }
+        }
+    }
+    else {
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_TIME_SINCE_NOW] isKindOfClass:[NSNumber class]]) {
+            NSInteger timeInterval = [params[LOCAL_NOTIFICATION_TRIGGER_TIME_SINCE_NOW] integerValue];
+            if (timeInterval > 0) {
+                NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
+                trigger.fireDate = fireDate;
+                validTrigger = YES;
+            }
+        }
+    }
+    if (@available(iOS 8.0, *)) {
+        if ([params[LOCAL_NOTIFICATION_TRIGGER_LATITUDE] isKindOfClass:[NSNumber class]] && [params[LOCAL_NOTIFICATION_TRIGGER_LONGITUDE] isKindOfClass:[NSNumber class]]) {
+            CLLocationCoordinate2D cen = CLLocationCoordinate2DMake([params[LOCAL_NOTIFICATION_TRIGGER_LATITUDE] doubleValue], [params[LOCAL_NOTIFICATION_TRIGGER_LONGITUDE] doubleValue]);
+            float radius = 1000.0;
+            if ([params[LOCAL_NOTIFICATION_TRIGGER_RADIUS] isKindOfClass:[NSNumber class]]) {
+                radius = [params[LOCAL_NOTIFICATION_TRIGGER_RADIUS] floatValue];
+            }
+            NSString *triggerIdentifier = @"";
+            if ([params[LOCAL_NOTIFICATION_TRIGGER_IDENTIFIER] isKindOfClass:[NSString class]]) {
+                triggerIdentifier = params[LOCAL_NOTIFICATION_TRIGGER_IDENTIFIER];
+            }
+            CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:cen
+                                                                         radius:radius
+                                                                     identifier:triggerIdentifier];
+            trigger.region = region;
+            validTrigger = YES;
+        }
+    }
+    
+    if (!validTrigger) {
+        NSLog(@"add notification trigger error, please check trigger params");
+        return;
+    }
+    
+    JPushNotificationContent *content = [[JPushNotificationContent alloc] init];
+    if ([params[LOCAL_NOTIFICATION_CONTENT_TITLE] isKindOfClass:[NSString class]]) {
+        content.title = params[LOCAL_NOTIFICATION_CONTENT_TITLE];
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_SUBTITLE] isKindOfClass:[NSString class]]) {
+        content.subtitle = params[LOCAL_NOTIFICATION_CONTENT_SUBTITLE];
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_BODY] isKindOfClass:[NSString class]]) {
+        content.body = params[LOCAL_NOTIFICATION_CONTENT_BODY];
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_BADGE] isKindOfClass:[NSNumber class]]) {
+        content.badge = params[LOCAL_NOTIFICATION_CONTENT_BADGE];
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_ACTION] isKindOfClass:[NSString class]]) {
+        if (@available(iOS 8.0, *)) {
+            content.action = params[LOCAL_NOTIFICATION_CONTENT_ACTION];
+        }
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_CATEGORY_IDENTIFIER] isKindOfClass:[NSString class]]) {
+        content.categoryIdentifier = params[LOCAL_NOTIFICATION_CONTENT_CATEGORY_IDENTIFIER];
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_THREAD_IDENTIFIER] isKindOfClass:[NSString class]]) {
+        if (@available(iOS 10.0, *)) {
+            content.threadIdentifier = params[LOCAL_NOTIFICATION_CONTENT_THREAD_IDENTIFIER];
+        }
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_USER_INFO] isKindOfClass:[NSDictionary class]]) {
+        content.userInfo = params[LOCAL_NOTIFICATION_CONTENT_USER_INFO];
+    }
+    if ([params[LOCAL_NOTIFICATION_CONTENT_SOUND] isKindOfClass:[NSString class]]) {
+        if (@available(iOS 10.0, *)) {
+            JPushNotificationSound *soundSetting = [[JPushNotificationSound alloc] init];
+            soundSetting.soundName = params[LOCAL_NOTIFICATION_CONTENT_SOUND];
+            content.soundSetting = soundSetting;
+        }
+        else {
+            content.sound = params[LOCAL_NOTIFICATION_CONTENT_SOUND];
+        }
+    }
+    if (@available(iOS 12.0, *)) {
+        if ([params[LOCAL_NOTIFICATION_CONTENT_SUMMARY_ARGUMENT] isKindOfClass:[NSString class]]) {
+            content.summaryArgument = params[LOCAL_NOTIFICATION_CONTENT_SUMMARY_ARGUMENT];
+        }
+        if ([params[LOCAL_NOTIFICATION_CONTENT_SUMMARY_ARGUMENT_COUNT] isKindOfClass:[NSNumber class]]) {
+            content.summaryArgumentCount = [params[LOCAL_NOTIFICATION_CONTENT_SUMMARY_ARGUMENT_COUNT] unsignedIntegerValue];
+        }
+    }
+    
+    JPushNotificationRequest *request = [[JPushNotificationRequest alloc] init];
+    if ([params[LOCAL_NOTIFICATION_REQUEST_IDENTIFIER] isKindOfClass:[NSString class]]) {
+        request.requestIdentifier = params[LOCAL_NOTIFICATION_REQUEST_IDENTIFIER];
+        if (@available(iOS 10.0, *)) {
+            if (!request.requestIdentifier) {
+                NSLog(@"add notification requestIdentifier error, please check requestIdentifier");
+                return;
+            }
+        }
+    }
+    request.content = content;
+    request.trigger = trigger;
+    if (params[LOCAL_NOTIFICATION_REQUEST_COMPLETION]) {
+        request.completionHandler = params[LOCAL_NOTIFICATION_REQUEST_COMPLETION];
+    }
+    [JPUSHService addNotification:request];
 }
 
 RCT_EXPORT_METHOD(removeNotification:(NSDictionary *)params)
 {
-    
+    NSString *requestIdentifier = params[LOCAL_NOTIFICATION_REQUEST_IDENTIFIER];
+    if ([requestIdentifier isKindOfClass:[NSString class]]) {
+        JPushNotificationIdentifier *identifier = [[JPushNotificationIdentifier alloc] init];
+        identifier.identifiers = @[requestIdentifier];
+        if ([params[LOCAL_NOTIFICATION_IDENTIFIER_DELIVERED] isKindOfClass:[NSNumber class]]) {
+            if (@available(iOS 10.0, *)) {
+                identifier.delivered = [params[LOCAL_NOTIFICATION_IDENTIFIER_DELIVERED] boolValue];
+            }
+        }
+        [JPUSHService removeNotification:identifier];
+    }
+    else {
+        [JPUSHService removeNotification:nil];
+    }
 }
 
 RCT_EXPORT_METHOD(findNotification:(NSDictionary *)params)
 {
-    
+    JPushNotificationIdentifier *identifier = [[JPushNotificationIdentifier alloc] init];
+    NSString *requestIdentifier = params[LOCAL_NOTIFICATION_REQUEST_IDENTIFIER];
+    if ([requestIdentifier isKindOfClass:[NSString class]]) {
+        identifier.identifiers = @[requestIdentifier];
+    }
+    else {
+        identifier.identifiers = nil;
+    }
+    if ([params[LOCAL_NOTIFICATION_IDENTIFIER_DELIVERED] isKindOfClass:[NSNumber class]]) {
+        if (@available(iOS 10.0, *)) {
+            identifier.delivered = [params[LOCAL_NOTIFICATION_IDENTIFIER_DELIVERED] boolValue];
+        }
+    }
+    if (params[LOCAL_NOTIFICATION_FIND_COMPLETION]) {
+        identifier.findCompletionHandler = params[LOCAL_NOTIFICATION_FIND_COMPLETION];
+    }
+    [JPUSHService findNotification:identifier];
 }
 
 //地理围栏
