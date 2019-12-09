@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import cn.jiguang.plugins.push.JPushModule;
-import cn.jiguang.plugins.push.common.JConstans;
+import cn.jiguang.plugins.push.common.JConstants;
 import cn.jiguang.plugins.push.common.JLogger;
 import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushMessage;
@@ -34,29 +34,29 @@ public class JPushHelper {
 
     public static WritableMap convertNotificationToMap(String eventType, NotificationMessage message) {
         WritableMap writableMap = Arguments.createMap();
-        writableMap.putString(JConstans.NOTIFICATION_EVENT_TYPE, eventType);
-        writableMap.putString(JConstans.MESSAGE_ID, message.msgId);
-        writableMap.putString(JConstans.TITLE, message.notificationTitle);
-        writableMap.putString(JConstans.CONTENT, message.notificationContent);
+        writableMap.putString(JConstants.NOTIFICATION_EVENT_TYPE, eventType);
+        writableMap.putString(JConstants.MESSAGE_ID, message.msgId);
+        writableMap.putString(JConstants.TITLE, message.notificationTitle);
+        writableMap.putString(JConstants.CONTENT, message.notificationContent);
         convertExtras(message.notificationExtras, writableMap);
         return writableMap;
     }
 
     public static WritableMap convertNotificationBundleToMap(String eventType, Bundle bundle) {
         WritableMap writableMap = Arguments.createMap();
-        writableMap.putString(JConstans.NOTIFICATION_EVENT_TYPE, eventType);
-        writableMap.putString(JConstans.MESSAGE_ID, bundle.getString("cn.jpush.android.MSG_ID",""));
-        writableMap.putString(JConstans.TITLE, bundle.getString("cn.jpush.android.NOTIFICATION_CONTENT_TITLE",""));
-        writableMap.putString(JConstans.CONTENT, bundle.getString("cn.jpush.android.ALERT",""));
+        writableMap.putString(JConstants.NOTIFICATION_EVENT_TYPE, eventType);
+        writableMap.putString(JConstants.MESSAGE_ID, bundle.getString("cn.jpush.android.MSG_ID",""));
+        writableMap.putString(JConstants.TITLE, bundle.getString("cn.jpush.android.NOTIFICATION_CONTENT_TITLE",""));
+        writableMap.putString(JConstants.CONTENT, bundle.getString("cn.jpush.android.ALERT",""));
         convertExtras(bundle.getString("cn.jpush.android.EXTRA",""), writableMap);
         return writableMap;
     }
 
     public static WritableMap convertCustomMessage(CustomMessage customMessage) {
         WritableMap writableMap = Arguments.createMap();
-        writableMap.putString(JConstans.MESSAGE_ID, customMessage.messageId);
-        writableMap.putString(JConstans.TITLE, customMessage.title);
-        writableMap.putString(JConstans.CONTENT, customMessage.message);
+        writableMap.putString(JConstants.MESSAGE_ID, customMessage.messageId);
+        writableMap.putString(JConstants.TITLE, customMessage.title);
+        writableMap.putString(JConstants.CONTENT, customMessage.message);
         convertExtras(customMessage.extra, writableMap);
         return writableMap;
     }
@@ -68,18 +68,18 @@ public class JPushHelper {
         for (String tag : tags) {
             tagsArray.pushString(tag);
         }
-        writableMap.putInt(JConstans.CODE, message.getErrorCode());
-        writableMap.putInt(JConstans.SEQUENCE, message.getSequence());
+        writableMap.putInt(JConstants.CODE, message.getErrorCode());
+        writableMap.putInt(JConstants.SEQUENCE, message.getSequence());
         switch (type) {
             case 1:
-                writableMap.putArray(JConstans.TAGS, tagsArray);
+                writableMap.putArray(JConstants.TAGS, tagsArray);
                 break;
             case 2:
-                writableMap.putBoolean(JConstans.TAG_ENABLE, message.getTagCheckStateResult());
-                writableMap.putString(JConstans.TAG, message.getCheckTag());
+                writableMap.putBoolean(JConstants.TAG_ENABLE, message.getTagCheckStateResult());
+                writableMap.putString(JConstants.TAG, message.getCheckTag());
                 break;
             case 3:
-                writableMap.putString(JConstans.ALIAS, message.getAlias());
+                writableMap.putString(JConstants.ALIAS, message.getAlias());
                 break;
         }
         return writableMap;
@@ -96,7 +96,7 @@ public class JPushHelper {
                 String value = jsonObject.getString(key);
                 extrasMap.putString(key, value);
             }
-            writableMap.putMap(JConstans.EXTRAS, extrasMap);
+            writableMap.putMap(JConstants.EXTRAS, extrasMap);
         } catch (Throwable throwable) {
             JLogger.w("convertExtras error:" + throwable.getMessage());
         }

@@ -12,7 +12,8 @@
 
 + (nonnull instancetype) sharedInstance;
 
-@property NSMutableArray<NSDictionary *> *_notificationQueue;;
+@property NSMutableArray<NSDictionary *> * _Nullable _notificationQueue;
+@property NSMutableArray<NSDictionary *> * _Nullable _localNotificationQueue;
 
 @end
 
