@@ -1,17 +1,17 @@
 package cn.jiguang.plugins.push.common;
 
-public class JConstans {
+public class JConstants {
 
     public static final String DEBUG = "debug";
+
+    public static final String REGISTRATION_ID = "registrationID";
 
     public static final String CODE = "code";
     public static final String CHANNEL = "channel";
     public static final String SEQUENCE = "sequence";
     public static final String CONNECT_ENABLE = "connectEnable";
-
-    public static final String ROM_TYPE = "romType";
+    //电话号码
     public static final String MOBILE_NUMBER = "mobileNumber";
-    public static final String FRAGMENT_NAME = "fragmentName";
     //pushTime
     public static final String PUSH_TIME_DAYS = "pushTimeDays";
     public static final String PUSH_TIME_START_HOUR = "pushTimeStartHour";
@@ -26,32 +26,13 @@ public class JConstans {
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
     public static final String EXTRAS = "extras";
-
+    //消息事件
     public static final String NOTIFICATION_ARRIVED = "notificationArrived";
     public static final String NOTIFICATION_OPENED = "notificationOpened";
     public static final String NOTIFICATION_DISMISSED = "notificationDismissed";
     //通知消息
     public static final String NOTIFICATION_EVENT_TYPE = "notificationEventType";
-    public static final String NOTIFICATION_ID = "notificationID";
-    public static final String NOTIFICATION_TITLE = "notificationTitle";
-    public static final String NOTIFICATION_CONTENT = "notificationContent";
-    public static final String NOTIFICATION_EXTRA = "notificationExtra";
-    public static final String NOTIFICATION_ALERT_TYPE = "notificationAlertType";
-    public static final String NOTIFICATION_SMALL_ICON = "notificationSmallIcon";
-    public static final String NOTIFICATION_BIG_ICON = "notificationBigIcon";
-    public static final String NOTIFICATION_STYLE = "notificationStyle";
-    public static final String NOTIFICATION_BUILDER_ID = "notificationBuilderID";
-    public static final String NOTIFICATION_BIG_TEXT = "notificationBigText";
-    public static final String NOTIFICATION_BIG_PICTURE = "notificationBigPicture";
-    public static final String NOTIFICATION_Inbox = "notificationInbox";
-    public static final String NOTIFICATION_PRIORITY = "notificationPriority";
-    public static final String NOTIFICATION_CATEGORY = "notificationCategory";
-    public static final String NOTIFICATION_CHANNEL_ID = "notificationChannelID";
-    public static final String NOTIFICATION_TYPE = "notificationType";
     public static final String NOTIFICATION_MAX_NUMBER = "notificationMaxNumber";
-    public static final String NOTIFICATION_TIME = "notificationTime";
-    //自定义消息
-
     //cmd消息
     public static final String COMMAND = "command";
     public static final String COMMAND_EXTRA = "commandExtra";

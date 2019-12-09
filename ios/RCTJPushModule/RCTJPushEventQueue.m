@@ -20,12 +20,13 @@
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self) {
-    self._notificationQueue = [NSMutableArray new];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        self._notificationQueue = [NSMutableArray new];
+        self._localNotificationQueue = [NSMutableArray new];
+    }
+    return self;
 }
 
- 
+
 @end
