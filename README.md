@@ -1,5 +1,13 @@
 # JPush-React-Native
 
+##ChangeLog
+
+1.新增本地通知api
+
+2.调整设置调试模式方法，setLoggerEnable({debug:boolean})改为setLoggerEnable(boolean)
+
+3.调整设置ios角标方法，setBadge({badge:int})改为setBadge({badge:int,appBadge:int})，新增appBadge用于设置APP显示角标
+
 ## 1. 安装
 
 ```
