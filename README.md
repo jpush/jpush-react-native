@@ -1,6 +1,6 @@
 # JPush-React-Native
 
-##ChangeLog
+## ChangeLog
 
 1.新增本地通知api
 
