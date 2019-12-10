@@ -4,7 +4,7 @@ public class JConstants {
 
     public static final String DEBUG = "debug";
 
-    public static final String REGISTRATION_ID = "registrationID";
+    public static final String REGISTRATION_ID = "registerID";
 
     public static final String CODE = "code";
     public static final String CHANNEL = "channel";
