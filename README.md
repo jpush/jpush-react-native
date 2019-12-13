@@ -1,5 +1,46 @@
 # JPush-React-Native
 
+## ChangeLog
+
+1. 新增本地通知api
+
+   ```javascript
+   //添加本地通知
+   addLocalNotification({messageID:String,title:String,content:String,extras:{String:String}})
+   //移除指定通知
+   removeLocalNotification({messageID:String})
+   //移除所有通知
+   clearLocalNotifications()
+   ```
+
+2. 调整获取registerId方法
+
+   ```javascript
+   getRegistrationID(callback)
+   //更新前 Android，ios无变化
+   callback = (result) => {String}
+   //更新后 Android，ios无变化
+   callback = (result) => {registerID:String}
+   ```
+
+3. 调整设置调试模式方法
+
+   ```javascript
+   //更新前
+   setLoggerEnable({debug:boolean})
+   //更新后
+   setLoggerEnable(boolean)
+   ```
+
+4. 调整设置ios角标方法
+
+   ```javascript
+   //更新前
+   setBadge({badge:int})
+   //更新后，新增appBadge用于设置APP显示角标
+   setBadge({badge:int,appBadge:int})
+   ```
+
 ## 1. 安装
 
 ```

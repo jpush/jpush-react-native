@@ -259,7 +259,8 @@ export default class JPush {
     *
     * @param {"messageID":String,"title":String，"content":String,"extras":{String:String}}
     *
-    * messageID:唯一标识通知消息的ID，可用于移除消息
+    * messageID:唯一标识通知消息的ID，可用于移除消息。
+    * android用到的是int，ios用到的是String，rn这边提供接口的时候统一改成了String，然后android拿到String转int。输入messageID的时候需要int值范围在[1，2147483647]然后转成String。
     *
     * title:对应“通知标题”字段
     *
