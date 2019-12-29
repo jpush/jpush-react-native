@@ -57,6 +57,7 @@ public class JPushHelper {
         writableMap.putString(JConstants.MESSAGE_ID, customMessage.messageId);
         writableMap.putString(JConstants.TITLE, customMessage.title);
         writableMap.putString(JConstants.CONTENT, customMessage.message);
+        writableMap.putString(JConstants.CONTENT_TYPE, customMessage.contentType);
         convertExtras(customMessage.extra, writableMap);
         return writableMap;
     }

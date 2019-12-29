@@ -25,6 +25,7 @@ public class JConstants {
     public static final String MESSAGE_ID = "messageID";
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
+    public static final String CONTENT_TYPE = "content_type";
     public static final String EXTRAS = "extras";
     //消息事件
     public static final String NOTIFICATION_ARRIVED = "notificationArrived";

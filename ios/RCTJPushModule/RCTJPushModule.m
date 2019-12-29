@@ -13,6 +13,7 @@
 #define MESSAGE_ID @"messageID"
 #define TITLE      @"title"
 #define CONTENT    @"content"
+#define CONTENT_TYPE    @"content_type"
 #define EXTRAS     @"extras"
 #define BADGE      @"badge"
 #define RING       @"ring"
@@ -533,10 +534,11 @@ RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
     NSString *messageID = objectData[@"_j_msgid"]?objectData[@"_j_msgid"]:@"";
     NSString *title = objectData[@"title"]?objectData[@"title"]:@"";
     NSString *content = objectData[@"content"]?objectData[@"content"]:@"";
+    NSString *content_type = objectData[@"content_type"]?objectData[@"content_type"]:@"";
     if(objectData[@"extras"]){
-        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,EXTRAS:objectData[@"extras"]};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,CONTENT_TYPE:content_type,EXTRAS:objectData[@"extras"]};
     }else{
-        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content};
+        responseData = @{MESSAGE_ID:messageID,TITLE:title,CONTENT:content,CONTENT_TYPE:content_type};
     }
     return responseData;
 }
