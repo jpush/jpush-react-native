@@ -77,6 +77,8 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
+
     </application>
 
 </manifest>
