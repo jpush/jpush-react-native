@@ -252,11 +252,15 @@ RCT_EXPORT_METHOD(setBadge:(NSDictionary *)params)
 {
     if(params[BADGE]){
         NSNumber *number = params[BADGE];
+        if(number < 0) return;
         [JPUSHService setBadge:[number integerValue]];
     }
     if (params[APP_BADGE]) {
         NSNumber *number = params[APP_BADGE];
-        [UIApplication sharedApplication].applicationIconBadgeNumber = [number integerValue];
+        if(number < 0) return;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].applicationIconBadgeNumber = [number integerValue];
+        });
     }
 }
 
