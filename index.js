@@ -45,7 +45,7 @@ export default class JPush {
     * 调用此 API 来取得应用程序对应的 RegistrationID。
     * 只有当应用程序成功注册到 JPush 的服务器时才返回对应的值，否则返回空字符串
     *
-    * @param {Fucntion} callback = (result) => {"registerID":String}
+    * @param {Function} callback = (result) => {"registerID":String}
     * */
     static getRegistrationID(callback) {
         if (Platform.OS == "android") {
@@ -342,7 +342,7 @@ export default class JPush {
     /*
     * 通知事件
     *
-    * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"badge":String,"ring":String,"extras":{String:String},"notificationEventType":String}
+    * @param {Function} callback = (result) => {"messageID":String,"title":String，"content":String,"badge":String,"ring":String,"extras":{String:String},"notificationEventType":String}
     *
     * messageID:唯一标识通知消息的 ID
     *
@@ -371,7 +371,7 @@ export default class JPush {
     /*
     * 本地通知事件
     *
-    * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"extras":{String:String},"notificationEventType":String}
+    * @param {Function} callback = (result) => {"messageID":String,"title":String，"content":String,"extras":{String:String},"notificationEventType":String}
     *
     * messageID:唯一标识通知消息的ID，可用于移除消息
     *
@@ -396,7 +396,7 @@ export default class JPush {
     /*
     * 自定义消息事件
     *
-    * @param {Fucntion} callback = (result) => {"messageID":String，"content":String,"extras":{String:String}}}
+    * @param {Function} callback = (result) => {"messageID":String，"content":String,"extras":{String:String}}}
     *
     * messageID:唯一标识自定义消息的 ID
     *
@@ -415,7 +415,7 @@ export default class JPush {
     /*
     * tag alias事件
     *
-    * @param {Fucntion} callback = (result) => {"code":int,"sequence":int，"tags":String,"tag":String,"tagEnable":boolean,"alias":String}
+    * @param {Function} callback = (result) => {"code":int,"sequence":int，"tags":String,"tag":String,"tagEnable":boolean,"alias":String}
     *
     * code:结果，0为操作成功
     *
@@ -438,7 +438,7 @@ export default class JPush {
     /*
     * 手机号码事件
     *
-    * @param {Fucntion} callback = (result) => {"code":int,"sequence":int}
+    * @param {Function} callback = (result) => {"code":int,"sequence":int}
     *
     * code:结果，0为操作成功
     *
