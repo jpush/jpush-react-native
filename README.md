@@ -3,6 +3,7 @@
 ## ChangeLog
 
 1. 从RN-JCore1.6.0开始，Android集成插件时不需要在AndroidManifest.xml中添加配置代码
+2. 从RN-JPush2.7.5开始，重新支持TypeScript
 
 
 ## 1. 安装
