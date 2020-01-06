@@ -58,11 +58,11 @@ npm install jpush-react-native --save
 
   ```
   <meta-data
-  		android:name="JPUSH_CHANNEL"
-  		android:value="${JPUSH_CHANNEL}" />
+  	android:name="JPUSH_CHANNEL"
+  	android:value="${JPUSH_CHANNEL}" />
   <meta-data
-  		android:name="JPUSH_APPKEY"
-  		android:value="${JPUSH_APPKEY}" />    
+  	android:name="JPUSH_APPKEY"
+  	android:value="${JPUSH_APPKEY}" />    
   ```
 
 ### 2.2 iOS
