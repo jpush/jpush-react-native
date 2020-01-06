@@ -112,6 +112,10 @@ pod install
 
 参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/example/AppDelegate.m) 
 
+### 3.3 js
+
+参考：[App.js](https://github.com/jpush/jpush-react-native/blob/dev/example/App.js) 
+
 ## 4. API
 
 详见：[index.js](https://github.com/jpush/jpush-react-native/blob/master/index.js)
