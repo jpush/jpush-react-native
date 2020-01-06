@@ -3,6 +3,7 @@
 ## ChangeLog
 
 1. 从RN-JCore1.6.0开始，Android集成插件时不需要在AndroidManifest.xml中添加配置代码
+2. 从RN-JPush2.7.5开始，重新支持TypeScript
 
 
 ## 1. 安装
@@ -110,6 +111,10 @@ pod install
 ### 3.2 iOS
 
 参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/example/AppDelegate.m) 
+
+### 3.3 js
+
+参考：[App.js](https://github.com/jpush/jpush-react-native/blob/dev/example/App.js) 
 
 ## 4. API
 

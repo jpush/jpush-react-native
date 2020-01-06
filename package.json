@@ -3,9 +3,10 @@
   "description": "React Native JPush component for Android and iOS",
   "homepage":"https://github.com/jpush/jpush-react-native",
   "main": "index.js",
+  "types": "index.d.ts",
   "license": "ISC",
   "author": "wicked.tc130",
-  "version": "2.7.1",
+  "version": "2.7.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/jpush/jpush-react-native"
