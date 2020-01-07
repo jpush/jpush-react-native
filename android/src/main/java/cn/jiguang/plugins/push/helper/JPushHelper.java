@@ -64,15 +64,20 @@ public class JPushHelper {
 
     public static WritableMap convertJPushMessageToMap(int type, JPushMessage message) {
         WritableMap writableMap = Arguments.createMap();
-        Set<String> tags = message.getTags();
-        WritableArray tagsArray = Arguments.createArray();
-        for (String tag : tags) {
-            tagsArray.pushString(tag);
-        }
+
         writableMap.putInt(JConstants.CODE, message.getErrorCode());
         writableMap.putInt(JConstants.SEQUENCE, message.getSequence());
         switch (type) {
             case 1:
+                Set<String> tags = message.getTags();
+                WritableArray tagsArray = Arguments.createArray();
+                if(tags==null || tags.isEmpty()){
+                    JLogger.d("tags is empty");
+                }else {
+                    for (String tag : tags) {
+                        tagsArray.pushString(tag);
+                    }
+                }
                 writableMap.putArray(JConstants.TAGS, tagsArray);
                 break;
             case 2:

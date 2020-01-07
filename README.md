@@ -2,44 +2,9 @@
 
 ## ChangeLog
 
-1. 新增本地通知api
+1. 从RN-JPush2.7.5开始，重新支持TypeScript
+2. 由于RN-JCore1.6.0存在编译问题，从RN-JCore1.7.0开始，还是需要在AndroidManifest.xml中添加配置代码，具体参考 配置-2.1 Android
 
-   ```javascript
-   //添加本地通知
-   addLocalNotification({messageID:String,title:String,content:String,extras:{String:String}})
-   //移除指定通知
-   removeLocalNotification({messageID:String})
-   //移除所有通知
-   clearLocalNotifications()
-   ```
-
-2. 调整获取registerId方法
-
-   ```javascript
-   getRegistrationID(callback)
-   //更新前 Android，ios无变化
-   callback = (result) => {String}
-   //更新后 Android，ios无变化
-   callback = (result) => {registerID:String}
-   ```
-
-3. 调整设置调试模式方法
-
-   ```javascript
-   //更新前
-   setLoggerEnable({debug:boolean})
-   //更新后
-   setLoggerEnable(boolean)
-   ```
-
-4. 调整设置ios角标方法
-
-   ```javascript
-   //更新前
-   setBadge({badge:int})
-   //更新后，新增appBadge用于设置APP显示角标
-   setBadge({badge:int,appBadge:int})
-   ```
 
 ## 1. 安装
 
@@ -80,17 +45,6 @@ npm install jpush-react-native --save
     }
   ```
 
-* AndridManifest.xml
-
-  ```
-  <meta-data
-  android:name="JPUSH_CHANNEL"
-  android:value="${JPUSH_CHANNEL}" />
-  <meta-data
-  android:name="JPUSH_APPKEY"
-  android:value="${JPUSH_APPKEY}" />
-  ```
-
 * setting.gradle
 
   ```
@@ -98,6 +52,17 @@ npm install jpush-react-native --save
   project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
   include ':jcore-react-native'
   project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+  ```
+
+* AndroidManifest.xml
+
+  ```
+  <meta-data
+  	android:name="JPUSH_CHANNEL"
+  	android:value="${JPUSH_CHANNEL}" />
+  <meta-data
+  	android:name="JPUSH_APPKEY"
+  	android:value="${JPUSH_APPKEY}" />    
   ```
 
 ### 2.2 iOS
@@ -157,6 +122,10 @@ pod install
 ### 3.2 iOS
 
 参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/example/AppDelegate.m) 
+
+### 3.3 js
+
+参考：[App.js](https://github.com/jpush/jpush-react-native/blob/dev/example/App.js) 
 
 ## 4. API
 

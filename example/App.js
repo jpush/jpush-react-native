@@ -127,6 +127,10 @@ export default class App extends React.Component {
                 <Button title="setMobileNumber"
                         onPress={() => JPush.setMobileNumber({mobileNumber: "13888888888"})}/>
 
+                //仅ios
+                <Button title="setBadge"
+                        onPress={() => JPush.setBadge({"badge":1,"appBadge":1})}/>
+
                 <Button title="initCrashHandler"
                         onPress={() => JPush.initCrashHandler()}/>
 

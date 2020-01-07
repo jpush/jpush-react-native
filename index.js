@@ -45,7 +45,7 @@ export default class JPush {
     * 调用此 API 来取得应用程序对应的 RegistrationID。
     * 只有当应用程序成功注册到 JPush 的服务器时才返回对应的值，否则返回空字符串
     *
-    * @param {Fucntion} callback = (result) => {"registerID":String}
+    * @param {Function} callback = (result) => {"registerID":String}
     * */
     static getRegistrationID(callback) {
         if (Platform.OS == "android") {
@@ -342,7 +342,7 @@ export default class JPush {
     /*
     * 通知事件
     *
-    * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"badge":String,"ring":String,"extras":{String:String},"notificationEventType":String}
+    * @param {Function} callback = (result) => {"messageID":String,"title":String，"content":String,"badge":String,"ring":String,"extras":{String:String},"notificationEventType":String}
     *
     * messageID:唯一标识通知消息的 ID
     *
@@ -371,7 +371,7 @@ export default class JPush {
     /*
     * 本地通知事件
     *
-    * @param {Fucntion} callback = (result) => {"messageID":String,"title":String，"content":String,"extras":{String:String},"notificationEventType":String}
+    * @param {Function} callback = (result) => {"messageID":String,"title":String，"content":String,"extras":{String:String},"notificationEventType":String}
     *
     * messageID:唯一标识通知消息的ID，可用于移除消息
     *
@@ -396,7 +396,7 @@ export default class JPush {
     /*
     * 自定义消息事件
     *
-    * @param {Fucntion} callback = (result) => {"messageID":String，"content":String, "content_type":String, "extras":{String:String}}}
+    * @param {Function} callback = (result) => {"messageID":String，"content":String, "content_type":String, "extras":{String:String}}}
     *
     * messageID:唯一标识自定义消息的 ID
     *
@@ -417,7 +417,7 @@ export default class JPush {
     /*
     * tag alias事件
     *
-    * @param {Fucntion} callback = (result) => {"code":int,"sequence":int，"tags":String,"tag":String,"tagEnable":boolean,"alias":String}
+    * @param {Function} callback = (result) => {"code":int,"sequence":int，"tags":String,"tag":String,"tagEnable":boolean,"alias":String}
     *
     * code:结果，0为操作成功
     *
@@ -440,7 +440,7 @@ export default class JPush {
     /*
     * 手机号码事件
     *
-    * @param {Fucntion} callback = (result) => {"code":int,"sequence":int}
+    * @param {Function} callback = (result) => {"code":int,"sequence":int}
     *
     * code:结果，0为操作成功
     *
@@ -570,9 +570,9 @@ export default class JPush {
     *
     * @param params = {"badge":int,"appBadge":int}
     *
-    * badge:JPush封装badge功能，允许应用上传 badge 值至 JPush 服务器，由 JPush 后台帮助管理每个用户所对应的推送 badge 值，简化了设置推送 badge 的操作。
+    * badge:JPush封装badge功能，允许应用上传 badge 值至 JPush 服务器，由 JPush 后台帮助管理每个用户所对应的推送 badge 值，简化了设置推送 badge 的操作。设置的值小于0时，sdk不作处理。
     *
-    * appBadge:iOS 用来标记应用程序状态的一个数字，出现在程序图标右上角。
+    * appBadge:iOS 用来标记应用程序状态的一个数字，出现在程序图标右上角。设置的值小于0时，sdk不作处理。
     *
     * */
     static setBadge(params) {
