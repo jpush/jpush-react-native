@@ -330,7 +330,7 @@ RCT_EXPORT_METHOD(removeNotification:(NSDictionary *)params)
     }
 }
 
-RCT_EXPORT_METHOD(clearLocalNotifications:(NSDictionary *)params)
+RCT_EXPORT_METHOD(clearLocalNotifications)
 {
     [JPUSHService removeNotification:nil];
 }
