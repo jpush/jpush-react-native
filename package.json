@@ -1,7 +1,7 @@
 {
-  "name": "jpush-react-native",
-  "description": "React Native JPush component for Android and iOS",
-  "homepage":"https://github.com/jpush/jpush-react-native",
+  "name": "jpush-react-native-google-play",
+  "description": "React Native JPush component for Android(GooglePlay) and iOS",
+  "homepage":"https://github.com/helloworld-Andrew/jpush-react-native",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "ISC",
@@ -9,7 +9,7 @@
   "version": "2.7.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jpush/jpush-react-native"
+    "url": "https://github.com/helloworld-Andrew/jpush-react-native"
   },
   "keywords": [
     "react-native",
