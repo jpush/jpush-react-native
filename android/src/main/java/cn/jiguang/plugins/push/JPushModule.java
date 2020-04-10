@@ -461,6 +461,41 @@ public class JPushModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void clearAllNotifications(){
+        JPushInterface.clearAllNotifications(reactContext);
+    }
+
+    @ReactMethod
+    public void clearNotificationById(ReadableMap readableMap){
+        if (readableMap == null){
+            JLogger.w(JConstants.PARAMS_NULL);
+            return;
+        }
+        if (readableMap.hasKey(JConstants.NOTIFICATION_ID)){
+            Integer id = readableMap.getInt(JConstants.NOTIFICATION_ID);
+            JPushInterface.clearNotificationById(reactContext,id);
+        }else {
+            JLogger.w("there are no " + JConstants.GEO_FENCE_ID);
+        }
+    }
+
+    @ReactMethod
+    public void setPowerSaveMode(boolean bool){
+        JPushInterface.setPowerSaveMode(reactContext,bool);
+    }
+
+    @ReactMethod
+    public void isNotificationEnabled(Callback callback){
+        Integer isEnabled = JPushInterface.isNotificationEnabled(reactContext);
+        if (callback == null){
+            JLogger.w(JConstants.CALLBACK_NULL);
+            return;
+        }
+        callback.invoke(isEnabled);
+    }
+
+
     //*****************************应用前后台状态监听*****************************
     public static void registerActivityLifecycle(Application application) {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
