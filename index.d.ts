@@ -38,6 +38,12 @@ type Alias = {
   alias: string;
 };
 
+type NotificationId = {
+    /**
+     * 通知 ID
+     * */
+    notificationId: String;
+};
 export default class JPush {
   /**
    * 设置调试模式,默认关闭状态
@@ -133,6 +139,16 @@ export default class JPush {
    */
   static initCrashHandler(): void;
 
+  /**
+   * JPush SDK 开启和关闭省电模式，默认为关闭。
+   */
+  static setPowerSaveMode(enable: boolean):void;
+
+  /**
+   * 检查当前应用的通知开关是否开启
+   * */
+  static isNotificationEnabled(callback: Callback<boolean>): void;
+
   //***************************************本地通知***************************************
 
   /**
@@ -166,6 +182,17 @@ export default class JPush {
    *
    */
   static clearLocalNotifications(): void;
+
+  /**
+   * 清除所有 JPush 展现的通知（不包括非 JPush SDK 展现的）
+   *
+   */
+  static clearAllNotifications():void;
+
+  /**
+   * 删除指定的通知
+   * */
+  static clearNotificationById(params: NotificationId):void;
 
   //***************************************地理围栏***************************************
 
