@@ -79,6 +79,17 @@
 
         <receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
 
+        <activity android:name="cn.jpush.android.service.DActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:taskAffinity="jpush.custom">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DActivity"/>
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
