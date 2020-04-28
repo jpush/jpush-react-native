@@ -11,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 import java.util.List;
 
 import cn.jiguang.plugins.push.JPushModule;
+//RN0.60以下需要打开，注意导包JPushPackage
+//import cn.jiguang.plugins.push.JPushPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
