@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="jg_channel_name_p_min">不重要</string>
+    <string name="jg_channel_name_p_low">不重要</string>
+    <string name="jg_channel_name_p_default">普通</string>
+    <string name="jg_channel_name_p_high">重要</string>
+</resources>
