@@ -17,6 +17,12 @@ npm install jpush-react-native --save
   ```
   npm install jcore-react-native --save
   ```
+安装完成后连接原生库
+进入到根目录执行
+react-native link
+或
+react-native link jpush-react-native
+react-native link jcore-react-native
 
 ## 2. 配置
 
