@@ -72,6 +72,7 @@ react-native link jcore-react-native
   ```
 
 ### 2.2 iOS
+注意：您需要打开ios目录下的.xcworkspace文件修改您的包名
 
 ### 2.2.1 pod
 
