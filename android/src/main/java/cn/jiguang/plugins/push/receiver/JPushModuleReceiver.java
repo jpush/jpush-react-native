@@ -40,6 +40,7 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
     JLogger.d("onNotifyMessageOpened:" + notificationMessage.toString());
     if (JPushModule.reactContext != null) {
       if (!JPushModule.isAppForeground) JPushHelper.launchApp(context);
+      JPushModule.notificationMessage = notificationMessage;
       WritableMap writableMap = JPushHelper.convertNotificationToMap(JConstants.NOTIFICATION_OPENED, notificationMessage);
       JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
     } else {

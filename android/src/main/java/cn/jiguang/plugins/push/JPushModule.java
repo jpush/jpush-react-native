@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -27,6 +26,7 @@ import cn.jiguang.plugins.push.helper.JPushHelper;
 import cn.jiguang.plugins.push.receiver.JPushBroadcastReceiver;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.data.JPushLocalNotification;
 
 public class JPushModule extends ReactContextBaseJavaModule {
@@ -34,6 +34,8 @@ public class JPushModule extends ReactContextBaseJavaModule {
     public static ReactApplicationContext reactContext;
 
     public static boolean isAppForeground = false;
+
+    public static NotificationMessage notificationMessage = null;
 
     public JPushModule(ReactApplicationContext reactApplicationContext) {
         super(reactContext);
@@ -58,6 +60,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
             WritableMap writableMap = JPushHelper.convertNotificationBundleToMap(JConstants.NOTIFICATION_OPENED, JPushBroadcastReceiver.NOTIFICATION_BUNDLE);
             JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
             JPushBroadcastReceiver.NOTIFICATION_BUNDLE = null;
+        }
+        if (JPushModule.notificationMessage != null) {
+            WritableMap writableMap = JPushHelper.convertNotificationToMap(JConstants.NOTIFICATION_OPENED, notificationMessage);
+            JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
+            JPushModule.notificationMessage = null;
         }
     }
 
