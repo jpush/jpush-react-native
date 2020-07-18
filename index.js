@@ -441,7 +441,7 @@ export default class JPush {
     * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
     *
     * */
-    static addCustomMessagegListener(callback) {
+    static addCustomMessageListener(callback) {
         listeners[callback] = DeviceEventEmitter.addListener(
             CustomMessageEvent, result => {
                 callback(result)
