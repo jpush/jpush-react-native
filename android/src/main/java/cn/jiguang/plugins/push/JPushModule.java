@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -29,7 +30,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.data.JPushLocalNotification;
 
-public class JPushModule extends ReactContextBaseJavaModule {
+public class JPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
     public static ReactApplicationContext reactContext;
 
@@ -39,6 +40,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     public JPushModule(ReactApplicationContext reactApplicationContext) {
         super(reactContext);
+        reactApplicationContext.addLifecycleEventListener(this);
         reactContext = reactApplicationContext;
     }
 
@@ -378,7 +380,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             return;
         }
         String notificationID = readableMap.getString(JConstants.MESSAGE_ID);
-        if(notificationID==null || TextUtils.isEmpty(notificationID)){
+        if (notificationID == null || TextUtils.isEmpty(notificationID)) {
             JLogger.w(JConstants.PARAMS_ILLEGAL);
             return;
         }
@@ -405,7 +407,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
         }
         if (readableMap.hasKey(JConstants.MESSAGE_ID)) {
             String notificationID = readableMap.getString(JConstants.MESSAGE_ID);
-            if(notificationID==null || TextUtils.isEmpty(notificationID)){
+            if (notificationID == null || TextUtils.isEmpty(notificationID)) {
                 JLogger.w(JConstants.PARAMS_ILLEGAL);
                 return;
             }
@@ -469,33 +471,33 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void clearAllNotifications(){
+    public void clearAllNotifications() {
         JPushInterface.clearAllNotifications(reactContext);
     }
 
     @ReactMethod
-    public void clearNotificationById(ReadableMap readableMap){
-        if (readableMap == null){
+    public void clearNotificationById(ReadableMap readableMap) {
+        if (readableMap == null) {
             JLogger.w(JConstants.PARAMS_NULL);
             return;
         }
-        if (readableMap.hasKey(JConstants.NOTIFICATION_ID)){
+        if (readableMap.hasKey(JConstants.NOTIFICATION_ID)) {
             Integer id = readableMap.getInt(JConstants.NOTIFICATION_ID);
-            JPushInterface.clearNotificationById(reactContext,id);
-        }else {
+            JPushInterface.clearNotificationById(reactContext, id);
+        } else {
             JLogger.w("there are no " + JConstants.GEO_FENCE_ID);
         }
     }
 
     @ReactMethod
-    public void setPowerSaveMode(boolean bool){
-        JPushInterface.setPowerSaveMode(reactContext,bool);
+    public void setPowerSaveMode(boolean bool) {
+        JPushInterface.setPowerSaveMode(reactContext, bool);
     }
 
     @ReactMethod
-    public void isNotificationEnabled(Callback callback){
+    public void isNotificationEnabled(Callback callback) {
         Integer isEnabled = JPushInterface.isNotificationEnabled(reactContext);
-        if (callback == null){
+        if (callback == null) {
             JLogger.w(JConstants.CALLBACK_NULL);
             return;
         }
@@ -545,4 +547,26 @@ public class JPushModule extends ReactContextBaseJavaModule {
         });
     }
 
+    @Override
+    public void onHostResume() {
+
+    }
+
+    @Override
+    public void onHostPause() {
+
+    }
+
+    @Override
+    public void onHostDestroy() {
+        JLogger.d("onHostDestroy");
+        notificationMessage = null;
+    }
+
+    @Override
+    public void onCatalystInstanceDestroy() {
+        super.onCatalystInstanceDestroy();
+        JLogger.d("onCatalystInstanceDestroy");
+        notificationMessage = null;
+    }
 }
