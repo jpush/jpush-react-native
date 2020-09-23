@@ -1,15 +1,15 @@
 {
-  "name": "jpush-react-native",
+  "name": "react-native-mjpush",
   "description": "React Native JPush component for Android and iOS",
-  "homepage":"https://github.com/jpush/jpush-react-native",
+  "homepage":"https://github.com/bashen1/jpush-react-native",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "ISC",
   "author": "wicked.tc130",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jpush/jpush-react-native"
+    "url": "https://github.com/bashen1/jpush-react-native"
   },
   "keywords": [
     "react-native",
