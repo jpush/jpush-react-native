@@ -17,6 +17,12 @@ npm install jpush-react-native --save
   ```
   npm install jcore-react-native --save
   ```
+安装完成后连接原生库
+进入到根目录执行<br/>
+react-native link<br/>
+或<br/>
+react-native link jpush-react-native<br/>
+react-native link jcore-react-native
 
 ## 2. 配置
 
@@ -66,6 +72,7 @@ npm install jpush-react-native --save
   ```
 
 ### 2.2 iOS
+注意：您需要打开ios目录下的.xcworkspace文件修改您的包名
 
 ### 2.2.1 pod
 

@@ -170,7 +170,7 @@ export default class JPush {
             JPushModule.getAllTags(params)
         }
     }
-    
+
     /*
     * 设置别名
     * 需要理解的是，这个接口是覆盖逻辑，而不是增量逻辑。即新的调用会覆盖之前的设置
@@ -252,6 +252,24 @@ export default class JPush {
         }
     }
 
+    /*
+    *  JPush SDK 开启和关闭省电模式，默认为关闭。
+    * */
+    static setPowerSaveMode(enable){
+        if (Platform.OS == "android"){
+            JPushModule.setPowerSaveMode(enable)
+        }
+    }
+
+    /*
+    *   检查当前应用的通知开关是否开启
+    * */
+    static isNotificationEnabled(callback){
+        if (Platform.OS == "android"){
+            JPushModule.isNotificationEnabled(callback)
+        }
+    }
+
     //***************************************本地通知***************************************
 
     /*
@@ -304,6 +322,24 @@ export default class JPush {
         }
     }
 
+    /*
+    *  清除所有 JPush 展现的通知（不包括非 JPush SDK 展现的）
+    * */
+    static clearAllNotifications(){
+        if (Platform.OS == "android") {
+            JPushModule.clearAllNotifications();
+        }
+    }
+
+    /*
+    *  删除指定的通知
+    * */
+    static clearNotificationById(params){
+        if (Platform.OS == "android") {
+            JPushModule.clearNotificationById(params);
+        }
+    }
+
     //***************************************地理围栏***************************************
 
     /*
@@ -334,7 +370,7 @@ export default class JPush {
     //连接状态
     static addConnectEventListener(callback) {
         listeners[callback] = DeviceEventEmitter.addListener(
-            ConnectEvent, result => {
+                ConnectEvent, result => {
                 callback(result)
             })
     }
@@ -405,7 +441,7 @@ export default class JPush {
     * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
     *
     * */
-    static addCustomMessagegListener(callback) {
+    static addCustomMessageListener(callback) {
         listeners[callback] = DeviceEventEmitter.addListener(
             CustomMessageEvent, result => {
                 callback(result)
