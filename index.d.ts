@@ -284,7 +284,7 @@ export default class JPush {
   /**
    * 自定义消息事件
    */
-  static addCustomMessagegListener(
+  static addCustomMessageListener(
     callback: Callback<{
       /**
        * 唯一标识自定义消息的 ID
