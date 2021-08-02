@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 
     <application>
         <activity
@@ -36,7 +37,7 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
+            android:exported="true"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
@@ -46,17 +47,17 @@
             </intent-filter>
         </activity>
 
-        <activity
+       <activity
             android:name="cn.jpush.android.service.JNotifyActivity"
-            android:exported="false"
+            android:exported="true"
             android:taskAffinity="jpush.custom"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+                <category android:name="android.intent.category.DEFAULT" /><!--Required SDK核心功能 since 4.2.2-->
                 <category android:name="${applicationId}" />
             </intent-filter>
         </activity>
-
         <receiver
             android:name=".receiver.JPushModuleReceiver"
             android:enabled="true"

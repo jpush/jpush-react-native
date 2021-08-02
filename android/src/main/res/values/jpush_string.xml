@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="jg_channel_name_p_min">LOW</string>
+    <string name="jg_channel_name_p_low">LOW</string>
+    <string name="jg_channel_name_p_default">NORMAL</string>
+    <string name="jg_channel_name_p_high">HIGH</string>
+
+</resources>
