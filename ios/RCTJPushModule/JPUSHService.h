@@ -429,13 +429,13 @@ typedef NS_OPTIONS(NSUInteger, JPInMessageType) {
  默认值为 10 ，iOS系统默认地理围栏最大个数为20
  @param count 个数 count
  */
-+ (void)setGeofeneceMaxCount:(NSInteger)count;
++ (void)setGeofenceMaxCount:(NSInteger)count;
 
 /**
  设置地理围栏'圈内'类型的检测周期
  默认15分钟检测一次
  */
-+ (void)setGeofenecePeriodForInside:(NSInteger)seconds;
++ (void)setGeofencePeriodForInside:(NSInteger)seconds;
 
 /**
  注册地理围栏的代理
