@@ -343,10 +343,10 @@ RCT_EXPORT_METHOD(removeGeofenceWithIdentifier:(NSDictionary *)params)
     }
 }
 
-RCT_EXPORT_METHOD(setGeofenecMaxCount:(NSDictionary *)params)
+RCT_EXPORT_METHOD(setGeofenceMaxCount:(NSDictionary *)params)
 {
     if(params[GEO_FENCE_MAX_NUMBER]){
-        [JPUSHService setGeofenecMaxCount:[params[GEO_FENCE_MAX_NUMBER] integerValue]];
+        [JPUSHService setGeofenceMaxCount:[params[GEO_FENCE_MAX_NUMBER] integerValue]];
     }
 }
 
