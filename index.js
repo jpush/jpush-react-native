@@ -350,7 +350,7 @@ export default class JPush {
         if (Platform.OS == "android") {
             JPushModule.setMaxGeofenceNumber(params)
         } else {
-            JPushModule.setGeofenceMaxCount(params)
+            JPushModule.setGeofeneceMaxCount(params)
         }
     }
 
