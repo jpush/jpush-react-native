@@ -1,12 +1,16 @@
 {
   "name": "jpush-react-native",
   "description": "React Native JPush component for Android and iOS",
-  "homepage":"https://github.com/jiangdianlong521/jpush-react-native",
+  "homepage":"https://github.com/jpush/jpush-react-native",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "ISC",
   "author": "wicked.tc130",
   "version": "2.8.7",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jpush/jpush-react-native"
+  },
   "keywords": [
     "react-native",
     "JPush"
@@ -16,4 +20,3 @@
     "react-native": ">= 0.50"
   }
 }
-s
