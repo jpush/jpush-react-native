@@ -119,6 +119,24 @@ RCT_EXPORT_METHOD(setDebugMode: (BOOL *)enable)
     }
 }
 
+RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
+{
+    if (params[@"appKey"] && params[@"channel"] && params[@"production"]) {
+        // JPush初始化配置
+        NSMutableDictionary *launchOptions = [NSMutableDictionary dictionaryWithDictionary:self.bridge.launchOptions];
+        [JPUSHService setupWithOption:launchOptions appKey:params[@"appKey"]
+                              channel:params[@"channel"] apsForProduction:[params[@"production"] boolValue]];
+    }
+    NSMutableArray *notificationList = [RCTJPushEventQueue sharedInstance]._notificationQueue;
+    if(notificationList.count) {
+        [self sendApnsNotificationEventByDictionary:notificationList[0]];
+    }
+    NSMutableArray *localNotificationList = [RCTJPushEventQueue sharedInstance]._localNotificationQueue;
+    if(localNotificationList.count) {
+        [self sendLocalNotificationEventByDictionary:localNotificationList[0]];
+    }
+}
+
 RCT_EXPORT_METHOD(loadJS)
 {
     NSMutableArray *notificationList = [RCTJPushEventQueue sharedInstance]._notificationQueue;

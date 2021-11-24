@@ -52,7 +52,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        JPush.init();
+        JPush.init({"appKey":"129c21dc4cb5e6f6de194003","channel":"dev","production":1});
         //连接状态
         this.connectListener = result => {
             console.log("connectListener:" + JSON.stringify(result))
@@ -69,10 +69,10 @@ export default class App extends React.Component {
         };
         JPush.addLocalNotificationListener(this.localNotificationListener);
         //自定义消息回调
-        this.customMessageListener = result => {
-            console.log("customMessageListener:" + JSON.stringify(result))
-        };
-        JPush.addCustomMessagegListener(this.customMessageListener);
+        // this.customMessageListener = result => {
+        //     console.log("customMessageListener:" + JSON.stringify(result))
+        // };
+        // JPush.addCustomMessagegListener(this.customMessageListener);
         //tag alias事件回调
         this.tagAliasListener = result => {
             console.log("tagAliasListener:" + JSON.stringify(result))

@@ -28,14 +28,14 @@ export default class JPush {
 
     /*
     * 初始化推送服务
-    *
+    * {"appKey":"","channel":"dev","production":1}
     * 请在componentDidMount()调用init，否则会影响通知点击事件的回调
     * */
-    static init() {
+    static init(params) {
         if (Platform.OS == "android") {
             JPushModule.init()
         } else {
-            JPushModule.loadJS()
+            JPushModule.setupWithConfig(params)
         }
     }
 

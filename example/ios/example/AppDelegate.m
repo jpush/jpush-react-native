@@ -20,9 +20,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-  // JPush初始化配置
-  [JPUSHService setupWithOption:launchOptions appKey:@"129c21dc4cb5e6f6de194003"
-                        channel:@"dev" apsForProduction:YES];
+  // JPush初始化配置 可以延时初始化 不再强制在此初始化，在js里可以直接调用init
+//  [JPUSHService setupWithOption:launchOptions appKey:@"129c21dc4cb5e6f6de194003"
+//                        channel:@"dev" apsForProduction:YES];
   // APNS
   JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
   if (@available(iOS 12.0, *)) {

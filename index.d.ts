@@ -56,11 +56,15 @@ export default class JPush {
 
   /**
    * 初始化推送服务
-   *
+   * {"appKey":"","channel":"dev","production":1}
    * 请在componentDidMount()调用init,否则会影响通知点击事件的回调
    *
    */
-  static init(): void;
+  static init(params: {
+    appKey: string;
+    titchannelle: string;
+    production: boolean;
+  }): void;
 
   /**
    * 获取 RegistrationID
