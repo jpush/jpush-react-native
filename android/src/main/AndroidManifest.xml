@@ -51,7 +51,7 @@
             android:name="cn.jpush.android.service.JNotifyActivity"
             android:exported="true"
             android:taskAffinity="jpush.custom"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/JPushTheme">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.JNotifyActivity" />
                 <category android:name="android.intent.category.DEFAULT" /><!--Required SDK核心功能 since 4.2.2-->

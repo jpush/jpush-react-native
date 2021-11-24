@@ -5,7 +5,7 @@
     style="@style/MyDialogStyle"
     android:orientation="vertical"
     android:layout_width="280dp"
-    android:layout_height="250dp" >
+    android:layout_height="380dp" >
 
         <WebView
             android:layout_width="match_parent"
