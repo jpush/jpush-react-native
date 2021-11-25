@@ -52,7 +52,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        JPush.init({"appKey":"129c21dc4cb5e6f6de194003","channel":"dev","production":1});
+        JPush.init({"appKey":"02c7f79c9248ecadf25140f7","channel":"dev","production":1});
         //连接状态
         this.connectListener = result => {
             console.log("connectListener:" + JSON.stringify(result))

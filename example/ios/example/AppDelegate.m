@@ -21,20 +21,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
   // JPush初始化配置 可以延时初始化 不再强制在此初始化，在js里可以直接调用init
-//  [JPUSHService setupWithOption:launchOptions appKey:@"129c21dc4cb5e6f6de194003"
+//  [JPUSHService setupWithOption:launchOptions appKey:@"02c7f79c9248ecadf25140f7"
 //                        channel:@"dev" apsForProduction:YES];
-  // APNS
-  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-  if (@available(iOS 12.0, *)) {
-    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
-  }
-  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
-  [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-  // 自定义消息
-  NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-  [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
-  // 地理围栏
-  [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
+//  // APNS
+//  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+//  if (@available(iOS 12.0, *)) {
+//    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
+//  }
+//  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+//  [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+//  // 自定义消息
+//  NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+//  [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+//  // 地理围栏
+//  [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
   // ReactNative环境配置
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

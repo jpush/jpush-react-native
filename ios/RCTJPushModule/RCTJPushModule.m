@@ -122,19 +122,35 @@ RCT_EXPORT_METHOD(setDebugMode: (BOOL *)enable)
 RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
 {
     if (params[@"appKey"] && params[@"channel"] && params[@"production"]) {
-        // JPush初始化配置
-        NSMutableDictionary *launchOptions = [NSMutableDictionary dictionaryWithDictionary:self.bridge.launchOptions];
-        [JPUSHService setupWithOption:launchOptions appKey:params[@"appKey"]
-                              channel:params[@"channel"] apsForProduction:[params[@"production"] boolValue]];
-    }
-    NSMutableArray *notificationList = [RCTJPushEventQueue sharedInstance]._notificationQueue;
-    if(notificationList.count) {
-        [self sendApnsNotificationEventByDictionary:notificationList[0]];
-    }
-    NSMutableArray *localNotificationList = [RCTJPushEventQueue sharedInstance]._localNotificationQueue;
-    if(localNotificationList.count) {
-        [self sendLocalNotificationEventByDictionary:localNotificationList[0]];
-    }
+           // JPush初始化配置
+           NSMutableDictionary *launchOptions = [NSMutableDictionary dictionaryWithDictionary:self.bridge.launchOptions];
+           [JPUSHService setupWithOption:launchOptions appKey:params[@"appKey"]
+                                 channel:params[@"channel"] apsForProduction:[params[@"production"] boolValue]];
+
+           dispatch_async(dispatch_get_main_queue(), ^{
+               // APNS
+               JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+               if (@available(iOS 12.0, *)) {
+                 entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
+               }
+               [JPUSHService registerForRemoteNotificationConfig:entity delegate:self.bridge.delegate];
+               [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+               // 自定义消息
+               NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+               [defaultCenter addObserver:self.bridge.delegate selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+               // 地理围栏
+               [JPUSHService registerLbsGeofenceDelegate:self.bridge.delegate withLaunchOptions:launchOptions];
+           });
+
+           NSMutableArray *notificationList = [RCTJPushEventQueue sharedInstance]._notificationQueue;
+           if(notificationList.count) {
+               [self sendApnsNotificationEventByDictionary:notificationList[0]];
+           }
+           NSMutableArray *localNotificationList = [RCTJPushEventQueue sharedInstance]._localNotificationQueue;
+           if(localNotificationList.count) {
+               [self sendLocalNotificationEventByDictionary:localNotificationList[0]];
+           }
+       }
 }
 
 RCT_EXPORT_METHOD(loadJS)
