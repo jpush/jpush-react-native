@@ -94,7 +94,19 @@ public class JPushModule extends ReactContextBaseJavaModule {
             JPushInterface.setChannel(reactContext, channel);
         }
     }
-
+    @ReactMethod
+    public void setBadgeNumber(ReadableMap readableMap) {
+        if (readableMap == null) {
+            JLogger.w(JConstants.PARAMS_NULL);
+            return;
+        }
+        if (readableMap.hasKey(JConstants.BADGE_NUMBER)) {
+            int number = readableMap.getInt(JConstants.BADGE_NUMBER);
+            JPushInterface.setBadgeNumber(reactContext,number);
+        } else {
+            JLogger.w("there are no " + JConstants.BADGE_NUMBER);
+        }
+    }
     @ReactMethod
     public void setPushTime(ReadableMap readableMap) {
         if (readableMap == null) {

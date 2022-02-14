@@ -612,6 +612,8 @@ export default class JPush {
     static setBadge(params) {
         if (Platform.OS == "ios") {
             JPushModule.setBadge(params)
+        }else if (Platform.OS == "android") {
+            JPushModule.setBadgeNumber(params)
         }
     }
 
