@@ -609,10 +609,13 @@ export default class JPush {
     * appBadge:iOS 用来标记应用程序状态的一个数字，出现在程序图标右上角。设置的值小于0时，sdk不作处理。
     *
     * */
-    static setBadge(params) {
-        if (Platform.OS == "ios") {
-            JPushModule.setBadge(params)
+     static setBadge(params) {
+            if (Platform.OS == "ios") {
+                JPushModule.setBadge(params)
+            }else if (Platform.OS == "android") {
+                JPushModule.setBadgeNumber(params)
+            }
         }
-    }
+
 
 }
