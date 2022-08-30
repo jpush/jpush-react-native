@@ -34,7 +34,12 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
       JPushHelper.sendEvent(JConstants.LOCAL_NOTIFICATION_EVENT, writableMap);
     }
   }
-
+  @Override
+  public void onPropertyOperatorResult(Context context, JPushMessage jPushMessage) {
+    JLogger.d("onPropertyOperatorResult:" + jPushMessage.toString());
+    WritableMap writableMap = JPushHelper.convertJPushMessageToMap(1, jPushMessage);
+    JPushHelper.sendEvent(JConstants.TAG_ALIAS_EVENT, writableMap);
+  }
   @Override
   public void onNotifyMessageOpened(Context context, NotificationMessage notificationMessage) {
     JLogger.d("onNotifyMessageOpened:" + notificationMessage.toString());

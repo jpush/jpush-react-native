@@ -61,4 +61,5 @@ public class JConstants {
     public static final String MOBILE_NUMBER_EVENT = "MobileNumberEvent";
     public static final String COMMAND_EVENT = "CommandEvent";
     public static final String BADGE_NUMBER = "badge";
+    public static final String PROPERTIES = "pros";
 }
