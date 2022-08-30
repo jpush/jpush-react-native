@@ -69,10 +69,10 @@ export default class App extends React.Component {
         };
         JPush.addLocalNotificationListener(this.localNotificationListener);
         //自定义消息回调
-        // this.customMessageListener = result => {
-        //     console.log("customMessageListener:" + JSON.stringify(result))
-        // };
-        // JPush.addCustomMessagegListener(this.customMessageListener);
+        this.customMessageListener = result => {
+            console.log("customMessageListener:" + JSON.stringify(result))
+        };
+        JPush.addCustomMessageListener(this.customMessageListener);
         //tag alias事件回调
         this.tagAliasListener = result => {
             console.log("tagAliasListener:" + JSON.stringify(result))
