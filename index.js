@@ -230,7 +230,7 @@ export default class JPush {
         if (Platform.OS == "android") {
             JPushModule.setProperties(params)
         } else {
-            // setupWithOpion
+            JPushModule.setProperties(params)
         }
     }
     /*
@@ -240,7 +240,7 @@ export default class JPush {
         if (Platform.OS == "android") {
             JPushModule.deleteProperties(params)
         } else {
-            // setupWithOpion
+            JPushModule.deleteProperties(params)
         }
     }
     /*
@@ -250,7 +250,7 @@ export default class JPush {
         if (Platform.OS == "android") {
             JPushModule.cleanProperties()
         } else {
-            // setupWithOpion
+            JPushModule.cleanProperties()
         }
     }
     //***************************************统计***************************************
