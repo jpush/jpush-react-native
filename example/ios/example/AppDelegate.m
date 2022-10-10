@@ -23,12 +23,14 @@
   // JPush初始化配置 可以延时初始化 不再强制在此初始化，在js里可以直接调用init
 //  [JPUSHService setupWithOption:launchOptions appKey:@"02c7f79c9248ecadf25140f7"
 //                        channel:@"dev" apsForProduction:YES];
-//  // APNS
-//  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-//  if (@available(iOS 12.0, *)) {
-//    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
-//  }
-//  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+  // APNS
+  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+  if (@available(iOS 12.0, *)) {
+    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
+  }
+  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+  
+  
 //  [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
 //  // 自定义消息
 //  NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
