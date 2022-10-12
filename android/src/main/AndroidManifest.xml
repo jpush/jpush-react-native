@@ -31,7 +31,6 @@
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="true"
-            android:permission="${applicationId}.permission.JPUSH_MESSAGE"
             android:theme="@style/MyDialogStyle" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -44,7 +43,6 @@
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
-            android:permission="${applicationId}.permission.JPUSH_MESSAGE"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
@@ -57,7 +55,6 @@
        <activity
             android:name="cn.jpush.android.service.JNotifyActivity"
             android:exported="true"
-           android:permission="${applicationId}.permission.JPUSH_MESSAGE"
             android:taskAffinity=""
             android:theme="@style/JPushTheme">
             <intent-filter>
@@ -92,7 +89,6 @@
             android:name="cn.android.service.JTransitActivity"
             android:exported="true"
             android:taskAffinity=""
-            android:permission="${applicationId}.permission.JPUSH_MESSAGE"
             android:theme="@style/JPushTheme" >
             <intent-filter>
                 <action android:name="cn.android.service.JTransitActivity" />
