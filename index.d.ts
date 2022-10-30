@@ -62,7 +62,7 @@ export default class JPush {
    */
   static init(params: {
     appKey: string;
-    titchannelle: string;
+    channel: string;
     production: boolean;
   }): void;
 
