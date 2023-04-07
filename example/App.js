@@ -52,7 +52,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        JPush.init({"appKey":"02c7f79c9248ecadf25140f7","channel":"dev","production":1});
+        JPush.init({"appKey":"4fcc3e237eec4c4fb804ad49","channel":"dev","production":1});
         //连接状态
         this.connectListener = result => {
             console.log("connectListener:" + JSON.stringify(result))
@@ -61,6 +61,7 @@ export default class App extends React.Component {
         //通知回调
         this.notificationListener = result => {
             console.log("notificationListener:" + JSON.stringify(result))
+            alert(JSON.stringify(result))
         };
         JPush.addNotificationListener(this.notificationListener);
         //本地通知回调

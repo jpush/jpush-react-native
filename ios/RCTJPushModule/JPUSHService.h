@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 4.8.1
+#define JPUSH_VERSION_NUMBER 4.9.0
 
 #import <Foundation/Foundation.h>
 
@@ -29,6 +29,7 @@ typedef void (^JPUSHTagsOperationCompletion)(NSInteger iResCode, NSSet *iTags, N
 typedef void (^JPUSHTagValidOperationCompletion)(NSInteger iResCode, NSSet *iTags, NSInteger seq, BOOL isBind);
 typedef void (^JPUSHAliasOperationCompletion)(NSInteger iResCode, NSString *iAlias, NSInteger seq);
 typedef void (^JPUSHPropertiesOperationCompletion)(NSInteger iResCode, NSDictionary *properties, NSInteger seq);
+typedef void (^JPUSHLiveActivityTokenCompletion)(NSInteger iResCode, NSString *iLiveActivityId, NSData *pushToken, NSInteger seq);
 
 extern NSString *const kJPFNetworkIsConnectingNotification; // 正在连接中
 extern NSString *const kJPFNetworkDidSetupNotification;     // 建立连接
@@ -124,6 +125,8 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 @property (nonatomic, assign) NSUInteger interruptionLevel NS_AVAILABLE_IOS(15.0);
 // Relevance score determines the sorting for the notification across app notifications. The expected range is between 0.0f and 1.0f.
 @property (nonatomic, assign) double relevanceScore NS_AVAILABLE_IOS(15.0);
+// iOS16以上的新增属性
+@property (nonatomic, copy) NSString *filterCriteria NS_AVAILABLE_IOS(16.0); // default nil
 
 @end
 
@@ -226,6 +229,21 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 
 
 + (void)registerDeviceToken:(NSData *)deviceToken;
+
+/*!
+ * @abstract 注册liveActivity并上报其pushToken
+ * 在pushToken有变化的时候同步调用该接口。
+ * 在liveActivity结束的时候，请同步调用该接口，pushToken传nil
+ *
+ * @param liveActivityId 标识某一个liveActivity
+ * @param pushToken 对应该liveActivity的pushToken，如有更新，请及时调用该方法更新pushToken
+ * @param completion 响应回调
+ * @param seq  请求序列号
+ */
++ (void)registerLiveActivity:(NSString *)liveActivityId
+                   pushToken:(NSData  * _Nullable)pushToken
+                  completion:(JPUSHLiveActivityTokenCompletion _Nullable )completion
+                         seq:(NSInteger)seq;
 
 /*!
  * @abstract 处理收到的 APNs 消息
