@@ -13,7 +13,7 @@ PODS:
   - glog (0.3.5)
   - JCore (1.9.5):
     - React
-  - JPush (2.9.3):
+  - JPush (2.9.4):
     - React
   - React (0.60.5):
     - React-Core (= 0.60.5)
@@ -168,7 +168,7 @@ SPEC CHECKSUMS:
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   JCore: 7e9473558d4e2e80fc2204610035051eefd093fd
-  JPush: 4bce7b4beb15330ff1fe23cfc809351c5890e05a
+  JPush: 01969ebc548349eea883a6332460a4bb15bae4c4
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
   React-cxxreact: 8384287780c4999351ad9b6e7a149d9ed10a2395
