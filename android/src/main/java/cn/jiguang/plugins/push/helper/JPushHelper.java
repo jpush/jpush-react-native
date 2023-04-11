@@ -41,6 +41,17 @@ public class JPushHelper {
         convertExtras(message.notificationExtras, writableMap);
         return writableMap;
     }
+    public static WritableMap convertInAppMessageToMap(String eventType, NotificationMessage message) {
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putString(JConstants.NOTIFICATION_EVENT_TYPE, eventType);
+        writableMap.putString(JConstants.MESSAGE_ID, message.msgId);
+        writableMap.putString(JConstants.TITLE, message.inAppMsgTitle);
+        writableMap.putString(JConstants.CONTENT, message.inAppMsgContentBody);
+        writableMap.putString(JConstants.INAPPCLICKACTION, message.inAppClickAction);
+        writableMap.putString(JConstants.INAPPEXTRAS, message.inAppExtras);
+        writableMap.putString(JConstants.INAPPSHOWTARGET, message.inAppShowTarget);
+        return writableMap;
+    }
 
     public static WritableMap convertNotificationBundleToMap(String eventType, Bundle bundle) {
         WritableMap writableMap = Arguments.createMap();
