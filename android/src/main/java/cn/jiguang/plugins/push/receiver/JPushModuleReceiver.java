@@ -56,8 +56,8 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
     JLogger.d("onInAppMessageShow:" + notificationMessage.toString());
     if (JPushModule.reactContext != null) {
       if (!JPushModule.isAppForeground) JPushHelper.launchApp(context);
-      WritableMap writableMap = JPushHelper.convertInAppMessageToMap(JConstants.IN_APP_MESSAGE, notificationMessage);
-      JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
+      WritableMap writableMap = JPushHelper.convertInAppMessageToMap(JConstants.IN_APP_MESSAGE_SHOW, notificationMessage);
+      JPushHelper.sendEvent(JConstants.INAPP_MESSAGE_EVENT, writableMap);
     } else {
       super.onInAppMessageShow(context, notificationMessage);
     }
@@ -67,8 +67,8 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
     JLogger.d("onInAppMessageClick:" + notificationMessage.toString());
     if (JPushModule.reactContext != null) {
       if (!JPushModule.isAppForeground) JPushHelper.launchApp(context);
-      WritableMap writableMap = JPushHelper.convertInAppMessageToMap(JConstants.IN_APP_MESSAGE, notificationMessage);
-      JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
+      WritableMap writableMap = JPushHelper.convertInAppMessageToMap(JConstants.IN_APP_MESSAGE_CLICK, notificationMessage);
+      JPushHelper.sendEvent(JConstants.INAPP_MESSAGE_EVENT, writableMap);
     } else {
       super.onInAppMessageClick(context, notificationMessage);
     }

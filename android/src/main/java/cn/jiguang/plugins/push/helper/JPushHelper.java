@@ -43,7 +43,7 @@ public class JPushHelper {
     }
     public static WritableMap convertInAppMessageToMap(String eventType, NotificationMessage message) {
         WritableMap writableMap = Arguments.createMap();
-        writableMap.putString(JConstants.NOTIFICATION_EVENT_TYPE, eventType);
+        writableMap.putString(JConstants.INAPP_MESSAGE_EVENT, eventType);
         writableMap.putString(JConstants.MESSAGE_ID, message.msgId);
         writableMap.putString(JConstants.TITLE, message.inAppMsgTitle);
         writableMap.putString(JConstants.CONTENT, message.inAppMsgContentBody);

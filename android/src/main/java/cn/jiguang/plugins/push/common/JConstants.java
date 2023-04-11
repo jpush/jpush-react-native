@@ -58,6 +58,7 @@ public class JConstants {
     //event
     public static final String CONNECT_EVENT = "ConnectEvent";
     public static final String NOTIFICATION_EVENT = "NotificationEvent";
+    public static final String INAPP_MESSAGE_EVENT = "InappMessageEvent";
     public static final String CUSTOM_MESSAGE_EVENT = "CustomMessageEvent";
     public static final String LOCAL_NOTIFICATION_EVENT = "LocalNotificationEvent";
     public static final String TAG_ALIAS_EVENT = "TagAliasEvent";
@@ -65,5 +66,6 @@ public class JConstants {
     public static final String COMMAND_EVENT = "CommandEvent";
     public static final String BADGE_NUMBER = "badge";
     public static final String PROPERTIES = "pros";
-    public static final String IN_APP_MESSAGE = "inapp";
+    public static final String IN_APP_MESSAGE_CLICK = "inappClick";
+    public static final String IN_APP_MESSAGE_SHOW = "inappShow";
 }
