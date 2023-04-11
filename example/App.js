@@ -74,6 +74,13 @@ export default class App extends React.Component {
             console.log("customMessageListener:" + JSON.stringify(result))
         };
         JPush.addCustomMessageListener(this.customMessageListener);
+        //应用内消息回调
+        JPush.pageEnterTo("HomePage") // 进入首页，当页面退出时请调用 JPush.pageLeave('HomePage')
+        this.inappMessageListener = result => {
+            console.log("inappMessageListener:" + JSON.stringify(result))
+            alert(JSON.stringify(result))
+        };
+        JPush.addInappMessageListener(this.inappMessageListener);
         //tag alias事件回调
         this.tagAliasListener = result => {
             console.log("tagAliasListener:" + JSON.stringify(result))

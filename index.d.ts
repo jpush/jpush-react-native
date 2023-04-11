@@ -126,6 +126,16 @@ export default class JPush {
    */
   static queryAlias(params: Sequence): void;
 
+   /**
+   * 进入页面
+   */
+  static pageEnterTo(params: String): void;
+
+  /**
+   * 离开页面
+   */
+  static pageLeave(params: String): void;
+
   //***************************************统计***************************************
 
   /**
@@ -302,6 +312,42 @@ export default class JPush {
        * 对应 Portal 推送消息界面上的“可选设置”里的附加字段
        */
       extras: Extra;
+    }>
+  ): void;
+
+  /**
+   * inapp消息事件
+   */
+  static addInappMessageListener(
+    callback: Callback<{
+      /**
+       * 唯一标识inapp消息的 ID
+       */
+      mesageId: string;
+      /**
+       * 标题
+       */
+      title: string;
+      /**
+       * 内容
+       */
+      content: string;
+      /**
+       * 目标页面
+       */
+      target: string[];
+      /**
+       * 跳转地址
+       */
+      clickAction: string;
+      /**
+       * 附加字段
+       */
+      extras: Extra;
+      /**
+       * 类型，inappShow：展示，inappClick：点击
+       */
+      inappEventType: "inappShow" | "inappClick";
     }>
   ): void;
 
