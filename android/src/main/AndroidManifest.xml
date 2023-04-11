@@ -106,7 +106,10 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </activity>
-
+        <provider
+            android:exported="false"
+            android:authorities="${applicationId}.jiguang.InitProvider"
+            android:name="cn.jpush.android.service.InitProvider"></provider>
     </application>
 
 </manifest>

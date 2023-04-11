@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <cn.jpush.android.ui.ShadowViewCard
+            android:id="@+id/bg_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:id="@+id/banner_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cn.jpush.android.ui.RoundedImageView
+                    android:id="@+id/image_small"
+                    android:layout_centerVertical="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="8dp"
+                    android:scaleType="fitXY"
+                    />
+
+                <TextView
+                    android:id="@+id/text_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/image_small"
+                    android:layout_marginBottom="6dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="#ff253044"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_title"
+                    android:layout_toRightOf="@+id/image_small"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+
+                    android:textColor="#85253044"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+        </cn.jpush.android.ui.ShadowViewCard>
+
+
+        <cn.jpush.android.ui.RoundedImageView
+            android:id="@+id/image_only"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+    </RelativeLayout>
+</FrameLayout>

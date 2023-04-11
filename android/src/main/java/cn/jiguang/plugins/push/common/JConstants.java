@@ -26,6 +26,9 @@ public class JConstants {
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
     public static final String EXTRAS = "extras";
+    public static final String INAPPCLICKACTION = "inAppClickAction";
+    public static final String INAPPEXTRAS = "inAppExtras";
+    public static final String INAPPSHOWTARGET = "inAppShowTarget";
     //消息事件
     public static final String NOTIFICATION_ARRIVED = "notificationArrived";
     public static final String NOTIFICATION_OPENED = "notificationOpened";
@@ -62,4 +65,5 @@ public class JConstants {
     public static final String COMMAND_EVENT = "CommandEvent";
     public static final String BADGE_NUMBER = "badge";
     public static final String PROPERTIES = "pros";
+    public static final String IN_APP_MESSAGE = "inapp";
 }

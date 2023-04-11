@@ -51,6 +51,28 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
       super.onNotifyMessageOpened(context, notificationMessage);
     }
   }
+  @Override
+  public void onInAppMessageShow(Context context, NotificationMessage notificationMessage) {
+    JLogger.d("onInAppMessageShow:" + notificationMessage.toString());
+    if (JPushModule.reactContext != null) {
+      if (!JPushModule.isAppForeground) JPushHelper.launchApp(context);
+      WritableMap writableMap = JPushHelper.convertInAppMessageToMap(JConstants.IN_APP_MESSAGE, notificationMessage);
+      JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
+    } else {
+      super.onInAppMessageShow(context, notificationMessage);
+    }
+  }
+  @Override
+  public void onInAppMessageClick(Context context, NotificationMessage notificationMessage) {
+    JLogger.d("onInAppMessageClick:" + notificationMessage.toString());
+    if (JPushModule.reactContext != null) {
+      if (!JPushModule.isAppForeground) JPushHelper.launchApp(context);
+      WritableMap writableMap = JPushHelper.convertInAppMessageToMap(JConstants.IN_APP_MESSAGE, notificationMessage);
+      JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
+    } else {
+      super.onInAppMessageClick(context, notificationMessage);
+    }
+  }
 
   @Override
   public void onNotifyMessageDismiss(Context context, NotificationMessage notificationMessage) {
