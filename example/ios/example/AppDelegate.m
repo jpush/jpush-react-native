@@ -17,6 +17,10 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+@interface AppDelegate ()<JPUSHRegisterDelegate>
+
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
