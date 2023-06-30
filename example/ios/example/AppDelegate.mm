@@ -1,17 +1,8 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 #import "AppDelegate.h"
 
-#import <RCTJPushModule.h>
-
-#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
-#import <React/RCTRootView.h>
+
+#import <RCTJPushModule.h>
 
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
@@ -23,46 +14,32 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-  // JPush初始化配置 可以延时初始化 不再强制在此初始化，在js里可以直接调用init
-//  [JPUSHService setupWithOption:launchOptions appKey:@"02c7f79c9248ecadf25140f7"
-//                        channel:@"dev" apsForProduction:YES];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
   // APNS
-  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-  if (@available(iOS 12.0, *)) {
-    entity.types = JPAuthorizationOptionNone; //JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSou//nd|JPAuthorizationOptionProvidesAppNotificationSettings;
-  }
-  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+    if (@available(iOS 12.0, *)) {
+      entity.types = JPAuthorizationOptionNone;
+    }
+    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
   
-  
-//  [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-//  // 自定义消息
-//  NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-//  [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
-//  // 地理围栏
-//  [JPUSHService registerLbsGeofenceDelegate:self withLaunchOptions:launchOptions];
-  // ReactNative环境配置
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"example"
-                                            initialProperties:nil];
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-  return YES;
+  self.moduleName = @"example";
+  // You can add your custom initial props in the dictionary below.
+  // They will be passed down to the ViewController used by React Native.
+  self.initialProps = @{};
+
+  return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
 
 //************************************************JPush start************************************************
 
