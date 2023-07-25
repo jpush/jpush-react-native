@@ -8,6 +8,8 @@ public class JConstants {
 
     public static final String CODE = "code";
     public static final String CHANNEL = "channel";
+    public static final String CHANNELID = "channelId";
+    public static final String SOUND = "sound";
     public static final String SEQUENCE = "sequence";
     public static final String CONNECT_ENABLE = "connectEnable";
     //电话号码

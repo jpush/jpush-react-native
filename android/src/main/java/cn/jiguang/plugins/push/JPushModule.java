@@ -1,6 +1,9 @@
 
 package cn.jiguang.plugins.push;
-
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
@@ -94,6 +97,32 @@ public class JPushModule extends ReactContextBaseJavaModule {
             JLogger.w(JConstants.PARAMS_ILLEGAL);
         } else {
             JPushInterface.setChannel(reactContext, channel);
+        }
+    }
+    @ReactMethod
+    public void setChannelAndSound(ReadableMap readableMap) {
+        if (readableMap == null) {
+            JLogger.w(JConstants.PARAMS_NULL);
+            return;
+        }
+        String channel = readableMap.getString(JConstants.CHANNEL);
+        String sound = readableMap.getString(JConstants.SOUND);
+        String channelId = readableMap.getString(JConstants.CHANNELID);
+        try {
+            NotificationManager manager= (NotificationManager) reactContext.getSystemService("notification");
+            if(Build.VERSION.SDK_INT<26){
+                return;
+            }
+            if(TextUtils.isEmpty(channel)||TextUtils.isEmpty(channelId)){
+                return;
+            }
+            NotificationChannel channel1=new NotificationChannel(channelId,channel, NotificationManager.IMPORTANCE_HIGH);
+            if(!TextUtils.isEmpty(sound)){
+                channel1.setSound(Uri.parse("android.resource://"+reactContext.getPackageName()+"/raw/"+sound),null);
+            }
+            manager.createNotificationChannel(channel1);
+            JPushInterface.setChannel(reactContext,channel);
+        }catch (Throwable throwable){
         }
     }
     @ReactMethod

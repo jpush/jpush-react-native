@@ -677,6 +677,13 @@ export default class JPush {
             // setupWithOpion
         }
     }
+    static setChannelAndSound(params) {
+            if (Platform.OS == "android") {
+                JPushModule.setChannelAndSound(params)
+            } else {
+                // setupWithOpion
+            }
+        }
 
 
     //***************************************iOS Only***************************************
