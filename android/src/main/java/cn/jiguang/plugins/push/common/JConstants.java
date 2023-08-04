@@ -26,6 +26,7 @@ public class JConstants {
     //消息
     public static final String MESSAGE_ID = "messageID";
     public static final String TITLE = "title";
+    public static final String BROADCAST_TIME = "broadcastTime";
     public static final String CONTENT = "content";
     public static final String EXTRAS = "extras";
     public static final String INAPPCLICKACTION = "inAppClickAction";
