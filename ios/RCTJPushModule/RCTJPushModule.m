@@ -16,6 +16,7 @@
 #define EXTRAS     @"extras"
 #define BADGE      @"badge"
 #define RING       @"ring"
+#definr BROADCASTTIME @"broadcastTime"
 
 //本地角标
 #define APP_BADGE @"appBadge"
@@ -412,14 +413,23 @@ RCT_EXPORT_METHOD(addNotification:(NSDictionary *)params)
     NSString *notificationContent = params[CONTENT]?params[CONTENT]:@"";
     content.title = notificationTitle;
     content.body = notificationContent;
+    if (@available(iOS 15.0, *)) {
+        content.interruptionLevel = 1;
+    } else {
+        // Fallback on earlier versions
+    }
     if(params[EXTRAS]){
         content.userInfo = @{MESSAGE_ID:messageID,TITLE:notificationTitle,CONTENT:notificationContent,EXTRAS:params[EXTRAS]};
     }else{
         content.userInfo = @{MESSAGE_ID:messageID,TITLE:notificationTitle,CONTENT:notificationContent};
     }
+    NSString *broadcastTime = params[BROADCASTTIME];
     JPushNotificationTrigger *trigger = [[JPushNotificationTrigger alloc] init];
     NSDateComponents *components = [[NSDateComponents alloc] init];
     NSDate *now = [NSDate date];
+    if (broadcastTime && [broadcastTime isKindOfClass:[NSString class]]) {
+        now = [NSDate dateWithTimeIntervalSince1970:[broadcastTime integerValue]/1000];
+    }
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
     NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
