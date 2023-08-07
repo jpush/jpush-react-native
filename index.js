@@ -339,7 +339,7 @@ export default class JPush {
     * title:对应“通知标题”字段
     *
     * content:对应“通知内容”字段
-    * broadcastTime：定时通知展示时间，需要把 时间戳 转为String 传入。
+    * broadcastTime：定时通知展示时间，需要把 时间戳(毫秒) 转为String 传入。
     *
     * extras:对应“附加内容”字段
     *
