@@ -16,7 +16,7 @@
 #define EXTRAS     @"extras"
 #define BADGE      @"badge"
 #define RING       @"ring"
-#definr BROADCASTTIME @"broadcastTime"
+#define BROADCASTTIME @"broadcastTime"
 
 //本地角标
 #define APP_BADGE @"appBadge"
