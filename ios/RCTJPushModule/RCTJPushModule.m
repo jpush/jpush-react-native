@@ -191,6 +191,16 @@ RCT_EXPORT_METHOD(getRegisterId:(RCTResponseSenderBlock) callback)
     }];
 }
 
+RCT_EXPORT_METHOD(isNotificationEnabled:(RCTResponseSenderBlock) callback) {
+    [JPUSHService requestNotificationAuthorization:^(JPAuthorizationStatus status) {
+        if (status <= JPAuthorizationStatusDenied) {
+            callback(@[@(NO)]);
+        }else {
+            callback(@[@(YES)]);
+        }
+    }];
+}
+
 //tag
 RCT_EXPORT_METHOD(addTags:(NSDictionary *)params)
 {
