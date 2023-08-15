@@ -323,6 +323,8 @@ export default class JPush {
     static isNotificationEnabled(callback){
         if (Platform.OS == "android"){
             JPushModule.isNotificationEnabled(callback)
+        } else {
+            JPushModule.isNotificationEnabled(callback)
         }
     }
 
