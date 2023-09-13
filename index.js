@@ -14,6 +14,7 @@ const CustomMessageEvent     = 'CustomMessageEvent'      //自定义消息事件
 const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
 const TagAliasEvent          = 'TagAliasEvent'           //TagAlias/Pros事件
 const MobileNumberEvent      = 'MobileNumberEvent'       //电话号码事件
+const CommandEvent      = 'CommandEvent'       //COMMAND事件
 
 export default class JPush {
 
@@ -430,6 +431,13 @@ export default class JPush {
     static addConnectEventListener(callback) {
         listeners[callback] = DeviceEventEmitter.addListener(
                 ConnectEvent, result => {
+                callback(result)
+            })
+    }
+    //CommandEvent 事件回调
+    static addCommandEventListener(callback) {
+        listeners[callback] = DeviceEventEmitter.addListener(
+                CommandEvent, result => {
                 callback(result)
             })
     }
