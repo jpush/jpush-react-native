@@ -13,9 +13,9 @@ import cn.jpush.android.api.CmdMessage;
 import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
-import cn.jpush.android.service.JPushMessageReceiver;
+import cn.jpush.android.service.JPushMessageService;
 
-public class JPushModuleReceiver extends JPushMessageReceiver {
+public class JPushModuleReceiver extends JPushMessageService {
 
   @Override
   public void onMessage(Context context, CustomMessage customMessage) {

@@ -63,7 +63,7 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </activity>
-        <receiver
+        <service
             android:name=".receiver.JPushModuleReceiver"
             android:enabled="true"
             android:exported="false">
@@ -71,7 +71,7 @@
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="${applicationId}" />
             </intent-filter>
-        </receiver>
+        </service>
 
         <receiver
             android:name=".receiver.JPushBroadcastReceiver"

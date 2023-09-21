@@ -25,13 +25,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.jmessage.sdk"                          //在此替换你的applicationId
+        applicationId "com.HuananThirdPush.cn"                          //在此替换你的applicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 9999
+        versionName "9999.0"
         manifestPlaceholders = [
-                JPUSH_APPKEY: "129c21dc4cb5e6f6de194003",         //在此替换你的APPKey
+                JPUSH_APPKEY: "eb67142502ec9f5556875b9a",         //在此替换你的APPKey
                 JPUSH_CHANNEL: "default"                          //在此替换你的channel
         ]
     }
@@ -70,7 +70,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.react:react-native:0.63.0'
+
     implementation project(':jpush-react-native')  // 添加 jpush 依赖
     implementation project(':jcore-react-native')  // 添加 jcore 依赖
 
