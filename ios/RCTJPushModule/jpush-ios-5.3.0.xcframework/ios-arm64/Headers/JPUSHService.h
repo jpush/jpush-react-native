@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 5.2.0
+#define JPUSH_VERSION_NUMBER 5.3.0
 
 #import <Foundation/Foundation.h>
 
@@ -172,6 +172,13 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 @property (nonatomic, strong) NSArray  *target;      // 目标页面
 @property (nonatomic, copy)   NSString *clickAction; // 跳转地址
 @property (nonatomic, strong) NSDictionary *extras;  // 附加字段
+
+@end
+
+@interface JPushCollectControl : NSObject
+
+/* gps 经纬度信息。设置为NO,不采集经纬度信息。默认为YES。 */
+@property (nonatomic, assign) BOOL gps;
 
 @end
 
@@ -762,6 +769,13 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
  * 建议在发布的版本里, 调用此接口, 关闭掉日志打印.
  */
 + (void)setLogOFF;
+
+/*!
+ 数据采集控制
+ 
+ @param control 数据采集配置。
+ */
++ (void)setCollectControl:(JPushCollectControl *)control;
 
 /*!
  * @abstract 设置SDK地理位置权限开关

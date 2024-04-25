@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "jcore-react-native": "2.1.3",
-    "jpush-react-native": "3.0.4",
+    "jpush-react-native": "3.0.5",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "update": "^0.7.4"
