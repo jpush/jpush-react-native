@@ -68,7 +68,7 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <action android:name="cn.jpush.android.intent.SERVICE_MESSAGE" />
                 <category android:name="${applicationId}" />
             </intent-filter>
         </service>
