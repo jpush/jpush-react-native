@@ -1,8 +1,4 @@
 rootProject.name = 'example'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
-
-include ':jpush-react-native'
-project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
-include ':jcore-react-native'
-project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+includeBuild('../node_modules/@react-native/gradle-plugin')
