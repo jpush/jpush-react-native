@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "license": "ISC",
   "author": "wicked.tc130",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/jpush/jpush-react-native"

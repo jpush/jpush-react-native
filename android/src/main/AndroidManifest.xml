@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.jiguang.plugins.push">
+    >
 
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
