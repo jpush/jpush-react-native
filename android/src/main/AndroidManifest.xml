@@ -63,15 +63,15 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </activity>
-        <service
+        <receiver
             android:name=".receiver.JPushModuleReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.SERVICE_MESSAGE" />
+                <action android:name="cn.jpush.android.intent.RECEIVER_MESSAGE" />
                 <category android:name="${applicationId}" />
             </intent-filter>
-        </service>
+        </receiver>
 
         <receiver
             android:name=".receiver.JPushBroadcastReceiver"
@@ -107,9 +107,11 @@
             </intent-filter>
         </activity>
         <provider
-            android:exported="false"
+            android:name="cn.jpush.android.service.InitProvider"
             android:authorities="${applicationId}.jiguang.InitProvider"
-            android:name="cn.jpush.android.service.InitProvider"></provider>
+            android:exported="false"
+            android:readPermission="${applicationId}.permission.JPUSH_MESSAGE"
+            android:writePermission="${applicationId}.permission.JPUSH_MESSAGE" />
     </application>
 
 </manifest>

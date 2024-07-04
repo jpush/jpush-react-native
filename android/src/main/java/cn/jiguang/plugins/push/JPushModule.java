@@ -33,6 +33,7 @@ import cn.jiguang.plugins.push.helper.JPushHelper;
 import cn.jiguang.plugins.push.receiver.JPushBroadcastReceiver;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.data.JPushCollectControl;
 import cn.jpush.android.data.JPushLocalNotification;
 
 public class JPushModule extends ReactContextBaseJavaModule {
@@ -124,6 +125,61 @@ public class JPushModule extends ReactContextBaseJavaModule {
             manager.createNotificationChannel(channel1);
             JPushInterface.setChannel(reactContext,channel);
         }catch (Throwable throwable){
+        }
+    }
+    @ReactMethod
+    public void setLinkMergeEnable(boolean enable) {
+        JPushInterface.setLinkMergeEnable(reactContext, enable);
+    }
+
+    @ReactMethod
+    public void setSmartPushEnable(boolean enable) {
+        JPushInterface.setSmartPushEnable(reactContext, enable);
+    }
+
+    @ReactMethod
+    public void setGeofenceEnable(boolean enable) {
+        JPushInterface.setGeofenceEnable(reactContext, enable);
+    }
+
+    @ReactMethod
+    public void setCollectControl(ReadableMap readableMap) {
+        if (readableMap == null) {
+            JLogger.w(JConstants.PARAMS_NULL);
+            return;
+        }
+        boolean hadValue = false;
+        JPushCollectControl.Builder builder = new JPushCollectControl.Builder();
+        if (readableMap.hasKey(JConstants.IMEI)) {
+            hadValue = true;
+            builder.imei(readableMap.getBoolean(JConstants.IMEI));
+        }
+        if (readableMap.hasKey(JConstants.IMSI)) {
+            hadValue = true;
+            builder.imsi(readableMap.getBoolean(JConstants.IMSI));
+        }
+        if (readableMap.hasKey(JConstants.MAC)) {
+            hadValue = true;
+            builder.mac(readableMap.getBoolean(JConstants.MAC));
+        }
+        if (readableMap.hasKey(JConstants.WIFI)) {
+            hadValue = true;
+            builder.wifi(readableMap.getBoolean(JConstants.WIFI));
+        }
+        if (readableMap.hasKey(JConstants.BSSID)) {
+            hadValue = true;
+            builder.bssid(readableMap.getBoolean(JConstants.BSSID));
+        }
+        if (readableMap.hasKey(JConstants.SSID)) {
+            hadValue = true;
+            builder.ssid(readableMap.getBoolean(JConstants.SSID));
+        }
+        if (readableMap.hasKey(JConstants.CELL)) {
+            hadValue = true;
+            builder.cell(readableMap.getBoolean(JConstants.CELL));
+        }
+        if (hadValue) {
+            JPushInterface.setCollectControl(reactContext, builder.build());
         }
     }
     @ReactMethod

@@ -717,4 +717,30 @@ export default class JPush {
         }
     }
 
+    static setLinkMergeEnable(enable) {
+        if (Platform.OS == "ios") {
+        }else if (Platform.OS == "android") {
+            JPushModule.setLinkMergeEnable(enable)
+        }
+    }
+    static setSmartPushEnable(enable) {
+        if (Platform.OS == "ios") {
+        }else if (Platform.OS == "android") {
+            JPushModule.setSmartPushEnable(enable)
+        }
+    }
+    static setGeofenceEnable(enable) {
+         if (Platform.OS == "ios") {
+         }else if (Platform.OS == "android") {
+             JPushModule.setGeofenceEnable(enable)
+         }
+    }
+
+    static setCollectControl(params) {
+         if (Platform.OS == "ios") {
+         }else if (Platform.OS == "android") {
+             JPushModule.setCollectControl(params)
+         }
+    }
+
 }
