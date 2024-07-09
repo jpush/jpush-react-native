@@ -76,11 +76,16 @@ android {
 
     namespace "com.example"
     defaultConfig {
-        applicationId "com.example"
+        applicationId "cn.allpublic"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        manifestPlaceholders = [
+                JPUSH_APPKEY: "32f266ea08c3b3d7a059b378",         //在此替换你的APPKey
+                JPUSH_CHANNEL: "test"        //在此替换你的channel
+        ]
     }
     signingConfigs {
         debug {
