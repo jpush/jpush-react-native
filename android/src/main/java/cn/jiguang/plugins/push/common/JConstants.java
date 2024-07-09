@@ -71,4 +71,12 @@ public class JConstants {
     public static final String PROPERTIES = "pros";
     public static final String IN_APP_MESSAGE_CLICK = "inappClick";
     public static final String IN_APP_MESSAGE_SHOW = "inappShow";
+
+    public static final String IMEI = "imei";
+    public static final String IMSI = "imsi";
+    public static final String MAC = "mac";
+    public static final String WIFI = "wifi";
+    public static final String BSSID = "bssid";
+    public static final String SSID = "ssid";
+    public static final String CELL = "cell";
 }
