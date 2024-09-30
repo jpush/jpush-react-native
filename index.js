@@ -725,6 +725,7 @@ export default class JPush {
     }
     static setSmartPushEnable(enable) {
         if (Platform.OS == "ios") {
+            JPushModule.setSmartPushEnable(enable)
         }else if (Platform.OS == "android") {
             JPushModule.setSmartPushEnable(enable)
         }
@@ -738,6 +739,7 @@ export default class JPush {
 
     static setCollectControl(params) {
          if (Platform.OS == "ios") {
+            JPushModule.setCollectControl(params)
          }else if (Platform.OS == "android") {
              JPushModule.setCollectControl(params)
          }

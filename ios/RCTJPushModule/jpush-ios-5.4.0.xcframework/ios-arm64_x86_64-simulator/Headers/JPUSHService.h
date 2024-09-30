@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 5.3.0
+#define JPUSH_VERSION_NUMBER 5.4.0
 
 #import <Foundation/Foundation.h>
 
@@ -177,6 +177,12 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 
 @interface JPushCollectControl : NSObject
 
+/* ssid SSID信息。设置为NO,不采集SSID信息。默认为YES。 */
+@property (nonatomic, assign) BOOL ssid;
+/* bssid BSSID信息。设置为NO,不采集BSSID信息。默认为YES。 */
+@property (nonatomic, assign) BOOL bssid;
+/* cell 基站信息。设置为NO,不采集基站信息。默认为YES。*/
+@property (nonatomic, assign) BOOL cell;
 /* gps 经纬度信息。设置为NO,不采集经纬度信息。默认为YES。 */
 @property (nonatomic, assign) BOOL gps;
 
@@ -793,6 +799,13 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
  */
 + (void)setPushEnable:(BOOL)isEnable completion:(nullable void (^)(NSInteger iResCode))completion;
 
+/*!
+ * @abstract 设置用户分群推送功能开关
+ *
+ * @param isEnable YES:开启，NO:关闭，默认是开启。
+ *
+ */
++ (void)setSmartPushEnable:(BOOL)isEnable;
 
 /*!
 * @abstract 设置应用内提醒消息的代理
