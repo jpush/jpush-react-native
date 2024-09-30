@@ -351,6 +351,39 @@ RCT_EXPORT_METHOD(pageLeave:(NSString *)pageName)
     [JPUSHService pageLeave:pageName];
 }
 
+// 合规
+RCT_EXPORT_METHOD(setCollectControl:(NSDictionary *)params)
+{
+   JPushCollectControl *control = [[JPushCollectControl alloc] init];
+    BOOL gps = YES;
+    BOOL cell = YES;
+    BOOL bssid = YES;
+    BOOL ssid = YES;
+    if (params[@"gps"] && [params[@"gps"] isKindOfClass:[NSNumber class]]) {
+        gps = [params[@"gps"] boolValue];
+    }
+    if (params[@"cell"] && [params[@"cell"] isKindOfClass:[NSNumber class]]) {
+        cell = [params[@"cell"] boolValue];
+    }
+    if (params[@"bssid"] && [params[@"bssid"] isKindOfClass:[NSNumber class]]) {
+        bssid = [params[@"bssid"] boolValue];
+    }
+    if (params[@"ssid"] && [params[@"ssid"] isKindOfClass:[NSNumber class]]) {
+        ssid = [params[@"ssid"] boolValue];
+    }
+    control.gps = gps;
+    control.cell = cell;
+    control.bssid = bssid;
+    control.ssid = ssid;
+    [JPUSHService setCollectControl:control];
+}
+
+RCT_EXPORT_METHOD(setSmartPushEnable:(BOOL *)enable)
+{
+    [JPUSHService setSmartPushEnable:enable];
+}
+
+
 //应用内消息 代理
 - (void)jPushInAppMessageDidShow:(JPushInAppMessage *)inAppMessage {
     NSDictionary *responseData = [self convertInappMsg:inAppMessage isShow:YES];

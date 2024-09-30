@@ -493,4 +493,27 @@ export default class JPush {
      */
     appBadge: number;
   }): void;
+
+ /**
+   * 设置用户分群推送功能开关
+   *
+   * 
+   * @param {boolean} enable,  YES:开启，NO:关闭，默认是开启。
+   *
+   */
+ static setSmartPushEnable(enable: boolean): void;
+
+/**
+   * 数据采集控制, YES:开启，NO:关闭, 默认开启
+   *
+   */
+ static setCollectControl(params: {
+  cell: boolean;
+  bssid: boolean;
+  imei: boolean;
+  imsi: boolean;
+  mac: boolean;
+  wifi: boolean;
+}): void;
+
 }
