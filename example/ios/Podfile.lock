@@ -7,9 +7,9 @@ PODS:
   - hermes-engine (0.74.1):
     - hermes-engine/Pre-built (= 0.74.1)
   - hermes-engine/Pre-built (0.74.1)
-  - JCore (2.2.1):
+  - JCore (2.2.2):
     - React
-  - JPush (3.1.0):
+  - JPush (3.1.1):
     - React
   - RCT-Folly (2024.01.01.00):
     - boost
@@ -1357,8 +1357,8 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: 16b8530de1b383cdada1476cf52d1b52f0692cbc
-  JCore: 27d0cde74c2136d95ff6e5462dd3cce3838acf52
-  JPush: 30e91a659b857338102cd88f21cc1dd6cb023fde
+  JCore: fbdd01ded9a979ab92bdf60c514fe4d42017b002
+  JPush: 754736d53697f8203570165e89d01eea2ed4abeb
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: efb313d8126259e9294dc4ee0002f44a6f676aba
   RCTRequired: f49ea29cece52aee20db633ae7edc4b271435562
