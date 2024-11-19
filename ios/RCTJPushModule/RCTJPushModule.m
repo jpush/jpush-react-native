@@ -147,13 +147,13 @@ RCT_EXPORT_METHOD(setupWithConfig:(NSDictionary *)params)
                if (@available(iOS 12.0, *)) {
                  entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
                }
-               [JPUSHService registerForRemoteNotificationConfig:entity delegate:self.bridge.delegate];
+               [JPUSHService registerForRemoteNotificationConfig:entity delegate:[[UIApplication sharedApplication] delegate]];
                [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
                // 自定义消息
                NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-               [defaultCenter addObserver:self.bridge.delegate selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+               [defaultCenter addObserver:[[UIApplication sharedApplication] delegate] selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
                // 地理围栏
-               [JPUSHService registerLbsGeofenceDelegate:self.bridge.delegate withLaunchOptions:launchOptions];
+               [JPUSHService registerLbsGeofenceDelegate:[[UIApplication sharedApplication] delegate] withLaunchOptions:launchOptions];
                // 应用内消息
                [JPUSHService setInAppMessageDelegate:self];
            });
