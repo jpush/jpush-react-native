@@ -128,7 +128,7 @@ pod install
 
 ### 3.2 iOS
 
-参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/example/AppDelegate.m) 
+参考：[AppDelegate.m](https://github.com/jpush/jpush-react-native/tree/master/example/ios/example/AppDelegate.mm) 
 
 ### 3.3 js
 
