@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 5.4.0
+#define JPUSH_VERSION_NUMBER 5.5.0
 
 #import <Foundation/Foundation.h>
 
@@ -260,6 +260,19 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
 
 
 + (void)registerDeviceToken:(NSData *)deviceToken;
+
+/*!
+ * @abstract 上报liveactivity的启动token
+ *
+ * @param activityAttributes 某liveActivity定义的属性类型
+ * @param pushToStartToken 对应该liveactivity的pushToStartToken，如有更新，请及时调用该方法更新pushToStartToken
+ * @param completion 响应回调
+ * @param seq  请求序列号
+ */
++ (void)registerLiveActivity:(NSString *)activityAttributes
+            pushToStartToken:(nullable NSData *)pushToStartToken
+                  completion:(nullable JPUSHLiveActivityTokenCompletion)completion
+                        seq:(NSInteger)seq;
 
 /*!
  * @abstract 注册liveActivity并上报其pushToken
