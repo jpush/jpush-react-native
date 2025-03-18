@@ -350,7 +350,29 @@ export default class JPush {
       inappEventType: "inappShow" | "inappClick";
     }>
   ): void;
+  static addCommandEventListener(
+            callback: Callback<{
+                /**
+                 * 命令类型（例如：1, 2, 3 等）
+                 */
+                command: number;
 
+                /**
+                 * 命令的附加信息（例如：JSON 字符串或其他数据）
+                 */
+                commandExtra: string;
+
+                /**
+                 * 命令的消息内容
+                 */
+                commandMessage: string;
+
+                /**
+                 * 命令的执行结果（例如：0 表示成功，其他值表示错误码）
+                 */
+                commandResult: number;
+            }>
+        ): void;
   /**
    * tag alias事件
    */
