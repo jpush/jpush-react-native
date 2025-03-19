@@ -499,11 +499,13 @@ export default class JPush {
     /*
     * 自定义消息事件
     *
-    * @param {Function} callback = (result) => {"messageID":String，"content":String,"extras":{String:String}}}
+    * @param {Function} callback = (result) => {"messageID":String，"content":String, "content_type":String, "extras":{String:String}}}
     *
     * messageID:唯一标识自定义消息的 ID
     *
     * content:对应 Portal 推送消息界面上的“自定义消息内容”字段
+    *
+    * content_type:对应 Portal 推送消息界面上的“自定义消息内容类型”字段
     *
     * extras:对应 Portal 推送消息界面上的“可选设置”里的附加字段
     *
