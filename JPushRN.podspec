@@ -3,7 +3,7 @@ pjson = JSON.parse(File.read('package.json'))
 
 Pod::Spec.new do |s|
 
-  s.name            = "JPush"
+  s.name            = "JPushRN"
   s.version         = pjson["version"]
   s.homepage        = pjson["homepage"]
   s.summary         = pjson["description"]

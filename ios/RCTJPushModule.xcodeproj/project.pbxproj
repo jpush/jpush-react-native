@@ -3,13 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		5C103CA7236041E7000AD3DA /* RCTJPushEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C103CA6236041E7000AD3DA /* RCTJPushEventQueue.m */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
-		6283FF562D390E45003A8199 /* jpush-ios-5.5.0.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6283FF552D390E45003A8199 /* jpush-ios-5.5.0.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,10 +26,10 @@
 /* Begin PBXFileReference section */
 		5C103CA5236041E7000AD3DA /* RCTJPushEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushEventQueue.h; sourceTree = "<group>"; };
 		5C103CA6236041E7000AD3DA /* RCTJPushEventQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushEventQueue.m; sourceTree = "<group>"; };
+		622CECF22DB72E3400C13A88 /* jpush-ios-5.6.0.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "jpush-ios-5.6.0.xcframework"; path = "RCTJPushModule/jpush-ios-5.6.0.xcframework"; sourceTree = "<group>"; };
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6283FF552D390E45003A8199 /* jpush-ios-5.5.0.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "jpush-ios-5.5.0.xcframework"; path = "RCTJPushModule/jpush-ios-5.5.0.xcframework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6283FF562D390E45003A8199 /* jpush-ios-5.5.0.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +46,7 @@
 		5CF8E647231E3A9200B12200 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6283FF552D390E45003A8199 /* jpush-ios-5.5.0.xcframework */,
+				622CECF22DB72E3400C13A88 /* jpush-ios-5.6.0.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
