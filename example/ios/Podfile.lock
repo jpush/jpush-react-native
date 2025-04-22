@@ -7,9 +7,9 @@ PODS:
   - hermes-engine (0.74.1):
     - hermes-engine/Pre-built (= 0.74.1)
   - hermes-engine/Pre-built (0.74.1)
-  - JCore (2.2.2):
+  - JCoreRN (2.2.8):
     - React
-  - JPushRN (3.1.4):
+  - JPushRN (3.1.5):
     - React
   - RCT-Folly (2024.01.01.00):
     - boost
@@ -1178,7 +1178,7 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - JCore (from `../node_modules/jcore-react-native`)
+  - JCoreRN (from `../node_modules/jcore-react-native`)
   - JPushRN (from `../node_modules/jpush-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -1249,7 +1249,7 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2024-04-25-RNv0.74.1-b54a3a01c531f4f5f1904cb0770033e8b7153dff
-  JCore:
+  JCoreRN:
     :path: "../node_modules/jcore-react-native"
   JPushRN:
     :path: "../node_modules/jpush-react-native"
@@ -1357,8 +1357,8 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: 16b8530de1b383cdada1476cf52d1b52f0692cbc
-  JCore: 60e02f4aa200c92aab48a6eb0775717b267495d5
-  JPushRN: 4242c21eb2c191f784111c93562c587b4b5fc57d
+  JCoreRN: 0dbe7981735de54c772a2f3ea275c53421649981
+  JPushRN: e4b15bc4e339d2bf947930d4505546a207d0e766
   RCT-Folly: 5dc73daec3476616d19e8a53f0156176f7b55461
   RCTDeprecation: efb313d8126259e9294dc4ee0002f44a6f676aba
   RCTRequired: f49ea29cece52aee20db633ae7edc4b271435562
