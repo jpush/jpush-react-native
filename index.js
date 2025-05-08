@@ -730,6 +730,13 @@ export default class JPush {
             JPushModule.setSmartPushEnable(enable)
         }
     }
+    static setDataInsightsEnable(enable) {
+        if (Platform.OS == "ios") {
+            
+        }else if (Platform.OS == "android") {
+            JPushModule.setDataInsightsEnable(enable)
+        }
+    }
     static setGeofenceEnable(enable) {
          if (Platform.OS == "ios") {
          }else if (Platform.OS == "android") {

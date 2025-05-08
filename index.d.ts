@@ -525,6 +525,15 @@ export default class JPush {
    */
  static setSmartPushEnable(enable: boolean): void;
 
+  /**
+   * 设置应用数据洞察
+   *
+   * 
+   * @param {boolean} enable,  YES:开启，NO:关闭，默认是开启。
+   *
+   */
+  static setDataInsightsEnable(enable: boolean): void;
+
 /**
    * 数据采集控制, YES:开启，NO:关闭, 默认开启
    *

@@ -138,6 +138,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setDataInsightsEnable(boolean enable) {
+        JPushInterface.setDataInsightsEnable(reactContext, enable);
+    }
+
+    @ReactMethod
     public void setGeofenceEnable(boolean enable) {
         JPushInterface.setGeofenceEnable(reactContext, enable);
     }
