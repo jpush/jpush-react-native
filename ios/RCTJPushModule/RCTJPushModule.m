@@ -126,7 +126,7 @@ RCT_EXPORT_MODULE(JPushModule);
 }
 
 
-RCT_EXPORT_METHOD(setDebugMode: (BOOL *)enable)
+RCT_EXPORT_METHOD(setDebugMode: (BOOL )enable)
 {
     if(enable){
         [JPUSHService setDebugMode];
@@ -378,7 +378,7 @@ RCT_EXPORT_METHOD(setCollectControl:(NSDictionary *)params)
     [JPUSHService setCollectControl:control];
 }
 
-RCT_EXPORT_METHOD(setSmartPushEnable:(BOOL *)enable)
+RCT_EXPORT_METHOD(setSmartPushEnable:(BOOL )enable)
 {
     [JPUSHService setSmartPushEnable:enable];
 }
