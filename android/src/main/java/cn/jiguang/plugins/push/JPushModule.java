@@ -66,6 +66,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             JPushHelper.sendEvent(JConstants.NOTIFICATION_EVENT, writableMap);
             JPushBroadcastReceiver.NOTIFICATION_BUNDLE = null;
         }
+        JPushInterface.setNotificationCallBackEnable(reactContext,true);
     }
 
     @ReactMethod
