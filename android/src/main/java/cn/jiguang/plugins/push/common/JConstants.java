@@ -79,4 +79,9 @@ public class JConstants {
     public static final String BSSID = "bssid";
     public static final String SSID = "ssid";
     public static final String CELL = "cell";
+    
+    // 本地通知相关常量
+    public static final String BUILDER_NAME = "builderName";
+    public static final String CATEGORY = "category";
+    public static final String PRIORITY = "priority";
 }

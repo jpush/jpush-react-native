@@ -539,6 +539,47 @@ public class JPushModule extends ReactContextBaseJavaModule {
             JSONObject notificationExtraJson = new JSONObject(notificationExtra.toHashMap());
             notification.setExtras(notificationExtraJson.toString());
         }
+
+        // 设置BuilderId
+        if (readableMap.hasKey(JConstants.BUILDER_NAME)) {
+            try {
+                String layoutFileName = readableMap.getString(JConstants.BUILDER_NAME);
+                if (!TextUtils.isEmpty(layoutFileName)) {
+                    // 通过布局文件名获取资源ID
+                    int builderId = reactContext.getResources().getIdentifier(
+                        layoutFileName, 
+                        "layout", 
+                        reactContext.getPackageName()
+                    );
+                    if (builderId != 0) {
+                        notification.setBuilderId(builderId);
+                    } else {
+                        JLogger.w("Layout file not found: " + layoutFileName);
+                    }
+                }
+            } catch (Exception e) {
+                JLogger.w("Failed to set BuilderId: " + e.getMessage());
+            }
+        }
+
+        // 设置Category
+        if (readableMap.hasKey(JConstants.CATEGORY)) {
+            String category = readableMap.getString(JConstants.CATEGORY);
+            if (!TextUtils.isEmpty(category)) {
+                notification.setCategory(category);
+            }
+        }
+
+        // 设置Priority
+        if (readableMap.hasKey(JConstants.PRIORITY)) {
+            try {
+                int priority = readableMap.getInt(JConstants.PRIORITY);
+                notification.setPriority(priority);
+            } catch (Exception e) {
+                JLogger.w("Priority must be a number");
+            }
+        }
+
         JPushInterface.addLocalNotification(reactContext, notification);
     }
 
