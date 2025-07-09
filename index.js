@@ -334,19 +334,19 @@ export default class JPush {
     /*
     * 添加一个本地通知
     *
-    * @param {"messageID":String,"title":String，"content":String,"extras":{String:String},"broadcastTime":String}
+    * @param {"messageID":String, "title":String, "content":String, "extras":{String:String}, "broadcastTime":String, "builderName":String, "category":String, "priority":int}
     *
-    * messageID:唯一标识通知消息的ID，可用于移除消息。
-    * android用到的是int，ios用到的是String，rn这边提供接口的时候统一改成了String，然后android拿到String转int。输入messageID的时候需要int值范围在[1，2147483647]然后转成String。
+    * messageID: 唯一标识通知消息的ID，可用于移除消息。
+    *   android用到的是int，ios用到的是String，rn这边提供接口的时候统一改成了String，然后android拿到String转int。输入messageID的时候需要int值范围在[1，2147483647]然后转成String。
+    * title: 对应“通知标题”字段
+    * content: 对应“通知内容”字段
+    * broadcastTime: 定时通知展示时间，需要把 时间戳(毫秒) 转为String 传入。
+    * extras: 对应“附加内容”字段
+    * builderName: Android平台专用，布局文件名（不包含.xml后缀），用于自定义通知样式。通过布局文件名查找对应的资源ID。
+    * category: Android平台专用，通知分类，用于系统对通知进行分组管理。
+    * priority: Android平台专用，通知优先级，取值为int类型。影响通知的显示顺序和重要性。
     *
-    * title:对应“通知标题”字段
-    *
-    * content:对应“通知内容”字段
-    * broadcastTime：定时通知展示时间，需要把 时间戳(毫秒) 转为String 传入。
-    *
-    * extras:对应“附加内容”字段
-    *
-    * */
+    */
     static addLocalNotification(params) {
         if (Platform.OS == "android") {
             JPushModule.addLocalNotification(params)
