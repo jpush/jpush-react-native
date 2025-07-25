@@ -122,6 +122,13 @@
   NSDictionary * userInfo = [notification userInfo];
   [[NSNotificationCenter defaultCenter] postNotificationName:J_CUSTOM_NOTIFICATION_EVENT object:userInfo];
 }
+// 如果是 AppDelegate.swift 使用如下代码
+// @objc
+// func networkDidReceiveMessage(_ notification: Notification) -> Void {
+//   print("networkDidReceiveMessage \(notification)")
+//   let userInfo = notification.userInfo
+//   NotificationCenter.default.post(name: .init("J_CUSTOM_NOTIFICATION_EVENT"), object: userInfo)
+// }
 
 //************************************************JPush end************************************************
 
