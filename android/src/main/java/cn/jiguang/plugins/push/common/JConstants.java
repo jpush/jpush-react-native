@@ -28,6 +28,7 @@ public class JConstants {
     public static final String TITLE = "title";
     public static final String BROADCAST_TIME = "broadcastTime";
     public static final String CONTENT = "content";
+    public static final String CONTENT_TYPE = "content_type";
     public static final String EXTRAS = "extras";
     public static final String INAPPCLICKACTION = "inAppClickAction";
     public static final String INAPPEXTRAS = "inAppExtras";
