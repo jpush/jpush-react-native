@@ -89,6 +89,37 @@ public class JPushModule extends ReactContextBaseJavaModule {
         callback.invoke(isPushStopped);
     }
 
+    // 保存getPushStatus的callback，用于在onCommandResult中回调
+    private static Callback pendingGetPushStatusCallback = null;
+
+    @ReactMethod
+    public void getPushStatus(Callback callback) {
+        if (callback == null) {
+            JLogger.w(JConstants.CALLBACK_NULL);
+            return;
+        }
+        // 保存callback，等待onCommandResult回调
+        pendingGetPushStatusCallback = callback;
+        // 调用SDK方法，结果会通过JPushMessageReceiver的onCommandResult回调
+        JPushInterface.getPushStatus(reactContext);
+    }
+
+    // 提供给JPushModuleReceiver调用的方法，用于处理getPushStatus的回调结果
+    public static void handleGetPushStatusResult(int errorCode, String msg) {
+        if (pendingGetPushStatusCallback != null) {
+            WritableMap result = Arguments.createMap();
+            // 与iOS对齐：code是结果码（0表示成功，其他表示错误），isStopped是布尔值表示是否停止
+            // Android端：errorCode 0表示未停止，1表示已停止，其他code表示其他异常
+            // 转换为iOS格式：code=0表示成功获取状态，isStopped表示实际是否停止
+            int iResCode = (errorCode == 0 || errorCode == 1) ? 0 : errorCode; // 0或1都表示成功获取状态，其他表示异常
+            boolean isStopped = (errorCode == 1); // 1表示已停止，0表示未停止
+            result.putInt("code", iResCode);
+            result.putBoolean("isStopped", isStopped);
+            pendingGetPushStatusCallback.invoke(result);
+            pendingGetPushStatusCallback = null;
+        }
+    }
+
     @ReactMethod
     public void setChannel(ReadableMap readableMap) {
         if (readableMap == null) {

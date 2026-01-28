@@ -201,6 +201,15 @@ RCT_EXPORT_METHOD(isNotificationEnabled:(RCTResponseSenderBlock) callback) {
     }];
 }
 
+RCT_EXPORT_METHOD(getPushStatus:(RCTResponseSenderBlock) callback) {
+    [JPUSHService getPushStatus:^(NSInteger iResCode, BOOL isStopped) {
+        NSMutableDictionary *response = [[NSMutableDictionary alloc] init];
+        [response setValue:@(iResCode) forKey:CODE];
+        [response setValue:@(isStopped) forKey:@"isStopped"];
+        callback(@[response]);
+    }];
+}
+
 //tag
 RCT_EXPORT_METHOD(addTags:(NSDictionary *)params)
 {

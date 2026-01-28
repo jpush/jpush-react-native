@@ -473,6 +473,13 @@ export default class JPush {
   static isPushStopped(callback: Callback<boolean>): void;
 
   /**
+   * 检查推送是否被停止的状态（推荐使用，替代 isPushStopped）
+   *
+   * @param callback 回调函数，返回 {"code": number, "isStopped": boolean}
+   */
+  static getPushStatus(callback: Callback<{code: number; isStopped: boolean}>): void;
+
+  /**
    * 设置允许推送时间
    *
    * 默认情况下用户在任何时间都允许推送。即任何时候有推送下来,客户端都会收到,并展示。

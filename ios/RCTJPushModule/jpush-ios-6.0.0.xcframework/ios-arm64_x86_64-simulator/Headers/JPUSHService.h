@@ -9,7 +9,7 @@
  * Copyright (c) 2011 ~ 2017 Shenzhen HXHG. All rights reserved.
  */
 
-#define JPUSH_VERSION_NUMBER 5.9.0
+#define JPUSH_VERSION_NUMBER 6.0.0
 
 #import <Foundation/Foundation.h>
 
@@ -821,6 +821,18 @@ typedef NS_ENUM(NSUInteger, JPAuthorizationStatus) {
  *
  */
 + (void)setPushEnable:(BOOL)isEnable completion:(nullable void (^)(NSInteger iResCode))completion;
+
+/*!
+ * @abstract 获取推送状态
+ *
+ * @param completion 回调block，返回结果码和推送状态
+ *                   iResCode: 结果码，0表示成功
+ *                   isStopped: YES 表示推送已停止，NO 表示推送功能开启，在 iResCode 为 0 时有效
+ *
+ * @discussion 获取当前推送的停止状态
+ *
+ */
++ (void)getPushStatus:(nullable void (^)(NSInteger iResCode, BOOL isStopped))completion;
 
 /*!
  * @abstract 设置进入后台是否允许长连接

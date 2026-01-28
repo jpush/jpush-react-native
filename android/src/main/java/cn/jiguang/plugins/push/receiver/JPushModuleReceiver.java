@@ -105,9 +105,15 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
   @Override
   public void onCommandResult(Context context, CmdMessage message) {
     JLogger.d("onCommandResult:" + message.toString());
+    
+    // 处理getPushStatus的回调结果 (cmd = 2003)
+    if (message != null && message.cmd == 2003) {
+      JPushModule.handleGetPushStatusResult(message.errorCode, message.msg);
+    }
+    
     WritableMap writableMap = Arguments.createMap();
     writableMap.putInt(JConstants.COMMAND, message.cmd);
-    writableMap.putString(JConstants.COMMAND_EXTRA, message.extra.toString());
+    writableMap.putString(JConstants.COMMAND_EXTRA, message.extra != null ? message.extra.toString() : "");
     writableMap.putString(JConstants.COMMAND_MESSAGE, message.msg);
     writableMap.putInt(JConstants.COMMAND_RESULT, message.errorCode);
     JPushHelper.sendEvent(JConstants.COMMAND_EVENT, writableMap);
