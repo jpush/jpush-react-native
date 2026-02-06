@@ -2,54 +2,36 @@
 
 根据输入的需要更新的SDK版本号更新插件。
 
+**集成方式说明**：iOS 和 Android 均采用**自动集成 SDK** 的方式，无需手动下载或替换 SDK 文件，只需修改依赖版本号即可。
+
 ## 更新步骤
 
-### 1. 更新iOS JPush SDK
+### 1. 更新 iOS JPush SDK
 
-使用项目提供的自动下载脚本可以快速下载并替换 iOS SDK：
+iOS 通过 **CocoaPods** 自动集成 JPush SDK。只需修改 Pod 依赖版本：
 
-```bash
-# 在项目根目录执行
-./.cursor/scripts/download_ios_sdk.sh <版本标签>
+- 打开 `JPushRN.podspec`
+- 将 `s.dependency 'JPush','x.x.x'` 中的版本号改为目标版本（如 `6.0.1`）
 
-# 示例：下载 v5.9.0 版本
-./.cursor/scripts/download_ios_sdk.sh v5.9.0
+```ruby
+# 示例
+s.dependency 'JPush','6.0.1'
 ```
 
-脚本会自动：
-- 从 GitHub 仓库下载指定版本的 SDK
-- 替换 `ios/RCTJPushModule/jpush-ios-x.x.x.xcframework` 目录
-- 清理旧版本 SDK
-- **自动更新 `ios/RCTJPushModule.xcodeproj/project.pbxproj` 中的 SDK 引用路径**
 
-**注意**：脚本会自动更新 project.pbxproj 文件，并创建备份文件（.bak）。如果自动更新失败，请检查备份文件并手动更新。
+### 2. 更新 Android JPush SDK
 
-### 2. 更新Android JPush SDK
+Android 通过 **Gradle/Maven** 自动集成 JPush SDK。只需修改依赖版本：
 
-使用项目提供的自动下载脚本可以快速下载并替换 Android SDK：
+- 打开 `android/build.gradle`
+- 将 `implementation 'cn.jiguang.sdk:jpush:x.x.x'` 中的版本号改为目标版本（如 `6.0.1`）
 
-```bash
-# 在项目根目录执行
-./.cursor/scripts/download_android_sdk.sh <版本号>
-
-# 示例：下载 5.9.0 版本
-./.cursor/scripts/download_android_sdk.sh 5.9.0
+```groovy
+dependencies {
+    implementation 'cn.jiguang.sdk:jpush:6.0.1'
+}
 ```
 
-脚本会自动：
-- **尝试自动下载**：脚本会尝试从可能的下载 URL 自动下载 SDK（如果极光提供直接下载链接）
-- **如果自动下载失败**：会引导您从[极光官方资源下载页面](https://docs.jiguang.cn/jpush/resources)手动下载
-- **自动解压 ZIP 文件**（下载的文件是 ZIP 压缩包）
-- **自动从 ZIP 文件的 `libs` 文件夹中提取 jar 文件**
-- 自动替换 `android/libs/jpush-android-x.x.x.jar` 文件
-- 自动清理旧版本 SDK
-
-**注意**：
-- 脚本会先尝试自动下载，如果失败，会引导您手动下载
-- 下载的文件是 ZIP 压缩包，SDK jar 文件在压缩包的 `libs` 文件夹下
-- 手动下载时，脚本会提示您输入 ZIP 文件路径（支持拖拽文件到终端）
-- 脚本会自动解压 ZIP 文件，并从 `libs` 文件夹中提取 jar 文件
-- `build.gradle` 会自动加载 `libs` 目录下的所有 jar 文件，无需手动修改
 
 ### 3. 查找SDK新增API
 

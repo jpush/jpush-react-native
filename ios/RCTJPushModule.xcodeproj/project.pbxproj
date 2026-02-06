@@ -3,13 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		5C103CA7236041E7000AD3DA /* RCTJPushEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C103CA6236041E7000AD3DA /* RCTJPushEventQueue.m */; };
 		624386D81E096B8800F69E07 /* RCTJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 624386D41E096B8800F69E07 /* RCTJPushModule.m */; };
-		A40EE5272E2F693E00FD1C66 /* jpush-ios-6.0.0.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A40EE5262E2F693E00FD1C66 /* jpush-ios-6.0.0.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,7 +29,6 @@
 		624386D31E096B8800F69E07 /* RCTJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTJPushModule.h; sourceTree = "<group>"; };
 		624386D41E096B8800F69E07 /* RCTJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTJPushModule.m; sourceTree = "<group>"; };
 		6280980A1CEDC407000D3A81 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJPushModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A40EE5262E2F693E00FD1C66 /* jpush-ios-6.0.0.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "jpush-ios-6.0.0.xcframework"; path = "RCTJPushModule/jpush-ios-6.0.0.xcframework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A40EE5272E2F693E00FD1C66 /* jpush-ios-6.0.0.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +45,6 @@
 		5CF8E647231E3A9200B12200 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A40EE5262E2F693E00FD1C66 /* jpush-ios-6.0.0.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

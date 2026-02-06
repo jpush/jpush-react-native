@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security'
   s.weak_frameworks = 'UserNotifications'
   s.libraries       = 'z','resolv'
-  s.vendored_frameworks = "ios/RCTJPushModule/*.xcframework"
+  s.dependency 'JPush','6.0.1'
   s.dependency 'React'
 end

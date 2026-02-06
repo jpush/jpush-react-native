@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.4] - 2026-02-06
+
+### Changed
+- **iOS**：改为通过 CocoaPods 自动集成 JPush SDK（`JPushRN.podspec` 中 `s.dependency 'JPush','6.0.1'`）
+- **Android**：改为通过 Gradle 自动集成 JPush SDK（`android/build.gradle` 中 `implementation 'cn.jiguang.sdk:jpush:6.0.1'`）
+- 插件版本从 3.2.2 升级到 3.2.4
+
+
 ## [3.2.2] - 2026-01-27
 
 ### Added
