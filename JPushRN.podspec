@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security'
   s.weak_frameworks = 'UserNotifications'
   s.libraries       = 'z','resolv'
-  s.dependency 'JPush','6.0.1'
+  s.dependency 'JPush','6.0.0'
   s.dependency 'React'
 end
