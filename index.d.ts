@@ -586,11 +586,18 @@ export default class JPush {
 
 /**
    * 设置进入后台是否允许长连接
-   * 支持版本：v5.9.0 版本开始
-   * 功能说明：设置进入后台是否允许长连接。默认是NO,进入后台会关闭长连接，回到前台会重新接入。请在初始化函数之前调用。
-   *
-   * @platform iOS
+   * 支持版本：iOS v5.9.0 起，Android v6.1.0 起
+   * 功能说明：设置进入后台是否允许长连接。默认为 false，进入后台会关闭长连接，回到前台会重新接入。
    */
  static setBackgroundEnable(enable: boolean): void;
+
+  /**
+   * 查询当前后台长连接保持设置
+   * 支持版本：Android v6.1.0 起
+   *
+   * @param callback 回调，返回 {"keepLongConn": boolean}
+   * @platform Android
+   */
+  static getKeepLongConnInBackground(callback: Callback<{ keepLongConn: boolean }>): void;
 
 }

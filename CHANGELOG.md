@@ -1,3 +1,7 @@
+## 3.2.7 (2026-05-09)
+
+Upgrade JPush Android SDK to 6.1.0 and iOS SDK to 6.1.0; add setBackgroundEnable (Android) and getKeepLongConnInBackground (Android Only)
+
 # Changelog
 
 ## [3.2.6] - 2026-02-06

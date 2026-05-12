@@ -801,6 +801,21 @@ export default class JPush {
     static setBackgroundEnable(enable) {
         if (Platform.OS == "ios") {
             JPushModule.setBackgroundEnable(enable)
+        } else if (Platform.OS == "android") {
+            JPushModule.setKeepLongConnInBackground(enable)
+        }
+    }
+
+    /*
+    * 查询当前后台长连接保持设置（Android Only）
+    * 支持版本：Android v6.1.0 版本开始
+    *
+    * @param {Function} callback = (result) => {"keepLongConn": boolean}
+    * @platform Android
+    * */
+    static getKeepLongConnInBackground(callback) {
+        if (Platform.OS == "android") {
+            JPushModule.getKeepLongConnInBackground(callback)
         }
     }
 

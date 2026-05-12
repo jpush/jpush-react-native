@@ -719,6 +719,32 @@ public class JPushModule extends ReactContextBaseJavaModule {
         callback.invoke(isEnabled);
     }
 
+    /**
+     * 设置进入后台是否保持长连接（v6.1.0 新增）
+     * 默认为 false，进入后台会关闭长连接，回到前台会重新接入。
+     * @param keep true 保持长连接，false 进入后台断开
+     */
+    @ReactMethod
+    public void setKeepLongConnInBackground(boolean keep) {
+        JPushInterface.setKeepLongConnInBackground(reactContext, keep);
+    }
+
+    /**
+     * 查询当前后台长连接保持设置（v6.1.0 新增）
+     * @param callback 回调，返回 {"keepLongConn": boolean}
+     */
+    @ReactMethod
+    public void getKeepLongConnInBackground(Callback callback) {
+        if (callback == null) {
+            JLogger.w(JConstants.CALLBACK_NULL);
+            return;
+        }
+        boolean keep = JPushInterface.getKeepLongConnInBackground(reactContext);
+        WritableMap result = Arguments.createMap();
+        result.putBoolean("keepLongConn", keep);
+        callback.invoke(result);
+    }
+
 
     //*****************************应用前后台状态监听*****************************
     public static void registerActivityLifecycle(Application application) {
