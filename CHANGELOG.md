@@ -8,7 +8,27 @@ Upgrade JPush Android SDK to 6.1.0 and iOS SDK to 6.1.0; add setBackgroundEnable
 
 ### Changed
 - **iOS**：改为通过 CocoaPods 自动集成 JPush SDK（`JPushRN.podspec` 中 `s.dependency 'JPush','6.0.0'`）
+  更新插件版本后，请 cd 到 ios项目下，运行以下命令
+
+  ```
+  pod repo update
+  pod install
+  ```
+
 - **Android**：改为通过 Gradle 自动集成 JPush SDK（`android/build.gradle` 中 `implementation 'cn.jiguang.sdk:jpush:6.0.1'`）
+- **Android**：从该版本开始，不需要配置以下内容 
+  
+  ```
+  * AndroidManifest.xml  (从插件3.2.6版本开始，不需要配置该内容)
+
+  <meta-data
+  	android:name="JPUSH_CHANNEL"
+  	android:value="${JPUSH_CHANNEL}" />
+  <meta-data
+  	android:name="JPUSH_APPKEY"
+  	android:value="${JPUSH_APPKEY}" />    
+
+  ```
 
 
 ## [3.2.2] - 2026-01-27
