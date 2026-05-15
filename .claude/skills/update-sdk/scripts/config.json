@@ -1,0 +1,58 @@
+{
+  "plugin_name": "jpush-react-native",
+  "sdk_type": "jpush",
+  "platform": "react-native",
+  "changelog_urls": {
+    "android": "https://docs.jiguang.cn/jpush/jpush_changelog/updates_Android",
+    "ios": "https://docs.jiguang.cn/jpush/jpush_changelog/updates_iOS"
+  },
+  "version_refs": {
+    "android_sdk": {
+      "integration": "maven",
+      "files": [
+        {
+          "path": "android/build.gradle",
+          "pattern": "cn.jiguang.sdk:jpush:{VERSION}"
+        }
+      ]
+    },
+    "ios_sdk": {
+      "integration": "cocoapods",
+      "files": [
+        {
+          "path": "JPushRN.podspec",
+          "pattern": "s.dependency 'JPush','{VERSION}'"
+        }
+      ]
+    },
+    "plugin": {
+      "files": [
+        {
+          "path": "package.json",
+          "key": "version"
+        }
+      ]
+    }
+  },
+  "native_files": {
+    "android": [
+      "android/src/main/java/cn/jiguang/plugins/push/JPushModule.java"
+    ],
+    "ios": [
+      "ios/RCTJPushModule/RCTJPushModule.h",
+      "ios/RCTJPushModule/RCTJPushModule.m"
+    ]
+  },
+  "bridge_files": {
+    "js": [
+      "index.js"
+    ],
+    "ts": [
+      "index.d.ts"
+    ]
+  },
+  "changelog_file": "CHANGELOG.md",
+  "publish": {
+    "type": "npm"
+  }
+}

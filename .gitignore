@@ -206,3 +206,5 @@ yarn.lock
 *.DS_Store
 
 *.gitattributes
+
+.claude/settings.local.json
