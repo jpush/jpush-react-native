@@ -60,7 +60,8 @@ react-native link jcore-react-native
   project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
   ```
 
-* AndroidManifest.xml
+
+* AndroidManifest.xml  (从插件3.2.6版本开始，不需要配置该内容)
 
   ```
   <meta-data
