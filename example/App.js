@@ -97,6 +97,11 @@ export default class App extends React.Component {
     console.log("mobileNumberListener:" + JSON.stringify(result))
   };
     JPush.addMobileNumberListener(this.mobileNumberListener);
+    //Command 事件回调，requestSubscribeChannel 的结果 command 为 2012
+    this.commandListener = result => {
+    console.log("commandListener:" + JSON.stringify(result))
+  };
+    JPush.addCommandEventListener(this.commandListener);
   }
 
   render() {
@@ -113,6 +118,9 @@ export default class App extends React.Component {
 
     <Button title="设置用户属性"
     onPress={() => JPush.setProperties({sequence: 1, pros:{2:'b'}})}/>
+
+    <Button title="requestSubscribeChannel"
+    onPress={() => JPush.requestSubscribeChannel(["155012"])}/>
     {/*<Button title="addTags"
                                   onPress={() => JPush.addTags({sequence: 1, tags: ["1", "2", "3"]})}/>
 
@@ -166,6 +174,3 @@ export default class App extends React.Component {
   }
 
 }
-
-
-

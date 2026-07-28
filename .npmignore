@@ -1,3 +1,9 @@
+.claude/
+.cursor/
+.idea/
+.github/
 example/
 cursor.md
-.cursor/
+*.tgz
+**/xcuserdata/
+**/*.xcuserstate

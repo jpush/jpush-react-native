@@ -96,6 +96,7 @@ extension AppDelegate:JPUSHRegisterDelegate {
     if (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self) == true) {
       // 注意调用
       JPUSHService.handleRemoteNotification(userInfo)
+      RCTJPushEventQueue.sharedInstance()._notificationQueue?.insert(userInfo as NSDictionary, at: 0)
       NotificationCenter.default.post(name: NSNotification.Name(J_APNS_NOTIFICATION_OPENED_EVENT), object: userInfo)
       print("点击远程通知:\(userInfo)")
       

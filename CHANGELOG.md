@@ -1,3 +1,10 @@
+## 3.2.8 (2026-07-28)
+
+- Android：JPush SDK 6.1.0 → 6.2.0，配套 JCore SDK 5.5.0。
+- iOS：JPush SDK 6.1.0 → 6.2.0，配套 JCore SDK 5.5.0。
+- `jcore-react-native` 最低版本调整为 2.3.7。
+- Android：新增 `requestSubscribeChannel(channelIds)` JS API，结果通过 `addCommandEventListener` 的 `command === 2012` 事件返回。
+
 ## 3.2.7 (2026-05-09)
 
 Upgrade JPush Android SDK to 6.1.0 and iOS SDK to 6.1.0; add setBackgroundEnable (Android) and getKeepLongConnInBackground (Android Only)

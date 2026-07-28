@@ -401,6 +401,17 @@ export default class JPush {
                  * 命令的执行结果（例如：0 表示成功，其他值表示错误码）
                  */
                 commandResult: number;
+
+                /**
+                 * 订阅通道结果的 JSON 数组字符串，仅 command 为 2012 时返回。
+                 * 例如：[{"channelId":"xxx","code":100}]
+                 */
+                openChannelResult?: string;
+
+                /**
+                 * 厂商平台，仅 command 为 2012 时返回；1 表示小米。
+                 */
+                platform?: number;
             }>
         ): void;
   /**
@@ -464,6 +475,16 @@ export default class JPush {
    * @platform Android
    */
   static resumePush(): void;
+
+  /**
+   * 请求订阅厂商通知通道。当前仅支持已集成小米通道的 Android 小米设备。
+   *
+   * 单次最多处理 3 个在小米后台审核通过的订阅类 channel ID。
+   * 结果通过 addCommandEventListener 返回，其中 command 为 2012。
+   *
+   * @platform Android
+   */
+  static requestSubscribeChannel(channelIds: string[]): void;
 
   /**
    * 用来检查 Push Service 是否已经被停止

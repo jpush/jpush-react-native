@@ -7,9 +7,14 @@ PODS:
   - hermes-engine (0.74.1):
     - hermes-engine/Pre-built (= 0.74.1)
   - hermes-engine/Pre-built (0.74.1)
-  - JCoreRN (2.2.8):
+  - JCore (5.5.0)
+  - JCoreRN (2.3.7):
+    - JCore (= 5.5.0)
     - React
-  - JPushRN (3.1.5):
+  - JPush (6.2.0):
+    - JCore (> 5.1.1)
+  - JPushRN (3.2.8):
+    - JPush (= 6.2.0)
     - React
   - RCT-Folly (2024.01.01.00):
     - boost
@@ -1233,6 +1238,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - JCore
+    - JPush
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1357,8 +1364,10 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: 16b8530de1b383cdada1476cf52d1b52f0692cbc
-  JCoreRN: 0dbe7981735de54c772a2f3ea275c53421649981
-  JPushRN: e4b15bc4e339d2bf947930d4505546a207d0e766
+  JCore: 38810b2235642507e9632ceb5bb66805042909bb
+  JCoreRN: e43ceff2d36551a120af05d2b9508bd7058ff9f4
+  JPush: eb729308f4d3c579840d4ba41a67065e8c491ada
+  JPushRN: 60386a9b74ee49c1e647d48e3c6be3497e1dc71f
   RCT-Folly: 5dc73daec3476616d19e8a53f0156176f7b55461
   RCTDeprecation: efb313d8126259e9294dc4ee0002f44a6f676aba
   RCTRequired: f49ea29cece52aee20db633ae7edc4b271435562
@@ -1411,4 +1420,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 71a689932e49f453bd6454dd189b45915dda66a0
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.14.3

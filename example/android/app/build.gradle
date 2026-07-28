@@ -68,6 +68,12 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
+// 厂商通道测试参数通过 Gradle -P 注入，避免测试凭据写入源码。
+def testApplicationId = project.findProperty("jpushTestApplicationId") ?: "cn.allpublic"
+def testJPushAppKey = project.findProperty("jpushTestAppKey") ?: "32f266ea08c3b3d7a059b378"
+def testXiaomiAppId = project.findProperty("xiaomiAppId") ?: ""
+def testXiaomiAppKey = project.findProperty("xiaomiAppKey") ?: ""
+def enableXiaomiChannel = !testXiaomiAppId.isEmpty() && !testXiaomiAppKey.isEmpty()
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -76,15 +82,17 @@ android {
 
     namespace "com.example"
     defaultConfig {
-        applicationId "cn.allpublic"
+        applicationId testApplicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
         manifestPlaceholders = [
-                JPUSH_APPKEY: "32f266ea08c3b3d7a059b378",         //在此替换你的APPKey
-                JPUSH_CHANNEL: "test"        //在此替换你的channel
+                JPUSH_APPKEY: testJPushAppKey, //在此替换你的APPKey
+                JPUSH_CHANNEL: "test",       //在此替换你的channel
+                XIAOMI_APPID: testXiaomiAppId,
+                XIAOMI_APPKEY: testXiaomiAppKey
         ]
     }
     signingConfigs {
@@ -112,6 +120,9 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    if (enableXiaomiChannel) {
+        implementation("cn.jiguang.sdk.plugin:xiaomi:6.2.0")
+    }
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
