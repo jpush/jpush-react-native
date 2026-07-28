@@ -45,6 +45,11 @@ public class JConstants {
     public static final String COMMAND_EXTRA = "commandExtra";
     public static final String COMMAND_RESULT = "commandResult";
     public static final String COMMAND_MESSAGE = "commandMessage";
+    public static final String OPEN_CHANNEL_RESULT = "openChannelResult";
+    public static final String PLATFORM = "platform";
+    public static final String OPEN_CHANNEL_RESULT_EXTRA = "open_channel_result";
+    public static final String PLATFORM_EXTRA = "jg_platform";
+    public static final int REQUEST_SUBSCRIBE_CHANNEL_COMMAND = 2012;
     //地理围栏
     public static final String GEO_FENCE_ID = "geoFenceID";
     public static final String GEO_FENCE_INTERVAL = "geoFenceInterval";

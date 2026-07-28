@@ -22,6 +22,7 @@ import com.facebook.react.bridge.WritableMap;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -77,6 +78,26 @@ public class JPushModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void resumePush() {
         JPushInterface.resumePush(reactContext);
+    }
+
+    @ReactMethod
+    public void requestSubscribeChannel(ReadableArray channelIds) {
+        if (channelIds == null || channelIds.size() == 0) {
+            JLogger.w(JConstants.PARAMS_NULL);
+            return;
+        }
+        ArrayList<String> channels = new ArrayList<String>();
+        for (int i = 0; i < channelIds.size(); i++) {
+            String channelId = channelIds.getString(i);
+            if (!TextUtils.isEmpty(channelId)) {
+                channels.add(channelId);
+            }
+        }
+        if (channels.isEmpty()) {
+            JLogger.w(JConstants.PARAMS_ILLEGAL);
+            return;
+        }
+        JPushInterface.requestSubscribeChannel(reactContext, channels);
     }
 
     @ReactMethod

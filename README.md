@@ -139,6 +139,42 @@ pod install
 
 详见：[index.js](https://github.com/jpush/jpush-react-native/blob/master/index.js)
 
+### 4.1 Android 请求订阅厂商通知通道
+
+JPush Android SDK 6.2.0 起支持请求订阅厂商通知通道。当前仅支持已集成并注册小米通道的小米设备，且调用时应用需处于前台、屏幕已点亮。
+
+```javascript
+const commandListener = result => {
+  if (result.command === 2012) {
+    const channelResults = result.openChannelResult
+      ? JSON.parse(result.openChannelResult)
+      : [];
+    console.log(result.commandResult, result.platform, channelResults);
+  }
+};
+
+JPush.addCommandEventListener(commandListener);
+JPush.requestSubscribeChannel(["YOUR_XIAOMI_CHANNEL_ID"]);
+
+// 页面销毁时移除监听
+JPush.removeListener(commandListener);
+```
+
+- `channelIds`：在小米后台审核通过的订阅类 channel ID 数组，单次最多处理 3 个。
+- `commandResult`：请求结果码；`0` 表示正常拉起弹窗并返回用户操作结果。
+- `openChannelResult`：各 channel 处理结果的 JSON 数组字符串，例如 `[{"channelId":"xxx","code":100}]`。
+- `platform`：厂商平台，当前小米为 `1`。
+- 回调命令固定为 `command === 2012`。弹窗 30 秒内最多拉起一次，同一 channel 每月最多拉起两次。
+
+`commandResult` 常见结果码：
+
+- `0`：正常拉起弹窗并返回用户操作结果。
+- `-100`：当前版本不支持；`-200`：鉴权失败；`-300`：应用不在前台或屏幕未点亮。
+- `-500`：触发频控；`-700`：用户取消；`-800`：应用没有通知权限。
+
+`openChannelResult` 中每个 channel 的 `code`：`100` 成功，`-100` 失败，
+`-200` 用户拒绝，`-300` 已存在且开启，`-400` 已存在但关闭，`-500` channel ID 非法。
+
 ## 5.  其他
 
 * 集成前务必将example工程跑通
@@ -146,4 +182,3 @@ pod install
 * 上报问题还麻烦先调用JPush.setLoggerEnable(true}，拿到debug日志
 
  
-

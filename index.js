@@ -650,6 +650,19 @@ export default class JPush {
     }
 
     /*
+    * 请求订阅厂商通知通道。当前仅支持已集成小米通道的 Android 小米设备。
+    *
+    * @param channelIds = StringArray，单次最多处理 3 个小米订阅类 channel ID
+    *
+    * 结果通过 addCommandEventListener 回调，command 为 2012。
+    * */
+    static requestSubscribeChannel(channelIds) {
+        if (Platform.OS == "android") {
+            JPushModule.requestSubscribeChannel(channelIds)
+        }
+    }
+
+    /*
     * 用来检查 Push Service 是否已经被停止
     * */
     static isPushStopped(callback) {

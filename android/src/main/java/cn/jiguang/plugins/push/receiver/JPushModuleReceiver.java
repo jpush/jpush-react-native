@@ -116,6 +116,14 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
     writableMap.putString(JConstants.COMMAND_EXTRA, message.extra != null ? message.extra.toString() : "");
     writableMap.putString(JConstants.COMMAND_MESSAGE, message.msg);
     writableMap.putInt(JConstants.COMMAND_RESULT, message.errorCode);
+    if (message.cmd == JConstants.REQUEST_SUBSCRIBE_CHANNEL_COMMAND && message.extra != null) {
+      writableMap.putString(
+          JConstants.OPEN_CHANNEL_RESULT,
+          message.extra.getString(JConstants.OPEN_CHANNEL_RESULT_EXTRA, ""));
+      writableMap.putInt(
+          JConstants.PLATFORM,
+          message.extra.getInt(JConstants.PLATFORM_EXTRA, 0));
+    }
     JPushHelper.sendEvent(JConstants.COMMAND_EVENT, writableMap);
   }
 
