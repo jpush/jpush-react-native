@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
 import JPush from 'jpush-react-native';
+import UpgradeExamples from './UpgradeExamples';
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
+      flexGrow: 1,
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#F5FCFF',
@@ -106,7 +107,8 @@ export default class App extends React.Component {
 
   render() {
     return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+    <UpgradeExamples />
     <Button title="setLoggerEnable"
     onPress={() => JPush.setLoggerEnable(true)
     }/>
@@ -169,7 +171,7 @@ export default class App extends React.Component {
                           <Button title="removeLocalNotification"
                                   onPress={() => JPush.removeLocalNotification({messageID: '123456789'})}/>*/}
 
-    </View>
+    </ScrollView>
     );
   }
 

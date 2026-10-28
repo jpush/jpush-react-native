@@ -1,4 +1,5 @@
 #import "RCTJPushModule.h"
+#import "JPushBridgeSupport.h"
 #import <CoreLocation/CoreLocation.h>
 
 //常量
@@ -63,6 +64,7 @@
 
 
 @interface RCTJPushModule ()
+@property(nonatomic, strong) JPushPromiseRegistry *bridgeReplies;
 
 @end
 
@@ -78,6 +80,8 @@ RCT_EXPORT_MODULE(JPushModule);
 - (id)init
 {
     self = [super init];
+    if (!self) return nil;
+    self.bridgeReplies = [JPushPromiseRegistry new];
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
     [defaultCenter removeObserver:self];
@@ -125,6 +129,110 @@ RCT_EXPORT_MODULE(JPushModule);
     return self;
 }
 
+
+// RCTEventEmitter.invalidate did not exist in RN 0.50. Clean up directly without requiring it.
+- (void)invalidate {
+    [self.bridgeReplies invalidate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self stopObserving];
+}
+
+RCT_EXPORT_METHOD(turnOffPush:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
+    JPushPromiseRegistry *replies = self.bridgeReplies;
+    NSString *request = [replies registerResolve:resolve reject:reject];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        @try {
+            [JPUSHService turnOffPush:^(NSInteger code) { [replies resolve:request value:@{@"code": @(code)}]; }];
+        } @catch (NSException *exception) {
+            [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Native push service invocation failed"];
+        }
+    });
+}
+
+RCT_EXPORT_METHOD(turnOnPush:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
+    JPushPromiseRegistry *replies = self.bridgeReplies;
+    NSString *request = [replies registerResolve:resolve reject:reject];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        @try {
+            [JPUSHService turnOnPush];
+            [replies resolve:request value:@{@"dispatched": @YES}]; // No native connection-result callback on iOS.
+        } @catch (NSException *exception) {
+            [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Native push service invocation failed"];
+        }
+    });
+}
+
+RCT_EXPORT_METHOD(setLiveActivityTokenReportEnabled:(id)enable
+                  resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
+    if (![JPushBridgeSupport isBoolean:enable]) {
+        reject(@"INVALID_ARGUMENT", @"enable must be boolean", nil);
+        return;
+    }
+    JPushPromiseRegistry *replies = self.bridgeReplies;
+    NSString *request = [replies registerResolve:resolve reject:reject];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        @try {
+            [JPUSHService setLiveActivityTokenReportEnabled:[enable boolValue]];
+            [replies resolve:request value:nil];
+        } @catch (NSException *exception) {
+            [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Native diagnostic switch invocation failed"];
+        }
+    });
+}
+
+RCT_EXPORT_METHOD(registerLiveActivityPushToStartToken:(id)params
+                  resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
+    [self registerLiveActivityParameters:params pushToStart:YES resolve:resolve reject:reject];
+}
+
+RCT_EXPORT_METHOD(registerLiveActivityPushToken:(id)params
+                  resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
+    [self registerLiveActivityParameters:params pushToStart:NO resolve:resolve reject:reject];
+}
+
+- (void)registerLiveActivityParameters:(id)params pushToStart:(BOOL)pushToStart
+                             resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    if (pushToStart) {
+        if (@available(iOS 17.2, *)) { } else {
+            reject(@"UNSUPPORTED_OS", @"Push-to-start requires iOS 17.2 or later", nil);
+            return;
+        }
+    } else {
+        if (@available(iOS 16.1, *)) { } else {
+            reject(@"UNSUPPORTED_OS", @"Live Activity push tokens require iOS 16.1 or later", nil);
+            return;
+        }
+    }
+    NSString *identifier = nil; NSData *token = nil; NSInteger sequence = 0;
+    if (![JPushBridgeSupport readParameters:params identifierKey:pushToStart ? @"activityAttributes" : @"activityId"
+                               identifier:&identifier token:&token sequence:&sequence]) {
+        reject(@"INVALID_ARGUMENT", @"Expected an identifier, hex token or null, and a 32-bit integer sequence", nil);
+        return;
+    }
+    JPushPromiseRegistry *replies = self.bridgeReplies;
+    NSString *request = [replies registerResolve:resolve reject:reject];
+    if (!request) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![replies isPending:request]) return;
+        JPUSHLiveActivityTokenCompletion completion = ^(NSInteger code, NSString *activityId, NSData *resultToken, NSInteger seq) {
+            // Do not log token contents. Preserve native business errors and callback identity.
+            [replies resolve:request value:@{@"code": @(code), @"activityId": activityId ?: [NSNull null],
+                @"token": [JPushBridgeSupport hexToken:resultToken] ?: [NSNull null], @"sequence": @(seq)}];
+        };
+        @try {
+            if (pushToStart) [JPUSHService registerLiveActivity:identifier pushToStartToken:token completion:completion seq:sequence];
+            else [JPUSHService registerLiveActivity:identifier pushToken:token completion:completion seq:sequence];
+        } @catch (NSException *exception) {
+            [replies reject:request code:@"NATIVE_EXCEPTION" message:@"Native Live Activity invocation failed"];
+        }
+    });
+}
 
 RCT_EXPORT_METHOD(setDebugMode: (BOOL )enable)
 {

@@ -1,15 +1,18 @@
 package cn.jiguang.plugins.push.receiver;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 
 import cn.jiguang.plugins.push.JPushModule;
+import cn.jiguang.plugins.push.SubscriptionResultCodec;
 import cn.jiguang.plugins.push.common.JLogger;
 import cn.jiguang.plugins.push.common.JConstants;
 import cn.jiguang.plugins.push.helper.JPushHelper;
 import cn.jpush.android.api.CmdMessage;
+import cn.jpush.android.api.VoipDataMessage;
 import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
@@ -17,6 +20,18 @@ import cn.jpush.android.service.JPushMessageReceiver;
 import cn.jpush.android.api.NotificationCustomButton;
 
 public class JPushModuleReceiver extends JPushMessageReceiver {
+
+  @Override
+  public void onVoipMessage(Context context, VoipDataMessage message) {
+    if (message == null) return;
+    WritableMap value = Arguments.createMap();
+    value.putString("messageId", message.getMessageId());
+    value.putString("extraData", message.getExtraData());
+    value.putInt("platform", message.getPlatform());
+    value.putInt("voipSupportStatus", message.getVoipSupportStatus());
+    // Never log arbitrary VoIP content. The support status is preserved as a native integer.
+    JPushHelper.sendEvent("VoipMessageEvent", value);
+  }
 
   @Override
   public void onMessage(Context context, CustomMessage customMessage) {
@@ -104,6 +119,7 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
 
   @Override
   public void onCommandResult(Context context, CmdMessage message) {
+    if (message == null) return;
     JLogger.d("onCommandResult:" + message.toString());
     
     // 处理getPushStatus的回调结果 (cmd = 2003)
@@ -123,6 +139,18 @@ public class JPushModuleReceiver extends JPushMessageReceiver {
       writableMap.putInt(
           JConstants.PLATFORM,
           message.extra.getInt(JConstants.PLATFORM_EXTRA, 0));
+    }
+    if (message.cmd == 2013 && message.extra != null) {
+      WritableMap commandData = SubscriptionResultCodec.fromBundle(message.extra);
+      writableMap.putMap("commandData", commandData);
+      // Keep the SDK representation, including a JSON string when supplied as such.
+      if (message.extra.containsKey("channels")) {
+        Bundle channelBundle = new Bundle(message.extra);
+        for (String key : message.extra.keySet()) {
+          if (!"channels".equals(key)) channelBundle.remove(key);
+        }
+        writableMap.merge(SubscriptionResultCodec.fromBundle(channelBundle));
+      }
     }
     JPushHelper.sendEvent(JConstants.COMMAND_EVENT, writableMap);
   }

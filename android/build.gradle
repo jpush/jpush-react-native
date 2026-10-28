@@ -5,6 +5,11 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     compileSdkVersion safeExtGet('compileSdkVersion', 34)
 
     namespace 'cn.jiguang.plugins.push'
@@ -19,7 +24,11 @@ android {
 }
 
 dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
+
     // implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.facebook.react:react-native:+'
-    implementation 'cn.jiguang.sdk:jpush:6.2.0'
+    implementation 'cn.jiguang.sdk:jpush:6.3.0'
 }

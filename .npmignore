@@ -7,3 +7,14 @@ cursor.md
 *.tgz
 **/xcuserdata/
 **/*.xcuserstate
+
+tests/
+android/src/test/
+**/build/
+**/.gradle/
+**/Pods/
+**/DerivedData/
+**/*.bak
+**/local.properties
+*.log
+.DS_Store

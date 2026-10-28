@@ -18,6 +18,11 @@ Pod::Spec.new do |s|
   s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security'
   s.weak_frameworks = 'UserNotifications'
   s.libraries       = 'z','resolv'
-  s.dependency 'JPush','6.2.0'
+  # JPush contains Swift static objects; pure Objective-C RN hosts also need compatibility libraries.
+  s.user_target_xcconfig = {
+    'LIBRARY_SEARCH_PATHS' => '$(inherited) "$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)" "$(SDKROOT)/usr/lib/swift"',
+    'ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES' => 'YES'
+  }
+  s.dependency 'JPush','6.3.0'
   s.dependency 'React'
 end
