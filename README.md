@@ -175,9 +175,9 @@ JPush.removeListener(commandListener);
 `openChannelResult` 中每个 channel 的 `code`：`100` 成功，`-100` 失败，
 `-200` 用户拒绝，`-300` 已存在且开启，`-400` 已存在但关闭，`-500` channel ID 非法。
 
-### 4.2 3.3.0候选升级
+### 4.2 3.3.0 升级
 
-Android/iOS JPush6.3.0、配套JCore5.6.0，要求jcore-react-native>=2.3.8并重编原生工程。新增2013订阅、UPS停恢复、Android停止崩溃采集入口、iOS诊断开关及Live Activity Token绑定/解绑；旧2012接口兼容。详见[平台矩阵、Promise/事件及错误契约](documents/SDK-3.3-upgrade.md)。候选未发布，不能将本说明当作npm可安装声明。
+Android/iOS JPush6.3.0、配套JCore5.6.0，要求jcore-react-native>=2.3.8并重编原生工程。新增2013订阅、UPS停恢复、Android停止崩溃采集入口、iOS诊断开关及Live Activity Token绑定/解绑；旧2012接口兼容。详见[平台矩阵、Promise/事件及错误契约](documents/SDK-3.3-upgrade.md)。
 
 ## 5.  其他
 
