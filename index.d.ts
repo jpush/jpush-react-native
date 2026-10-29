@@ -1,3 +1,9 @@
+export type CommandValue = null | boolean | number | string | CommandValue[] | { [key: string]: CommandValue };
+export type PushOperationResult = { code: number };
+export type PushRestoreResult = { dispatched: true; code?: number };
+export type LiveActivityResult = { code: number; activityId: string | null; token: string | null; sequence: number };
+export type LiveActivityTokenParams = { token: string | null; sequence: number };
+
 // Type definition for jpush-react-native 2.6.6
 
 type Callback<T> = (result: T) => void;
@@ -392,6 +398,11 @@ export default class JPush {
                  */
                 commandExtra: string;
 
+                /** cmd=2013 only: typed native extra values. Legacy commandExtra remains a string. */
+                commandData?: { [key: string]: CommandValue };
+                /** cmd=2013 only: preserves SDK string/list representation; parse JSON only when it is a string. */
+                channels?: CommandValue;
+
                 /**
                  * 命令的消息内容
                  */
@@ -620,5 +631,27 @@ export default class JPush {
    * @platform Android
    */
   static getKeepLongConnInBackground(callback: Callback<{ keepLongConn: boolean }>): void;
+
+  /** Android only. Remove with removeListener; unknown native integer support statuses are preserved. */
+  static addVoipEventListener(callback: Callback<{
+    messageId: string | null;
+    extraData: string | null;
+    platform: number;
+    voipSupportStatus: number;
+  }>): void;
+  /** Android only; dispatch completion. Final result arrives as command=2013. */
+  static requestSubscribeChannels(channelIds: string[]): Promise<void>;
+  /** Both platforms: native business result codes are preserved, including failures. */
+  static turnOffPush(): Promise<PushOperationResult>;
+  /** iOS only acknowledges dispatch; Android provides a native result code. */
+  static turnOnPush(): Promise<PushRestoreResult>;
+  /** Android only. Unsupported platforms throw an error with code UNSUPPORTED_PLATFORM. */
+  static stopCrashHandler(): void;
+  /** iOS only, diagnostic telemetry; not a token binding switch. */
+  static setLiveActivityTokenReportEnabled(enable: boolean): Promise<void>;
+  /** iOS only; token is even-length hexadecimal, or null to unbind. */
+  static registerLiveActivityPushToStartToken(params: LiveActivityTokenParams & { activityAttributes: string }): Promise<LiveActivityResult>;
+  /** iOS only; token=null when activity ends. sequence must be a 32-bit integer. */
+  static registerLiveActivityPushToken(params: LiveActivityTokenParams & { activityId: string }): Promise<LiveActivityResult>;
 
 }

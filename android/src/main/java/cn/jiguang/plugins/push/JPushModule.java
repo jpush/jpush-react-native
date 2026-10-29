@@ -12,6 +12,12 @@ import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.bridge.UiThreadUtil;
+import com.facebook.react.common.LifecycleState;
+import cn.jpush.android.ups.JPushUPSManager;
+import cn.jpush.android.ups.UPSTurnCallBack;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -43,8 +49,90 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     public static boolean isAppForeground = false;
 
+    private final PendingPromiseRegistry serviceReplies = new PendingPromiseRegistry(UiThreadUtil::runOnUiThread);
+
+    // Both old bridge and current NativeModule lifecycle entry points are supported.
+    public void invalidate() { serviceReplies.invalidate(); }
+
+    @Override
+    public void onCatalystInstanceDestroy() { invalidate(); }
+
+    @ReactMethod
+    public void requestSubscribeChannels(ReadableArray input, Promise promise) {
+        if (!serviceReplies.isActive()) {
+            promise.reject("BRIDGE_INVALIDATED", "React Native bridge is invalidated");
+            return;
+        }
+        ArrayList<String> channels = new ArrayList<>();
+        if (input == null || input.size() < 1 || input.size() > 3) {
+            promise.reject("INVALID_ARGUMENT", "Expected 1-3 unique non-empty channel IDs");
+            return;
+        }
+        for (int i = 0; i < input.size(); i++) {
+            if (input.getType(i) != ReadableType.String) {
+                promise.reject("INVALID_ARGUMENT", "Channel IDs must be strings");
+                return;
+            }
+            String channel = input.getString(i);
+            if (channel == null || channel.trim().isEmpty() || channels.contains(channel)) {
+                promise.reject("INVALID_ARGUMENT", "Expected unique non-empty channel IDs");
+                return;
+            }
+            channels.add(channel);
+        }
+        PendingPromiseRegistry.Pending reply = serviceReplies.start(promise);
+        if (reply == null) return;
+        UiThreadUtil.runOnUiThread(() -> {
+            if (!serviceReplies.isActive()) return;
+            Activity activity = getReactApplicationContext().getCurrentActivity();
+            if (activity == null || activity.isFinishing() || activity.isDestroyed()
+                    || !activity.hasWindowFocus()
+                    || getReactApplicationContext().getLifecycleState() != LifecycleState.RESUMED) {
+                reply.reject("NO_ACTIVITY", "A foreground Activity is required");
+                return;
+            }
+            try {
+                JPushInterface.requestSubscribeChannels(activity, channels);
+                reply.resolve(null); // Final result arrives through command=2013.
+            } catch (RuntimeException error) {
+                reply.reject("NATIVE_EXCEPTION", "Native channel subscription invocation failed");
+            }
+        });
+    }
+
+    @ReactMethod
+    public void turnOffPush(Promise promise) { turnPushService(false, promise); }
+
+    @ReactMethod
+    public void turnOnPush(Promise promise) { turnPushService(true, promise); }
+
+    private void turnPushService(boolean enabled, Promise promise) {
+        PendingPromiseRegistry.Pending reply = serviceReplies.start(promise);
+        if (reply == null) return;
+        UiThreadUtil.runOnUiThread(() -> {
+            if (!serviceReplies.isActive()) return;
+            UPSTurnCallBack callback = nativeResult -> {
+                if (nativeResult == null) {
+                    reply.reject("NATIVE_EXCEPTION", "Native push service returned no result");
+                    return;
+                }
+                WritableMap value = Arguments.createMap();
+                value.putInt("code", nativeResult.getReturnCode());
+                if (enabled) value.putBoolean("dispatched", true);
+                reply.resolve(value);
+            };
+            try {
+                if (enabled) JPushUPSManager.turnOnPush(getReactApplicationContext(), callback);
+                else JPushUPSManager.turnOffPush(getReactApplicationContext(), callback);
+            } catch (RuntimeException error) {
+                reply.reject("NATIVE_EXCEPTION", "Native push service invocation failed");
+            }
+        });
+    }
+
+
     public JPushModule(ReactApplicationContext reactApplicationContext) {
-        super(reactContext);
+        super(reactApplicationContext);
         reactContext = reactApplicationContext;
     }
 

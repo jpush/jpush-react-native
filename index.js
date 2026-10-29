@@ -6,7 +6,40 @@ import {
 
 const JPushModule = NativeModules.JPushModule
 
+function bridgeError(code, message) {
+    const error = new Error(message)
+    error.code = code
+    return error
+}
+
+function unsupported(name) {
+    return bridgeError('UNSUPPORTED_PLATFORM', `${name} is not supported on ${Platform.OS}`)
+}
+
+function invokePromise(name, ...args) {
+    try {
+        if (!JPushModule || typeof JPushModule[name] !== 'function') {
+            throw bridgeError('NATIVE_MODULE_UNAVAILABLE', 'Rebuild the application with JPush RN 3.3.0 and JCore RN 2.3.8')
+        }
+        return Promise.resolve(JPushModule[name](...args))
+    } catch (error) {
+        return Promise.reject(error)
+    }
+}
+
+function validateLiveActivity(params, identifier) {
+    if (!params || typeof params !== 'object' || Array.isArray(params)
+        || typeof params[identifier] !== 'string' || !params[identifier].trim()
+        || !Number.isInteger(params.sequence) || params.sequence < -2147483648 || params.sequence > 2147483647
+        || !(params.token === null || (typeof params.token === 'string'
+            && params.token.length > 0 && params.token.length % 2 === 0 && /^[0-9a-fA-F]+$/.test(params.token)))) {
+        throw bridgeError('INVALID_ARGUMENT', 'Expected a non-empty identifier, hex token or null, and a 32-bit integer sequence')
+    }
+}
+
+
 const listeners = {}
+const voipListeners = new Map()
 const ConnectEvent           = 'ConnectEvent'            //连接状态
 const NotificationEvent      = 'NotificationEvent'       //通知事件
 const LocalNotificationEvent = 'LocalNotificationEvent'  //本地通知事件
@@ -15,6 +48,7 @@ const NotifyButtonClickEvent = 'NotifyButtonClickEvent'  //通知按钮点击事
 const InappMessageEvent      = 'InappMessageEvent'       //应用内消息事件
 const TagAliasEvent          = 'TagAliasEvent'           //TagAlias/Pros事件
 const MobileNumberEvent      = 'MobileNumberEvent'       //电话号码事件
+const VoipMessageEvent = 'VoipMessageEvent'
 const CommandEvent      = 'CommandEvent'       //COMMAND事件
 
 export default class JPush {
@@ -608,6 +642,11 @@ export default class JPush {
 
     //移除事件
     static removeListener(callback) {
+        const voipSubscription = voipListeners.get(callback)
+        if (voipSubscription) {
+            voipSubscription.remove()
+            voipListeners.delete(callback)
+        }
         if (!listeners[callback]) {
             return
         }
@@ -830,6 +869,67 @@ export default class JPush {
         if (Platform.OS == "android") {
             JPushModule.getKeepLongConnInBackground(callback)
         }
+    }
+
+    /** Android only. New SDK support status is an integer, not an inferred boolean. */
+    static addVoipEventListener(callback) {
+        if (Platform.OS !== 'android') throw unsupported('addVoipEventListener')
+        if (typeof callback !== 'function') throw bridgeError('INVALID_ARGUMENT', 'callback must be a function')
+        if (voipListeners.has(callback)) return
+        voipListeners.set(callback, DeviceEventEmitter.addListener(VoipMessageEvent, result => callback(result)))
+    }
+
+    /** Android only. Resolves after dispatch; final result is CommandEvent command=2013. */
+    static requestSubscribeChannels(channelIds) {
+        if (Platform.OS !== 'android') return Promise.reject(unsupported('requestSubscribeChannels'))
+        if (!Array.isArray(channelIds) || channelIds.length < 1 || channelIds.length > 3
+            || channelIds.some(id => typeof id !== 'string' || !id.trim())
+            || new Set(channelIds).size !== channelIds.length) {
+            return Promise.reject(bridgeError('INVALID_ARGUMENT', 'Expected 1-3 unique non-empty channel IDs'))
+        }
+        return invokePromise('requestSubscribeChannels', channelIds)
+    }
+
+    /** Pauses push service; resolves with the native result code, including non-zero business codes. */
+    static turnOffPush() {
+        if (Platform.OS !== 'android' && Platform.OS !== 'ios') return Promise.reject(unsupported('turnOffPush'))
+        return invokePromise('turnOffPush')
+    }
+
+    /** iOS resolves on dispatch only; Android additionally returns its native callback code. */
+    static turnOnPush() {
+        if (Platform.OS !== 'android' && Platform.OS !== 'ios') return Promise.reject(unsupported('turnOnPush'))
+        return invokePromise('turnOnPush')
+    }
+
+    /** Android only; explicit counterpart of initCrashHandler. Never enabled automatically. */
+    static stopCrashHandler() {
+        if (Platform.OS !== 'android') throw unsupported('stopCrashHandler')
+        if (!JPushModule || typeof JPushModule.stopCrashHandler !== 'function') {
+            throw bridgeError('NATIVE_MODULE_UNAVAILABLE', 'Rebuild the native application')
+        }
+        JPushModule.stopCrashHandler()
+    }
+
+    /** iOS only. Diagnostic telemetry switch; does not control token binding/unbinding. */
+    static setLiveActivityTokenReportEnabled(enable) {
+        if (Platform.OS !== 'ios') return Promise.reject(unsupported('setLiveActivityTokenReportEnabled'))
+        if (typeof enable !== 'boolean') return Promise.reject(bridgeError('INVALID_ARGUMENT', 'enable must be boolean'))
+        return invokePromise('setLiveActivityTokenReportEnabled', enable)
+    }
+
+    /** iOS only. token=null unbinds the push-to-start token for the attribute type. */
+    static registerLiveActivityPushToStartToken(params) {
+        if (Platform.OS !== 'ios') return Promise.reject(unsupported('registerLiveActivityPushToStartToken'))
+        try { validateLiveActivity(params, 'activityAttributes') } catch (error) { return Promise.reject(error) }
+        return invokePromise('registerLiveActivityPushToStartToken', params)
+    }
+
+    /** iOS only. token=null unbinds the activity token when the activity ends. */
+    static registerLiveActivityPushToken(params) {
+        if (Platform.OS !== 'ios') return Promise.reject(unsupported('registerLiveActivityPushToken'))
+        try { validateLiveActivity(params, 'activityId') } catch (error) { return Promise.reject(error) }
+        return invokePromise('registerLiveActivityPushToken', params)
     }
 
 }
