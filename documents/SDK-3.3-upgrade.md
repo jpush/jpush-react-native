@@ -1,6 +1,6 @@
-# 3.3.0候选：原生SDK与新增接口
+# 3.3.0：原生 SDK 与接口
 
-当前为本地候选，尚未发布。Android/iOS JPush升级至6.3.0、JCore至5.6.0；需配套jcore-react-native>=2.3.8并重新编译原生应用。Core须先发布并在npm可见，再发布主插件；当前不要从公开registry安装尚未发布候选。
+Android/iOS JPush升级至6.3.0、JCore至5.6.0；需配套jcore-react-native>=2.3.8并重新编译原生应用。
 
 ## 平台与异步契约
 
@@ -37,7 +37,7 @@ const restored = await JPush.turnOnPush();
 
 ## Live Activity Token与诊断
 
-两个业务token入口原生6.2.0已存在，是本轮补齐的相关旧桥接缺口；诊断开关是本次SDK新增。Token必须由应用自身ActivityKit生命周期取得并在变化时更新；传入偶数长度十六进制字符串（大小写均可）或null，空字符串/缺字段不是解绑；不要记录或展示token。sequence为[-2147483648,2147483647]整数。结果类型：{code,activityId:string|null,token:string|null,sequence}，token为原生回调NSData转换的hex/null，保留原生返回的code/id/seq而非猜造；本库不创建或结束ActivityKit Activity。
+原生 SDK 6.2.0 已提供两个业务 Token 入口，插件 3.3.0 补齐相应封装，并提供原生 SDK 新增的诊断开关。Token必须由应用自身ActivityKit生命周期取得并在变化时更新；传入偶数长度十六进制字符串（大小写均可）或null，空字符串/缺字段不是解绑；不要记录或展示token。sequence为[-2147483648,2147483647]整数。结果类型：{code,activityId:string|null,token:string|null,sequence}，token为原生回调NSData转换的hex/null，保留原生返回的code/id/seq而非猜造；本库不创建或结束ActivityKit Activity。
 
 ```js
 await JPush.registerLiveActivityPushToStartToken({
@@ -52,14 +52,16 @@ await JPush.registerLiveActivityPushToken({activityId, token: null, sequence: 3}
 
 setLiveActivityTokenReportEnabled默认不自动开启。它与服务端诊断开关独立：任一开启即可能上报，两者均关闭才停止；关闭本地开关不表示已解绑Token，也不保证服务端开关关闭。显式true/false只控制诊断链路。
 
-## 集成与验证边界
+## 集成与平台要求
 
-Android两模块minSdk23、iOS Pod声明7.0及原RN peer范围未提高；代表性example为RN0.74.1。声明不等于最低系统已经运行验证；Live Activity入口具有独立OS保护。Core Pod继续精确JCore5.6.0，无新增noidfa变体选项；不要套用其它插件的Pod宽范围方案。
+Android两模块minSdk23、iOS Pod声明7.0及原RN peer范围未提高；实际部署版本需同时满足所用 React Native 及原生 SDK 的系统要求。example使用RN0.74.1；Live Activity入口具有独立OS保护。Core Pod继续精确JCore5.6.0，无新增noidfa变体选项；不要套用其它插件的Pod宽范围方案。
 
-真实AppKey、厂商密钥、证书和Token由宿主安全配置提供，不预埋于插件。示例新增功能仅点击时调用，涉及采集/停推的按钮会改变测试应用状态，请在明确的测试应用验证并按需恢复；订阅结果需支持的厂商/授权条件。当前验证通过和未覆盖范围由实际交付记录说明，不能以版本字符串或单元mock当真机通过。
+真实AppKey、厂商密钥、证书和Token由宿主安全配置提供，不预埋于插件。示例新增功能仅点击时调用，涉及采集/停推的按钮会改变当前应用状态，请根据业务需要调用并恢复；订阅结果需支持的厂商/授权条件。请在目标平台确认通知权限、厂商通道与系统能力是否满足应用要求。
 
-Android6.3.0新增VoipDataMessage支持状态字段；本轮补齐Android VoipMessageEvent，voipSupportStatus为原生整数，保留未知值，不推断布尔值，也不日志输出VoIP内容。SDK厂商SPI JThirdPlatFormInterface的unregister/订阅事件用于厂商接入，不作为JS业务接口。UPS新增原生错误码由code:number原样返回，不发明双端通用码。
+Android6.3.0新增VoipDataMessage支持状态字段；插件提供 Android VoipMessageEvent，voipSupportStatus为原生整数，保留未知值，不推断布尔值，也不日志输出VoIP内容。SDK厂商SPI JThirdPlatFormInterface的unregister/订阅事件用于厂商接入，不作为JS业务接口。UPS新增原生错误码由code:number原样返回，不发明双端通用码。
 
 新增VoIP监听按callback函数身份管理：同一callback重复注册幂等，不会叠加句柄；不同闭包即使源码相同仍是独立订阅。组件卸载使用同一callback调用removeListener。其它旧事件注册行为保持原实现。
 
 JPush6.3.0含Swift静态对象；Podspec为纯Objective-C宿主补继承的Swift工具链/SDK库搜索路径及ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES，避免Swift兼容库缺失链接失败。未新增Swift源码、未提高deployment target；更新后重新pod install使配置生效。
+
+Android 示例使用本机标准调试签名。若设备上的旧示例使用不同证书，不能直接覆盖安装；请保留已有数据并按应用自身的签名与升级策略处理。插件生产代码及应用自行配置的签名不受此调整影响。

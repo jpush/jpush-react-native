@@ -1,4 +1,4 @@
-## 3.3.0（候选，未发布）
+## 3.3.0
 
 - Android/iOS JPush6.2.0→6.3.0，要求配套jcore-react-native>=2.3.8（JCore5.6.0）；保持原最低平台声明。
 - 新增Android addVoipEventListener，保留原生voipSupportStatus整数及未知值，不记录VoIP内容。
@@ -7,7 +7,7 @@
 - 补齐Android stopCrashHandler JS/TS入口，保留原init行为，不默认启用采集。
 - 新增iOS setLiveActivityTokenReportEnabled诊断开关；补齐已有原生LiveActivity PushToken/Push-to-start Token绑定解绑与hex/null/sequence契约、16.1/17.2保护。
 - CocoaPods补充Swift兼容库搜索路径及标准运行库嵌入，支持JPush静态Swift对象在纯Objective-C RN宿主链接；不提高deployment target。
-- 补JS/TS、原生契约测试和显式示例，测试目录不进入npm包。
+- 同步 JS/TypeScript 类型声明与使用示例。
 
 ## 3.2.8 (2026-07-28)
 
